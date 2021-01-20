@@ -7,5 +7,20 @@ main()
   var str = stdin.readLineSync();
   print('Nhap ki tu : ');
   var c = stdin.readLineSync();
-  
+  int count =0;
+  if(str.contains(c))
+    {
+      for(int i=0;i<str.length;i++)
+        {
+          if(str[i].compareTo(c)==0)
+            {
+              count++;
+            }
+        }
+      print('${c} xuat hien ${count} lan');
+    }
+  else
+    {
+      print('${c} khong ton tai trong chuoi ${str}');
+    }
 }
