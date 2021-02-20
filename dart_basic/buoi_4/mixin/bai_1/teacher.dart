@@ -28,6 +28,7 @@ class Teacher extends Person{
 
   @override
   String toString() {
-    return 'Teacher{'+super.toString()+', Khoa: $major, Môn học: $subject, Năm kinh nghiệm: $experience}';
+    return 'Teacher{'+super.toString()+', Khoa: $major, Môn học: $subject, '
+        'Năm kinh nghiệm: $experience}';
   }
 }
