@@ -8,7 +8,6 @@ class SinhVien with ConNguoi {
   String khoa;
 
 
-
   @override
   void nhap() {
     // TODO: + nhap
@@ -24,6 +23,7 @@ class SinhVien with ConNguoi {
 
   @override
   String toString() {
-    return 'SinhVien{hoTen: $hoTen, namSinh: $namSinh, queQuan: $queQuan, gioiTinh: $gioiTinh, maLop: $maLop, nganhHoc: $nganhHoc, khoa: $khoa}';
+    return 'SinhVien{hoTen: $hoTen, namSinh: $namSinh, queQuan: $queQuan,'
+        ' gioiTinh: $gioiTinh, maLop: $maLop, nganhHoc: $nganhHoc, khoa: $khoa}';
   }
 }
