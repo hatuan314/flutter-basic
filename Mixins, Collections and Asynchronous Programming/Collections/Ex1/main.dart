@@ -27,7 +27,7 @@ void display(List<int> d) {
   }
 }
 
-List<int> spawnprime(List<int> q) {
+List<int> spawnPrime(List<int> q) {
   List<int> d = [];
   for (int n in q) {
     bool flag = false;
@@ -76,6 +76,6 @@ void sortascend(List<int> d) {
 main() {
   List<int> d = generate_array_of_20_numbers();
   // display(d);
-  var q = spawnprime(d);
+  var q = spawnPrime(d);
   display(q);
 }

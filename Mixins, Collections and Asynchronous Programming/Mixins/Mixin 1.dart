@@ -10,6 +10,7 @@
 // 3. Nhập vào từ bàn phím thông tin của 2 học sinh và 2 giảng viên. In ra màn hình thông tin của
 // giảng viên và học sinh có giới tính là nữ.
 
+// file name: mixin_1.dart
 import 'dart:io';
 import 'dart:core';
 
@@ -31,6 +32,7 @@ mixin humans {
   }
 
   void display(){
-    print("Name = ${this.name}\nYear of birth = ${this.yob}\nHometown = ${this.hometown}\nGender = ${this.gender}");
+    print("Name = ${this.name}\nYear of birth = ${this.yob}\nHometown = "
+        "${this.hometown}\nGender = ${this.gender}");
   }
 }

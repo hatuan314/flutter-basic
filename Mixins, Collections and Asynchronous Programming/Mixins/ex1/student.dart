@@ -12,15 +12,14 @@
 
 import '../Mixin 1.dart';
 import 'dart:io';
+
 class students with humans {
   String ID;
   String major;
-  String s_class;
+  String s_class; // sClass
 
-
-
-
-  students(String name, int yob, String hometown, String gender, String ID, String major, String s_class) {
+  students(String name, int yob, String hometown, String gender, String ID,
+      String major, String s_class) {
     this.name = name;
     this.yob = yob;
     this.hometown = hometown;
@@ -29,7 +28,6 @@ class students with humans {
     this.major = major;
     this.s_class = s_class;
   }
-
 
   students.fromKeyboard() {
     super.input();
