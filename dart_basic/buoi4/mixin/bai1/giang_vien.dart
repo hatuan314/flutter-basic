@@ -7,6 +7,8 @@ class GiangVien with ConNguoi {
   String monHoc;
   int namKN;
 
+  GiangVien({this.khoa, this.monHoc, this.namKN});
+
   @override
   void nhap() {
     print('nhap thong tin giang vien');
@@ -22,6 +24,7 @@ class GiangVien with ConNguoi {
 
   @override
   String toString() {
-    return 'GiangVien{hoTen: $hoTen, namSinh: $namSinh, queQuan: $queQuan, gioiTinh: $gioiTinh, khoa: $khoa, monHoc: $monHoc, namKN: $namKN}';
+    return 'GiangVien{hoTen: $hoTen, namSinh: $namSinh, queQuan: $queQuan,'
+        ' gioiTinh: $gioiTinh, khoa: $khoa, monHoc: $monHoc, namKN: $namKN}';
   }
 }
