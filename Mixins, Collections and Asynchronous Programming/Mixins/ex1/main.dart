@@ -26,9 +26,9 @@ bool ChanceToAttend(students a, lecturers b) {
 }
 
 main(){
-  //students a = new students.fromKeyboard();
+  students a = new students.fromKeyboard();
   students b = new students("name", 2000, "hometown", "gender", "ID", "major", "s_class");
   //lecturers c = new lecturers.fromKeyboard();
   lecturers d = new lecturers("name", 2000, "hometown", "gender", "faculty", "major", 13);
-  ChanceToAttend(b, d);
+  ChanceToAttend(a, d);
 }
