@@ -28,7 +28,8 @@ class Student extends Person {
 
   @override
   String toString() {
-    return 'Sinh viên {'+super.toString()+', Mã lớp: $classID, Chuyên ngành: $major, Khóa: $academicYear}';
+    return 'Sinh viên {'+super.toString()+', Mã lớp: $classID, Chuyên ngành: '
+        '$major, Khóa: $academicYear}';
   }
 }
 
