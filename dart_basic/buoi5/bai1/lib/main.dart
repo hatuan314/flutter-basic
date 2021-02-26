@@ -55,9 +55,12 @@ backgroundColor: Colors.red,
          mainAxisAlignment: MainAxisAlignment.center,
          crossAxisAlignment: CrossAxisAlignment.start,
          children: [
-           Text('Thanks for\njoin the Art X\nwating list!',style: TextStyle(color: Colors.white,fontSize: 30),),
+           Text('Thanks for\njoining the Art X\nwating list!',style: TextStyle(
+               color: Colors.white,fontSize: 30,
+             fontWeight: FontWeight.bold
+           ),),
            Padding(
-             padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+             padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
              child: Container(
                width: 250,
                height: 100,

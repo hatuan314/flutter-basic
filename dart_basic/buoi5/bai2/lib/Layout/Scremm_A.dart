@@ -192,8 +192,6 @@ double topPossi=180;
       }
       if(sizeButtony>=420){
         sizeButtony=420;
-        setState(() {
-        });
         return;
       }
       setState(() {
