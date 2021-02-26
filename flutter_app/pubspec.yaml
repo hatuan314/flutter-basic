@@ -74,3 +74,16 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+  fonts:
+    - family: Dubai
+      fonts:
+        - asset: lib/fonts/DUBAI-REGULAR.TTF
+        - asset: lib/fonts/DUBAI-BOLD.TTF
+          weight: 800
+    - family: Times
+      fonts:
+        - asset: lib/fonts/times.ttf
+        - asset: lib/fonts/timesi.ttf
+          style: italic
+        - asset: lib/fonts/timesbd.ttf
+          weight: 800

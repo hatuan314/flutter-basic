@@ -82,25 +82,25 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
-        backgroundColor: Colors.transparent, elevation: 0.0,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: <Widget> [
-            Padding(
+          backgroundColor: Colors.transparent, elevation: 0.0,
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: <Widget> [
+              Padding(
                 padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-              child:
-              FloatingActionButton(
                 child:
-                Icon(Icons.close),
-                backgroundColor: Colors.transparent, elevation: 0.0,
-                foregroundColor: Colors.white,
-                onPressed: () => {
-                  SystemNavigator.pop(),
-                },
-      ),
-            )
-          ],
-        )
+                FloatingActionButton(
+                  child:
+                  Icon(Icons.close),
+                  backgroundColor: Colors.transparent, elevation: 0.0,
+                  foregroundColor: Colors.white,
+                  onPressed: () => {
+                    SystemNavigator.pop(),
+                  },
+                ),
+              )
+            ],
+          )
       ),
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
@@ -113,21 +113,21 @@ class _MyHomePageState extends State<MyHomePage> {
             Padding(
               padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
 
-            child:
-            Text(
-              'Thanks for\njoining the Art X\nwaiting list!',
-              // 'Hello World',
-              style: TextStyle(
-                fontFamily: 'Dubai',
-                fontSize: 35,
-                height: 1.5,
-                //fontStyle: FontStyle.italic,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
+              child:
+              Text(
+                'Thanks for\njoining the Art X\nwaiting list!',
+                // 'Hello World',
+                style: TextStyle(
+                  fontFamily: 'Dubai',
+                  fontSize: 35,
+                  height: 1.5,
+                  //fontStyle: FontStyle.italic,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
               ),
-            ),
 
-              ),
+            ),
             Padding(
               padding: EdgeInsets.fromLTRB(20, 10, 100, 0),
 
@@ -155,7 +155,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
-       // This trailing comma makes auto-formatting nicer for build methods.
+      // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
