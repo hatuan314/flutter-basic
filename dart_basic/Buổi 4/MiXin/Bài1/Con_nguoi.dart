@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import '../Học_SInh.dart';
+import '../MiXin/Học_SInh.dart';
 
 class conNguoi with hocSinh{
   String GioTinh;
