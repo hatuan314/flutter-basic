@@ -1,4 +1,4 @@
-mixin Person{
+mixin Person {
   String hoTen;
   String queQuan;
 }

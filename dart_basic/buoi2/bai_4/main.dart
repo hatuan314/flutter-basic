@@ -2,18 +2,15 @@ import 'dart:io';
 
 import 'bai4.dart';
 
-void main()
-{
-  while(true)
-  {
+void main() {
+  while (true) {
     inMenu();
-    var chon=int.parse(stdin.readLineSync());
+    var chon = int.parse(stdin.readLineSync());
     SinhVien sv = SinhVien();
-    switch(chon)
-    {
+    switch (chon) {
       case 1:
         sv.nhap();
-        if(sv.du20())
+        if (sv.du20())
           print('Đủ 20+');
         else
           print('Không đủ 20+');
@@ -21,7 +18,7 @@ void main()
       case 2:
         sv.nhap();
 
-        if(sv.laNu())
+        if (sv.laNu())
           print('Là nữ');
         else
           print('Không là nữ');
@@ -33,8 +30,8 @@ void main()
     }
   }
 }
-void inMenu()
-{
+
+void inMenu() {
   print('1.Nhập thông tin sinh viên và kiểm tra xem tuổi đủ 20+ chưa');
   print('2.Nhập thông tin sinh viên và kiểm tra có là nữ không');
   print('3.Nhập thông tin sinh viên và kiểm tra xem học khoa gì');

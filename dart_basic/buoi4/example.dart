@@ -5,23 +5,21 @@ class A {
 }
 
 mixin MyMixin {
-  void f(){
+  void f() {
     print("method f");
   }
 }
 
 mixin MyMixin2 {
-  void f(){
+  void f() {
     print("method f2");
   }
 }
 
-class B extends A with MyMixin2,MyMixin{
+class B extends A with MyMixin2, MyMixin {}
 
-}
-void main()
-{
-  B b= B();
+void main() {
+  B b = B();
   b.f();
   b.m();
 }

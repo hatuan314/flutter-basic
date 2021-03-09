@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:core';
-main () {
+
+main() {
   int n;
   int d;
   int i = 0;
@@ -16,20 +17,22 @@ main () {
   //return max of an array
   int max = l.elementAt(0);
   for (int i = 1; i < n; i++) {
-    if (l.elementAt(i) > max) {max = l.elementAt(i);}
+    if (l.elementAt(i) > max) {
+      max = l.elementAt(i);
+    }
   }
   print("max = ${max}");
-
 
   //return min of an array
   int min = l.elementAt(0);
   for (int i = 1; i < n; i++) {
-  if (l.elementAt(i) < min) {min = l.elementAt(i);}
+    if (l.elementAt(i) < min) {
+      min = l.elementAt(i);
+    }
   }
   print("\n");
   print("min = ${min}");
-  
-  
+
   //return the subarray of even numbers
   int s = l.elementAt(0);
   List evenno = [];
@@ -45,7 +48,6 @@ main () {
 
   //return the subarray of numbers divisible by 6
   //honestly that's kinda easy so, nah
-
 
   //return the subarray of numbers that are the divisors of MAX
   List maxdivisors = [];

@@ -1,20 +1,19 @@
 import '../../buoi4/person.dart';
 import 'Dart:io';
 
-class SinhVien  with Person{
+class SinhVien with Person {
   String maSV;
   double diemA1;
   double diemA3;
   double diemNguyenLi;
   double diemTB;
 
-
   SinhVien() {
     Future.delayed(Duration(seconds: 3)).whenComplete(() {
       print('Sau 3s khởi tạo constructor');
+
       /// bloc command
     });
-
   }
 
   void nhap() {

@@ -28,10 +28,14 @@ class B5Screen2 extends StatelessWidget {
                     )
                   ]),
             ),
-            SizedBox(height: 20,),
+            SizedBox(
+              height: 20,
+            ),
             Text('Everyday bike!',
-                style:
-                    TextStyle(color: Colors.grey, fontWeight: FontWeight.w300,))
+                style: TextStyle(
+                  color: Colors.grey,
+                  fontWeight: FontWeight.w300,
+                ))
           ],
         ),
       ),

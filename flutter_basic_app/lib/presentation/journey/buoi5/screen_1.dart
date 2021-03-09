@@ -33,16 +33,15 @@ class B5Screen1 extends StatelessWidget {
           Text(
             'Thanks for joining the Art X waiting list!',
             style: TextStyle(
-                fontSize: 40,
-                color: Colors.white,
-                fontWeight: FontWeight.bold),
+                fontSize: 40, color: Colors.white, fontWeight: FontWeight.bold),
           ),
-          SizedBox(height: 20,),
+          SizedBox(
+            height: 20,
+          ),
           Text(
             'We are notify you via push notification as soon as registration is'
-                'available or there is a change to your applications status!',
-            style:
-            TextStyle(color: Colors.white, fontWeight: FontWeight.w300),
+            'available or there is a change to your applications status!',
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.w300),
           ),
         ],
       ),

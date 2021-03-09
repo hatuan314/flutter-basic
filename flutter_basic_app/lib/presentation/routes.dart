@@ -1,13 +1,14 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_basic_app/presentation/journey/buoi5/buoi5_routes.dart';
+import 'package:flutter_basic_app/presentation/journey/buoi6/buoi6_routes.dart';
 import 'package:flutter_basic_app/presentation/journey/learn/learn_routes.dart';
 
 class Routes {
   static Map<String, WidgetBuilder> _getCombinedRoutes() => {
-    ...Buoi5Routes.getAll(),
-    ...LearnRoutes.getAll(),
-  };
+        ...Buoi5Routes.getAll(),
+        ...Buoi6Routes.getAll(),
+        ...LearnRoutes.getAll(),
+      };
 
   static Map<String, WidgetBuilder> getAll() => _getCombinedRoutes();
 

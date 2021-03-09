@@ -6,7 +6,9 @@ import 'package:flutter_basic_app/presentation/journey/buoi5/screen_2.dart';
 class Buoi5Routes {
   static Map<String, WidgetBuilder> getAll() {
     return {
-      RouteList.b5Src1: (context) => B5Screen1(),
+      RouteList.b5Src1: (context) {
+        return B5Screen1();
+      },
       RouteList.b5Src2: (context) => B5Screen2(),
     };
   }

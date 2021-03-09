@@ -3,9 +3,9 @@
 // - Viết thường toàn bộ chuỗi
 // - Thoát
 import 'Dart:io';
-main()
-{
-  while(true) {
+
+main() {
+  while (true) {
     print('Nhap chuoi : ');
     var str = stdin.readLineSync();
     print('1.Viet hoa toan bo chuoi');

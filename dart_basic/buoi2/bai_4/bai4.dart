@@ -28,6 +28,7 @@ class SinhVien {
     if (DateTime.now().year - namSinh > 20) return true;
     return false;
   }
+
   bool laNu() {
     ///Nguyen Thi Minh
     ///Nguyen Dinh Thieu
@@ -36,14 +37,14 @@ class SinhVien {
     bool gender = false;
     /*String hotenUTF8 = utf8.decode(hoTen.runes.toList());
     print('$hotenUTF8');*/
-    List<String> tens= hoTen.split(" ");
+    List<String> tens = hoTen.split(" ");
     print('$tens va do dai mang la ${tens.length}');
-    for(int i=1; i<tens.length-1; i++){
-      if(tens[i].toLowerCase() == 'thị')
-        return true;
+    for (int i = 1; i < tens.length - 1; i++) {
+      if (tens[i].toLowerCase() == 'thị') return true;
     }
     return false;
   }
+
   String tenKhoa() {
     maKhoa = maKhoa.toUpperCase();
     if (maKhoa.contains('AT')) return 'An toàn thông tin';
