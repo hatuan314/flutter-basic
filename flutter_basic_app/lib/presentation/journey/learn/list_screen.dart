@@ -38,6 +38,12 @@ class ListScreen extends StatelessWidget {
         _itemWidget('Buổi 6 - Screen 2', () {
           Navigator.pushNamed(context, RouteList.b6Src2);
         }),
+        _itemWidget('Buổi 9 - Screen 1', () {
+          Navigator.pushNamed(context, RouteList.b9Src1);
+        }),
+        _itemWidget('Buổi 9 - Screen 2', () {
+          Navigator.pushNamed(context, RouteList.b9Src2);
+        }),
       ],
     );
   }

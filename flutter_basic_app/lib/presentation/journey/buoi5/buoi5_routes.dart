@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_basic_app/common/constants/route_constants.dart';
 import 'package:flutter_basic_app/presentation/journey/buoi5/screen_1.dart';
-import 'package:flutter_basic_app/presentation/journey/buoi5/screen_2.dart';
+import 'package:flutter_basic_app/presentation/journey/buoi5/screen2.dart';
 
 class Buoi5Routes {
   static Map<String, WidgetBuilder> getAll() {

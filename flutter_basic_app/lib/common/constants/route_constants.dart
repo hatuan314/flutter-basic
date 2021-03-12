@@ -7,6 +7,12 @@ class RouteList {
   // Buổi 6
   static const String b6Src1 = '/b6Scr1';
   static const String b6Src2 = '/b6Scr2';
+
+  // Buổi 6
+  static const String b9Src1 = '/b9Scr1';
+  static const String b9Src2 = '/b9Scr2';
+
+
   // Learn
   static const String listScreen = '/listScreen';
   static const String homeScreen = '/homeScreen';
