@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_basic_app/presentation/journey/buoi6/bai1/Widgets/Wecome_Wideget//MyClipper.dart';
-import 'package:flutter_basic_app/presentation/journey/buoi6/bai1/Widgets/Wecome_Wideget/Contanner.dart';
+import 'package:flutter_basic_app/presentation/journey/buoi6/bai1/Pages/welcome_page/welcome_page/widgets/Contanner.dart';
+import 'package:flutter_basic_app/presentation/journey/buoi6/bai1/Pages/welcome_page/welcome_page/widgets/MyClipper.dart';
 
-class welcome extends StatefulWidget {
+class WelcomePage extends StatefulWidget {
   @override
-  _welcomeState createState() => _welcomeState();
+  _WelcomePageState createState() => _WelcomePageState();
 }
 
-class _welcomeState extends State<welcome> {
+class _WelcomePageState extends State<WelcomePage> {
   @override
   Widget build(BuildContext context) {
     double witdh=MediaQuery.of(context).size.width;

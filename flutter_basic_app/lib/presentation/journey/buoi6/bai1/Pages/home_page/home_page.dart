@@ -1,17 +1,17 @@
 
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:flutter_basic_app/presentation/journey/buoi6/bai1/Widgets/InDexWidget/App_Bar_Widget.dart';
-import 'package:flutter_basic_app/presentation/journey/buoi6/bai1/Widgets/InDexWidget/Bottom_AppBar.dart';
-import 'package:flutter_basic_app/presentation/journey/buoi6/bai1/Widgets/InDexWidget/List_SP.dart';
-import 'package:flutter_basic_app/presentation/journey/buoi6/bai1/Widgets/InDexWidget/List_view.dart';
-import 'package:flutter_basic_app/presentation/journey/buoi6/bai1/Widgets/InDexWidget/Tim_Kiem.dart';
-class inDex extends StatefulWidget {
+import 'package:flutter_basic_app/presentation/journey/buoi6/bai1/Pages/home_page/Widgets/App_Bar_Widget.dart';
+import 'package:flutter_basic_app/presentation/journey/buoi6/bai1/Pages/home_page/Widgets/Bottom_AppBar.dart';
+import 'package:flutter_basic_app/presentation/journey/buoi6/bai1/Pages/home_page/Widgets/List_SP.dart';
+import 'package:flutter_basic_app/presentation/journey/buoi6/bai1/Pages/home_page/Widgets/List_view.dart';
+import 'package:flutter_basic_app/presentation/journey/buoi6/bai1/Pages/home_page/Widgets/Tim_Kiem.dart';
+class HomePage extends StatefulWidget {
   @override
-  _inDexState createState() => _inDexState();
+  _HomePageState createState() => _HomePageState();
 }
 
-class _inDexState extends State<inDex> {
+class _HomePageState extends State<HomePage> {
   int vitri=1;
   @override
   Widget build(BuildContext context) {
