@@ -1,5 +1,10 @@
+
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_basic_app/common/constants/route_constants.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_screenutil/screenutil_init.dart';
 
 class B3Screen3 extends StatelessWidget {
   Widget build(BuildContext context) {
@@ -7,6 +12,7 @@ class B3Screen3 extends StatelessWidget {
       backgroundColor: Colors.white,
       appBar: _appBar(),
       body: _body(),
+
     );
   }
 
@@ -16,17 +22,18 @@ class B3Screen3 extends StatelessWidget {
       centerTitle: true,
       backgroundColor: Colors.white,
       shadowColor: Colors.white,
-      leading: Icon(
-        Icons.arrow_back,
-        size: 25,
+      leading: IconButton(
+
+        icon: Icon(Icons.arrow_back),
         color: Colors.black.withOpacity(0.7),
+        iconSize: ScreenUtil().setSp(25),
       ),
       title: Align(
         alignment: Alignment.topCenter,
         child: Text(
           'Transaction History',
           style: TextStyle(
-              fontSize: 17,
+              fontSize: ScreenUtil().setSp(18),
               fontFamily: 'AR',
               fontWeight: FontWeight.w600,
               color: Colors.black),
@@ -34,10 +41,10 @@ class B3Screen3 extends StatelessWidget {
       ),
       actions: [
         Padding(
-            padding: EdgeInsets.only(right: 15),
+            padding: EdgeInsets.only(right: ScreenUtil().setHeight(15)),
             child: Icon(
               Icons.keyboard_control_rounded,
-              size: 32,
+              size: ScreenUtil().setSp(32),
               color: Colors.black,
             ))
       ],
@@ -50,11 +57,11 @@ class B3Screen3 extends StatelessWidget {
       scrollDirection: Axis.vertical,
       children: [
         Padding(
-          padding: EdgeInsets.all(30),
+          padding: EdgeInsets.all(ScreenUtil().setHeight(20)),
           child: Column(
             children: [
               Padding(
-                padding: EdgeInsets.only(top: 10),
+                padding: EdgeInsets.only(top: ScreenUtil().setHeight(10), bottom: ScreenUtil().setHeight(15)),
                 child: Container(
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
@@ -74,7 +81,7 @@ class B3Screen3 extends StatelessWidget {
                             'All',
                             style: TextStyle(
                               fontFamily: 'AR',
-                              fontSize: 15,
+                              fontSize: ScreenUtil().setSp(15),
                             ),
                           )),
                           Tab(
@@ -82,7 +89,7 @@ class B3Screen3 extends StatelessWidget {
                             'Income',
                             style: TextStyle(
                               fontFamily: 'AR',
-                              fontSize: 15,
+                              fontSize: ScreenUtil().setSp(15),
                             ),
                           )),
                           Tab(
@@ -90,7 +97,7 @@ class B3Screen3 extends StatelessWidget {
                             'Outcome',
                             style: TextStyle(
                               fontFamily: 'AR',
-                              fontSize: 15,
+                              fontSize: ScreenUtil().setSp(15),
                             ),
                           )),
                         ],
@@ -98,29 +105,28 @@ class B3Screen3 extends StatelessWidget {
                     )),
               ),
               Padding(
-                padding: EdgeInsets.only(top: 40,left: 15,bottom: 15),
+                padding: EdgeInsets.only(top: ScreenUtil().setHeight(15),left: ScreenUtil().setWidth(10),bottom: ScreenUtil().setHeight(15)),
                 child: Row(
-                  // mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Align(
-                      alignment: Alignment.topLeft,
-                      widthFactor: 3.2,
+                    Expanded(
+                      flex: 3,
                       child: Text(
                         'Yesterday',
                         style: TextStyle(
-                            fontSize: 16,
+                            fontSize: ScreenUtil().setSp(16),
                             fontWeight: FontWeight.w700,
                             fontFamily: 'AR',
                             color: Colors.grey),
                       ),
                     ),
-                    Align(
-                      alignment: Alignment.centerRight,
+
+                    Expanded(
+                      flex: 2,
                       child: Text(
                         '24 Feb, 2021',
                         textAlign: TextAlign.end,
                         style: TextStyle(
-                            fontSize: 13,
+                            fontSize: ScreenUtil().setSp(13),
                             fontFamily: 'AR',
                             color: Colors.grey.withOpacity(0.7)),
                       ),
@@ -138,29 +144,27 @@ class B3Screen3 extends StatelessWidget {
                 ],
               ),
               Padding(
-                padding: EdgeInsets.only(top: 20,left: 15,bottom: 15),
+                padding: EdgeInsets.only(top: ScreenUtil().setHeight(15),left: ScreenUtil().setWidth(10),bottom: ScreenUtil().setHeight(15)),
                 child: Row(
-                  // mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Align(
-                      alignment: Alignment.topLeft,
-                      widthFactor: 3.8,
+                    Expanded(
+                      flex:3,
                       child: Text(
                         'Tuesday',
                         style: TextStyle(
-                            fontSize: 16,
+                            fontSize: ScreenUtil().setSp(16),
                             fontWeight: FontWeight.w700,
                             fontFamily: 'AR',
                             color: Colors.grey),
                       ),
                     ),
-                    Align(
-                      alignment: Alignment.centerRight,
+                    Expanded(
+                      flex: 2,
                       child: Text(
                         '23 Feb, 2021',
                         textAlign: TextAlign.end,
                         style: TextStyle(
-                            fontSize: 13,
+                            fontSize: ScreenUtil().setSp(13),
                             fontFamily: 'AR',
                             color: Colors.grey.withOpacity(0.7)),
                       ),
@@ -188,14 +192,14 @@ class B3Screen3 extends StatelessWidget {
   Widget _listViewItem(
       Image _leading, String title, String subtitle, int moneyDetail) {
     return ListTile(
-      minVerticalPadding: 5,
-      minLeadingWidth: 55,
+      minVerticalPadding: ScreenUtil().setWidth(5),
+      minLeadingWidth: ScreenUtil().setWidth(55),
       leading: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),
           color: Colors.teal.withOpacity(0.05),
         ),
-        padding: EdgeInsets.all(10),
+        padding: EdgeInsets.all(ScreenUtil().setHeight(10)),
         child: _leading,
       ),
       title: Text(
@@ -203,7 +207,7 @@ class B3Screen3 extends StatelessWidget {
         style: TextStyle(
           fontWeight: FontWeight.bold,
           fontFamily: '',
-          fontSize: 14,
+          fontSize: ScreenUtil().setSp(14),
           color: Colors.black
         ),
       ),
@@ -211,7 +215,7 @@ class B3Screen3 extends StatelessWidget {
         '$subtitle',
         style: TextStyle(
             //fontWeight: FontWeight.bold,
-            fontSize: 11,
+            fontSize: ScreenUtil().setSp(11),
             fontWeight: FontWeight.w600,
             color: Colors.grey
         ),
@@ -220,7 +224,7 @@ class B3Screen3 extends StatelessWidget {
           (moneyDetail<0)?'-\$${moneyDetail*-1}':'+\$$moneyDetail',
         style: TextStyle(
             fontWeight: FontWeight.bold,
-            fontSize: 17,
+            fontSize: ScreenUtil().setSp(17),
             fontFamily: 'Roboto',
             color: (moneyDetail<0)?Colors.deepOrange:Colors.teal.withOpacity(0.6)
         ),

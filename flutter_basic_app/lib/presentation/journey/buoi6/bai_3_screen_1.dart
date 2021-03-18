@@ -1,16 +1,26 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/screen_util.dart';
 
 class B3Screen1 extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
-        appBar: _appBar(),
-        body: _body(),
-        bottomNavigationBar: Padding(
-          padding: EdgeInsets.all(20),
-          child: _bottomNavigationBar(),
-        ));
+      backgroundColor: Colors.white70.withOpacity(0.97),
+      body: Stack(
+        fit: StackFit.loose,
+        children: [
+          Scaffold(
+            appBar: _appBar(),
+            body: _body(),
+          ),
+          Positioned(
+              bottom: ScreenUtil().setHeight(10),
+              left: ScreenUtil().setWidth(10),
+              right: ScreenUtil().setWidth(10),
+              child: _bottomNavigationBar())
+        ],
+      ),
+    );
   }
 
   Widget _appBar() {
@@ -24,16 +34,18 @@ class B3Screen1 extends StatelessWidget {
         child: Text(
           'Profile',
           style: TextStyle(
-              fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),
+              fontSize: ScreenUtil().setSp(20),
+              fontWeight: FontWeight.bold,
+              color: Colors.black),
         ),
       ),
       actions: [
         Container(
             child: Icon(
-              Icons.keyboard_control_rounded,
-              size: 30,
-              color: Colors.black,
-            ))
+          Icons.keyboard_control_rounded,
+          size: ScreenUtil().setSp(30),
+          color: Colors.black,
+        ))
       ],
     );
   }
@@ -43,7 +55,7 @@ class B3Screen1 extends StatelessWidget {
       children: [
         Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           Padding(
-            padding: EdgeInsets.only(top: 30),
+            padding: EdgeInsets.only(top: ScreenUtil().setHeight(30)),
             child: CircleAvatar(
               radius: 50,
               backgroundImage: AssetImage('assets/images/ava.jpg'),
@@ -55,41 +67,48 @@ class B3Screen1 extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Padding(
-                    padding: EdgeInsets.only(top: 10, bottom: 10, right: 5),
+                    padding: EdgeInsets.only(
+                        top: ScreenUtil().setHeight(10),
+                        bottom: ScreenUtil().setHeight(10),
+                        right: ScreenUtil().setWidth(5)),
                     child: Text(
                       'Toreto',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontFamily: 'AR',
-                        fontSize: 23,
+                        fontSize: ScreenUtil().setSp(23),
                         color: Colors.black,
                       ),
                     )),
                 Icon(
                   Icons.check_circle,
-                  size: 20,
+                  size: ScreenUtil().setSp(20),
                   color: Colors.indigoAccent,
                 )
               ],
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(bottom: 10),
+            padding: EdgeInsets.only(bottom: ScreenUtil().setHeight(10)),
             child: Text(
               'Semarang, Indonesia',
-              style:
-              TextStyle(fontSize: 15, color: Colors.black.withOpacity(0.5)),
+              style: TextStyle(
+                  fontSize: ScreenUtil().setSp(15),
+                  color: Colors.black.withOpacity(0.5)),
             ),
           ),
         ]),
         Padding(
-            padding: EdgeInsets.only(left: 20, top: 10, bottom: 20),
+            padding: EdgeInsets.only(
+                left: ScreenUtil().setWidth(20),
+                top: ScreenUtil().setHeight(10),
+                bottom: ScreenUtil().setHeight(20)),
             child: Text(
               'Account Settings',
               style: TextStyle(
                   fontFamily: 'AR',
                   color: Colors.black.withOpacity(0.5),
-                  fontSize: 20,
+                  fontSize: ScreenUtil().setSp(20),
                   fontWeight: FontWeight.w500),
             )),
         ListView(
@@ -101,7 +120,7 @@ class B3Screen1 extends StatelessWidget {
                 'Profile Setting',
                 Icon(
                   Icons.person_outline_rounded,
-                  size: 30,
+                  size: ScreenUtil().setSp(30),
                   color: Colors.indigoAccent,
                 )),
             _listViewItem(
@@ -109,7 +128,7 @@ class B3Screen1 extends StatelessWidget {
                 'Postal address',
                 Icon(
                   Icons.location_on_outlined,
-                  size: 30,
+                  size: ScreenUtil().setSp(30),
                   color: Colors.deepPurple[300],
                 )),
             _listViewItem(
@@ -117,7 +136,7 @@ class B3Screen1 extends StatelessWidget {
                 'Transaction history',
                 Icon(
                   Icons.import_export,
-                  size: 30,
+                  size: ScreenUtil().setSp(30),
                   color: Colors.purple[300],
                 )),
             _listViewItem(
@@ -125,7 +144,7 @@ class B3Screen1 extends StatelessWidget {
                 'Payment',
                 Icon(
                   Icons.shopping_cart_outlined,
-                  size: 30,
+                  size: ScreenUtil().setSp(30),
                   color: Colors.pink[300],
                 )),
             _listViewItem(
@@ -133,7 +152,7 @@ class B3Screen1 extends StatelessWidget {
                 'Chat and helps',
                 Icon(
                   Icons.message_outlined,
-                  size: 30,
+                  size: ScreenUtil().setSp(30),
                   color: Colors.deepOrange[300],
                 )),
           ],
@@ -144,17 +163,21 @@ class B3Screen1 extends StatelessWidget {
 
   Widget _listViewItem(Color _backgroundColor, String title, Icon _icon) {
     return Container(
-      margin: EdgeInsets.fromLTRB(10, 15, 15, 10),
+      margin: EdgeInsets.fromLTRB(
+          ScreenUtil().setWidth(10),
+          ScreenUtil().setHeight(15),
+          ScreenUtil().setWidth(15),
+          ScreenUtil().setHeight(10)),
       //color: Colors.indigoAccent,
       child: Row(
         children: [
           Expanded(
               flex: 2,
               child: Padding(
-                  padding: EdgeInsets.only(left: 20),
+                  padding: EdgeInsets.only(left: ScreenUtil().setWidth(20)),
                   child: Container(
-                    width: 50,
-                    height: 55,
+                    width: ScreenUtil().setWidth(50),
+                    height: ScreenUtil().setHeight(55),
                     decoration: BoxDecoration(
                         color: _backgroundColor,
                         borderRadius: BorderRadius.circular(20)),
@@ -163,11 +186,11 @@ class B3Screen1 extends StatelessWidget {
           Expanded(
               flex: 6,
               child: Padding(
-                padding: EdgeInsets.only(left: 10),
+                padding: EdgeInsets.only(left: ScreenUtil().setWidth(10)),
                 child: Text(
                   title,
                   style: TextStyle(
-                      fontSize: 17,
+                      fontSize: ScreenUtil().setSp(17),
                       fontWeight: FontWeight.bold,
                       color: Colors.black.withOpacity(0.6)),
                 ),
@@ -176,7 +199,7 @@ class B3Screen1 extends StatelessWidget {
               flex: 2,
               child: Icon(
                 Icons.arrow_forward_ios_rounded,
-                size: 20,
+                size: ScreenUtil().setSp(20),
                 color: Colors.black.withOpacity(0.4),
               ))
         ],
@@ -185,26 +208,115 @@ class B3Screen1 extends StatelessWidget {
   }
 
   Widget _bottomNavigationBar() {
-    return BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        unselectedItemColor: Colors.deepPurple[100].withOpacity(0.8),
-        iconSize: 30,
-        currentIndex: 3,
-        selectedItemColor: Colors.blue,
-        unselectedFontSize: 0,
-        selectedFontSize: 0,
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: '',
-          ),
-          BottomNavigationBarItem(
-              icon: Icon(
-                Icons.account_balance_wallet_rounded,
-              ),
-              label: ''),
-          BottomNavigationBarItem(icon: Icon(Icons.bar_chart), label: ''),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: ''),
-        ]);
+    return Container(
+        decoration: BoxDecoration(
+            color: Colors.white, borderRadius: BorderRadius.circular(15)),
+        width: (ScreenUtil().screenWidth),
+        height: ScreenUtil().screenHeight / 14,
+        child: Padding(
+            padding: EdgeInsets.only(
+              top: ScreenUtil().setHeight(5),
+              bottom: ScreenUtil().setHeight(5),
+              left: ScreenUtil().setWidth(27),
+            ),
+            child: Row(
+              children: [
+                Expanded(
+                  flex: 1,
+                  child: Stack(children: [
+                    Positioned(
+                      top: ScreenUtil().setHeight(0),
+                      child: IconButton(
+                        icon: Icon(
+                          Icons.home,
+                          size: ScreenUtil().setSp(30),
+                          color: Colors.deepPurple[100].withOpacity(0.8),
+                        ),
+                      ),
+                    ),/*
+                    Positioned(
+                        left: ScreenUtil().setHeight(28),
+                        bottom: ScreenUtil().setHeight(10),
+                        child: Icon(
+                          Icons.circle,
+                          color: Colors.transparent,
+                          size: ScreenUtil().setSp(5),
+                        ))*/
+                  ]),
+                ),
+                Expanded(
+                  flex: 1,
+                  child: Stack(children: [
+                    Positioned(
+                      top: ScreenUtil().setHeight(0),
+                      child: IconButton(
+                        icon: Icon(
+                          Icons.account_balance_wallet_rounded,
+                          size: ScreenUtil().setSp(30),
+                          color: Colors.deepPurple[100].withOpacity(0.8),
+                        ),
+                      ),
+                    ),
+                   /* Positioned(
+                        left: ScreenUtil().setHeight(28),
+                        bottom: ScreenUtil().setHeight(10),
+                        child: Icon(
+                          Icons.circle,
+                          color: Colors.transparent,
+                          size: ScreenUtil().setSp(5),
+                        ))*/
+                  ]),
+                ),
+                Expanded(
+                  flex: 1,
+                  child: Stack(children: [
+                    Positioned(
+                      top: ScreenUtil().setHeight(0),
+                      child: IconButton(
+                        icon: Icon(
+                          Icons.bar_chart,
+                          size: ScreenUtil().setSp(30),
+                          color: Colors.deepPurple[100].withOpacity(0.8),
+                        ),
+                      ),
+                    ),
+                  /*  Positioned(
+                        left: ScreenUtil().setHeight(28),
+                        bottom: ScreenUtil().setHeight(10),
+                        child: Icon(
+                          Icons.circle,
+                          color: Colors.transparent,
+                          size: ScreenUtil().setSp(5),
+                        ))*/
+                  ]),
+                ),
+                Expanded(
+                  flex: 1,
+                  child: Stack(children: [
+                    Positioned(
+                      top: ScreenUtil().setHeight(0),
+                      child: IconButton(
+                        icon: Icon(
+                          Icons.person,
+                          size: ScreenUtil().setSp(30),
+                          color: Colors.blue,
+                        ),
+                      ),
+                    ),
+                  /*  Positioned(
+                        left: ScreenUtil().setHeight(28),
+                        bottom: ScreenUtil().setHeight(10),
+                        child: Icon(
+                          Icons.circle,
+                          color: Colors.blue,
+                          size: ScreenUtil().setSp(5),
+                        ))*/
+                  ]
+                  ),
+                ),
+              ],
+            )
+        )
+    );
   }
 }

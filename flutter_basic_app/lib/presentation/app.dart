@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_basic_app/common/constants/route_constants.dart';
 import 'package:flutter_basic_app/presentation/routes.dart';
+import 'package:flutter_screenutil/screenutil_init.dart';
 
 class MyApp extends StatelessWidget {
   String get initialRoute {
@@ -9,7 +10,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return ScreenUtilInit(
+      designSize: Size(400, 700),
+      allowFontScaling: true,
+      builder: () => MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
           primarySwatch: Colors.blue,
@@ -19,6 +23,7 @@ class MyApp extends StatelessWidget {
       // home: Screen2(),
       routes: Routes.getAll(),
       initialRoute: initialRoute,
+    )
     );
   }
 }
