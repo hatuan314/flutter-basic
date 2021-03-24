@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-Stack showAnh(){
+Stack pictureWidget(){ // widget là 1 danh từ ??? // void funtion() {}
   return  Stack(
     alignment: Alignment.center,
     children: [
