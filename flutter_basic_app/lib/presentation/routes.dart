@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_basic_app/presentation/journey/buoi5/buoi5_routes.dart';
+import 'package:flutter_basic_app/presentation/journey/buoi7/buoi7_routers.dart';
 import 'package:flutter_basic_app/presentation/journey/learn/learn_routes.dart';
 
 import 'journey/buoi6/buoi6_routes.dart';

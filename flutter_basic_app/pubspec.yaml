@@ -24,6 +24,7 @@ dependencies:
   flutter:
     sdk: flutter
   clip_shadow: ^0.2.1
+  flutter_screenutil: ^4.0.4
 
 
   # The following adds the Cupertino Icons font to your application.

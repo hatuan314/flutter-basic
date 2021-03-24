@@ -19,4 +19,9 @@ static const String buoi6Bai1thongTin='/thongTin';
   //buoi6 -bai3
 static const String buoi6bai3thongtinkhachhang='/thongtinkhachang';
 static const String buoi6bai3history='/history';
+// buoi7
+  static const String buoi7bai1='/buoi7bai1';
+  static const String buoi7bai2='/buoi7bai2';
+  static const String buoi7bai3='/buoi7bai3';
+
 }

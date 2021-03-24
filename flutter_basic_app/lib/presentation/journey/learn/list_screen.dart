@@ -1,5 +1,4 @@
 
-
 import 'package:flutter/material.dart';
 import 'package:flutter_basic_app/common/constants/route_constants.dart';
 
@@ -40,6 +39,15 @@ class ListScreen extends StatelessWidget {
         _itemWidget('buoi 6-bai2',(){     Navigator.pushNamed(context, RouteList.buoi6bai2index);} ),
         _itemWidget('buoi6-bai3',(){
           Navigator.pushNamed(context, RouteList.buoi6bai3thongtinkhachhang);
+        }),
+        _itemWidget('buoi7 bai1',(){
+          Navigator.pushNamed(context, RouteList.buoi7bai1);
+        }),
+        _itemWidget('buoi7 bai2',(){
+          Navigator.pushNamed(context, RouteList.buoi7bai2);
+        }),
+        _itemWidget('buoi7 bai3',(){
+          Navigator.pushNamed(context, RouteList.buoi7bai3);
         })
       ],
     );
