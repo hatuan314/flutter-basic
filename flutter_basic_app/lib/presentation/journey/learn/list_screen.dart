@@ -49,6 +49,22 @@ class ListScreen extends StatelessWidget {
         _itemWidget('Buổi 6 - Bai 3 Screen 3', () {
           Navigator.pushNamed(context, RouteList.b6Src5);
         }),
+        _itemWidget('Buổi 7 - Gridview Example', () {
+          Navigator.pushNamed(context, RouteList.b7Src1);
+        }),
+        _itemWidget('Buổi 7 - Bai 1 Screen 1', () {
+          Navigator.pushNamed(context, RouteList.b7Src2);
+        }),
+        _itemWidget('Buổi 7 - Bai 1 Screen 2', () {
+          Navigator.pushNamed(context, RouteList.b7Src3);
+        }),
+        _itemWidget('Buổi 7 - Bai 2', () {
+          Navigator.pushNamed(context, RouteList.b7Src4);
+        }),
+        _itemWidget('Buổi 7 - Bai 3', () {
+          Navigator.pushNamed(context, RouteList.b7Src5);
+        }),
+
       ],
     );
   }
