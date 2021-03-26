@@ -6,13 +6,11 @@ class B3Screen1 extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white70.withOpacity(0.97),
+      appBar: _appBar(),
       body: Stack(
         fit: StackFit.loose,
         children: [
-          Scaffold(
-            appBar: _appBar(),
-            body: _body(),
-          ),
+          _body(),
           Positioned(
               bottom: ScreenUtil().setHeight(10),
               left: ScreenUtil().setWidth(10),
@@ -27,17 +25,14 @@ class B3Screen1 extends StatelessWidget {
     return AppBar(
       centerTitle: true,
       elevation: 0,
-      backgroundColor: Colors.white,
-      shadowColor: Colors.white,
-      title: Align(
-        alignment: Alignment.topCenter,
-        child: Text(
-          'Profile',
-          style: TextStyle(
-              fontSize: ScreenUtil().setSp(20),
-              fontWeight: FontWeight.bold,
-              color: Colors.black),
-        ),
+      backgroundColor: Colors.transparent,
+      // shadowColor: Colors.white70.withOpacity(0.97),
+      title: Text(
+        'Profile',
+        style: TextStyle(
+            fontSize: ScreenUtil().setSp(20),
+            fontWeight: FontWeight.bold,
+            color: Colors.black),
       ),
       actions: [
         Container(
@@ -177,8 +172,9 @@ class B3Screen1 extends StatelessWidget {
                   padding: EdgeInsets.only(left: ScreenUtil().setWidth(20)),
                   child: Container(
                     width: ScreenUtil().setWidth(50),
-                    height: ScreenUtil().setHeight(55),
+                    height: ScreenUtil().setWidth(50),
                     decoration: BoxDecoration(
+                      shape: BoxShape.rectangle,
                         color: _backgroundColor,
                         borderRadius: BorderRadius.circular(20)),
                     child: _icon,

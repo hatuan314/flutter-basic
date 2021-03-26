@@ -305,25 +305,26 @@ class B3Screen2 extends StatelessWidget {
                 padding: EdgeInsets.all(ScreenUtil().setHeight(5)),
                 child: _icon,
               ),
-              Padding(
-                  padding: EdgeInsets.all(ScreenUtil().setHeight(5)),
-                  child: RichText(
-                    text: TextSpan(children: [
-                      TextSpan(
-                          text: '$balance  ',
+              Expanded(
+                child: Padding(
+                    padding: EdgeInsets.all(ScreenUtil().setHeight(5)),
+                    child: RichText(
+                      text: TextSpan(children: [
+                        TextSpan(
+                            text: '$balance  ',
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: ScreenUtil().setSp(15),
+                                fontWeight: FontWeight.bold)),
+                        TextSpan(
+                          text: 'USD',
                           style: TextStyle(
-                              color: Colors.black,
-                              fontSize: ScreenUtil().setSp(15),
-                              fontWeight: FontWeight.bold)),
-                      TextSpan(
-                        text: 'USD',
-                        style: TextStyle(
-                            color: Colors.black.withOpacity(0.3),
-                            fontSize: ScreenUtil().setSp(17),
-                            fontWeight: FontWeight.bold),
-                      )
-                    ]),
-                  ))
+                              color: Colors.black.withOpacity(0.3),
+                              fontSize: ScreenUtil().setSp(17)),
+                        )
+                      ]),
+                    )),
+              )
             ],
           ),
         ));

@@ -17,17 +17,19 @@ class Bai2 extends StatelessWidget {
   Widget _appBar() {
     return AppBar(
       backgroundColor: Color(0x000022),
-      leading: Container(
-        width: ScreenUtil().setWidth(55),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(100)),
-          border: Border.all(
-            color: Colors.grey.withOpacity(0.4),
-            width: ScreenUtil().setSp(2.5),
+      leading: GestureDetector(
+        child: Container(
+          margin: EdgeInsets.only(left: 8),
+          // width: ScreenUtil().setWidth(55),
+          decoration: BoxDecoration(
+            // borderRadius: BorderRadius.all(Radius.circular(100)),
+            border: Border.all(
+              color: Colors.grey.withOpacity(0.4),
+              width: ScreenUtil().setSp(2.5),
+            ),
+            shape: BoxShape.circle,
           ),
-        ),
-        child: IconButton(
-          icon: Icon(
+          child: Icon(
             Icons.menu,
             size: ScreenUtil().setSp(30),
             color: Colors.white,
@@ -78,6 +80,7 @@ class Bai2 extends StatelessWidget {
 
   Widget _body() {
     return ListView(
+      padding: EdgeInsets.only(left: ScreenUtil().setHeight(10), right: ScreenUtil().setHeight(10)),
       scrollDirection: Axis.vertical,
       shrinkWrap: true,
       children: [
@@ -93,8 +96,7 @@ class Bai2 extends StatelessWidget {
         ),
         Padding(
           padding: EdgeInsets.only(
-              top: ScreenUtil().setHeight(30),
-              right: ScreenUtil().setWidth(20)),
+              top: ScreenUtil().setHeight(30)),
           child: Text(
             'You\'ve 4 unread messages anh 6 to-do item waiting',
             style: TextStyle(
@@ -105,8 +107,7 @@ class Bai2 extends StatelessWidget {
         ),
         Padding(
             padding: EdgeInsets.only(
-                top: ScreenUtil().setHeight(25),
-                right: ScreenUtil().setWidth(20)),
+                top: ScreenUtil().setHeight(25)),
             child: ListView(
               scrollDirection: Axis.vertical,
               shrinkWrap: true,
