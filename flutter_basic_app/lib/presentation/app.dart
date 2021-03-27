@@ -4,7 +4,7 @@ import 'package:flutter_basic_app/presentation/routes.dart';
 
 class MyApp extends StatelessWidget {
   String get initialRoute {
-    return RouteList.listScreen;
+    return RouteList.b7Scr1;
   }
 
   @override

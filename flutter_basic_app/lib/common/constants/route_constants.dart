@@ -6,6 +6,9 @@ class RouteList {
 
   // Buổi 6
 
+  // Buổi 7
+  static const String b7Scr1 = '/learn_grid_view';
+
   // Learn
   static const String listScreen = '/listScreen';
   static const String homeScreen = '/homeScreen';
