@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -20,7 +22,36 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    log('Init State');
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    log('dispose');
+  }
+
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    log('didChangeDependencies');
+  }
+
+  @override
+  void didUpdateWidget(covariant MyHomePage oldWidget) {
+    // TODO: implement didUpdateWidget
+    super.didUpdateWidget(oldWidget);
+    log('didUpdateWidget');
+  }
+
+  @override
   Widget build(BuildContext context) {
+    log('buid');
     return Scaffold(
       appBar: AppBar(
         title: Text('Home'),
@@ -52,28 +83,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ],
             ),
-            Stack(
-              alignment: Alignment.center,
-              children: [
-                Container(
-                  width: 100,
-                  height: 100,
-                  decoration: BoxDecoration(
-                    color: Colors.red,
-                    borderRadius: BorderRadius.all(Radius.circular(30)),
-                  ),
-                  child: Text(
-                    '$_counter',
-                    style: Theme.of(context).textTheme.bodyText2,
-                  ),
-                ),
-                Container(
-                  color: Colors.blue,
-                  width: 30,
-                  height: 30,
-                ),
-              ],
-            )
           ],
         ),
       ),

@@ -9,6 +9,10 @@ class RouteList {
   // Buổi 7
   static const String b7Scr1 = '/learn_grid_view';
 
+  // Buổi 8
+  static const String b8Scr1 = '/buoi8_state';
+  static const String b8Splash = '/buoi8_splash';
+
   // Learn
   static const String listScreen = '/listScreen';
   static const String homeScreen = '/homeScreen';
