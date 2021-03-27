@@ -18,31 +18,18 @@ class _home_pageState extends State<home_page> {
     return Scaffold(
       backgroundColor: Colors.white70.withOpacity(0.97),
       appBar: _appBar(),
-      body: Stack(
-        children: [
-          grid_View(context),
-          Positioned(
-            bottom: height*0.12,
-              right: witdh/2-ScreenUtil().setWidth(80)/2,
-              child: Container(
-                height: ScreenUtil().setWidth(80),
-                width: ScreenUtil().setWidth(80),
-                decoration: BoxDecoration(
-                    color: Colors.indigo,
-                  shape: BoxShape.circle,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey,
-                      blurRadius: 10,
-                      offset: Offset(0, 4)
-                    )
-                  ]
-                ),
-                child:Center(child: Text("+",style: TextStyle(color: Colors.white,fontSize: ScreenUtil().setWidth(60)),)),
-              ),
-          )
-        ],
-      )
+      floatingActionButton: Padding(
+        padding: EdgeInsets.only(bottom: 20),
+        child: FloatingActionButton(
+          onPressed: () {
+            // Add your onPressed code here!
+          },
+          child: const Icon(Icons.add, size:  30,),
+          backgroundColor: Colors.indigo,
+        ),
+      ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.miniCenterDocked,
+      body: grid_View(context),
     );
     
   }
