@@ -14,7 +14,7 @@ GridView gridViewbai2(){
       'kieu':'Top',
       'colors':Colors.teal
     },
-    {'img':'https://lh3.googleusercontent.com/proxy/kNL9847ZXjNpO4aG7Lx05rVjYj3RNt2NpvIQNu2MEq1NcHe0xp0ck7BZrFm2BunvX_jKIcccLNROH8Zq2CsccZ-2rthTfap6pL1WYFOx8LUWdw',
+    {'img':'https://danongonline.com.vn/wp-content/uploads/2019/12/gai-tay-xinh-7-696x696.jpg',
       'name':'Wayne Poole',
       'kieu':'Bottom',
       'colors':Colors.blueAccent
@@ -24,7 +24,7 @@ GridView gridViewbai2(){
       'kieu':'Vers-Top',
       'colors':Colors.redAccent
     },
-    {'img':'https://lh3.googleusercontent.com/proxy/o5gqeXiHC65pi2-PXXaaJ1eMuhd4NM0pMfA9wdX4fUJ3e0ur1fmYNl-x0nSW1_-vE9-gM3rXX-nL7uOfTV8s3PT41089NayZLwt3LijKbmTUsxc_BFx8Ni6SyavIKtK27usJx57X95WTIE_dZCITsTBwHHk',
+    {'img': 'https://i.pinimg.com/originals/89/77/1c/89771c11bdfc776662c425976ea8533c.png',
       'name':'Isaac McCarthy',
       'kieu':'Versatile',
       'colors':Colors.redAccent
