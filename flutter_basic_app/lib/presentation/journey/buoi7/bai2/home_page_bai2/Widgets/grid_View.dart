@@ -1,7 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_basic_app/presentation/journey/buoi7/bai2/__mock__/image_mock.dart';
+import 'package:flutter_basic_app/presentation/journey/buoi7/bai2/home_page_bai2/Widgets/image_item_widget.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+<<<<<<< HEAD
 GridView gridViewbai2(){
   List _list=[
     {'img':'https://i.pinimg.com/originals/11/1e/1e/111e1e1d5a692e96ef4d92cb8cdc14b0.jpg',
@@ -99,5 +102,19 @@ child: Padding(
 ),
     );
   }),
+=======
+
+GridView gridViewbai2() {
+  return GridView.count(
+    crossAxisCount: 2,
+    crossAxisSpacing: 10,
+    mainAxisSpacing: 10,
+    childAspectRatio: 0.8,
+    children: List.generate(listImage.length, (index) {
+      return ImageItemWidget(
+        index: index,
+      );
+    }),
+>>>>>>> 28464bad9b2d12f3894f9e843c655066a37cf426
   );
 }
