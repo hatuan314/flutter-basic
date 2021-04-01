@@ -23,6 +23,11 @@ class ListScreen extends StatelessWidget {
     //     child: Text('$index'),
     //   );
     // });
+
+    final VoidCallback _onTap = () {
+      Navigator.pushNamed(context, RouteList.b7Src5);
+    };
+
     return ListView(
       children: [
         _itemWidget('Home Screen', () {
@@ -61,12 +66,17 @@ class ListScreen extends StatelessWidget {
         _itemWidget('Buổi 7 - Bai 2', () {
           Navigator.pushNamed(context, RouteList.b7Src4);
         }),
-        _itemWidget('Buổi 7 - Bai 3', () {
-          Navigator.pushNamed(context, RouteList.b7Src5);
+        _itemWidget('Buổi 7 - Bai 3', _onTap),
+        _itemWidget('Buổi 8 - Bai 1', () {
+          Navigator.pushNamed(context, RouteList.b8Src1);
         }),
-
+        _itemWidget('Buổi 8 - Bai 2', () {
+          Navigator.pushNamed(context, RouteList.b8Src2);
+        }),
       ],
     );
+
+
   }
 
   Widget _itemWidget(String title, Function onTap) {

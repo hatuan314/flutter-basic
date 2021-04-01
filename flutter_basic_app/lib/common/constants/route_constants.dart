@@ -18,6 +18,11 @@ class RouteList {
   static const String b7Src4 = '/b7Scr4';
   static const String b7Src5 = '/b7Scr5';
 
+  //buoi 8
+  static const String b8Src1 = '/b8Scr1';
+  static const String b8Src2 = '/b8Scr2';
+
+
   // Learn
   static const String listScreen = '/listScreen';
   static const String homeScreen = '/homeScreen';
