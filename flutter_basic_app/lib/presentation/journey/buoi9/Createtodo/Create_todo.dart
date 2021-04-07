@@ -18,11 +18,13 @@ class _createTodoState extends State<createTodo> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.deepPurple,
-      body:Column(
-        children: [
-          headerWidget(),
-          bodyWidgets(),
-        ],
+      body:SingleChildScrollView(
+        child: Column(
+          children: [
+            headerWidget(),
+            bodyWidgets(),
+          ],
+        ),
       ),
     );
   }
