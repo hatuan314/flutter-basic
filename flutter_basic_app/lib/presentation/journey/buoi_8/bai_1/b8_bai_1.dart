@@ -17,7 +17,7 @@ class B8Bai1 extends StatelessWidget{
           scrollDirection: Axis.vertical,
             shrinkWrap: true,
             children:[
-              B1appbar(),
+              B1AppBarWidget(),
               SizedBox(
               height: ScreenUtil().screenWidth+35,
               child: foodItem(context)),
@@ -28,9 +28,10 @@ class B8Bai1 extends StatelessWidget{
               bottom: ScreenUtil().setWidth(20)),
               child: deliveryAndCalories(),
             ),
-             addToCartButton(),
+
             ]
         ),
+       bottomNavigationBar: addToCartButton(),
      );
   }
 
