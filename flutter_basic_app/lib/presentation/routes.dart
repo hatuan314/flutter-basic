@@ -6,6 +6,7 @@ import 'package:flutter_basic_app/presentation/journey/learn/learn_routes.dart';
 
 import 'journey/buoi_7/buoi_7_routes.dart';
 import 'journey/buoi_8/buoi_8_routes.dart';
+import 'journey/buoi_9/b9_routes.dart';
 
 class Routes {
   static Map<String, WidgetBuilder> _getCombinedRoutes() => {
@@ -13,6 +14,7 @@ class Routes {
     ...Buoi6Routes.getAll(),
     ...Buoi7Routes.getAll(),
     ...Buoi8Routes.getAll(),
+    ...Buoi9Routes.getAll(),
     ...LearnRoutes.getAll(),
   };
 

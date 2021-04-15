@@ -22,6 +22,10 @@ class RouteList {
   static const String b8Src1 = '/b8Scr1';
   static const String b8Src2 = '/b8Scr2';
 
+  //buoi 9
+  static const String b9Src1 = '/homeScreen';
+  static const String b9Src2 = '/createTodoScreen';
+  static const String b9Src3 = '/scheduleScreen';
 
   // Learn
   static const String listScreen = '/listScreen';

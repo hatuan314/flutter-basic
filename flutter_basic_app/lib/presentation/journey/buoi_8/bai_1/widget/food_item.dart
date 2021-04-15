@@ -68,7 +68,7 @@ Widget foodItem(BuildContext context) {
                     color: Colors.grey),
               ),
               Text(
-                '\$26.50',
+                '\$${context.watch<ItemCounter>().price}',
                 style: TextStyle(
                     fontWeight: FontWeight.w800,
                     fontSize: ScreenUtil().setSp(25.5),

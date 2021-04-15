@@ -73,6 +73,9 @@ class ListScreen extends StatelessWidget {
         _itemWidget('Buổi 8 - Bai 2', () {
           Navigator.pushNamed(context, RouteList.b8Src2);
         }),
+        _itemWidget('Buổi 9', () {
+          Navigator.pushNamed(context, RouteList.b9Src1);
+        }),
       ],
     );
 

@@ -5,9 +5,11 @@ import 'package:provider/provider.dart';
 class ItemCounter with ChangeNotifier,DiagnosticableTreeMixin
 {
     int count=0;
+    double price= 26.5;
     void increment()
     {
       count++;
+      price=26.5*count;
       notifyListeners();
     }
     void notchange()
@@ -18,6 +20,7 @@ class ItemCounter with ChangeNotifier,DiagnosticableTreeMixin
     void decrement()
     {
       count--;
+      price=26.5*count;
       notifyListeners();
     }
     @override
