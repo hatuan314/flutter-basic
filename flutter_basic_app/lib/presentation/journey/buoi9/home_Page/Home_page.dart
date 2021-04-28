@@ -1,5 +1,4 @@
 import 'dart:ui';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -10,7 +9,6 @@ import 'package:flutter_basic_app/presentation/journey/buoi9/home_Page/ProvidesB
 import 'package:flutter_basic_app/presentation/journey/buoi9/home_Page/Schedule_Page/Schedule_Page.dart';
 import 'package:flutter_screenutil/screen_util.dart';
 import 'package:provider/provider.dart';
-
 class homePage extends StatefulWidget {
   @override
   _homePageState createState() => _homePageState();

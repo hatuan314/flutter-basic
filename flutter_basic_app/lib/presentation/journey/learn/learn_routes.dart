@@ -1,5 +1,8 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_basic_app/common/constants/route_constants.dart';
+import 'package:flutter_basic_app/presentation/journey/buoi10-ghichu/New_Reminder/new_ReminderPage.dart';
+import 'package:flutter_basic_app/presentation/journey/buoi10-ghichu/home_Page/home_page.dart';
 import 'package:flutter_basic_app/presentation/journey/buoi7/bai1/app.dart';
 import 'package:flutter_basic_app/presentation/journey/buoi7/bai2/home_page_bai2/home_page_bai2.dart';
 import 'package:flutter_basic_app/presentation/journey/buoi7/bai3/list_sp/list_sp.dart';
@@ -10,7 +13,6 @@ import 'package:flutter_basic_app/presentation/journey/buoi9/Createtodo/Widgets/
 import 'package:flutter_basic_app/presentation/journey/buoi9/ProvidesTimer.dart';
 import 'package:flutter_basic_app/presentation/journey/buoi9/home_Page/Home_page.dart';
 import 'package:flutter_basic_app/presentation/journey/buoi9/home_Page/ProvidesBottom.dart';
-
 import 'package:flutter_basic_app/presentation/journey/learn/home_screen.dart';
 import 'package:provider/provider.dart';
 import 'list_screen.dart';
@@ -45,6 +47,8 @@ class LearnRoutes {
         ],
         child: homePage(),
       ),
+      RouteList.buoi10homePage:(context)=>homePagebuoi10(),
+      RouteList.buoi10newReminder:(context)=>newReminderPage()
     };
   }
 }
