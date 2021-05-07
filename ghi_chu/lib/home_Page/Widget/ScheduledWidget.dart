@@ -1,5 +1,5 @@
 import 'package:ghi_chu/home_Page/ProviderHomePage.dart';
-import 'package:ghi_chu/home_Page/providerAnimated.dart';
+
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screen_util.dart';
@@ -8,8 +8,8 @@ import 'package:ghi_chu/model/reminder.dart';
 
 class scheduledWidgets extends StatelessWidget {
   var data;
-int leght=0;
-  scheduledWidgets(this.data,this.leght);
+
+  scheduledWidgets(this.data);
 
   @override
   Widget build(BuildContext context) {
@@ -42,14 +42,20 @@ int leght=0;
                       width: ScreenUtil().setWidth(37),
                       height: ScreenUtil().setWidth(37),
                       decoration: BoxDecoration(
-                          color: Colors.red, shape: BoxShape.circle),
+                          color: data['colors'], shape: BoxShape.circle),
                       child: Icon(
                         data['icons'],
                         color: Colors.white,
                         size: ScreenUtil().setSp(25),
                       ),
                     ),
-                    data['sum']
+                    Text(
+                      '${data['sum']}',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: ScreenUtil().setSp(37)),
+                    )
                   ],
                 ),
                 // SizedBox(

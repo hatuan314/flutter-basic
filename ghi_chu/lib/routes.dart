@@ -5,7 +5,6 @@ import 'package:ghi_chu/New_Reminder/ProviderReminder.dart';
 import 'package:ghi_chu/Schedule_Page/scheduled_Page.dart';
 import 'package:ghi_chu/__mock__/costranisn.dart';
 import 'package:ghi_chu/home_Page/ProviderHomePage.dart';
-import 'package:ghi_chu/home_Page/providerAnimated.dart';
 import 'package:ghi_chu/todayPage/Today_Page.dart';
 import 'package:provider/provider.dart';
 

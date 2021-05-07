@@ -1,4 +1,3 @@
-
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -7,6 +6,9 @@ import 'package:flutter_screenutil/screen_util.dart';
 import 'package:ghi_chu/__mock__/costranisn.dart';
 import 'package:ghi_chu/common/constants/route_constants.dart';
 import 'package:ghi_chu/home_Page/ProviderHomePage.dart';
+import 'package:ghi_chu/home_Page/Widget/WrapWidget.dart';
+import 'package:ghi_chu/home_Page/Widget/editHomePage.dart';
+import 'package:ghi_chu/model/reminder.dart';
 
 import 'Widget/RemindersWidget.dart';
 import 'Widget/ScheduledWidget.dart';
@@ -15,13 +17,11 @@ import 'Widget/TodayWidget.dart';
 import 'package:provider/provider.dart';
 
 class homePagebuoi10 extends StatefulWidget {
-
   @override
   _State createState() => _State();
 }
 
 class _State extends State<homePagebuoi10> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,6 +36,17 @@ class _State extends State<homePagebuoi10> {
               onTap: () async {
                 await Navigator.pushNamed(context, RouteList.newReminder)
                     .whenComplete(() {
+                  for (int i = 0; i < 3; i++) {
+                    if (constHomePage.list[i]['title'] == 'To day') {
+                      constHomePage.list[i]['sum'] = reminder.todaylist.length;
+                    } else if (constHomePage.list[i]['title'] == 'Scheduled') {
+                      constHomePage.list[i]['sum'] =
+                          reminder.Scheduletest.length;
+                    } else if (constHomePage.list[i]['title'] == 'All') {
+                      constHomePage.list[i]['sum'] = reminder.listAll.length;
+                    }
+                  }
+                  setState(() {});
                   context.read<providerhomePage>().update();
                 });
               },
@@ -76,13 +87,18 @@ class _State extends State<homePagebuoi10> {
           Padding(
             padding: EdgeInsets.only(right: ScreenUtil().setWidth(10)),
             child: Center(
-                child: Text(
-              'Edit',
+                child: GestureDetector(
+                  onTap: (){
+                    context.read<providerhomePage>().setedit();
+                  },
+                  child: Text(
+              context.watch<providerhomePage>().edit?'Edit':'Done',
               style: TextStyle(
-                  color: Colors.blue,
-                  fontWeight: FontWeight.w600,
-                  fontSize: ScreenUtil().setHeight(18)),
-            )),
+                    color: Colors.blue,
+                    fontWeight: FontWeight.w600,
+                    fontSize: ScreenUtil().setHeight(18)),
+            ),
+                )),
           )
         ],
       ),
@@ -93,14 +109,19 @@ class _State extends State<homePagebuoi10> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             searchWidget(),
-            Wrap(
-                spacing: 20,
-                children: List.generate(3, (index) {
-                  return index == 2
-                      ? todayWidget(constHomePage(context).list[index])
-                      : scheduledWidgets(constHomePage(context).list[index],
-                          context.watch<providerhomePage>().leghtSchedule);
-                })),
+            AnimatedContainer(
+              duration: Duration(milliseconds: 200),
+              margin: EdgeInsets.only(bottom: ScreenUtil().setHeight(10)),
+              width: ScreenUtil().screenWidth,
+              height: context.watch<providerhomePage>().edit?ScreenUtil().setHeight(280):ScreenUtil().setHeight(220),
+              color: Colors.transparent,
+              child: Stack(
+                children: [
+                  wrapWidget(),
+                  editWidget(),
+                ],
+              )
+            ),
             SizedBox(
               height: ScreenUtil().setHeight(10),
             ),
@@ -117,62 +138,6 @@ class _State extends State<homePagebuoi10> {
             remindersWidget()
           ],
         ),
-      ),
-    );
-  }
-
-  Widget gridViewItem(Icon icon, Color bgColor, String title, int count) {
-    return Container(
-      padding: EdgeInsets.all(ScreenUtil().setWidth(10)),
-      decoration: BoxDecoration(
-          color: Colors.white, borderRadius: BorderRadius.circular(15)),
-      child: Column(
-        children: [
-          Row(
-            //  crossAxisAlignment: CrossAxisAlignment.start,
-            // mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Expanded(
-                flex: 4,
-                child: Align(
-                  alignment: Alignment.topLeft,
-                  child: Container(
-                    // alignment: Alignment.topLeft,
-                    padding: EdgeInsets.all(ScreenUtil().setWidth(5)),
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: bgColor,
-                    ),
-                    child: icon,
-                  ),
-                ),
-              ),
-              Expanded(
-                  flex: 1,
-                  child: Text(
-                    '${count}',
-                    textAlign: TextAlign.right,
-                    style: TextStyle(
-                        fontSize: ScreenUtil().setSp(25),
-                        fontWeight: FontWeight.w600),
-                  ))
-            ],
-          ),
-          Padding(
-            padding: EdgeInsets.only(top: ScreenUtil().setHeight(10)),
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                title,
-                textAlign: TextAlign.left,
-                style: TextStyle(
-                    fontSize: ScreenUtil().setSp(15),
-                    color: Colors.grey,
-                    fontWeight: FontWeight.w500),
-              ),
-            ),
-          )
-        ],
       ),
     );
   }

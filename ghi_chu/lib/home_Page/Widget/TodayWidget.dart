@@ -20,7 +20,7 @@ class todayWidget extends StatelessWidget {
         Navigator.pushNamed(context, data['push']);
       },
       child: Container(
-        margin: EdgeInsets.only(top: ScreenUtil().setHeight(30)),
+        margin: EdgeInsets.only(top: ScreenUtil().setHeight(20)),
         // width: ScreenUtil().setWidth(180),
         height: ScreenUtil().setHeight(110),
         decoration: BoxDecoration(
@@ -41,12 +41,18 @@ class todayWidget extends StatelessWidget {
                     width: ScreenUtil().setWidth(37),
                     height: ScreenUtil().setWidth(37),
                     decoration: BoxDecoration(
-                        color: Colors.blue,
+                        color: data['colors'],
                         shape: BoxShape.circle
                     ),
                     child: Icon(data['icons'],color: Colors.white,size: ScreenUtil().setSp(25),),
                   ),
-                 data['sum']
+                  Text(
+                    '${data['sum']}',
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: ScreenUtil().setSp(37)),
+                  )
                 ],
               ),
               Expanded(
