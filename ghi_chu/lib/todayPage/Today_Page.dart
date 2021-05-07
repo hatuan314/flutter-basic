@@ -72,8 +72,8 @@ class _State extends State<todayPage> {
                                         Text(
                                           list == null
                                               ? ''
-                                              : list[0]['time'] == 0
-                                                  ? ''
+                                              : list[0]['time'] == ''
+                                                  ? 'Reminders'
                                                   : 'Reminders - ${list[0]['time'][0]}:${list[0]['time'][1]}',
                                           style: TextStyle(
                                               color: Colors.black87.withOpacity(0.6),

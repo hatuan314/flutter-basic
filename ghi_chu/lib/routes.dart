@@ -1,10 +1,9 @@
 
-
-
 import 'package:flutter/cupertino.dart';
 import 'package:ghi_chu/All_Page/All_Page.dart';
 import 'package:ghi_chu/Details/details_Page.dart';
 import 'package:ghi_chu/New_Reminder/ProviderReminder.dart';
+import 'package:ghi_chu/Schedule_Page/scheduled_Page.dart';
 import 'package:ghi_chu/home_Page/ProviderHomePage.dart';
 import 'package:ghi_chu/todayPage/Today_Page.dart';
 import 'package:provider/provider.dart';
@@ -24,6 +23,7 @@ class Routes{
           ],
           child: homePagebuoi10()),
       RouteList.allPage:(context)=>allPage(),
+      RouteList.scheduled:(context)=>scheduledPage(),
       RouteList.todayPage:(context)=>todayPage(),
       RouteList.reminders:(context)=>RemindersPage(),
       RouteList.newReminder:(context)=>MultiProvider(

@@ -1,8 +1,10 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 
 class switchdate with ChangeNotifier, DiagnosticableTreeMixin {
   bool date = false;
   bool time = false;
+  static List moDel;
   static bool getdate = false;
   static bool gettime = false;
   bool tablecalender = false;
@@ -22,6 +24,35 @@ class switchdate with ChangeNotifier, DiagnosticableTreeMixin {
     gethour = hour;
     getminuner = minute;
     notifyListeners();
+  }
+
+  void setdatetime() {
+    this.date = switchdate.getdate;
+    this.time = switchdate.gettime;
+    notifyListeners();
+  }
+
+  void removePage(BuildContext context) {
+    if (switchdate.getdate) {
+      if (switchdate.gettime) {
+        Navigator.pop(
+            context,
+            [
+              {
+                'date': switchdate.getdataTime,
+                'time': [switchdate.gethour, switchdate.getminuner].toList()
+              }
+            ].toList());
+      } else {
+        Navigator.pop(
+            context,
+            [
+              {'date': switchdate.getdataTime, 'time': ''}
+            ].toList());
+      }
+    } else {
+      Navigator.pop(context, null);
+    }
   }
 
   void tablecanlender() {
@@ -46,7 +77,15 @@ class switchdate with ChangeNotifier, DiagnosticableTreeMixin {
       time = false;
       timepicker = false;
       dateTime = nowTime;
+      getdataTime = nowTime;
+      gethour = DateTime.now().hour;
+      getminuner = DateTime.now().minute;
+      hour = DateTime.now().hour;
+      minuner = DateTime.now().minute;
       timedate = 'Hôm Nay';
+    }
+    if (date == true) {
+      getdataTime = nowTime;
     }
     getdate = date;
     gettime = time;
@@ -59,6 +98,10 @@ class switchdate with ChangeNotifier, DiagnosticableTreeMixin {
       timepicker = true;
       date = true;
     } else {
+      gethour = DateTime.now().hour;
+      getminuner = DateTime.now().minute;
+      hour = DateTime.now().hour;
+      minuner = DateTime.now().minute;
       timepicker = false;
     }
     getdate = date;

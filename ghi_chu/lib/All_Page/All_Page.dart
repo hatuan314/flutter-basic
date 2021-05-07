@@ -54,7 +54,7 @@ class _State extends State<allPage> {
                                       // Text('${list}',style: TextStyle(color: Colors.black87,fontSize: ScreenUtil().setSp(14)))
                                       Row(
                                        children: [
-                                          Text(list==null?'':'${list[0]['time'][0]}:${list[0]['time'][1]}, ',style: TextStyle(color: Colors.red,fontSize: ScreenUtil().setSp(17)),),
+                                          Text(list==null?'':list[0]['time']==''?'':'${list[0]['time'][0]}:${list[0]['time'][1]}, ',style: TextStyle(color: Colors.red,fontSize: ScreenUtil().setSp(17)),),
                                          Text(list==null?'':'ngày ${list[0]['date'].day} thg ${list[0]['date'].month}, ${list[0]['date'].year}',style: TextStyle(color: Colors.red,fontSize: ScreenUtil().setSp(14)))
                                       ],
                                       )

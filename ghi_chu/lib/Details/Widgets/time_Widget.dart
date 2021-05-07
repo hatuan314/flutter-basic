@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screen_util.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:ghi_chu/Details/Provider.dart';
+import 'package:ghi_chu/New_Reminder/ProviderReminder.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:provider/provider.dart';
 
@@ -104,6 +105,7 @@ class timeWidget extends StatelessWidget {
                     return isSameDay(context.watch<switchdate>().dateTime, day);
                   },
                   onDaySelected: (date, focusdate) {
+
                     context.read<switchdate>().dateScheldul(date);
                   },
                 )),

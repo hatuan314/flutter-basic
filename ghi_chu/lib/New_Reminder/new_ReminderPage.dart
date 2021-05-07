@@ -1,6 +1,8 @@
+
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screen_util.dart';
+import 'package:ghi_chu/Details/Provider.dart';
 import 'package:ghi_chu/New_Reminder/ProviderReminder.dart';
 import 'package:ghi_chu/model/reminder.dart';
 import 'package:provider/provider.dart';
@@ -16,7 +18,7 @@ class newReminderPage extends StatefulWidget {
 class _newReminderPageState extends State<newReminderPage> {
   TextEditingController titleController = new TextEditingController();
   TextEditingController noteController = new TextEditingController();
-  DateTime nowdate = DateTime.now();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,24 +56,7 @@ class _newReminderPageState extends State<newReminderPage> {
             child: GestureDetector(
               onTap: context.watch<providerReminder>().butoon
                   ? () {
-                      List data = providerReminder.getluestime as List;
-                      reminder.listAll.add({
-                        'title': titleController.text,
-                        'note': noteController.text,
-                        'time': data
-                      });
-                      try {
-                        if (data[0]['date'].day == nowdate.day &&
-                            nowdate.month == data[0]['date'].month &&
-                            nowdate.year == data[0]['date'].year) {
-                          reminder.todaylist.add({
-                            'title': titleController.text,
-                            'note': noteController.text,
-                            'time': data
-                          });
-                        }
-                      } catch (e) {}
-                      Navigator.pop(context);
+                      providerReminder().addTodoList(context, titleController.text, noteController.text);
                     }
                   : null,
               child: Text(
@@ -81,7 +66,7 @@ class _newReminderPageState extends State<newReminderPage> {
                         ? Colors.blue
                         : Colors.black26,
                     fontWeight: FontWeight.w600,
-                    fontSize: ScreenUtil().setSp(23)),
+                    fontSize: ScreenUtil().setSp(18)),
               ),
             ),
           ),
@@ -100,12 +85,19 @@ class _newReminderPageState extends State<newReminderPage> {
                 titleController: titleController,
                 noteController: noteController,
               ),
-              DetailsWidget(),
+              DetailsWidget(title: titleController.text,node: noteController.text,button: context.watch<providerReminder>().butoon,),
               listReminders()
             ],
           ),
         ),
       ),
     );
+  }
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    switchdate.getdate=false;
+    switchdate.gettime=false;
   }
 }

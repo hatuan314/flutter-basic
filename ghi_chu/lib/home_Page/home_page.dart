@@ -56,7 +56,7 @@ class _State extends State<homePagebuoi10> {
         actions: [
           Padding(
             padding: EdgeInsets.only(right: ScreenUtil().setWidth(10)),
-            child: Center(child: Text('Edit',style: TextStyle(color: Colors.blue,fontWeight: FontWeight.w600,),)),
+            child: Center(child: Text('Edit',style: TextStyle(color: Colors.blue,fontWeight: FontWeight.w600,fontSize: ScreenUtil().setHeight(18)),)),
           )
         ],
       ),

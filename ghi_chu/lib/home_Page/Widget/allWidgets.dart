@@ -10,7 +10,6 @@ class allWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return  GestureDetector(
       onTap: (){
-        print('${reminder.listAll}');
         Navigator.pushNamed(context, RouteList.allPage);
       },
       child: Container(

@@ -9,12 +9,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ghi_chu/common/constants/route_constants.dart';
 class DetailsWidget extends StatelessWidget {
   var values;
+  String title;
+  String node;
+  bool button;
+  DetailsWidget({Key key,this.title, this.node,this.button}):super(key: key);
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () async {
-       values = await Navigator.pushNamed(context, RouteList.details);
-       print('$values');
+        values = await Navigator.pushNamed(context, RouteList.details,arguments: [{'title':providerReminder.gettitle,'note':providerReminder.getnode,'button':button}].toList());
         context.read<providerReminder>().getvaluetime(values);
       },
       child: Container(
