@@ -30,6 +30,11 @@ class RouteList {
 //buoi10
   static const String b10HomeScreen = '/homeScreen';
   static const String createNewScreen = '/createNewScreen';
+  static const String detailsScreen = '/detailsScreen';
+  static const String allListScreen = '/allListScreen';
+  static const String todayListScreen = '/allListScreen';
+  static const String scheduledListScreen = '/allListScreen';
+
   // Learn
   static const String listScreen = '/listScreen';
   static const String homeScreen = '/homeScreen';

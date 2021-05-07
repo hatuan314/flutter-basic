@@ -2,21 +2,32 @@ import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_basic_app/common/constants/route_constants.dart';
+import 'package:flutter_basic_app/presentation/journey/buoi_10/all_list_screen.dart';
+import 'package:flutter_basic_app/presentation/journey/buoi_10/new_reminder/create_new_reminder.dart';
+import 'package:flutter_basic_app/presentation/journey/buoi_10/reminder_provider.dart';
+import 'package:flutter_basic_app/presentation/journey/buoi_10/scheduled_list_screen.dart';
+import 'package:flutter_basic_app/presentation/journey/buoi_10/todaylist_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_basic_app/common/constants/route_constants.dart';
-import 'package:flutter_basic_app/presentation/journey/buoi_10/create_new_reminder.dart';
-import 'package:flutter_basic_app/presentation/journey/buoi_10/reminder.dart';
 import 'package:flutter_screenutil/screen_util.dart';
 
-class B10HomeScreen extends StatelessWidget {
+import '../reminders_list.dart';
+import 'homepage_provider.dart';
+
+class B10HomeScreen extends StatelessWidget{
+  final TextEditingController textName = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    log(context.watch<Reminder>().allReminder.length.toString());
+    log(context.watch<HomePageProvider>().MyList.length.toString());
+    RemindersList.addDefaultList();
     return Scaffold(
       backgroundColor: Colors.grey.shade100,
       body: SafeArea(
-        child: Column(
+
+       child: ListView(
+         shrinkWrap: true,
+          scrollDirection: Axis.vertical,
           children: [
             searchBar(),
             GridView(
@@ -33,24 +44,36 @@ class B10HomeScreen extends StatelessWidget {
                   childAspectRatio: 2.2,
                 ),
                 children: [
-                  gridViewItem(
-                      Icon(
-                        Icons.today,
-                        size: ScreenUtil().setSp(22),
-                        color: Colors.white,
-                      ),
-                      Colors.blue,
-                      'Today',
-                      context.watch<Reminder>().l1),
-                  gridViewItem(
-                      Icon(
-                        Icons.calendar_today_sharp,
-                        size: ScreenUtil().setSp(22),
-                        color: Colors.white,
-                      ),
-                      Colors.red,
-                      'Scheduled',
-                      context.watch<Reminder>().l2),
+                  GestureDetector(
+                    onTap: ()=>  Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => TodayList(),
+                        )),
+                    child: gridViewItem(
+                        Icon(
+                          Icons.today,
+                          size: ScreenUtil().setSp(22),
+                          color: Colors.white,
+                        ),
+                        Colors.blue,
+                        'Today',
+                        context.watch<HomePageProvider>().l1),
+                  ),
+                  GestureDetector(
+                    onTap: ()=> Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) =>ScheduledList(),
+                        )),
+                    child: gridViewItem(
+                        Icon(
+                          Icons.calendar_today_sharp,
+                          size: ScreenUtil().setSp(22),
+                          color: Colors.white,
+                        ),
+                        Colors.red,
+                        'Scheduled',
+                        context.watch<HomePageProvider>().l2),
+                  ),
                 ]),
             Padding(
               padding: EdgeInsets.only(
@@ -59,15 +82,21 @@ class B10HomeScreen extends StatelessWidget {
                 right: ScreenUtil().setWidth(10),
                 bottom: ScreenUtil().setHeight(10),
               ),
-              child: gridViewItem(
-                  Icon(
-                    Icons.format_align_left,
-                    size: ScreenUtil().setSp(22),
-                    color: Colors.white,
-                  ),
-                  Colors.grey,
-                  'All',
-                  context.watch<Reminder>().l3),
+              child: GestureDetector(
+                onTap: ()=>   Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => AllRemindersList(),
+                  )),
+                child: gridViewItem(
+                    Icon(
+                      Icons.format_align_left,
+                      size: ScreenUtil().setSp(22),
+                      color: Colors.white,
+                    ),
+                    Colors.grey,
+                    'All',
+                    context.watch<HomePageProvider>().l3),
+              ),
             ),
             Padding(
                 padding: EdgeInsets.only(
@@ -91,7 +120,14 @@ class B10HomeScreen extends StatelessWidget {
                 right: ScreenUtil().setWidth(10),
                 bottom: ScreenUtil().setHeight(5),
               ),
-              child: Container(
+              child:
+              ListView.builder(
+                      scrollDirection: Axis.vertical,
+                      shrinkWrap: true,
+                      itemCount: context.watch<HomePageProvider>().MyList.length,
+                      itemBuilder: (context, index) {
+                        return Container(
+                          margin: EdgeInsets.all(ScreenUtil().setWidth(10)),
                 padding: EdgeInsets.all(ScreenUtil().setWidth(10)),
                 decoration: BoxDecoration(
                     color: Colors.white,
@@ -122,7 +158,7 @@ class B10HomeScreen extends StatelessWidget {
                       child: Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          'Reminders',
+                          context.watch<HomePageProvider>().MyList[index]['name'],
                           // textAlign: TextAlign.left,
                           style: TextStyle(
                               fontSize: ScreenUtil().setSp(15),
@@ -132,9 +168,9 @@ class B10HomeScreen extends StatelessWidget {
                       ),
                     ),
                     Expanded(
-                        flex: 1,
+                        flex: 2,
                         child: Text(
-                          '${context.watch<Reminder>().allReminder.length}',
+                          '${context.watch<HomePageProvider>().MyList[index]['count']}',
                           textAlign: TextAlign.right,
                           style: TextStyle(
                               fontSize: ScreenUtil().setSp(15),
@@ -150,11 +186,17 @@ class B10HomeScreen extends StatelessWidget {
                         )),
                   ],
                 ),
+
+                        );}
               ),
             )
           ],
         ),
+         // CreateNewReminder(),
+
+
       ),
+
       bottomNavigationBar: bottomBar(context),
     );
   }
@@ -252,6 +294,45 @@ class B10HomeScreen extends StatelessWidget {
   }
 
   Widget bottomBar(BuildContext context) {
+    //int value;
+    final item = Provider.of<HomePageProvider>(context);
+    final AlertDialog addListDialog = AlertDialog(
+      title: Text('Add New List', style: TextStyle(
+        color: Colors.black,
+        fontSize: ScreenUtil().setSp(20)
+      ),),
+      content:  TextField(
+         controller: textName,
+        maxLines: 1,
+        textCapitalization: TextCapitalization.sentences,
+        textAlign: TextAlign.start,
+        decoration: InputDecoration(
+          hintText: 'Title',
+          hintStyle: TextStyle(
+              fontSize: ScreenUtil().setSp(15),
+              fontFamily: 'MS',
+              fontWeight: FontWeight.w500,
+              color: Colors.grey),
+          // enabled: false,
+          //   border: InputBorder.none,
+        ),
+      ),
+      actions: [
+        FlatButton(
+          textColor: Colors.blue,
+          onPressed: () {Navigator.pop(context);},
+          child: Text('Cancel'),
+        ),
+        FlatButton(
+          textColor: Colors.blue,
+          onPressed: () {
+            RemindersList.addList(textName.value.text);
+            Navigator.pop(context);
+          },
+          child: Text('Add'),
+        ),
+      ],
+    );
     return Container(
       padding: EdgeInsets.all(ScreenUtil().setWidth(15)),
       child: Row(
@@ -260,22 +341,15 @@ class B10HomeScreen extends StatelessWidget {
               flex: 3,
               child: GestureDetector(
                   onTap: () async
-                  { await Navigator.push(
-                      context,
-                      MaterialPageRoute<void>(
-                        builder: (BuildContext context) =>
-                            MultiProvider(
-                              providers: [
-                                ChangeNotifierProvider(
-                                  create: (context) => Reminder(),
-                                )
-                              ],
-                              child: CreateNewReminder(),
-                            ),
-                        //    fullscreenDialog: true,
-                      )
-                  ).whenComplete(()=> context.read<Reminder>().update() );
-
+                  {await Navigator.pushNamed(context, RouteList.createNewScreen)
+                      .whenComplete(()=>
+                      item.update()) ;
+                // log(value.toString());
+             /*         setState(() async {
+                    await{ index=1};
+                       await context.read<HomePageProvider>().update(value);
+                       index=0;
+                      });*/
                   },
                   child: Row(children: [
                     Container(
@@ -302,6 +376,9 @@ class B10HomeScreen extends StatelessWidget {
                   ]))),
           Expanded(
               child: GestureDetector(
+                onTap: ()=>{ showDialog(context: context, builder: (context)=>addListDialog),
+                context.read<HomePageProvider>().update()
+                },
             child: Text(
               'Add List',
               textAlign: TextAlign.right,
