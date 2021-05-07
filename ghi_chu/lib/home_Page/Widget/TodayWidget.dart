@@ -9,15 +9,19 @@ import 'package:ghi_chu/common/constants/route_constants.dart';
 
 import '../ProviderHomePage.dart';
 class todayWidget extends StatelessWidget {
+  var data;
+
+  todayWidget(this.data);
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: (){
-        Navigator.pushNamed(context, RouteList.todayPage);
+        Navigator.pushNamed(context, data['push']);
       },
       child: Container(
         margin: EdgeInsets.only(top: ScreenUtil().setHeight(30)),
-        width: ScreenUtil().setWidth(180),
+        // width: ScreenUtil().setWidth(180),
         height: ScreenUtil().setHeight(110),
         decoration: BoxDecoration(
             color: Colors.white,
@@ -40,15 +44,15 @@ class todayWidget extends StatelessWidget {
                         color: Colors.blue,
                         shape: BoxShape.circle
                     ),
-                    child: Icon(Icons.calendar_today,color: Colors.white,size: ScreenUtil().setSp(25),),
+                    child: Icon(data['icons'],color: Colors.white,size: ScreenUtil().setSp(25),),
                   ),
-                  Text('${context.watch<providerhomePage>().leghttoday}',style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: ScreenUtil().setSp(37)),)
+                 data['sum']
                 ],
               ),
               Expanded(
                 child: Align(
                     alignment: Alignment.bottomLeft,
-                    child: Text('To day',style: TextStyle(color: Colors.black45,fontSize: ScreenUtil().setSp(15),fontWeight: FontWeight.w700),)),
+                    child: Text(data['title'],style: TextStyle(color: Colors.black45,fontSize: ScreenUtil().setSp(15),fontWeight: FontWeight.w700),)),
               )
             ],
           ),

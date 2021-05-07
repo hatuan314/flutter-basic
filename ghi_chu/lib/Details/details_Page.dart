@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/screen_util.dart';
@@ -54,9 +55,10 @@ class _detailsPageState extends State<detailsPage> {
             child: GestureDetector(
               onTap: switchdate.moDel[0]['button']
                   ? () {
-                // set lại date and time
+                      // set lại date and time
                       try {
-                        providerReminder.getluestime[0]['date'] = switchdate.getdataTime;
+                        providerReminder.getluestime[0]['date'] =
+                            switchdate.getdataTime;
                       } catch (_) {
                         if (switchdate.gettime) {
                           providerReminder.getluestime = [
@@ -78,6 +80,7 @@ class _detailsPageState extends State<detailsPage> {
                           context,
                           switchdate.moDel[0]['title'],
                           switchdate.moDel[0]['note']);
+                      Navigator.pop(context);
                     }
                   : null,
               child: Text(
