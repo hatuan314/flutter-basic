@@ -24,10 +24,11 @@ List MyList=[];
     l2 = RemindersList.scheduledReminders.length;
     l3 = RemindersList.allReminders.length;
     MyList=RemindersList.MyList;
-    log(MyList.length.toString()+"______________");
+   // log(MyList.length.toString()+"______________");
     for (int j=0;j<RemindersList.MyList.length;j++)
     {
         MyList[j]['count']=0;
+        MyList[j]['list']=[];
     }
     for(int i=0;i<RemindersList.allReminders.length;i++)
       {
@@ -36,8 +37,11 @@ List MyList=[];
             if(RemindersList.allReminders[i]['list']==MyList[j]['name'])
               {
                 MyList[j]['count']++;
+                MyList[j]['list'].add(i);
               }
+            log(MyList[j]['list'].toString());
           }
+
       }
    // log(value.toString());
     log(l3.toString() + "))))))))))))))))");

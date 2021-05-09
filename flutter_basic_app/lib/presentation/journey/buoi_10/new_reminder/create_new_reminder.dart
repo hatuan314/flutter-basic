@@ -17,51 +17,48 @@ class CreateNewReminder extends StatelessWidget {
   var details;
   @override
   Widget build(BuildContext context) {
-    final item = Provider.of<ReminderProvider>(context,listen: false);
-final SimpleDialog listDialog = SimpleDialog(
-    contentPadding: EdgeInsets.only(
-      bottom: ScreenUtil().setHeight(10),
-      top: ScreenUtil().setHeight(10),
-      left: ScreenUtil().setWidth(20),
-      right: ScreenUtil().setWidth(20),
-    ),
-    title: Text(
-      'List',
-      style: TextStyle(
-          fontSize: ScreenUtil().setSp(15),
-          fontWeight: FontWeight.w700,
-          color: Colors.black),
-    ),
-    children: [
-Container(
-    height: ScreenUtil().screenWidth-20,
-width:ScreenUtil().screenWidth-20,
-child:
-ListView.builder(
-scrollDirection: Axis.vertical,
-    shrinkWrap: true,
-    itemCount: RemindersList.MyList.length,
-    itemBuilder: (context, index) {
-      return
-    GestureDetector(
-    onTap: () => {item.setList(RemindersList.MyList[index]['name']),
-    Navigator.pop(context)},
-    child: Container(
-
-    margin: EdgeInsets.all(ScreenUtil().setHeight(10)),
-    child: Text(
-      RemindersList.MyList[index]['name'],
-    style: TextStyle(
-    fontSize: ScreenUtil().setSp(15),
-    fontWeight: FontWeight.w500,
-    color: Colors.black),
-    ),
-    ),
-    );}
-      )
-)
-    ]
-);
+    final item = Provider.of<ReminderProvider>(context, listen: false);
+    final SimpleDialog listDialog = SimpleDialog(
+        contentPadding: EdgeInsets.only(
+          bottom: ScreenUtil().setHeight(10),
+          top: ScreenUtil().setHeight(10),
+          left: ScreenUtil().setWidth(20),
+          right: ScreenUtil().setWidth(20),
+        ),
+        title: Text(
+          'List',
+          style: TextStyle(
+              fontSize: ScreenUtil().setSp(15),
+              fontWeight: FontWeight.w700,
+              color: Colors.black),
+        ),
+        children: [
+          Container(
+              height: ScreenUtil().screenWidth - 20,
+              width: ScreenUtil().screenWidth - 20,
+              child: ListView.builder(
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  itemCount: RemindersList.MyList.length,
+                  itemBuilder: (context, index) {
+                    return GestureDetector(
+                      onTap: () => {
+                        item.setList(RemindersList.MyList[index]['name']),
+                        Navigator.pop(context)
+                      },
+                      child: Container(
+                        margin: EdgeInsets.all(ScreenUtil().setHeight(10)),
+                        child: Text(
+                          RemindersList.MyList[index]['name'],
+                          style: TextStyle(
+                              fontSize: ScreenUtil().setSp(15),
+                              fontWeight: FontWeight.w500,
+                              color: Colors.black),
+                        ),
+                      ),
+                    );
+                  }))
+        ]);
     return SafeArea(
       child: Scaffold(
         appBar: _appBar(context),
@@ -88,7 +85,6 @@ scrollDirection: Axis.vertical,
                           title = value,
                           //  log(title),
                         },
-
                         decoration: InputDecoration(
                           hintText: 'Title',
                           hintStyle: TextStyle(
@@ -102,7 +98,7 @@ scrollDirection: Axis.vertical,
                       ),
                       TextField(
                         // controller: textTitle,
-                        maxLines: 3,
+                        maxLines: 5,
                         textCapitalization: TextCapitalization.sentences,
                         textAlign: TextAlign.start,
                         onChanged: (value) => {
@@ -136,9 +132,10 @@ scrollDirection: Axis.vertical,
                       borderRadius: BorderRadius.circular(10)),
                   child: GestureDetector(
                     onTap: () async => {
-                       details=await Navigator.pushNamed(context, RouteList.detailsScreen),
-                      log(details.toString()),
-                        context.read<ReminderProvider>().setDetails(details),
+                      details = await Navigator.pushNamed(
+                          context, RouteList.detailsScreen),
+                   //   log(details.toString()),
+                      context.read<ReminderProvider>().setDetails(details),
                     },
                     child: Padding(
                       padding: EdgeInsets.all(ScreenUtil().setHeight(8.0)),
@@ -171,7 +168,8 @@ scrollDirection: Axis.vertical,
                   ScreenUtil().setWidth(10),
                 ),
                 child: GestureDetector(
-                  onTap: ()=> showDialog(context: context, builder: (context)=> listDialog),
+                  onTap: () => showDialog(
+                      context: context, builder: (context) => listDialog),
                   child: Container(
                     padding: EdgeInsets.all(ScreenUtil().setWidth(7)),
                     decoration: BoxDecoration(
@@ -193,14 +191,12 @@ scrollDirection: Axis.vertical,
                           ),
                           Expanded(
                             flex: 3,
-
                             child: Text(item.list,
                                 textAlign: TextAlign.right,
                                 style: TextStyle(
                                   fontSize: ScreenUtil().setSp(12.5),
                                   color: Colors.grey,
                                 )),
-
                           ),
                           Expanded(
                               flex: 1,
@@ -219,10 +215,9 @@ scrollDirection: Axis.vertical,
       ),
     );
   }
- // Widget detailsDialog(BuildContext context) {
+  // Widget detailsDialog(BuildContext context) {
 
-
- // }
+  // }
 
   Widget _appBar(BuildContext context) {
     final item = Provider.of<ReminderProvider>(context);
@@ -257,12 +252,16 @@ scrollDirection: Axis.vertical,
         GestureDetector(
           child: GestureDetector(
             onTap: () => {
-
-RemindersList().addReminder(item.title, item.notes,item.list,item.details!=null?item.details['date']:'',item.details!=null?item.details['time']:'',item.details!=null?item.details['priority']:''),
-             // log(value.toString()+'***********'),
-           Navigator.pop(context )
-
-  },
+              RemindersList().addReminder(
+                  item.title,
+                  item.notes,
+                  item.list,
+                  item.details != null ? item.details['date'] : '',
+                  item.details != null ? item.details['time'] : '',
+                  item.details != null ? item.details['priority'] : ''),
+              // log(value.toString()+'***********'),
+              Navigator.pop(context)
+            },
             child: Container(
               //color: Colors.blue,
               width: ScreenUtil().screenWidth / 6,

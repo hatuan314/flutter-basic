@@ -3,11 +3,13 @@ import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_basic_app/common/constants/route_constants.dart';
-import 'package:flutter_basic_app/presentation/journey/buoi_10/all_list_screen.dart';
+import 'package:flutter_basic_app/presentation/journey/buoi_10/list_screen/all_list_screen.dart';
+import 'package:flutter_basic_app/presentation/journey/buoi_10/list_screen/list_screen.dart';
+import 'package:flutter_basic_app/presentation/journey/buoi_10/list_screen/scheduled_list_screen.dart';
+import 'package:flutter_basic_app/presentation/journey/buoi_10/list_screen/todaylist_screen.dart';
 import 'package:flutter_basic_app/presentation/journey/buoi_10/new_reminder/create_new_reminder.dart';
 import 'package:flutter_basic_app/presentation/journey/buoi_10/reminder_provider.dart';
-import 'package:flutter_basic_app/presentation/journey/buoi_10/scheduled_list_screen.dart';
-import 'package:flutter_basic_app/presentation/journey/buoi_10/todaylist_screen.dart';
+
 import 'package:provider/provider.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/screen_util.dart';
@@ -15,7 +17,10 @@ import 'package:flutter_screenutil/screen_util.dart';
 import '../reminders_list.dart';
 import 'homepage_provider.dart';
 
-class B10HomeScreen extends StatelessWidget{
+class B10HomeScreen extends StatefulWidget {
+  State<StatefulWidget> createState() => _B10HomeScreen();
+}
+class _B10HomeScreen extends State<B10HomeScreen> {
   final TextEditingController textName = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -126,8 +131,11 @@ class B10HomeScreen extends StatelessWidget{
                       shrinkWrap: true,
                       itemCount: context.watch<HomePageProvider>().MyList.length,
                       itemBuilder: (context, index) {
-                        return Container(
-                          margin: EdgeInsets.all(ScreenUtil().setWidth(10)),
+                        return GestureDetector(
+                          onTap: ()=> Navigator.push(context,  MaterialPageRoute(builder: (context) => listScreen(context,index),
+                          )),
+                          child: Container(
+                            margin: EdgeInsets.all(ScreenUtil().setWidth(10)),
                 padding: EdgeInsets.all(ScreenUtil().setWidth(10)),
                 decoration: BoxDecoration(
                     color: Colors.white,
@@ -137,56 +145,57 @@ class B10HomeScreen extends StatelessWidget{
                     Expanded(
                       flex: 4,
                       child: Align(
-                        alignment: Alignment.topLeft,
-                        child: Container(
-                          // alignment: Alignment.topLeft,
-                          padding: EdgeInsets.all(ScreenUtil().setWidth(5)),
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Colors.blue,
+                          alignment: Alignment.topLeft,
+                          child: Container(
+                            // alignment: Alignment.topLeft,
+                            padding: EdgeInsets.all(ScreenUtil().setWidth(5)),
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.blue,
+                            ),
+                            child: Icon(
+                              Icons.list,
+                              size: ScreenUtil().setSp(22),
+                              color: Colors.white,
+                            ),
                           ),
-                          child: Icon(
-                            Icons.list,
-                            size: ScreenUtil().setSp(22),
-                            color: Colors.white,
-                          ),
-                        ),
                       ),
                     ),
                     Expanded(
                       flex: 22,
                       child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          context.watch<HomePageProvider>().MyList[index]['name'],
-                          // textAlign: TextAlign.left,
-                          style: TextStyle(
-                              fontSize: ScreenUtil().setSp(15),
-                              color: Colors.black,
-                              fontWeight: FontWeight.w500),
-                        ),
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            context.watch<HomePageProvider>().MyList[index]['name'],
+                            // textAlign: TextAlign.left,
+                            style: TextStyle(
+                                fontSize: ScreenUtil().setSp(15),
+                                color: Colors.black,
+                                fontWeight: FontWeight.w500),
+                          ),
                       ),
                     ),
                     Expanded(
-                        flex: 2,
-                        child: Text(
-                          '${context.watch<HomePageProvider>().MyList[index]['count']}',
-                          textAlign: TextAlign.right,
-                          style: TextStyle(
-                              fontSize: ScreenUtil().setSp(15),
-                              color: Colors.grey,
-                              fontWeight: FontWeight.w600),
-                        )),
+                          flex: 2,
+                          child: Text(
+                            '${context.watch<HomePageProvider>().MyList[index]['count']}',
+                            textAlign: TextAlign.right,
+                            style: TextStyle(
+                                fontSize: ScreenUtil().setSp(15),
+                                color: Colors.grey,
+                                fontWeight: FontWeight.w600),
+                          )),
                     Expanded(
-                        flex: 1,
-                        child: Icon(
-                          Icons.arrow_forward_ios_rounded,
-                          size: ScreenUtil().setSp(15),
-                          color: Colors.grey,
-                        )),
+                          flex: 1,
+                          child: Icon(
+                            Icons.arrow_forward_ios_rounded,
+                            size: ScreenUtil().setSp(15),
+                            color: Colors.grey,
+                          )),
                   ],
                 ),
 
+                          ),
                         );}
               ),
             )
@@ -307,7 +316,7 @@ class B10HomeScreen extends StatelessWidget{
         textCapitalization: TextCapitalization.sentences,
         textAlign: TextAlign.start,
         decoration: InputDecoration(
-          hintText: 'Title',
+          hintText: 'Name',
           hintStyle: TextStyle(
               fontSize: ScreenUtil().setSp(15),
               fontFamily: 'MS',
@@ -327,6 +336,7 @@ class B10HomeScreen extends StatelessWidget{
           textColor: Colors.blue,
           onPressed: () {
             RemindersList.addList(textName.value.text);
+            context.read<HomePageProvider>().update();
             Navigator.pop(context);
           },
           child: Text('Add'),
@@ -344,12 +354,6 @@ class B10HomeScreen extends StatelessWidget{
                   {await Navigator.pushNamed(context, RouteList.createNewScreen)
                       .whenComplete(()=>
                       item.update()) ;
-                // log(value.toString());
-             /*         setState(() async {
-                    await{ index=1};
-                       await context.read<HomePageProvider>().update(value);
-                       index=0;
-                      });*/
                   },
                   child: Row(children: [
                     Container(
@@ -377,7 +381,7 @@ class B10HomeScreen extends StatelessWidget{
           Expanded(
               child: GestureDetector(
                 onTap: ()=>{ showDialog(context: context, builder: (context)=>addListDialog),
-                context.read<HomePageProvider>().update()
+                setState(()=>context.read<HomePageProvider>().update())
                 },
             child: Text(
               'Add List',
@@ -392,4 +396,7 @@ class B10HomeScreen extends StatelessWidget{
       ),
     );
   }
+
+ // @override
+
 }
