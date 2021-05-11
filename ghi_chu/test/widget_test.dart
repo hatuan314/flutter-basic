@@ -7,6 +7,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:ghi_chu/app.dart';
 
 import 'package:ghi_chu/main.dart';
 

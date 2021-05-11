@@ -6,4 +6,6 @@ class RouteList {
   static const String todayPage='/todayPage';
  static const String reminders='/reminders';
  static const String scheduled='/scheduled';
+ static const String newList='/newlist';
+ static const String listReminderPage='/listReminderpage';
 }

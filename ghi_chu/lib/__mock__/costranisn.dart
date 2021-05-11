@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/screen_util.dart';
-import 'package:ghi_chu/common/constants/route_constants.dart';
-import 'package:ghi_chu/home_Page/ProviderHomePage.dart';
-import 'package:ghi_chu/model/reminder.dart';
-import 'package:provider/provider.dart';
 
-class constHomePage {
+import 'package:ghi_chu/common/constants/route_constants.dart';
+
+
+class ConstHomePage {
+  static List listColors=[Colors.red,Colors.deepOrangeAccent,Colors.yellow,Colors.green,Colors.blue,Colors.purple,Colors.brown];
  static List list=[
     {
       'icons': Icons.calendar_today,
