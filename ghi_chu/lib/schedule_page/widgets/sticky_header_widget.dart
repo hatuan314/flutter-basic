@@ -9,8 +9,7 @@ import 'package:intl/intl.dart';
 class StickyHeaderWidget extends StatelessWidget {
   String title;
 
-  StickyHeaderWidget({Key key, this.title})
-      : super(key: key);
+  StickyHeaderWidget({Key key, this.title}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return StickyHeader(
@@ -45,6 +44,9 @@ class StickyHeaderWidget extends StatelessWidget {
                           : ModelListReminder.listReminder.values
                               .elementAt(index)['${title}']
                               .length, (index1) {
+                    List<Reminder> reminder = ModelListReminder
+                        .listReminder.values
+                        .elementAt(index)['${title}'];
                     return Row(
                       children: [
                         Icon(Icons.check_circle_outline_outlined),
@@ -63,7 +65,7 @@ class StickyHeaderWidget extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                '${ModelListReminder.listReminder.values.elementAt(index)['${title}'][index1].title}',
+                                '${reminder[index1].title}',
                                 style: TextStyle(
                                     color: Colors.black,
                                     fontSize: ScreenUtil().setSp(16)),
@@ -74,18 +76,15 @@ class StickyHeaderWidget extends StatelessWidget {
                               Row(
                                 children: [
                                   Text(
-                                    '${ModelListReminder.listReminder.values.elementAt(index)['${title}'][index1].group}',
+                                    '${reminder[index1].group}',
                                     style: TextStyle(
                                         color: Colors.black45,
                                         fontSize: ScreenUtil().setSp(14)),
                                   ),
                                   Visibility(
-                                      visible: ModelListReminder
-                                          .listReminder.values
-                                          .elementAt(index)['${title}'][index1]
-                                          .time,
+                                      visible: reminder[index1].time,
                                       child: Text(
-                                        ' - ${DateFormat('HH:mm').format(DateTime.fromMillisecondsSinceEpoch(ModelListReminder.listReminder.values.elementAt(index)['${title}'][index1].date))}',
+                                        ' - ${DateFormat('HH:mm').format(DateTime.fromMillisecondsSinceEpoch(reminder[index1].date))}',
                                         style: TextStyle(
                                             color: Colors.red,
                                             fontSize: ScreenUtil().setSp(14)),
@@ -93,11 +92,7 @@ class StickyHeaderWidget extends StatelessWidget {
                                 ],
                               ),
                               Visibility(
-                                  visible: ModelListReminder.listReminder.values
-                                              .elementAt(index)['${title}']
-                                                  [index1]
-                                              .note ==
-                                          ''
+                                  visible: reminder[index1].note == ''
                                       ? false
                                       : true,
                                   child: Column(
@@ -106,7 +101,7 @@ class StickyHeaderWidget extends StatelessWidget {
                                         height: ScreenUtil().setHeight(5),
                                       ),
                                       Text(
-                                        '${ModelListReminder.listReminder.values.elementAt(index)['${title}'][index1].note}',
+                                        '${reminder[index1].note}',
                                         style: TextStyle(
                                             color: Colors.black45,
                                             fontSize: ScreenUtil().setSp(14)),

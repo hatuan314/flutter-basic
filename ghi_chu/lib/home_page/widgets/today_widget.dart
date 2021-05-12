@@ -8,9 +8,7 @@ import 'package:flutter_screenutil/screen_util.dart';
 
 class TodayWidget extends StatelessWidget {
   var data;
-
   TodayWidget(this.data);
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(

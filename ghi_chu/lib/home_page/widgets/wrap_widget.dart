@@ -16,7 +16,7 @@ class WrapWidget extends StatelessWidget {
       maintainState: true,
       child: AnimatedOpacity(
         opacity: context.watch<ProviderHomePage>().edit?1:0,
-        duration: Duration(milliseconds: 100),
+        duration: Duration(milliseconds: 500),
         child: Wrap(
             spacing: 20,
             children: List.generate(3, (index) {

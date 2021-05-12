@@ -1,11 +1,12 @@
-
 import 'dart:ui';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screen_util.dart';
 import 'package:ghi_chu/__mock__/costranisn.dart';
 import 'package:ghi_chu/common/constants/route_constants.dart';
 import 'package:ghi_chu/home_page/provider_home_page.dart';
 import 'package:ghi_chu/home_page/widgets/edit_home_page.dart';
+
 import 'package:ghi_chu/home_page/widgets/my_list_widget.dart';
 import 'package:ghi_chu/home_page/widgets/search.dart';
 import 'package:ghi_chu/home_page/widgets/wrap_widget.dart';
@@ -40,12 +41,14 @@ class _State extends State<HomePage> {
                       ConstHomePage.list[i]['sum'] = ProviderToday().getToday();
                     } else if (ConstHomePage.list[i]['title'] == 'Scheduled') {
                       ConstHomePage.list[i]['sum'] =
-                        ProviderSchedule().getKey();
+                          ProviderSchedule().getKey();
                     } else if (ConstHomePage.list[i]['title'] == 'All') {
-                      ConstHomePage.list[i]['sum'] = Provider.of<ProviderHomePage>(context,listen: false).leghtAll;
+                      ConstHomePage.list[i]['sum'] =
+                          Provider.of<ProviderHomePage>(context, listen: false)
+                              .leghtAll;
                     }
                   }
-                  setState(() {});
+                  context.read<ProviderHomePage>().update();
                 });
               },
               child: Container(
@@ -71,9 +74,10 @@ class _State extends State<HomePage> {
               ),
             ),
             GestureDetector(
-              onTap: (){
+              onTap: () {
                 Navigator.pushNamed(context, RouteList.newList).then((value) {
-                  context.read<ProviderHomePage>().update();
+                  context.read<ProviderHomePage>().addList();
+                  context.read<ProviderHomePage>().setLeght();
                 });
               },
               child: Text(
@@ -94,17 +98,17 @@ class _State extends State<HomePage> {
             padding: EdgeInsets.only(right: ScreenUtil().setWidth(10)),
             child: Center(
                 child: GestureDetector(
-                  onTap: (){
-                    context.read<ProviderHomePage>().setedit();
-                  },
-                  child: Text(
-              context.watch<ProviderHomePage>().edit?'Edit':'Done',
-              style: TextStyle(
+              onTap: () {
+                context.read<ProviderHomePage>().setedit();
+              },
+              child: Text(
+                context.watch<ProviderHomePage>().edit ? 'Edit' : 'Done',
+                style: TextStyle(
                     color: Colors.blue,
                     fontWeight: FontWeight.w600,
                     fontSize: ScreenUtil().setHeight(18)),
-            ),
-                )),
+              ),
+            )),
           )
         ],
       ),
@@ -117,18 +121,19 @@ class _State extends State<HomePage> {
             children: [
               SearchWidget(),
               AnimatedContainer(
-                duration: Duration(milliseconds: 200),
-                margin: EdgeInsets.only(bottom: ScreenUtil().setHeight(10)),
-                width: ScreenUtil().screenWidth,
-                height: context.watch<ProviderHomePage>().edit?ScreenUtil().setHeight(280):ScreenUtil().setHeight(220),
-                color: Colors.transparent,
-                child: Stack(
-                  children: [
-                    WrapWidget(),
-                    EditWidget(),
-                  ],
-                )
-              ),
+                  duration: Duration(milliseconds: 200),
+                  margin: EdgeInsets.only(bottom: ScreenUtil().setHeight(10)),
+                  width: ScreenUtil().screenWidth,
+                  height: context.watch<ProviderHomePage>().edit
+                      ? ScreenUtil().setHeight(280)
+                      : ScreenUtil().setHeight(220),
+                  color: Colors.transparent,
+                  child: Stack(
+                    children: [
+                      WrapWidget(),
+                      EditWidget(),
+                    ],
+                  )),
               SizedBox(
                 height: ScreenUtil().setHeight(10),
               ),
@@ -142,11 +147,43 @@ class _State extends State<HomePage> {
                       fontSize: ScreenUtil().setSp(20)),
                 ),
               ),
-            Column(
-              children: List.generate(ModelListReminder.myList.length, (index){
-                return MyListWiget(title: ModelListReminder.myList.keys.elementAt(index),color:ModelListReminder.myList['${ModelListReminder.myList.keys.elementAt(index)}'].color,);
-              }),
-            )
+              SizedBox(
+                height: ScreenUtil().setHeight(10),
+              ),
+              Container(
+                width: ScreenUtil().screenWidth,
+                height: ModelListReminder.myList.length *
+                    ScreenUtil().setHeight(50),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  color: Colors.white,
+                ),
+                child: ReorderableListView.builder(
+                  physics: NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) {
+                      return MyListWiget(
+                        title: Provider.of<ProviderHomePage>(context,
+                                listen: false)
+                            .keyMyList[index],
+                        color: ModelListReminder
+                            .myList[
+                                '${ModelListReminder.myList.keys.elementAt(index)}']
+                            .color,
+                        index: index,
+                        key: Key("${index}"),
+                      );
+                    },
+                    itemCount: ModelListReminder.myList.length,
+                    onReorder: (int oldIndex, int newIndex) {
+                      context.read<ProviderHomePage>().setlist();
+                      if (oldIndex < newIndex) {
+                        newIndex -= 1;
+                      }
+                      var item =Provider.of<ProviderHomePage>(context,listen: false).keyMyList.removeAt(oldIndex);
+                      Provider.of<ProviderHomePage>(context,listen: false).keyMyList.insert(newIndex, item);
+                    }),
+              )
             ],
           ),
         ),

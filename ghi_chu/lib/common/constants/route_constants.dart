@@ -8,4 +8,5 @@ class RouteList {
  static const String scheduled='/scheduled';
  static const String newList='/newlist';
  static const String listReminderPage='/listReminderpage';
+ static const String myListPage='/myListPage';
 }

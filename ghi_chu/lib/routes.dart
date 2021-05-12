@@ -1,5 +1,4 @@
 
-
 import 'package:flutter/material.dart';
 import 'package:ghi_chu/all_page/all_page.dart';
 import 'package:ghi_chu/common/constants/route_constants.dart';
@@ -9,6 +8,7 @@ import 'package:ghi_chu/home_page/home_page.dart';
 import 'package:ghi_chu/home_page/provider_home_page.dart';
 import 'package:ghi_chu/list_reminder/list_reminder.dart';
 import 'package:ghi_chu/list_reminder/prrovider_list_reminder_page.dart';
+import 'package:ghi_chu/my_list_page/my_list_page.dart';
 import 'package:ghi_chu/new_list/new_list.dart';
 import 'package:ghi_chu/new_list/provider_new_list.dart';
 import 'package:ghi_chu/new_reminder/new_reminder_page.dart';
@@ -67,7 +67,8 @@ class Routes {
             ChangeNotifierProvider(create: (_)=>ProviderListReminderPage())
           ],
         child: ListReminderPage(),
-      )
+      ),
+      RouteList.myListPage:(context)=>MyListPage()
     };
   }
 }

@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:ghi_chu/model/reminder.dart';
 import 'package:sticky_headers/sticky_headers.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -40,7 +41,7 @@ class StickyHeaderAll extends StatelessWidget {
                 return Column(
                     children: List.generate(
                         conTent.values.elementAt(index1).length, (index) {
-                  // Text('${conTent.values.elementAt(index1)[index].title}')
+                  List<Reminder> reminder = conTent.values.elementAt(index1);
                   return Row(
                     children: [
                       Icon(Icons.check_circle_outlined),
@@ -58,42 +59,29 @@ class StickyHeaderAll extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              '${conTent.values.elementAt(index1)[index].title}',
+                              '${reminder[index].title}',
                               style: TextStyle(
                                   color: Colors.black,
                                   fontSize: ScreenUtil().setSp(17)),
                             ),
                             Visibility(
-                                visible: conTent.values
-                                            .elementAt(index1)[index]
-                                            .date ==
-                                        null
-                                    ? false
-                                    : true,
-                                child: Text(conTent.values
-                                            .elementAt(index1)[index]
-                                            .date ==
-                                        null
+                                visible:
+                                    reminder[index].date == null ? false : true,
+                                child: Text(reminder[index].date == null
                                     ? ''
-                                    : conTent.values
-                                            .elementAt(index1)[index]
-                                            .time
-                                        ? '${DateFormat('HH:mm,dd/MM/yyyy').format(DateTime.fromMillisecondsSinceEpoch(conTent.values.elementAt(index1)[index].date))}'
-                                        : '${DateFormat('dd/MM/yyyy').format(DateTime.fromMillisecondsSinceEpoch(conTent.values.elementAt(index1)[index].date))}')),
+                                    : reminder[index].time
+                                        ? '${DateFormat('HH:mm,dd/MM/yyyy').format(DateTime.fromMillisecondsSinceEpoch(reminder[index].date))}'
+                                        : '${DateFormat('dd/MM/yyyy').format(DateTime.fromMillisecondsSinceEpoch(reminder[index].date))}')),
                             Visibility(
-                                visible: conTent.values
-                                            .elementAt(index1)[index]
-                                            .note ==
-                                        ''
-                                    ? false
-                                    : true,
+                                visible:
+                                    reminder[index].note == '' ? false : true,
                                 child: Column(
                                   children: [
                                     SizedBox(
                                       height: ScreenUtil().setHeight(7),
                                     ),
                                     Text(
-                                      '${conTent.values.elementAt(index1)[index].note}',
+                                      '${reminder[index].note}',
                                       style: TextStyle(
                                           color: Colors.black,
                                           fontSize: ScreenUtil().setSp(13)),
