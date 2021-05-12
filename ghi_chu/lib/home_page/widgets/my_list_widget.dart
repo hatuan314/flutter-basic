@@ -126,7 +126,7 @@ class MyListWiget extends StatelessWidget {
               ),
             ),
             Visibility(
-              visible: context.watch<ProviderHomePage>().edit,
+              visible: !context.watch<ProviderHomePage>().edit,
               child: GestureDetector(
                 onTap: () {
                   if (title == 'Reminder') {
