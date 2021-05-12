@@ -54,7 +54,18 @@ class _newReminderPageState extends State<NewReminderPage> {
               onTap: context.watch<ProviderReminder>().button
                   ? () {
                       ProviderReminder().addTodoList(
-                          context, titleController.text, noteController.text,Provider.of<ProviderReminder>(context,listen: false).valuesTime,Provider.of<ProviderReminder>(context,listen: false).group,'none',DateTime.now().millisecondsSinceEpoch,DateTime.now().millisecondsSinceEpoch,Provider.of<ProviderReminder>(context,listen: false).timeDetails);
+                          context,
+                          titleController.text,
+                          noteController.text,
+                          Provider.of<ProviderReminder>(context, listen: false)
+                              .valuesTime,
+                          Provider.of<ProviderReminder>(context, listen: false)
+                              .group,
+                          'none',
+                          DateTime.now().millisecondsSinceEpoch,
+                          DateTime.now().millisecondsSinceEpoch,
+                          Provider.of<ProviderReminder>(context, listen: false)
+                              .timeDetails);
                     }
                   : null,
               child: Text(
@@ -95,6 +106,4 @@ class _newReminderPageState extends State<NewReminderPage> {
       ),
     );
   }
-
-
 }

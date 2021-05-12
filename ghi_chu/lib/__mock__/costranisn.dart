@@ -8,7 +8,7 @@ class ConstHomePage {
  static List list=[
     {
       'icons': Icons.calendar_today,
-      'title': 'To day',
+      'title': 'Today',
       'push': RouteList.todayPage,
       'colors':Colors.blue,
       'sum': 0

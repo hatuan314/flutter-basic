@@ -47,6 +47,105 @@ class ProviderReminder with ChangeNotifier, DiagnosticableTreeMixin {
     this.note = note;
   }
 
+  void initializationTimes(
+      String title,
+      String note,
+      int date,
+      String group,
+      String priority,
+      int createAt,
+      int lastUpdate,
+      bool time,
+      String keyDate) {
+    // lần đầu khởi tạo
+    if (date == null) {
+      ModelListReminder.listReminder['${group}'].addAll({
+        'orther': [
+          Reminder(
+              title, note, group, priority, date, createAt, lastUpdate, time)
+        ].toList()
+      });
+    } else {
+      ModelListReminder.listReminder['${group}'].addAll({
+        keyDate: [
+          Reminder(
+              title, note, group, priority, date, createAt, lastUpdate, time)
+        ].toList()
+      });
+    }
+  }
+
+  void newGroup(
+      String title,
+      String note,
+      int date,
+      String group,
+      String priority,
+      int createAt,
+      int lastUpdate,
+      bool time,
+      String keyDate) {
+    if (date == null) {
+      ModelListReminder.listReminder.addAll({
+        group: {
+          'orther': [
+            Reminder(
+                title, note, group, priority, date, createAt, lastUpdate, time)
+          ].toList()
+        }
+      });
+    } else {
+      ModelListReminder.listReminder.addAll({
+        group: {
+          keyDate: [
+            Reminder(
+                title, note, group, priority, date, createAt, lastUpdate, time)
+          ].toList()
+        }
+      });
+    }
+  }
+
+  void newReminder(
+      String title,
+      String note,
+      int date,
+      String group,
+      String priority,
+      int createAt,
+      int lastUpdate,
+      bool time,
+      String keyDate) {
+    if (date == null) {
+      //taoj reminder
+      try {
+        //tạo nhóm nếu orther chưa có
+        ModelListReminder.listReminder['${group}']['orther'].add(Reminder(
+            title, note, group, priority, date, createAt, lastUpdate, time));
+      } catch (_) {
+        ModelListReminder.listReminder['${group}'].addAll({
+          'orther': [
+            Reminder(
+                title, note, group, priority, date, createAt, lastUpdate, time)
+          ].toList()
+        });
+      }
+    } else {
+      if (ModelListReminder.listReminder['${group}'].containsKey(keyDate)) {
+        //kiem tra key Map của nhóm
+        ModelListReminder.listReminder['${group}'][keyDate].add(Reminder(
+            title, note, group, priority, date, createAt, lastUpdate, time));
+      } else {
+        ModelListReminder.listReminder['${group}'].addAll({
+          keyDate: [
+            Reminder(
+                title, note, group, priority, date, createAt, lastUpdate, time)
+          ].toList()
+        });
+      }
+    }
+  }
+
   void addTodoList(BuildContext context, String title, String note, int date,
       String group, String priority, int createAt, int lastUpdate, bool time) {
     String keyDate;
@@ -56,71 +155,16 @@ class ProviderReminder with ChangeNotifier, DiagnosticableTreeMixin {
     }
     if (ModelListReminder.listReminder.containsKey(group)) {
       if (ModelListReminder.listReminder['${group}'].length == 0) {
-        // lần đầu khởi tạo
-        if (date == null) {
-          ModelListReminder.listReminder['${group}'].addAll({
-            'orther': [
-              Reminder(title, note, group, priority, date, createAt, lastUpdate,
-                  time)
-            ].toList()
-          });
-        } else {
-          ModelListReminder.listReminder['${group}'].addAll({
-            keyDate: [
-              Reminder(title, note, group, priority, date, createAt, lastUpdate,
-                  time)
-            ].toList()
-          });
-        }
-      }
-      //kiểm tra nhóm dó đã có hay chưa
-      else if (date == null) {
-        try {
-          //tạo nhóm nếu orther chưa có
-          ModelListReminder.listReminder['${group}']['orther'].add(Reminder(
-              title, note, group, priority, date, createAt, lastUpdate, time));
-        } catch (_) {
-          ModelListReminder.listReminder['${group}'].addAll({
-            'orther': [
-              Reminder(title, note, group, priority, date, createAt, lastUpdate,
-                  time)
-            ].toList()
-          });
-        }
+        initializationTimes(title, note, date, group, priority, createAt,
+            lastUpdate, time, keyDate);
       } else {
-        if (ModelListReminder.listReminder['${group}'].containsKey(keyDate)) {
-          //kiem tra key Map của nhóm
-          ModelListReminder.listReminder['${group}'][keyDate].add(Reminder(
-              title, note, group, priority, date, createAt, lastUpdate, time));
-        } else {
-          ModelListReminder.listReminder['${group}'].addAll({
-            keyDate: [
-              Reminder(title, note, group, priority, date, createAt, lastUpdate,
-                  time)
-            ].toList()
-          });
-        }
+        newReminder(title, note, date, group, priority, createAt, lastUpdate,
+            time, keyDate);
       }
     } else {
-      if (date == null) {
-        ModelListReminder.listReminder.addAll({
-          group: {
-            'orther': [
-              Reminder(title, note, group, priority, date, createAt, lastUpdate,
-                  time)
-            ].toList()
-          }
-        });
-      } else {
-        ModelListReminder.listReminder.addAll({
-          group: {
-            keyDate: [
-              Reminder(title, note, group, priority, date, createAt, lastUpdate,
-                  time)
-            ].toList()
-          }
-        });
-      }
+      //tạo group Mới
+      newGroup(title, note, date, group, priority, createAt, lastUpdate, time,
+          keyDate);
     }
 
     Navigator.pop(context);

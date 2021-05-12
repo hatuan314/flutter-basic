@@ -4,9 +4,7 @@ import 'package:ghi_chu/__mock__/costranisn.dart';
 import 'package:ghi_chu/home_page/provider_home_page.dart';
 import 'package:ghi_chu/home_page/widgets/scheduled_widget.dart';
 import 'package:ghi_chu/home_page/widgets/today_widget.dart';
-
 import 'package:provider/provider.dart';
-
 class WrapWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

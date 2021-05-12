@@ -1,7 +1,10 @@
 import 'dart:ui';
+import 'package:ghi_chu/__mock__/costranisn.dart';
 import 'package:ghi_chu/common/constants/route_constants.dart';
 import 'package:ghi_chu/home_page/provider_home_page.dart';
 import 'package:ghi_chu/model/model_map.dart';
+import 'package:ghi_chu/schedule_page/provider_scheduled.dart';
+import 'package:ghi_chu/to_day_page/provider_to_day.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +29,7 @@ class MyListWiget extends StatelessWidget {
             child: GestureDetector(
                 onTap: () {
                   index1 = index;
-                  print('${index1}');
+
                   context.read<ProviderHomePage>().setButtonDelete(index);
                 },
                 child: Icon(
@@ -186,13 +189,37 @@ class MyListWiget extends StatelessWidget {
                                     onPressed: () {
                                       ModelListReminder.listReminder
                                           .remove(title);
-                                      ModelListReminder.myList.remove('${title}');
+                                      ModelListReminder.myList
+                                          .remove('${title}');
                                       Provider.of<ProviderHomePage>(context,
                                               listen: false)
                                           .keyMyList
                                           .remove(title);
-                                      context.read<ProviderHomePage>().setLeght();
-
+                                      context
+                                          .read<ProviderHomePage>()
+                                          .setLeght();
+                                      for (int i = 0;
+                                          i < ConstHomePage.list.length;
+                                          i++) {
+                                        if (ConstHomePage.list[i]['title'] ==
+                                            'To day') {
+                                          ConstHomePage.list[i]['sum'] =
+                                              ProviderToday().getToday();
+                                        } else if (ConstHomePage.list[i]
+                                                ['title'] ==
+                                            'Scheduled') {
+                                          ConstHomePage.list[i]['sum'] =
+                                              ProviderSchedule().getKey();
+                                        } else if (ConstHomePage.list[i]
+                                                ['title'] ==
+                                            'All') {
+                                          ConstHomePage.list[i]['sum'] =
+                                              Provider.of<ProviderHomePage>(
+                                                      context,
+                                                      listen: false)
+                                                  .leghtAll;
+                                        }
+                                      }
                                       Navigator.of(context).pop();
                                     },
                                   ),
@@ -216,7 +243,8 @@ class MyListWiget extends StatelessWidget {
                                           .keyMyList
                                           .length -
                                       1
-                              ? BorderRadius.only(bottomRight: Radius.circular(7))
+                              ? BorderRadius.only(
+                                  bottomRight: Radius.circular(7))
                               : null),
                   width: index == context.watch<ProviderHomePage>().index
                       ? ScreenUtil().setWidth(70)
@@ -224,7 +252,8 @@ class MyListWiget extends StatelessWidget {
                   duration: Duration(milliseconds: 239),
                   child: Text('Xóa',
                       style: TextStyle(
-                          color: Colors.white, fontSize: ScreenUtil().setSp(16)),
+                          color: Colors.white,
+                          fontSize: ScreenUtil().setSp(16)),
                       softWrap: false),
                 ),
               ),

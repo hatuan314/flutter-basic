@@ -32,46 +32,67 @@ class _State extends State<HomePage> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             GestureDetector(
-              onTap: () async {
-                await Navigator.pushNamed(context, RouteList.newReminder)
-                    .whenComplete(() {
-                  context.read<ProviderHomePage>().setLeght();
-                  for (int i = 0; i < ConstHomePage.list.length; i++) {
-                    if (ConstHomePage.list[i]['title'] == 'To day') {
-                      ConstHomePage.list[i]['sum'] = ProviderToday().getToday();
-                    } else if (ConstHomePage.list[i]['title'] == 'Scheduled') {
-                      ConstHomePage.list[i]['sum'] =
-                          ProviderSchedule().getKey();
-                    } else if (ConstHomePage.list[i]['title'] == 'All') {
-                      ConstHomePage.list[i]['sum'] =
-                          Provider.of<ProviderHomePage>(context, listen: false)
-                              .leghtAll;
+              onTap: Provider.of<ProviderHomePage>(context).edit
+                  ? () async {
+                      await Navigator.pushNamed(context, RouteList.newReminder)
+                          .whenComplete(() {
+                        context.read<ProviderHomePage>().setLeght();
+                        for (int i = 0; i < ConstHomePage.list.length; i++) {
+                          if (ConstHomePage.list[i]['title'] == 'To day') {
+                            ConstHomePage.list[i]['sum'] =
+                                ProviderToday().getToday();
+                          } else if (ConstHomePage.list[i]['title'] ==
+                              'Scheduled') {
+                            ConstHomePage.list[i]['sum'] =
+                                ProviderSchedule().getKey();
+                          } else if (ConstHomePage.list[i]['title'] == 'All') {
+                            ConstHomePage.list[i]['sum'] =
+                                Provider.of<ProviderHomePage>(context,
+                                        listen: false)
+                                    .leghtAll;
+                          }
+                        }
+                        context.read<ProviderHomePage>().update();
+                      });
                     }
-                  }
-                  context.read<ProviderHomePage>().update();
-                });
-              },
+                  : null,
               child: Container(
-                margin: EdgeInsets.only(top: ScreenUtil().setHeight(10)),
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.add_circle,
-                      color: Colors.blue,
-                    ),
-                    SizedBox(
-                      width: ScreenUtil().setWidth(6),
-                    ),
-                    Text(
-                      'New Reminder',
-                      style: TextStyle(
-                          color: Colors.blue,
-                          fontWeight: FontWeight.w600,
-                          fontSize: ScreenUtil().setSp(17)),
-                    )
-                  ],
-                ),
-              ),
+                  margin: EdgeInsets.only(top: ScreenUtil().setHeight(10)),
+                  child: Stack(
+                    children: [
+                      Visibility(
+                        visible: context.watch<ProviderHomePage>().edit,
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.add_circle,
+                              color: Colors.blue,
+                            ),
+                            SizedBox(
+                              width: ScreenUtil().setWidth(6),
+                            ),
+                            Text(
+                              'New Reminder',
+                              style: TextStyle(
+                                  color: Colors.blue,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: ScreenUtil().setSp(17)),
+                            )
+                          ],
+                        ),
+                      ),
+                      Visibility(
+                          visible: !Provider.of<ProviderHomePage>(context,
+                                  listen: true)
+                              .edit,
+                          child: Text(
+                            'Add Group',
+                            style: TextStyle(
+                                color: Colors.black26,
+                                fontSize: ScreenUtil().setSp(20)),
+                          ))
+                    ],
+                  )),
             ),
             GestureDetector(
               onTap: () {
@@ -159,7 +180,7 @@ class _State extends State<HomePage> {
                   color: Colors.white,
                 ),
                 child: ReorderableListView.builder(
-                  physics: NeverScrollableScrollPhysics(),
+                    physics: NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     itemBuilder: (context, index) {
                       return MyListWiget(
@@ -176,12 +197,23 @@ class _State extends State<HomePage> {
                     },
                     itemCount: ModelListReminder.myList.length,
                     onReorder: (int oldIndex, int newIndex) {
-                      context.read<ProviderHomePage>().setlist();
                       if (oldIndex < newIndex) {
                         newIndex -= 1;
+                        context
+                            .read<ProviderHomePage>()
+                            .setButtonDelete(newIndex);
+                      } else {
+                        context
+                            .read<ProviderHomePage>()
+                            .setButtonDelete(newIndex);
                       }
-                      var item =Provider.of<ProviderHomePage>(context,listen: false).keyMyList.removeAt(oldIndex);
-                      Provider.of<ProviderHomePage>(context,listen: false).keyMyList.insert(newIndex, item);
+                      var item =
+                          Provider.of<ProviderHomePage>(context, listen: false)
+                              .keyMyList
+                              .removeAt(oldIndex);
+                      Provider.of<ProviderHomePage>(context, listen: false)
+                          .keyMyList
+                          .insert(newIndex, item);
                     }),
               )
             ],

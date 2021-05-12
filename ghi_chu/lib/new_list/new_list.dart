@@ -1,4 +1,3 @@
-
 import 'dart:ui';
 import 'package:ghi_chu/new_list/provider_new_list.dart';
 import 'package:provider/provider.dart';
@@ -9,7 +8,7 @@ import 'package:flutter_screenutil/screen_util.dart';
 import 'package:ghi_chu/__mock__/costranisn.dart';
 
 class NewListPage extends StatelessWidget {
-  int indexColor = 4;
+  TextEditingController _textEditingController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,15 +17,19 @@ class NewListPage extends StatelessWidget {
         elevation: 0,
         leading: Center(
             child: GestureDetector(
-              onTap: (){
-                Navigator.pop(context);
-              },
-              child: Text(
-          'Hủy',
-          style:
+          onTap: () {
+            if (Provider.of<ProviderNewList>(context, listen: false).button) {
+              _showButtonModalSheet(context);
+            } else {
+              Navigator.pop(context);
+            }
+          },
+          child: Text(
+            'Hủy',
+            style:
                 TextStyle(color: Colors.blue, fontSize: ScreenUtil().setSp(16)),
-        ),
-            )),
+          ),
+        )),
         centerTitle: true,
         title: Text(
           'Danh sách Mới',
@@ -36,10 +39,20 @@ class NewListPage extends StatelessWidget {
         actions: [
           Center(
             child: GestureDetector(
-              onTap: context.watch<ProviderNewList>().button ? () {
-                ProviderNewList().addToDoMyList(Provider.of<ProviderNewList>(context,listen: false).title, Provider.of<ProviderNewList>(context,listen: false).color.value.toString(), DateTime.now().millisecondsSinceEpoch, DateTime.now().millisecondsSinceEpoch);
-                Navigator.pop(context);
-              } : null,
+              onTap: context.watch<ProviderNewList>().button
+                  ? () {
+                      ProviderNewList().addToDoMyList(
+                          Provider.of<ProviderNewList>(context, listen: false)
+                              .title,
+                          Provider.of<ProviderNewList>(context, listen: false)
+                              .color
+                              .value
+                              .toString(),
+                          DateTime.now().millisecondsSinceEpoch,
+                          DateTime.now().millisecondsSinceEpoch);
+                      Navigator.pop(context);
+                    }
+                  : null,
               child: Text(
                 'Xong',
                 style: TextStyle(
@@ -99,25 +112,41 @@ class NewListPage extends StatelessWidget {
               SizedBox(
                 height: ScreenUtil().setHeight(30),
               ),
-              Container(
-                width: double.infinity,
-                height: ScreenUtil().setHeight(60),
-                decoration: BoxDecoration(
-                    color: Colors.black26,
-                    borderRadius: BorderRadius.all(Radius.circular(10))),
-                child: TextField(
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      color: context.watch<ProviderNewList>().color,
-                      fontWeight: FontWeight.w600,
-                      fontSize: ScreenUtil().setSp(23)),
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
+              TextField(
+                controller: _textEditingController,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    color: context.watch<ProviderNewList>().color,
+                    fontWeight: FontWeight.w600,
+                    fontSize: ScreenUtil().setSp(23)),
+                decoration: InputDecoration(
+                  suffixIcon: Visibility(
+                      visible: context.watch<ProviderNewList>().button,
+                      child: GestureDetector(
+                          onTap: () {
+                            _textEditingController.text = '';
+                            context.read<ProviderNewList>().setButton('');
+                          },
+                          child: Icon(
+                            Icons.cancel,
+                            size: ScreenUtil().setSp(24),
+                            color: Colors.black26,
+                          ))),
+                  filled: true,
+                  fillColor: Colors.black12.withOpacity(0.05),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: new BorderSide(color: Colors.white),
+                    borderRadius: new BorderRadius.circular(10),
                   ),
-                  onChanged: (value) {
-                    context.read<ProviderNewList>().setButton(value);
-                  },
+                  enabledBorder: UnderlineInputBorder(
+                    borderSide: new BorderSide(color: Colors.white),
+                    borderRadius: new BorderRadius.circular(10),
+                  ),
+                  border: InputBorder.none,
                 ),
+                onChanged: (value) {
+                  context.read<ProviderNewList>().setButton(value);
+                },
               ),
               SizedBox(
                 height: ScreenUtil().setHeight(30),
@@ -127,10 +156,10 @@ class NewListPage extends StatelessWidget {
                     List.generate(ConstHomePage.listColors.length, (index) {
                   return GestureDetector(
                     onTap: () {
-                      indexColor = index;
+                      context.read<ProviderNewList>().setIndex(index);
                       context
                           .read<ProviderNewList>()
-                          .setColor(ConstHomePage.listColors[indexColor]);
+                          .setColor(ConstHomePage.listColors[index]);
                     },
                     child: Container(
                       margin: EdgeInsets.only(
@@ -141,7 +170,10 @@ class NewListPage extends StatelessWidget {
                       padding: EdgeInsets.all(ScreenUtil().setSp(3)),
                       decoration: BoxDecoration(
                           border: Border.all(
-                              color: index == indexColor
+                              color: index ==
+                                      context
+                                          .watch<ProviderNewList>()
+                                          .indexColor
                                   ? Colors.black45
                                   : Colors.transparent,
                               width: 2),
@@ -162,5 +194,67 @@ class NewListPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  dynamic _showButtonModalSheet(BuildContext context) {
+    return showModalBottomSheet(
+        backgroundColor: Colors.transparent,
+        context: context,
+        builder: (context) {
+          return Container(
+            width: ScreenUtil().screenWidth,
+            height: ScreenUtil().setHeight(150),
+            color: Colors.transparent,
+            child: Padding(
+              padding:
+                  EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(10)),
+              child: Column(
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                      Navigator.pop(context);
+                    },
+                    child: Container(
+                      height: ScreenUtil().setHeight(60),
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.all(Radius.circular(10))),
+                      child: Text(
+                        'Hủy bỏ thay đổi',
+                        style: TextStyle(
+                            color: Colors.red,
+                            fontSize: ScreenUtil().setSp(23)),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: ScreenUtil().setHeight(10),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: Container(
+                      alignment: Alignment.center,
+                      height: ScreenUtil().setHeight(60),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.all(Radius.circular(10))),
+                      child: Text(
+                        'Hủy',
+                        style: TextStyle(
+                            color: Colors.blue,
+                            fontSize: ScreenUtil().setSp(23),
+                            fontWeight: FontWeight.w700),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
   }
 }

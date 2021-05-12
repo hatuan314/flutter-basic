@@ -10,17 +10,19 @@ class ProviderHomePage with ChangeNotifier, DiagnosticableTreeMixin {
   int leghtSchedule = 0;
   bool edit = true;
   int index;
-  bool buttonDelete=false;
+  bool buttonDelete = false;
   var data = ConstHomePage.list;
   Map<String, int> myListLeght = {'Reminder': 0};
   List<String> keyMyList = ['Reminder'];
   void update() {
     notifyListeners();
   }
-void setButtonDelete(int index){
-    this.index=index;
+
+  void setButtonDelete(int index) {
+    this.index = index;
     notifyListeners();
-}
+  }
+
   void addList() {
     keyMyList.add(ModelListReminder.myList.keys
         .elementAt(ModelListReminder.myList.length - 1));
@@ -48,6 +50,9 @@ void setButtonDelete(int index){
 
   void setedit() {
     edit = !edit;
+    if (edit == false) {
+      index = null;
+    }
     notifyListeners();
   }
 

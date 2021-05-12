@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+
 class ProviderDetailsPage with ChangeNotifier, DiagnosticableTreeMixin {
   bool date = false;
   bool time = false;
@@ -17,26 +18,24 @@ class ProviderDetailsPage with ChangeNotifier, DiagnosticableTreeMixin {
     this.minuner = minute;
     notifyListeners();
   }
+
   void upDateTime() {
     notifyListeners();
   }
 
   void removePage(BuildContext context) {
-    int h=hour*60*60*1000+minuner*60*1000;
+    int h = hour * 60 * 60 * 1000 + minuner * 60 * 1000;
 // print('${DateFormat('yyyy-MM-dd HH-mm').format(DateTime.fromMillisecondsSinceEpoch(a))}');
     if (date) {
       if (time) {
-        int a=DateTime.parse(DateFormat('yyyy-MM-dd').format(dateTime)).millisecondsSinceEpoch+h;
-        Navigator.pop(
-            context,
-        [a,true].toList()
-        );
+        int a = DateTime.parse(DateFormat('yyyy-MM-dd').format(dateTime))
+                .millisecondsSinceEpoch +
+            h;
+        Navigator.pop(context, [a, true].toList());
       } else {
-        int a=DateTime.parse(DateFormat('yyyy-MM-dd').format(dateTime)).millisecondsSinceEpoch;
-        Navigator.pop(
-            context,
-              [a,false].toList()
-        );
+        int a = DateTime.parse(DateFormat('yyyy-MM-dd').format(dateTime))
+            .millisecondsSinceEpoch;
+        Navigator.pop(context, [a, false].toList());
       }
     } else {
       Navigator.pop(context, null);
@@ -79,7 +78,6 @@ class ProviderDetailsPage with ChangeNotifier, DiagnosticableTreeMixin {
       timePicker = true;
       date = true;
     } else {
-
       hour = DateTime.now().hour;
       minuner = DateTime.now().minute;
       timePicker = false;
