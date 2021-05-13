@@ -3,12 +3,13 @@ import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_basic_app/common/constants/route_constants.dart';
-import 'package:flutter_basic_app/presentation/journey/buoi_10/list_screen/all_list_screen.dart';
-import 'package:flutter_basic_app/presentation/journey/buoi_10/list_screen/list_screen.dart';
-import 'package:flutter_basic_app/presentation/journey/buoi_10/list_screen/scheduled_list_screen.dart';
-import 'package:flutter_basic_app/presentation/journey/buoi_10/list_screen/todaylist_screen.dart';
-import 'package:flutter_basic_app/presentation/journey/buoi_10/new_reminder/create_new_reminder.dart';
-import 'package:flutter_basic_app/presentation/journey/buoi_10/reminder_provider.dart';
+import 'package:flutter_basic_app/presentation/journey/buoi_10/list_screen/list/list_provider.dart';
+import 'package:flutter_basic_app/presentation/journey/buoi_10/list_screen/list/list_screen.dart';
+import 'package:flutter_basic_app/presentation/journey/buoi_10/list_screen/scheduled_list/scheduled_list_screen.dart';
+import 'package:flutter_basic_app/presentation/journey/buoi_10/list_screen/today_list/todaylist_screen.dart';
+
+
+import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
 
 import 'package:provider/provider.dart';
 import 'package:flutter/widgets.dart';
@@ -22,10 +23,15 @@ class B10HomeScreen extends StatefulWidget {
 }
 class _B10HomeScreen extends State<B10HomeScreen> {
   final TextEditingController textName = TextEditingController();
+  RemindersList remindersList= RemindersList();
+
   @override
   Widget build(BuildContext context) {
-    log(context.watch<HomePageProvider>().MyList.length.toString());
+  //  log(context.watch<HomePageProvider>().MyList.length.toString());
+    final item = Provider.of<HomePageProvider>(context);
     RemindersList.addDefaultList();
+    context.watch<HomePageProvider>().MyLists=RemindersList.MyLists;
+   // context.read<HomePageProvider>().update();
     return Scaffold(
       backgroundColor: Colors.grey.shade100,
       body: SafeArea(
@@ -50,10 +56,9 @@ class _B10HomeScreen extends State<B10HomeScreen> {
                 ),
                 children: [
                   GestureDetector(
-                    onTap: ()=>  Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => TodayList(),
-                        )),
+                    onTap:  () async
+          {await Navigator.pushNamed(context, RouteList.todayListScreen)
+              .whenComplete(()=>item.update());},
                     child: gridViewItem(
                         Icon(
                           Icons.today,
@@ -65,10 +70,9 @@ class _B10HomeScreen extends State<B10HomeScreen> {
                         context.watch<HomePageProvider>().l1),
                   ),
                   GestureDetector(
-                    onTap: ()=> Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) =>ScheduledList(),
-                        )),
+                    onTap: () async
+                    {await Navigator.pushNamed(context, RouteList.scheduledListScreen)
+                        .whenComplete(()=>item.update());},
                     child: gridViewItem(
                         Icon(
                           Icons.calendar_today_sharp,
@@ -88,10 +92,9 @@ class _B10HomeScreen extends State<B10HomeScreen> {
                 bottom: ScreenUtil().setHeight(10),
               ),
               child: GestureDetector(
-                onTap: ()=>   Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => AllRemindersList(),
-                  )),
+                onTap: () async
+                {await Navigator.pushNamed(context, RouteList.allListScreen)
+                    .whenComplete(()=>item.update());},
                 child: gridViewItem(
                     Icon(
                       Icons.format_align_left,
@@ -129,11 +132,14 @@ class _B10HomeScreen extends State<B10HomeScreen> {
               ListView.builder(
                       scrollDirection: Axis.vertical,
                       shrinkWrap: true,
-                      itemCount: context.watch<HomePageProvider>().MyList.length,
+                      itemCount: context.watch<HomePageProvider>().MyLists.length,
                       itemBuilder: (context, index) {
                         return GestureDetector(
-                          onTap: ()=> Navigator.push(context,  MaterialPageRoute(builder: (context) => listScreen(context,index),
-                          )),
+                          onTap: ()async {await Navigator.push(context,  MaterialPageRoute(builder:
+                          (_)=> (listScreen(context,index)
+
+                          ))).whenComplete(() => item.update());
+                          },
                           child: Container(
                             margin: EdgeInsets.all(ScreenUtil().setWidth(10)),
                 padding: EdgeInsets.all(ScreenUtil().setWidth(10)),
@@ -151,7 +157,7 @@ class _B10HomeScreen extends State<B10HomeScreen> {
                             padding: EdgeInsets.all(ScreenUtil().setWidth(5)),
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              color: Colors.blue,
+                              color: context.watch<HomePageProvider>().MyLists[index].color,
                             ),
                             child: Icon(
                               Icons.list,
@@ -166,7 +172,7 @@ class _B10HomeScreen extends State<B10HomeScreen> {
                       child: Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            context.watch<HomePageProvider>().MyList[index]['name'],
+                            context.watch<HomePageProvider>().MyLists[index].name,
                             // textAlign: TextAlign.left,
                             style: TextStyle(
                                 fontSize: ScreenUtil().setSp(15),
@@ -178,7 +184,7 @@ class _B10HomeScreen extends State<B10HomeScreen> {
                     Expanded(
                           flex: 2,
                           child: Text(
-                            '${context.watch<HomePageProvider>().MyList[index]['count']}',
+                            '${context.watch<HomePageProvider>().MyLists[index].list.length}',
                             textAlign: TextAlign.right,
                             style: TextStyle(
                                 fontSize: ScreenUtil().setSp(15),
@@ -304,45 +310,8 @@ class _B10HomeScreen extends State<B10HomeScreen> {
 
   Widget bottomBar(BuildContext context) {
     //int value;
+     Color listColor=Colors.blue;
     final item = Provider.of<HomePageProvider>(context);
-    final AlertDialog addListDialog = AlertDialog(
-      title: Text('Add New List', style: TextStyle(
-        color: Colors.black,
-        fontSize: ScreenUtil().setSp(20)
-      ),),
-      content:  TextField(
-         controller: textName,
-        maxLines: 1,
-        textCapitalization: TextCapitalization.sentences,
-        textAlign: TextAlign.start,
-        decoration: InputDecoration(
-          hintText: 'Name',
-          hintStyle: TextStyle(
-              fontSize: ScreenUtil().setSp(15),
-              fontFamily: 'MS',
-              fontWeight: FontWeight.w500,
-              color: Colors.grey),
-          // enabled: false,
-          //   border: InputBorder.none,
-        ),
-      ),
-      actions: [
-        FlatButton(
-          textColor: Colors.blue,
-          onPressed: () {Navigator.pop(context);},
-          child: Text('Cancel'),
-        ),
-        FlatButton(
-          textColor: Colors.blue,
-          onPressed: () {
-            RemindersList.addList(textName.value.text);
-            context.read<HomePageProvider>().update();
-            Navigator.pop(context);
-          },
-          child: Text('Add'),
-        ),
-      ],
-    );
     return Container(
       padding: EdgeInsets.all(ScreenUtil().setWidth(15)),
       child: Row(
@@ -380,9 +349,11 @@ class _B10HomeScreen extends State<B10HomeScreen> {
                   ]))),
           Expanded(
               child: GestureDetector(
-                onTap: ()=>{ showDialog(context: context, builder: (context)=>addListDialog),
-                setState(()=>context.read<HomePageProvider>().update())
-                },
+                onTap: () async
+            {await Navigator.pushNamed(context, RouteList.createNewList)
+                .whenComplete(()=>
+            item.update()) ;
+            },
             child: Text(
               'Add List',
               textAlign: TextAlign.right,

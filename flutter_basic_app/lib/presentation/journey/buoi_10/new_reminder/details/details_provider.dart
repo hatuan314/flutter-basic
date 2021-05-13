@@ -7,10 +7,11 @@ import 'package:flutter/material.dart';
 class DetailsProvider with ChangeNotifier,DiagnosticableTreeMixin{
   String date='';
   String time='';
-  String priority='None';
+  int priority=0;
   bool hasDate=false;
   bool hasTime=false;
-  void setPriority(String value)
+
+  void setPriority(int value)
   {
     priority=value;
     notifyListeners();
@@ -32,10 +33,7 @@ class DetailsProvider with ChangeNotifier,DiagnosticableTreeMixin{
   {
     hasDate=has_date;
     if(hasDate==true) {
-      if (value.year==DateTime.now().year && value.month==DateTime.now().month && value.day==DateTime.now().day)
-        date = 'Today';
-      else
-        date = value.month.toString() + "/" + value.day.toString() + "/" +
+        date =  value.day.toString() + "/" +value.month.toString() + "/" +
             value.year.toString();
     }
     else

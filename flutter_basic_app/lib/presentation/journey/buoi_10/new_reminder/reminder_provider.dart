@@ -4,8 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import 'home_page/homepage_provider.dart';
-
 class ReminderProvider with ChangeNotifier, DiagnosticableTreeMixin {
   String title;
   String notes;
@@ -28,7 +26,7 @@ class ReminderProvider with ChangeNotifier, DiagnosticableTreeMixin {
 
   void setTitle(String value) {
     title = value;
-    log(list);
+    //  log(MyLists.length.toString());
     log(title);
     notifyListeners();
   }

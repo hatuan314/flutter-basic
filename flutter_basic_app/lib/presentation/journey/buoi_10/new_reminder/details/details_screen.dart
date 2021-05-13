@@ -2,49 +2,72 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screen_util.dart';
 import 'package:provider/provider.dart';
-
-import '../reminder_provider.dart';
-import '../reminders_list.dart';
 import 'details_provider.dart';
 
 class DetailsScreen extends StatelessWidget {
+  String selectedPriority='None';
   @override
   Widget build(BuildContext context) {
     final item = Provider.of<DetailsProvider>(context, listen: false);
     final SimpleDialog priorityDialog = SimpleDialog(
+      titlePadding: EdgeInsets.only(
+        //bottom: ScreenUtil().setHeight(15),
+        top: ScreenUtil().setHeight(15),
+        left: ScreenUtil().setWidth(15),
+        // right: ScreenUtil().setWidth(10),
+      ),
       contentPadding: EdgeInsets.only(
-        bottom: ScreenUtil().setHeight(10),
-        top: ScreenUtil().setHeight(10),
-        left: ScreenUtil().setWidth(20),
-        right: ScreenUtil().setWidth(20),
+        bottom: ScreenUtil().setHeight(0),
+        top: ScreenUtil().setHeight(0),
+        //left: ScreenUtil().setWidth(10),
+       // right: ScreenUtil().setWidth(10),
       ),
       title: Text(
         'Priority',
         style: TextStyle(
-            fontSize: ScreenUtil().setSp(15),
+            fontSize: ScreenUtil().setSp(20),
             fontWeight: FontWeight.w700,
             color: Colors.black),
+      //  textAlign: TextAlign.center,
       ),
       children: [
         GestureDetector(
-          onTap: () => {item.setPriority('None'),
-          Navigator.pop(context)},
+          onTap: () => {item.setPriority(0), Navigator.pop(context), selectedPriority='None'},
           child: Container(
-            margin: EdgeInsets.all(ScreenUtil().setHeight(10)),
-            child: Text(
-              'None',
-              style: TextStyle(
-                  fontSize: ScreenUtil().setSp(15),
-                  fontWeight: FontWeight.w500,
-                  color: Colors.black),
-            ),
-          ),
+              margin: EdgeInsets.all(ScreenUtil().setHeight(15)),
+              child: Row(children: [
+                Expanded(
+                  flex: 20,
+                  child: Text(
+                    'None',
+                    style: TextStyle(
+                        fontSize: ScreenUtil().setSp(15),
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black),
+                  ),
+                ),
+                Expanded(
+                  flex: 1,
+                  child: Container(
+                    height: ScreenUtil().setHeight(10),
+                    width: ScreenUtil().setHeight(10),
+
+                    decoration: BoxDecoration(
+                        color: Colors.grey,
+                        shape: BoxShape.circle
+                    ),
+                  ),
+                )
+              ])),
         ),
+        Container(
+            height: ScreenUtil().setHeight(0.2),
+            width: ScreenUtil().screenWidth-50,
+            color: Colors.black),
         GestureDetector(
-          onTap: ()=>{ item.setPriority('Low'),
-    Navigator.pop(context)},
+          onTap: () => {item.setPriority(1), Navigator.pop(context),selectedPriority='Low'},
           child: Container(
-              margin: EdgeInsets.all(ScreenUtil().setHeight(10)),
+              margin: EdgeInsets.all(ScreenUtil().setHeight(15)),
               child: Row(children: [
                 Expanded(
                   flex: 20,
@@ -61,16 +84,23 @@ class DetailsScreen extends StatelessWidget {
                   child: Container(
                     height: ScreenUtil().setHeight(10),
                     width: ScreenUtil().setHeight(10),
-                    color: Colors.yellow,
+
+                    decoration: BoxDecoration(
+                      color: Colors.yellow,
+                      shape: BoxShape.circle
+                    ),
                   ),
                 )
               ])),
         ),
+        Container(
+            height: ScreenUtil().setHeight(0.2),
+            width: ScreenUtil().screenWidth-50,
+            color: Colors.grey),
         GestureDetector(
-          onTap: ()=> {item.setPriority('Medium'),
-            Navigator.pop(context)},
+          onTap: () => {item.setPriority(2), Navigator.pop(context),selectedPriority='Medium'},
           child: Container(
-              margin: EdgeInsets.all(ScreenUtil().setHeight(10)),
+              margin: EdgeInsets.all(ScreenUtil().setHeight(15)),
               child: Row(children: [
                 Expanded(
                   flex: 20,
@@ -87,16 +117,22 @@ class DetailsScreen extends StatelessWidget {
                   child: Container(
                     height: ScreenUtil().setHeight(10),
                     width: ScreenUtil().setHeight(10),
-                    color: Colors.orange,
+                    decoration: BoxDecoration(
+                        color: Colors.orange,
+                        shape: BoxShape.circle
+                    ),
                   ),
                 )
               ])),
         ),
+        Container(
+            height: ScreenUtil().setHeight(0.2),
+           // width: ScreenUtil().screenWidth-100,
+            color: Colors.grey),
         GestureDetector(
-          onTap: ()=>{ item.setPriority('High'),
-            Navigator.pop(context)},
+          onTap: () => {item.setPriority(3), Navigator.pop(context),selectedPriority='High'},
           child: Container(
-              margin: EdgeInsets.all(ScreenUtil().setHeight(10)),
+              margin: EdgeInsets.all(ScreenUtil().setHeight(15)),
               child: Row(children: [
                 Expanded(
                   flex: 20,
@@ -113,7 +149,10 @@ class DetailsScreen extends StatelessWidget {
                   child: Container(
                     height: ScreenUtil().setHeight(10),
                     width: ScreenUtil().setHeight(10),
-                    color: Colors.red,
+                    decoration: BoxDecoration(
+                        color: Colors.red,
+                        shape: BoxShape.circle
+                    ),
                   ),
                 )
               ])),
@@ -183,14 +222,6 @@ class DetailsScreen extends StatelessWidget {
                           },
                         ),
                       ),
-                      /*   Align(
-                          alignment: Alignment.centerRight,
-                            child: Container(
-                              width: ScreenUtil().screenWidth*2/3,
-                              height: ScreenUtil().setHeight(1),
-                              color: Colors.grey,
-                            ),
-                          ),*/
                       ListTile(
                         title: Text(
                           'Time',
@@ -218,10 +249,10 @@ class DetailsScreen extends StatelessWidget {
                           ),
                         ),
                         trailing: CupertinoSwitch(
-                          value: item.hasDate==true?item.hasTime:false,
+                          value: item.hasDate == true ? item.hasTime : false,
                           onChanged: (bool value) {
-                            if(item.hasDate==true)
-                            selectTime(context, value);
+                            if (item.hasDate == true)
+                              selectTime(context, value);
                           },
                         ),
                       ),
@@ -259,14 +290,12 @@ class DetailsScreen extends StatelessWidget {
                           ),
                           Expanded(
                             flex: 2,
-
-                              child: Text(item.priority,
-                                  textAlign: TextAlign.right,
-                                  style: TextStyle(
-                                    fontSize: ScreenUtil().setSp(12.5),
-                                    color: Colors.grey,
-                                  )),
-
+                            child: Text(selectedPriority,
+                                textAlign: TextAlign.right,
+                                style: TextStyle(
+                                  fontSize: ScreenUtil().setSp(12.5),
+                                  color: Colors.grey,
+                                )),
                           ),
                           Expanded(
                               flex: 1,
@@ -365,7 +394,13 @@ class DetailsScreen extends StatelessWidget {
         GestureDetector(
           child: GestureDetector(
             onTap: () => {
-                      Navigator.pop(context,({'date':item.date,'time':item.time,'priority':item.priority})),
+              Navigator.pop(
+                  context,
+                  ({
+                    'date': item.date,
+                    'time': item.time,
+                    'priority': item.priority
+                  })),
             },
             child: Container(
               //color: Colors.blue,
