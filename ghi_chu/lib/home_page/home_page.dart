@@ -36,22 +36,6 @@ class _State extends State<HomePage> {
                   ? () async {
                       await Navigator.pushNamed(context, RouteList.newReminder)
                           .whenComplete(() {
-                        context.read<ProviderHomePage>().setLeght();
-                        for (int i = 0; i < ConstHomePage.list.length; i++) {
-                          if (ConstHomePage.list[i]['title'] == 'To day') {
-                            ConstHomePage.list[i]['sum'] =
-                                ProviderToday().getToday();
-                          } else if (ConstHomePage.list[i]['title'] ==
-                              'Scheduled') {
-                            ConstHomePage.list[i]['sum'] =
-                                ProviderSchedule().getKey();
-                          } else if (ConstHomePage.list[i]['title'] == 'All') {
-                            ConstHomePage.list[i]['sum'] =
-                                Provider.of<ProviderHomePage>(context,
-                                        listen: false)
-                                    .leghtAll;
-                          }
-                        }
                         context.read<ProviderHomePage>().update();
                       });
                     }
@@ -174,7 +158,7 @@ class _State extends State<HomePage> {
               Container(
                 width: ScreenUtil().screenWidth,
                 height: ModelListReminder.myList.length *
-                    ScreenUtil().setHeight(50),
+                    ScreenUtil().setHeight(60),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(10)),
                   color: Colors.white,

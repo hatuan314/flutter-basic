@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ghi_chu/__mock__/costranisn.dart';
 
 import 'package:ghi_chu/home_page/provider_home_page.dart';
@@ -16,7 +17,7 @@ class WrapWidget extends StatelessWidget {
         opacity: context.watch<ProviderHomePage>().edit?1:0,
         duration: Duration(milliseconds: 500),
         child: Wrap(
-            spacing: 20,
+            spacing: ScreenUtil().setWidth(20),
             children: List.generate(3, (index) {
               return index == 2
                   ? TodayWidget(ConstHomePage.list[index])

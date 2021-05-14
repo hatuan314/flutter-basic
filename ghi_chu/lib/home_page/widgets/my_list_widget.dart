@@ -22,10 +22,10 @@ class MyListWiget extends StatelessWidget {
     return Stack(
       children: [
         AnimatedPositioned(
-            top: ScreenUtil().setHeight(50 / 2 - 10),
+            top: ScreenUtil().setHeight(60 / 2 - 25 / 2),
             left: context.watch<ProviderHomePage>().edit
-                ? -ScreenUtil().setSp(20)
-                : ScreenUtil().setSp(14),
+                ? -ScreenUtil().setSp(25)
+                : ScreenUtil().setSp(12),
             child: GestureDetector(
                 onTap: () {
                   index1 = index;
@@ -34,7 +34,7 @@ class MyListWiget extends StatelessWidget {
                 },
                 child: Icon(
                   Icons.remove_circle,
-                  size: ScreenUtil().setSp(20),
+                  size: ScreenUtil().setSp(25),
                   color: Colors.red,
                 )),
             duration: Duration(milliseconds: 240)),
@@ -43,7 +43,7 @@ class MyListWiget extends StatelessWidget {
             AnimatedContainer(
                 width: context.watch<ProviderHomePage>().edit
                     ? 00
-                    : ScreenUtil().setWidth(33),
+                    : ScreenUtil().setWidth(35),
                 duration: Duration(milliseconds: 239)),
             Expanded(
               child: GestureDetector(
@@ -78,7 +78,7 @@ class MyListWiget extends StatelessWidget {
                     ),
                     Expanded(
                       child: Container(
-                        height: ScreenUtil().setHeight(50),
+                        height: ScreenUtil().setHeight(60),
                         decoration: BoxDecoration(
                             border: Border(
                                 bottom: BorderSide(
@@ -97,7 +97,7 @@ class MyListWiget extends StatelessWidget {
                               '${title}',
                               style: TextStyle(
                                   color: Colors.black,
-                                  fontSize: ScreenUtil().setSp(15)),
+                                  fontSize: ScreenUtil().setSp(18)),
                             ),
                             Expanded(
                               child: Align(
@@ -202,7 +202,7 @@ class MyListWiget extends StatelessWidget {
                                           i < ConstHomePage.list.length;
                                           i++) {
                                         if (ConstHomePage.list[i]['title'] ==
-                                            'To day') {
+                                            'Today') {
                                           ConstHomePage.list[i]['sum'] =
                                               ProviderToday().getToday();
                                         } else if (ConstHomePage.list[i]
@@ -232,7 +232,7 @@ class MyListWiget extends StatelessWidget {
                 },
                 child: AnimatedContainer(
                   alignment: Alignment.center,
-                  height: ScreenUtil().setHeight(50),
+                  height: ScreenUtil().setHeight(60),
                   decoration: BoxDecoration(
                       color: Colors.red,
                       borderRadius: context.watch<ProviderHomePage>().index == 0

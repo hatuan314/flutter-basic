@@ -1,8 +1,13 @@
+
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:ghi_chu/__mock__/costranisn.dart';
 import 'package:ghi_chu/model/model_map.dart';
 import 'package:ghi_chu/model/reminder.dart';
+import 'package:ghi_chu/schedule_page/provider_scheduled.dart';
+
+import '../provider_to_day.dart';
 
 class ProviderHomePage with ChangeNotifier, DiagnosticableTreeMixin {
   int leghtAll = 0;
@@ -15,6 +20,20 @@ class ProviderHomePage with ChangeNotifier, DiagnosticableTreeMixin {
   Map<String, int> myListLeght = {'Reminder': 0};
   List<String> keyMyList = ['Reminder'];
   void update() {
+    setLeght();
+    for (int i = 0; i < ConstHomePage.list.length; i++) {
+      if (ConstHomePage.list[i]['title'] == 'Today') {
+        ConstHomePage.list[i]['sum'] =
+            ProviderToday().getToday();
+      } else if (ConstHomePage.list[i]['title'] ==
+          'Scheduled') {
+        ConstHomePage.list[i]['sum'] =
+            ProviderSchedule().getKey();
+      } else if (ConstHomePage.list[i]['title'] == 'All') {
+        ConstHomePage.list[i]['sum'] =
+            leghtAll;
+      }
+    }
     notifyListeners();
   }
 

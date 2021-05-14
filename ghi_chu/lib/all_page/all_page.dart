@@ -1,4 +1,3 @@
-
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -19,27 +18,45 @@ class _State extends State<AllPage> {
       backgroundColor: Colors.white,
       appBar: _appBar(context),
       body: SingleChildScrollView(
-        padding: EdgeInsets.only(left: ScreenUtil().setWidth(10)),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('All',style: TextStyle(color: Colors.black87,fontWeight: FontWeight.w900,fontSize: ScreenUtil().setSp(30)),),
-              Column(
-                children: List.generate(ModelListReminder.listReminder.length, (index){
-                  return StickyHeaderAll(header:ModelListReminder.listReminder.keys.elementAt(index),conTent: ModelListReminder.listReminder['${ModelListReminder.listReminder.keys.elementAt(index)}'],color: ModelListReminder.myList['${ModelListReminder.listReminder.keys.elementAt(index)}'].color,);
-                }),
-              )
+            Padding(
+              padding: EdgeInsets.only(left: ScreenUtil().setWidth(10)),
+              child: Text(
+                'All',
+                style: TextStyle(
+                    color: Colors.black87,
+                    fontWeight: FontWeight.w900,
+                    fontSize: ScreenUtil().setSp(30)),
+              ),
+            ),
+            Column(
+              children:
+                  List.generate(ModelListReminder.listReminder.length, (index) {
+                return StickyHeaderAll(
+                  header: ModelListReminder.listReminder.keys.elementAt(index),
+                  conTent: ModelListReminder.listReminder[
+                      '${ModelListReminder.listReminder.keys.elementAt(index)}'],
+                  color: ModelListReminder
+                      .myList[
+                          '${ModelListReminder.listReminder.keys.elementAt(index)}']
+                      .color,
+                );
+              }),
+            )
           ],
         ),
       ),
     );
   }
-  Widget _appBar(BuildContext context){
+
+  Widget _appBar(BuildContext context) {
     return AppBar(
       backgroundColor: Colors.transparent,
       elevation: 0,
       leading: GestureDetector(
-        onTap: (){
+        onTap: () {
           Navigator.pop(context);
         },
         child: Row(
@@ -49,7 +66,11 @@ class _State extends State<AllPage> {
               size: ScreenUtil().setSp(20),
               color: Colors.blue,
             ),
-            Text('Lists',style: TextStyle(color: Colors.blue,fontSize: ScreenUtil().setSp(17)),)
+            Text(
+              'Lists',
+              style: TextStyle(
+                  color: Colors.blue, fontSize: ScreenUtil().setSp(17)),
+            )
           ],
         ),
       ),

@@ -1,5 +1,6 @@
 import 'dart:ui';
-import 'package:ghi_chu/new_list/provider_new_list.dart';
+
+import 'package:ghi_chu/add_list/provider_new_list.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

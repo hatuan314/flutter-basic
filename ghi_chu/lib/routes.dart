@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:ghi_chu/add_list/provider_new_list.dart';
 import 'package:ghi_chu/all_page/all_page.dart';
 import 'package:ghi_chu/common/constants/route_constants.dart';
 import 'package:ghi_chu/details/details_page.dart';
@@ -9,8 +10,7 @@ import 'package:ghi_chu/home_page/provider_home_page.dart';
 import 'package:ghi_chu/list_reminder/list_reminder.dart';
 import 'package:ghi_chu/list_reminder/prrovider_list_reminder_page.dart';
 import 'package:ghi_chu/my_list_page/my_list_page.dart';
-import 'package:ghi_chu/new_list/new_list.dart';
-import 'package:ghi_chu/new_list/provider_new_list.dart';
+
 import 'package:ghi_chu/new_reminder/new_reminder_page.dart';
 import 'package:ghi_chu/new_reminder/provider_reminder.dart';
 import 'package:ghi_chu/reminders/reminder_page.dart';
@@ -20,6 +20,8 @@ import 'package:ghi_chu/to_day_page/provider_to_day.dart';
 import 'package:ghi_chu/to_day_page/today_page.dart';
 
 import 'package:provider/provider.dart';
+
+import 'add_list/add_list.dart';
 class Routes {
   static Map<String, WidgetBuilder> getAll() {
     return {

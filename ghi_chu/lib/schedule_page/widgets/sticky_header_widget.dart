@@ -3,13 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screen_util.dart';
 import 'package:ghi_chu/model/model_map.dart';
 import 'package:ghi_chu/model/reminder.dart';
+import 'package:ghi_chu/schedule_page/widgets/add_reminder_widget.dart';
+import 'package:ghi_chu/schedule_page/widgets/list_reminder_widget.dart';
 import 'package:sticky_headers/sticky_headers/widget.dart';
 import 'package:intl/intl.dart';
 
 class StickyHeaderWidget extends StatelessWidget {
   String title;
-
-  StickyHeaderWidget({Key key, this.title}) : super(key: key);
+  int indexSticky;
+  int indexReminder;
+  List<TextEditingController> controler;
+  StickyHeaderWidget({Key key, this.title, this.indexSticky, this.controler,this.indexReminder})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return StickyHeader(
@@ -31,91 +36,45 @@ class StickyHeaderWidget extends StatelessWidget {
           width: ScreenUtil().screenWidth,
           color: Colors.white,
           child: Column(
-              // Text('${ModelListReminder.listReminder.values.elementAt(index)['${title}'][index1].title}');
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: List.generate(
-                  ModelListReminder.listReminder.values.length, (index) {
-                return Column(
+            children: [
+              Column(
+                  // Text('${ModelListReminder.listReminder.values.elementAt(index)['${title}'][index1].title}');
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: List.generate(
-                      ModelListReminder.listReminder.values
-                                  .elementAt(index)['${title}'] ==
-                              null
-                          ? 0
-                          : ModelListReminder.listReminder.values
-                              .elementAt(index)['${title}']
-                              .length, (index1) {
-                    List<Reminder> reminder = ModelListReminder
-                        .listReminder.values
-                        .elementAt(index)['${title}'];
-                    return Row(
-                      children: [
-                        Icon(Icons.check_circle_outline_outlined),
-                        SizedBox(
-                          width: ScreenUtil().setWidth(10),
-                        ),
-                        Expanded(
-                            child: Container(
-                          padding: EdgeInsets.only(
-                              bottom: ScreenUtil().setHeight(10),
-                              top: ScreenUtil().setHeight(10)),
-                          decoration: BoxDecoration(
-                              border: Border(
-                                  bottom: BorderSide(color: Colors.black12))),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                '${reminder[index1].title}',
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: ScreenUtil().setSp(16)),
-                              ),
-                              SizedBox(
-                                height: ScreenUtil().setHeight(5),
-                              ),
-                              Row(
-                                children: [
-                                  Text(
-                                    '${reminder[index1].group}',
-                                    style: TextStyle(
-                                        color: Colors.black45,
-                                        fontSize: ScreenUtil().setSp(14)),
-                                  ),
-                                  Visibility(
-                                      visible: reminder[index1].time,
-                                      child: Text(
-                                        ' - ${DateFormat('HH:mm').format(DateTime.fromMillisecondsSinceEpoch(reminder[index1].date))}',
-                                        style: TextStyle(
-                                            color: Colors.red,
-                                            fontSize: ScreenUtil().setSp(14)),
-                                      ))
-                                ],
-                              ),
-                              Visibility(
-                                  visible: reminder[index1].note == ''
-                                      ? false
-                                      : true,
-                                  child: Column(
-                                    children: [
-                                      SizedBox(
-                                        height: ScreenUtil().setHeight(5),
-                                      ),
-                                      Text(
-                                        '${reminder[index1].note}',
-                                        style: TextStyle(
-                                            color: Colors.black45,
-                                            fontSize: ScreenUtil().setSp(14)),
-                                      )
-                                    ],
-                                  ))
-                            ],
-                          ),
-                        ))
-                      ],
+                      ModelListReminder.listReminder.values.length, (index) {
+                    return Column(
+                      children: List.generate(
+                          ModelListReminder.listReminder.values
+                                      .elementAt(index)['${title}'] ==
+                                  null
+                              ? 0
+                              : ModelListReminder.listReminder.values
+                                  .elementAt(index)['${title}']
+                                  .length, (index1) {
+                        List<Reminder> reminder = ModelListReminder
+                            .listReminder.values
+                            .elementAt(index)['${title}'];
+                        indexReminder=indexReminder+1;
+                        return ListReminderSchedule(
+                          keyDate: title,
+                          controller: controler,
+                          index: indexReminder,
+                            indexSticky: indexSticky,
+                            title: reminder[index1].title,
+                            note: reminder[index1].note,
+                            group: reminder[index1].group,
+                            time: reminder[index1].time,
+                            date: reminder[index1].date);
+                      }),
                     );
-                  }),
-                );
-              })),
+                  })),
+              AddReminder(
+                index: indexSticky,
+                controller: controler,
+                keyDate: title,
+              )
+            ],
+          ),
         ));
   }
 }
