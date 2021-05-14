@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_basic_app/common/constants/route_constants.dart';
 import 'package:flutter_basic_app/presentation/journey/buoi_10/home_page/homepage_provider.dart';
 import 'package:flutter_basic_app/presentation/journey/buoi_10/reminders_list.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -18,11 +19,15 @@ class CreateNewReminder extends StatelessWidget {
   String time;
   var details;
 
-  String now = DateTime.now().day.toString() +
-      "/" +
-      DateTime.now().month.toString() +
-      "/" +
-      DateTime.now().year.toString();
+  String now = DateTime.now().day < 10
+      ? '0' + DateTime.now().day.toString()
+      : DateTime.now().day.toString() +
+          "/" +
+          (DateTime.now().month < 10
+              ? '0' + DateTime.now().month.toString()
+              : DateTime.now().month.toString()) +
+          "/" +
+          DateTime.now().year.toString();
   @override
   Widget build(BuildContext context) {
     final item = Provider.of<ReminderProvider>(context, listen: false);
@@ -223,8 +228,8 @@ class CreateNewReminder extends StatelessWidget {
                                 Expanded(
                                     flex: 9,
                                     child: Column(
-                                    
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Text(
                                           'Details',
@@ -234,15 +239,17 @@ class CreateNewReminder extends StatelessWidget {
                                               color: Colors.black),
                                         ),
                                         Padding(
-                                          padding: EdgeInsets.only(top: ScreenUtil().setHeight(0.7)),
+                                          padding: EdgeInsets.only(
+                                              top: ScreenUtil().setHeight(0.7)),
                                           child: Text(
-                                            item.details['date'] != ''
-                                                ? (item.details['time'] != ''
-                                                    ? '${(item.details['date'] == now ? 'Today' : item.details['date'])}, ${item.details['time']}, ${item.details['priority'] == 0 ? 'None' : (item.details['priority'] == 1 ? 'Low' : (item.details['priority'] == 2 ? 'Medium' : 'High'))}'
-                                                    : '${(item.details['date'] == now ? 'Today' : item.details['date'])}, ${item.details['priority'] == 0 ? 'None' : (item.details['priority'] == 1 ? 'Low' : (item.details['priority'] == 2 ? 'Medium' : 'High'))}')
+                                            item.details['date'] != 0
+                                                ? (item.details['time']%10==1
+                                                    ? '${(DateFormat('dd/MM/yyyy').format(DateTime.fromMillisecondsSinceEpoch(item.details['date'])).compareTo(now) == 0 ? 'Today' : DateFormat('dd/MM/yyyy').format(DateTime.fromMillisecondsSinceEpoch(item.details['date'])) == now ? 'Today' : DateFormat('dd/MM/yyyy').format(DateTime.fromMillisecondsSinceEpoch(item.details['date'])).compareTo(now) == 0 ? 'Today' : DateFormat('dd/MM/yyyy').format(DateTime.fromMillisecondsSinceEpoch(item.details['date'])))}, ${DateFormat('HH:mm').format(DateTime.fromMillisecondsSinceEpoch(item.details['date'] + item.details['time']))}, ${item.details['priority'] == 0 ? 'None' : (item.details['priority'] == 1 ? 'Low' : (item.details['priority'] == 2 ? 'Medium' : 'High'))}'
+                                                    : '${(DateFormat('dd/MM/yyyy').format(DateTime.fromMillisecondsSinceEpoch(item.details['date'])).compareTo(now) == 0 ? 'Today' : DateFormat('dd/MM/yyyy').format(DateTime.fromMillisecondsSinceEpoch(item.details['date'])) == now ? 'Today' : DateFormat('dd/MM/yyyy').format(DateTime.fromMillisecondsSinceEpoch(item.details['date'])).compareTo(now) == 0 ? 'Today' : DateFormat('dd/MM/yyyy').format(DateTime.fromMillisecondsSinceEpoch(item.details['date'])))}, ${item.details['priority'] == 0 ? 'None' : (item.details['priority'] == 1 ? 'Low' : (item.details['priority'] == 2 ? 'Medium' : 'High'))}')
                                                 : '${item.details['priority'] == 0 ? 'None' : (item.details['priority'] == 1 ? 'Low' : (item.details['priority'] == 2 ? 'Medium' : 'High'))}',
                                             style: TextStyle(
-                                                fontSize: ScreenUtil().setSp(12),
+                                                fontSize:
+                                                    ScreenUtil().setSp(12),
                                                 fontWeight: FontWeight.w500,
                                                 color: Colors.blue),
                                           ),
@@ -340,23 +347,23 @@ class CreateNewReminder extends StatelessWidget {
 
   Widget _appBar(BuildContext context) {
     final item = Provider.of<ReminderProvider>(context);
-    final AlertDialog errorDialog = AlertDialog(
-      title: Text('Data is invalid'),
-      actions: [
-        FlatButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          child: Text('OK'),
-        ),
-      ],
-    );
+
     int value;
     return AppBar(
       elevation: 0,
       leadingWidth: ScreenUtil().screenWidth / 5,
       leading: GestureDetector(
-        onTap: () => Navigator.pop(context),
+        onTap: () =>  showDialog(context: context, builder: (_)=>AlertDialog(
+            title:Text('Cancel ?'),
+            actions: [
+              FlatButton(
+                onPressed: () {Navigator.pop(context);},
+                child: Text('No'),
+              ),
+              FlatButton(
+                onPressed: () {Navigator.pop(context);Navigator.pop(context);},
+                child: Text('Yes'),
+              ),])),
         child: Align(
           alignment: Alignment.center,
           child: Text(
@@ -378,31 +385,38 @@ class CreateNewReminder extends StatelessWidget {
             fontSize: ScreenUtil().setSp(16),
             fontWeight: FontWeight.w700),
       ),
-      actions: [
+      actions: [(item.title == null ||
+    item.notes == null ||
+    item.title == '' ||
+        item.notes == '')? Container(
+      //color: Colors.blue,
+      width: ScreenUtil().screenWidth / 6,
+      child: Align(
+        alignment: Alignment.center,
+        child: Text(
+          'Add',
+          style: TextStyle(
+              color: Colors.grey,
+              fontSize: ScreenUtil().setSp(15),
+              fontWeight: FontWeight.w600),
+        ),
+      ),
+    ):
         GestureDetector(
-          child: GestureDetector(
             onTap: () => {
-              if (item.title == null ||
-                  item.notes == null ||
-                  item.title == '' ||
-                  item.notes == '')
-                {
-                  showDialog(
-                      context: context, builder: (context) => errorDialog)
-                }
-              else
-                {
+
                   RemindersList.addReminder(
                       item.title,
                       item.notes,
                       item.list,
-                      item.details != null ? item.details['date'] : '',
-                      item.details != null ? item.details['time'] : '',
+                      item.details != null
+                          ? item.details['date'] + item.details['time']
+                          : 0,
                       item.details != null ? item.details['priority'] : 0),
                   // log(value.toString()+'***********'),
                   Navigator.pop(context)
-                }
-            },
+                },
+
             child: Container(
               //color: Colors.blue,
               width: ScreenUtil().screenWidth / 6,
@@ -418,7 +432,7 @@ class CreateNewReminder extends StatelessWidget {
               ),
             ),
           ),
-        ),
+
       ],
     );
   }

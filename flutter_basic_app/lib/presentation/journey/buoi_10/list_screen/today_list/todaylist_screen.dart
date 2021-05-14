@@ -5,10 +5,11 @@ import 'package:flutter_basic_app/presentation/journey/buoi_10/list_screen/today
 import 'package:flutter_basic_app/presentation/journey/buoi_10/reminders_list.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class TodayList extends StatelessWidget {
-  String now =  DateTime.now().day.toString() + "/" +DateTime.now().month.toString() + "/" +
+  String now =  DateTime.now().day<10?'0'+DateTime.now().day.toString():DateTime.now().day.toString() + "/" +(DateTime.now().month<10?'0'+DateTime.now().month.toString():DateTime.now().month.toString()) + "/" +
       DateTime.now().year.toString();
   @override
   Widget build(BuildContext context) {
@@ -65,6 +66,9 @@ Widget todayListWidget(BuildContext context)
               shrinkWrap: true,
               itemCount: item.todayList.length,
               itemBuilder: (context, index) {
+                String time=DateFormat('HH:mm').format(DateTime.fromMillisecondsSinceEpoch(item.todayList[index].dateAndTime));
+                String date=DateFormat('dd/MM/yyyy').format(DateTime.fromMillisecondsSinceEpoch(item.todayList[index].dateAndTime));
+
                 return Slidable(
                     actionPane: SlidableDrawerActionPane(),
                 secondaryActions: [
@@ -79,26 +83,42 @@ Widget todayListWidget(BuildContext context)
                 iconWidget: Icon(Icons.delete,color: Colors.white,),
                 color:Colors.red,
                 onTap: () => {
-                id=item.todayList[index].id,
-                RemindersList.allReminders[now].removeAt(index),
-                  if( RemindersList.allReminders[now].length==0)
-                    {
-                      RemindersList.allReminders.remove(now),
-                    },
-                for (int i = 0; i <RemindersList.MyLists.length;i++)
+                  showDialog(context: context, builder: (_)=>AlertDialog(
+                    title:Text('Delete ?'),
+                    actions: [
+                      FlatButton(
+                        onPressed: () {Navigator.pop(context);},
+                        child: Text('Cancel'),
+                      ),
+                      FlatButton(
+                        onPressed: () {
+                          id=item.todayList[index].id;
+                          RemindersList.allReminders[now].removeAt(index);
+                          if( RemindersList.allReminders[now].length==0)
+                          {
+                          RemindersList.allReminders.remove(now);
+                          };
+                          for (int i = 0; i <RemindersList.MyLists.length;i++)
 
-                    for (int j = 0; j <RemindersList.MyLists[i].list.length;j++)
+                          for (int j = 0; j <RemindersList.MyLists[i].list.length;j++)
 
-                        if (RemindersList.MyLists[i].list[j].id ==id)
-                        {
-                        RemindersList.MyLists[i].list.removeAt(j),
-                          j--
+                          if (RemindersList.MyLists[i].list[j].id ==id)
+                          {
+                          RemindersList.MyLists[i].list.removeAt(j);
+                          j--;
 
-                      }
+                          }
 
-                  ,
-                index--,
-                item.update(),
+                          ;
+                          index--;
+                          item.update();
+                          Navigator.pop(context);},
+                        child: Text('OK'),
+                      ),
+                    ],
+                  )),
+
+
                 },
                 )
                 ],
@@ -155,11 +175,8 @@ Widget todayListWidget(BuildContext context)
                                         top: ScreenUtil()
                                             .setHeight(3)),
                                     child: Text
-                                          (RemindersList
-                                          .allReminders[now][index]
-                                          .time !=
-                                          ''
-                                          ? '${RemindersList.allReminders[now][index].time} \n${RemindersList.allReminders[now][index].notes}'
+                                          ( (RemindersList.allReminders[now][index].dateAndTime%10==1)
+                                          ? '${time} \n${RemindersList.allReminders[now][index].notes}'
                                           : '${RemindersList.allReminders[now][index].notes}',
                                       style: TextStyle(
                                           fontWeight: FontWeight.w500,

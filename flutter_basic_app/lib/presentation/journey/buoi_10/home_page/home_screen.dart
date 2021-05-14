@@ -10,6 +10,7 @@ import 'package:flutter_basic_app/presentation/journey/buoi_10/list_screen/today
 
 
 import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 
 import 'package:provider/provider.dart';
 import 'package:flutter/widgets.dart';
@@ -23,8 +24,6 @@ class B10HomeScreen extends StatefulWidget {
 }
 class _B10HomeScreen extends State<B10HomeScreen> {
   final TextEditingController textName = TextEditingController();
-  RemindersList remindersList= RemindersList();
-
   @override
   Widget build(BuildContext context) {
   //  log(context.watch<HomePageProvider>().MyList.length.toString());
@@ -134,7 +133,70 @@ class _B10HomeScreen extends State<B10HomeScreen> {
                       shrinkWrap: true,
                       itemCount: context.watch<HomePageProvider>().MyLists.length,
                       itemBuilder: (context, index) {
-                        return GestureDetector(
+                        return Slidable(
+                     /*     dismissal:  SlidableDismissal(
+                            child: SlidableDrawerDismissal(),
+                           closeOnCanceled: true,
+                          ),*/
+                            closeOnScroll: true,
+                            actionPane: SlidableDrawerActionPane(),
+                            secondaryActions: [
+                              IconSlideAction(
+                                caption: 'Edit',
+                                iconWidget: Icon(Icons.edit,color: Colors.white,),
+                                color: Colors.blue,
+                                onTap: () => {},
+                              ),
+                              IconSlideAction(
+                                caption: 'Delete',
+                                iconWidget: Icon(Icons.delete,color: Colors.white,),
+                                color:Colors.red,
+                                onTap: () => {
+                                  RemindersList.MyLists[index].name=='Reminders'? showDialog(context: context, builder: (_)=>AlertDialog(
+                        title:Text('Default list cannot be deleted',
+                        style: TextStyle(fontSize: ScreenUtil().setSp(15)),),
+                        actions: [
+                        FlatButton(
+                        onPressed: () {Navigator.pop(context);},
+                        child: Text('OK'),
+                        )])):
+                                  showDialog(context: context, builder: (_)=>AlertDialog(
+                                    title:Text('Delete ?'),
+                                    actions: [
+                                      FlatButton(
+                                        onPressed: () {Navigator.pop(context);},
+                                        child: Text('Cancel'),
+                                      ),
+                                      FlatButton(
+                                        onPressed: () {
+                                          //id=item.MyLists[index].list[index1].id;
+                                        //  RemindersList.MyLists[index].list.removeAt(index1);
+                                          for(int j=0;j<RemindersList.MyLists[index].list.length;j++)
+                                            {
+                                          RemindersList.allReminders.forEach((key, value) {
+                                            for(int i=0;i<value.length;i++)
+                                            {
+                                              if(value[i].id==RemindersList.MyLists[index].list[i].id)
+                                              {
+                                                value.removeAt(i);
+                                                i--;
+                                              }
+                                            }
+                                          });};
+                                          RemindersList.MyLists.removeAt(index);
+                                          index--;
+                                          item.update();
+                                          Navigator.pop(context);},
+                                        child: Text('OK'),
+                                      ),
+                                    ],
+                                  )),
+
+                                },
+                              )
+                            ],
+                            actionExtentRatio: 0.2,
+                            child: GestureDetector(
                           onTap: ()async {await Navigator.push(context,  MaterialPageRoute(builder:
                           (_)=> (listScreen(context,index)
 
@@ -202,7 +264,7 @@ class _B10HomeScreen extends State<B10HomeScreen> {
                 ),
 
                           ),
-                        );}
+                        ));}
               ),
             )
           ],

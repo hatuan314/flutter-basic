@@ -18,6 +18,17 @@ class ScheduledProvider with ChangeNotifier,DiagnosticableTreeMixin{
         i++;
       }
     });
+    for(int i=0;i<dateList.length-1;i++)
+      {
+        for(int j=i+1;j<dateList.length;j++)
+          {
+            if((dateList[i]).compareTo(dateList[j])>0)   {
+                String tmp= dateList[i];
+                dateList[i]=dateList[j];
+                dateList[j]=tmp;
+              }
+          }
+      }
   }
   void update()
   {
@@ -29,9 +40,20 @@ class ScheduledProvider with ChangeNotifier,DiagnosticableTreeMixin{
           dateList.add(key);
           scheduledList.addAll({key: value});
         }
-
       }
     });
+    for(int i=0;i<dateList.length-1;i++)
+    {
+      for(int j=i+1;j<dateList.length;j++)
+      {
+        if((dateList[i]).compareTo(dateList[j])>0)
+        {
+          String tmp= dateList[i];
+          dateList[i]=dateList[j];
+          dateList[j]=tmp;
+        }
+      }
+    }
     notifyListeners();
   }
 }

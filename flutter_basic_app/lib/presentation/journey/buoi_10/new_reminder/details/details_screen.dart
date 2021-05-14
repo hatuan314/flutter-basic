@@ -1,6 +1,9 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screen_util.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'details_provider.dart';
 
@@ -159,7 +162,10 @@ class DetailsScreen extends StatelessWidget {
         )
       ],
     );
+    String now =  DateTime.now().day<10?'0'+DateTime.now().day.toString():DateTime.now().day.toString() + "/" +(DateTime.now().month<10?'0'+DateTime.now().month.toString():DateTime.now().month.toString()) + "/" +
+        DateTime.now().year.toString();
 
+    log(now);
     return SafeArea(
       child: Scaffold(
           //  backgroundColor: Colors.transparent,
@@ -198,7 +204,7 @@ class DetailsScreen extends StatelessWidget {
                               color: Colors.black),
                         ),
                         subtitle: Text(
-                          item.hasDate == true ? item.date : '',
+                          item.hasDate == true ? (DateFormat('dd/MM/yyyy').format(DateTime.fromMillisecondsSinceEpoch(item.date)).compareTo(now)==0?'Today':DateFormat('dd/MM/yyyy').format(DateTime.fromMillisecondsSinceEpoch(item.date))) : '',
                           style: TextStyle(
                               fontSize: ScreenUtil().setSp(12),
                               fontWeight: FontWeight.w400,
@@ -231,7 +237,7 @@ class DetailsScreen extends StatelessWidget {
                               color: Colors.black),
                         ),
                         subtitle: Text(
-                          item.hasTime == true ? item.time : '',
+                          item.hasTime == true ? DateFormat('HH:mm').format(DateTime.fromMillisecondsSinceEpoch(item.time+item.date)) : '',
                           style: TextStyle(
                               fontSize: ScreenUtil().setSp(12),
                               fontWeight: FontWeight.w400,

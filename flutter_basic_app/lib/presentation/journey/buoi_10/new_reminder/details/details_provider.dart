@@ -3,10 +3,11 @@ import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class DetailsProvider with ChangeNotifier,DiagnosticableTreeMixin{
-  String date='';
-  String time='';
+  int date=0;
+  int time=0;
   int priority=0;
   bool hasDate=false;
   bool hasTime=false;
@@ -21,11 +22,16 @@ class DetailsProvider with ChangeNotifier,DiagnosticableTreeMixin{
 
     hasTime=has_time;
     if(hasTime==true)
-    {time=(timeOfDay.hour.toString()+':'+timeOfDay.minute.toString()) ;
-    log(time);}
+      {
+        log(timeOfDay.toString());
+        time=(timeOfDay.hour*60*60+timeOfDay.minute*60)*1000+1;
+        log(DateFormat('HH:mm dd/MM/yyyy').format(DateTime.fromMillisecondsSinceEpoch(date+time)));
+    //{time=(timeOfDay.hour.toString()+':'+timeOfDay.minute.toString()) ;
+    log(time.toString());}
+
     else
       {
-        time='';
+        time=0;
       }
     notifyListeners();
   }
@@ -33,12 +39,13 @@ class DetailsProvider with ChangeNotifier,DiagnosticableTreeMixin{
   {
     hasDate=has_date;
     if(hasDate==true) {
-        date =  value.day.toString() + "/" +value.month.toString() + "/" +
-            value.year.toString();
+   //   log(value.toIso8601String());
+        date = DateTime.parse(DateFormat('yyyy-MM-dd').format(value))
+            .millisecondsSinceEpoch;
     }
     else
     {
-      date='';
+      date=0;
     }
     log(hasDate.toString());
     log(date.toString());

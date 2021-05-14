@@ -7,14 +7,12 @@ import 'package:flutter_basic_app/presentation/journey/buoi_10/list_screen/sched
 import 'package:flutter_basic_app/presentation/journey/buoi_10/reminders_list.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class ScheduledList extends StatelessWidget {
   int id;
-  String now = DateTime.now().day.toString() +
-      "/" +
-      DateTime.now().month.toString() +
-      "/" +
+  String now =  DateTime.now().day<10?'0'+DateTime.now().day.toString():DateTime.now().day.toString() + "/" +(DateTime.now().month<10?'0'+DateTime.now().month.toString():DateTime.now().month.toString()) + "/" +
       DateTime.now().year.toString();
   @override
   Widget build(BuildContext context) {
@@ -92,6 +90,8 @@ class ScheduledList extends StatelessWidget {
                                                   item.dateList[index]]
                                               .length,
                                           itemBuilder: (context, index1) {
+                                            String time=DateFormat('HH:mm').format(DateTime.fromMillisecondsSinceEpoch(item.scheduledList[item.dateList[ index]][index1].dateAndTime));
+                                            String date=DateFormat('dd/MM/yyyy').format(DateTime.fromMillisecondsSinceEpoch(item.scheduledList[item.dateList[ index]][index1].dateAndTime));
                                             //  log(index1.toString()+'}}}}}}}}}}}}');
                                             return Slidable(
                                                 actionPane:
@@ -114,26 +114,42 @@ class ScheduledList extends StatelessWidget {
                                                       ),
                                                       color: Colors.red,
                                                       onTap: () => {
-                                                            id = item.scheduledList[item.dateList[ index]][index1].id,
-                                                            RemindersList.allReminders[item.dateList[index]].removeAt(index1),
-                                                        if(RemindersList.allReminders[item.dateList[index]].length==0)
-                                                          {
-                                                            RemindersList.allReminders.remove(item.dateList[index]),
-                                                          },
-                                                            for (int i = 0; i <RemindersList.MyLists.length;i++)
-                                                              {
-                                                                for (int j = 0; j <RemindersList.MyLists[i] .list.length;j++)
-                                                                  {
-                                                                  if (RemindersList.MyLists[i].list[j].id ==id)
-                                                                  {
-                                                                    RemindersList.MyLists[i].list.removeAt(j),
-                                                                    j--,
+                                                        showDialog(context: context, builder: (_)=>AlertDialog(
+                                                          title:Text('Delete ?'),
+                                                          actions: [
+                                                            FlatButton(
+                                                              onPressed: () {Navigator.pop(context);},
+                                                              child: Text('Cancel'),
+                                                            ),
+                                                            FlatButton(
+                                                              onPressed: () {
 
-                                                                  }
-                                                                },
-                                                              },
-                                                                index1--,
-                                                                item.update(),
+                                                                id = item.scheduledList[item.dateList[ index]][index1].id;
+                                                                RemindersList.allReminders[item.dateList[index]].removeAt(index1);
+                                                                if(RemindersList.allReminders[item.dateList[index]].length==0)
+                                                                {
+                                                                RemindersList.allReminders.remove(item.dateList[index]);
+                                                                };
+                                                                for (int i = 0; i <RemindersList.MyLists.length;i++)
+                                                                {
+                                                                for (int j = 0; j <RemindersList.MyLists[i] .list.length;j++)
+                                                                {
+                                                                if (RemindersList.MyLists[i].list[j].id ==id)
+                                                                {
+                                                                RemindersList.MyLists[i].list.removeAt(j);
+                                                                j--;
+
+                                                                }
+                                                                };
+                                                                };
+                                                                index1--;
+                                                                item.update();
+                                                                Navigator.pop(context);},
+                                                              child: Text('OK'),
+                                                            ),
+                                                          ],
+                                                        )),
+
                                                               }
                                                           )
                                                 ],
@@ -207,9 +223,12 @@ class ScheduledList extends StatelessWidget {
                                                                         top: ScreenUtil()
                                                                             .setHeight(3)),
                                                                     child: Text(
-                                                                      item.scheduledList[item.dateList[index]][index1].time !=
-                                                                              ''
-                                                                          ? '${item.scheduledList[item.dateList[index]][index1].time} \n${item.scheduledList[item.dateList[index]][index1].notes}'
+                                                                       (item
+                                                                           .scheduledList[
+                                                                       item.dateList[index]]
+                                                                       [
+                                                                       index1].dateAndTime%10==1)
+                                                                          ? '${ time} \n${item.scheduledList[item.dateList[index]][index1].notes}'
                                                                           : '${item.scheduledList[item.dateList[index]][index1].notes}',
                                                                       style: TextStyle(
                                                                           fontWeight: FontWeight

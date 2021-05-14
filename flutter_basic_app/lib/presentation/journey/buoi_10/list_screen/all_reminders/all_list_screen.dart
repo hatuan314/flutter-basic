@@ -4,6 +4,7 @@ import 'package:flutter_basic_app/common/constants/route_constants.dart';
 import 'package:flutter_basic_app/presentation/journey/buoi_10/reminders_list.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import 'all_list_provider.dart';
@@ -11,10 +12,7 @@ import 'all_list_provider.dart';
 class AllRemindersList extends StatelessWidget {
   // RemindersList RemindersList = RemindersList();
 
-  String now = DateTime.now().day.toString() +
-      "/" +
-      DateTime.now().month.toString() +
-      "/" +
+  String now =  DateTime.now().day<10?'0'+DateTime.now().day.toString():DateTime.now().day.toString() + "/" +(DateTime.now().month<10?'0'+DateTime.now().month.toString():DateTime.now().month.toString()) + "/" +
       DateTime.now().year.toString();
   @override
   Widget build(BuildContext context) {
@@ -98,8 +96,11 @@ class AllRemindersList extends StatelessWidget {
                                     itemCount: item
                                         .MyLists[index].list.length,
                                     itemBuilder: (context, index1) {
+                                      String time=DateFormat('HH:mm').format(DateTime.fromMillisecondsSinceEpoch(item.MyLists[index]
+                                          .list[index1].dateAndTime));
+                                      String date=DateFormat('dd/MM/yyyy').format(DateTime.fromMillisecondsSinceEpoch(item.MyLists[index]
+                                          .list[index1].dateAndTime));
                                       return Slidable(
-
                                         closeOnScroll: true,
                                       actionPane: SlidableDrawerActionPane(),
                                       secondaryActions: [
@@ -223,15 +224,16 @@ class AllRemindersList extends StatelessWidget {
                                                                             index]
                                                                         .list[
                                                                             index1]
-                                                                        .date !=
-                                                                    ''
-                                                                ? (item
-                                                                            .MyLists[index]
-                                                                            .list[index1]
-                                                                            .time !=
-                                                                        ''
-                                                                    ? '${item.MyLists[index].list[index1].date == now ? 'Today' : item.MyLists[index].list[index1].date}, ${item.MyLists[index].list[index1].time} \n${item.MyLists[index].list[index1].notes}'
-                                                                    : '${item.MyLists[index].list[index1].date == now ? 'Today' : item.MyLists[index].list[index1].date}\n${item.MyLists[index].list[index1].notes}')
+                                                                        .dateAndTime !=
+                                                                    0
+                                                                ? (
+                                                                (item.MyLists[
+                                                                index]
+                                                                    .list[
+                                                                index1]
+                                                                    .dateAndTime%10==1)
+                                                                    ? '${date == now ? 'Today' : date}, ${time} \n${item.MyLists[index].list[index1].notes}'
+                                                                    : '${date == now ? 'Today' : date}\n${item.MyLists[index].list[index1].notes}')
                                                                 : '${item.MyLists[index].list[index1].notes}',
                                                             style: TextStyle(
                                                                 fontWeight:

@@ -3,6 +3,7 @@ import 'package:flutter_basic_app/common/constants/route_constants.dart';
 import 'package:flutter_basic_app/presentation/journey/buoi_10/list_screen/list/list_provider.dart';
 import 'package:flutter_screenutil/screen_util.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../../reminders_list.dart';
@@ -63,7 +64,12 @@ Widget listWidget(int index, BuildContext context) {
               shrinkWrap: true,
               itemCount:  RemindersList.MyLists[index].list.length,
               itemBuilder: (context, index1) {
-                return  Container(
+                String time=DateFormat('HH:mm').format(DateTime.fromMillisecondsSinceEpoch(RemindersList.MyLists[index]
+                    .list[index1].dateAndTime));
+                String date=DateFormat('dd/MM/yyyy').format(DateTime.fromMillisecondsSinceEpoch(RemindersList.MyLists[index]
+                    .list[index1].dateAndTime));
+                return
+                  Container(
                         padding:
                             EdgeInsets.only(top: ScreenUtil().setHeight(10)),
                         child: Row(
@@ -109,13 +115,12 @@ Widget listWidget(int index, BuildContext context) {
                                             top: ScreenUtil().setHeight(3)),
                                         child: Text(
                                           RemindersList.MyLists[index]
-                                                      .list[index1].date !=
-                                                  ''
-                                              ? (RemindersList.MyLists[index]
-                                                          .list[index1].time !=
-                                                      ''
-                                                  ? '${ RemindersList.MyLists[index].list[index1].date == now ? 'Today' :  RemindersList.MyLists[index].list[index1].date}, ${ RemindersList.MyLists[index].list[index1].time} \n${ RemindersList.MyLists[index].list[index1].notes}'
-                                                  : '${ RemindersList.MyLists[index].list[index1].date == now ? 'Today' :  RemindersList.MyLists[index].list[index1].date}\n${ RemindersList.MyLists[index].list[index1].notes}')
+                                                      .list[index1].dateAndTime !=
+                                                  0
+                                              ? (( RemindersList.MyLists[index]
+                                              .list[index1].dateAndTime%10==1)
+                                                  ? '${  date == now ? 'Today' :   date}, ${  time} \n${ RemindersList.MyLists[index].list[index1].notes}'
+                                                  : '${  date == now ? 'Today' :   date}\n${ RemindersList.MyLists[index].list[index1].notes}')
                                               : '${ RemindersList.MyLists[index].list[index1].notes}',
                                           style: TextStyle(
                                               fontWeight: FontWeight.w500,
