@@ -1,8 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+
 import 'package:ghi_chu/model/model_map.dart';
 import 'package:ghi_chu/model/reminder.dart';
-import 'package:intl/intl.dart';
 
 class ProviderReminder with ChangeNotifier, DiagnosticableTreeMixin {
   String title = '';
@@ -16,6 +17,7 @@ class ProviderReminder with ChangeNotifier, DiagnosticableTreeMixin {
   bool button = false;
   bool buttonDetails = false;
   bool timeDetails = false;
+
   void setGroup(String title, int index) {
     this.index = index;
     group = title;
@@ -56,8 +58,8 @@ class ProviderReminder with ChangeNotifier, DiagnosticableTreeMixin {
     } else {
       keyDate = 'orther';
     }
-    if (ModelListReminder.listReminder['${group}'].containsKey(keyDate)) {
-      ModelListReminder.listReminder['${group}']['${keyDate}'].add(Reminder(
+    if (ModelListReminder.listReminder['$group'].containsKey(keyDate)) {
+      ModelListReminder.listReminder['$group']['$keyDate'].add(Reminder(
           title,
           note,
           group,
@@ -67,7 +69,7 @@ class ProviderReminder with ChangeNotifier, DiagnosticableTreeMixin {
           DateTime.now().millisecondsSinceEpoch,
           time));
     } else {
-      ModelListReminder.listReminder['${group}'].addAll({
+      ModelListReminder.listReminder['$group'].addAll({
         keyDate: [
           Reminder(title, note, group, priority, date, createAt,
               DateTime.now().millisecondsSinceEpoch, time)
