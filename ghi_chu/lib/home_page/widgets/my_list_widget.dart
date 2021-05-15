@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:flutter/rendering.dart';
 import 'package:ghi_chu/__mock__/costranisn.dart';
 import 'package:ghi_chu/common/constants/route_constants.dart';
 import 'package:ghi_chu/home_page/provider_home_page.dart';
@@ -43,17 +44,14 @@ class MyListWiget extends StatelessWidget {
             AnimatedContainer(
                 width: context.watch<ProviderHomePage>().edit
                     ? 00
-                    : ScreenUtil().setWidth(35),
+                    : ScreenUtil(). setWidth(35),
                 duration: Duration(milliseconds: 239)),
             Expanded(
               child: GestureDetector(
                 onTap: () {
-                  Navigator.pushNamed(context, RouteList.myListPage,
-                      arguments: {
-                        'title': title,
-                        "data": ModelListReminder.listReminder['${title}'],
-                        'color': color
-                      });
+                  context
+                      .read<ProviderHomePage>()
+                      .setButtonDelete(null);
                 },
                 child: Row(
                   children: [

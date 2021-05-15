@@ -116,6 +116,7 @@ class NewListPage extends StatelessWidget {
               TextField(
                 controller: _textEditingController,
                 textAlign: TextAlign.center,
+
                 style: TextStyle(
                     color: context.watch<ProviderNewList>().color,
                     fontWeight: FontWeight.w600,
