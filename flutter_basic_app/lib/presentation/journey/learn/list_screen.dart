@@ -8,19 +8,6 @@ class ListScreen extends StatelessWidget {
   }
 
   Widget _body(BuildContext context) {
-    // return ListView.builder(
-    //     scrollDirection: Axis.vertical,
-    //     itemCount: 20,
-    //     itemBuilder: (context, index) {
-    //   return Container(
-    //     padding: EdgeInsets.all(20),
-    //     margin: EdgeInsets.all(10),
-    //     decoration: BoxDecoration(
-    //         borderRadius: BorderRadius.all(Radius.circular(5)),
-    //         border: Border.all(color: Colors.grey)),
-    //     child: Text('$index'),
-    //   );
-    // });
     return ListView(
       children: [
         _itemWidget('Home Screen', () {
