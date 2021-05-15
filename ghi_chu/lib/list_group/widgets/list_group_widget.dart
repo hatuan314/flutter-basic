@@ -1,12 +1,11 @@
 import 'dart:ui';
-import 'package:ghi_chu/common/constants/route_constants.dart';
-import 'package:ghi_chu/home_page/provider_home_page.dart';
-import 'package:ghi_chu/list_reminder/prrovider_list_reminder_page.dart';
-import 'package:ghi_chu/model/model_map.dart';
+
 import 'package:provider/provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screen_util.dart';
+
+import '../prrovider_list_reminder_page.dart';
 
 class ListReminderWidget extends StatelessWidget {
   String color;

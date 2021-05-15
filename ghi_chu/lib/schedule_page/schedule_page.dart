@@ -12,7 +12,7 @@ class SchedulePage extends StatefulWidget {
 }
 
 class _State extends State<SchedulePage> {
-  List<TextEditingController> textEditing = [];
+
   String key;
   @override
   Widget build(BuildContext context) {
@@ -43,7 +43,7 @@ class _State extends State<SchedulePage> {
                   title: Provider.of<ProviderSchedule>(context, listen: true)
                       .key1[index],
                   indexSticky: index,
-                  controler: textEditing,
+                  controler: Provider.of<ProviderSchedule>(context).textEditing,
                 );
               }),
             ),
@@ -84,9 +84,7 @@ class _State extends State<SchedulePage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    for (int i = 0; i <ProviderSchedule().getKey(); i++) {
-      textEditing.add(TextEditingController());
-    }
+    context.read<ProviderSchedule>().addTextEditing();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       context.read<ProviderSchedule>().getKey();
     });

@@ -152,20 +152,44 @@ class ProviderReminder with ChangeNotifier, DiagnosticableTreeMixin {
     if (date != null) {
       keyDate = DateFormat('yyyy-MM-dd')
           .format(DateTime.fromMillisecondsSinceEpoch(date));
-    }
-    if (ModelListReminder.listReminder.containsKey(group)) {
-      if (ModelListReminder.listReminder['${group}'].length == 0) {
-        initializationTimes(title, note, date, group, priority, createAt,
-            lastUpdate, time, keyDate);
-      } else {
-        newReminder(title, note, date, group, priority, createAt, lastUpdate,
-            time, keyDate);
-      }
     } else {
-      //tạo group Mới
-      newGroup(title, note, date, group, priority, createAt, lastUpdate, time,
-          keyDate);
+      keyDate = 'orther';
     }
+    if (ModelListReminder.listReminder['${group}'].containsKey(keyDate)) {
+      ModelListReminder.listReminder['${group}']['${keyDate}'].add(Reminder(
+          title,
+          note,
+          group,
+          priority,
+          date,
+          createAt,
+          DateTime.now().millisecondsSinceEpoch,
+          time));
+    } else {
+      ModelListReminder.listReminder['${group}'].addAll({
+        keyDate: [
+          Reminder(title, note, group, priority, date, createAt,
+              DateTime.now().millisecondsSinceEpoch, time)
+        ].toList()
+      });
+    }
+    // if (date != null) {
+    //   keyDate = DateFormat('yyyy-MM-dd')
+    //       .format(DateTime.fromMillisecondsSinceEpoch(date));
+    // }
+    // if (ModelListReminder.listReminder.containsKey(group)) {
+    //   if (ModelListReminder.listReminder['${group}'].length == 0) {
+    //     initializationTimes(title, note, date, group, priority, createAt,
+    //         lastUpdate, time, keyDate);
+    //   } else {
+    //     newReminder(title, note, date, group, priority, createAt, lastUpdate,
+    //         time, keyDate);
+    //   }
+    // } else {
+    //   //tạo group Mới
+    //   newGroup(title, note, date, group, priority, createAt, lastUpdate, time,
+    //       keyDate);
+    // }
 
     Navigator.pop(context);
   }

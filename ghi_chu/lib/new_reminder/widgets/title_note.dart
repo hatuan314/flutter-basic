@@ -8,7 +8,6 @@ import 'package:ghi_chu/new_reminder/provider_reminder.dart';
 class TitleNoteWidget extends StatelessWidget {
   TextEditingController titleController;
   TextEditingController noteController;
-
   TitleNoteWidget({Key key, this.titleController, this.noteController})
       : super(key: key);
 
@@ -53,9 +52,6 @@ class TitleNoteWidget extends StatelessWidget {
                       border: InputBorder.none,
                       hintText: 'Notes',
                       hintStyle: TextStyle(fontSize: ScreenUtil().setSp(17))),
-                  onChanged: (value) {
-
-                  },
                 ),
               ],
             ),

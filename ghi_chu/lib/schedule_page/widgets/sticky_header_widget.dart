@@ -56,6 +56,8 @@ class StickyHeaderWidget extends StatelessWidget {
                             .elementAt(index)['${title}'];
                         indexReminder=indexReminder+1;
                         return ListReminderSchedule(
+                          createAt: reminder[index1].createAt,
+                          reminder: reminder[index1],
                           keyDate: title,
                           controller: controler,
                           index: indexReminder,

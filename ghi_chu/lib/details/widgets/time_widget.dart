@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screen_util.dart';
@@ -5,8 +7,6 @@ import 'package:flutter_switch/flutter_switch.dart';
 import 'package:ghi_chu/details/provider_details_page.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:provider/provider.dart';
-
-
 
 class TimeWidget extends StatelessWidget {
   TimeOfDay pickedTime;
@@ -69,7 +69,8 @@ class TimeWidget extends StatelessWidget {
                                     fontSize: ScreenUtil().setSp(15)),
                               ),
                               Visibility(
-                                  visible: context.watch<ProviderDetailsPage>().date,
+                                  visible:
+                                      context.watch<ProviderDetailsPage>().date,
                                   child: Text(
                                     '${context.watch<ProviderDetailsPage>().timeDate}',
                                     style: TextStyle(
@@ -86,7 +87,9 @@ class TimeWidget extends StatelessWidget {
                             activeColor: Colors.green,
                             value: context.watch<ProviderDetailsPage>().date,
                             onToggle: (value) {
-                              context.read<ProviderDetailsPage>().dateSwitch(value);
+                              context
+                                  .read<ProviderDetailsPage>()
+                                  .dateSwitch(value);
                             },
                           ),
                         ],
@@ -99,14 +102,15 @@ class TimeWidget extends StatelessWidget {
             Visibility(
                 visible: context.watch<ProviderDetailsPage>().tableCalender,
                 child: TableCalendar(
+                  daysOfWeekHeight: ScreenUtil().setHeight(20),
                   firstDay: DateTime.utc(2010, 10, 16),
                   lastDay: DateTime.utc(2030, 3, 14),
                   focusedDay: context.watch<ProviderDetailsPage>().dateTime,
                   selectedDayPredicate: (day) {
-                    return isSameDay(context.watch<ProviderDetailsPage>().dateTime, day);
+                    return isSameDay(
+                        context.watch<ProviderDetailsPage>().dateTime, day);
                   },
                   onDaySelected: (date, focusdate) {
-
                     context.read<ProviderDetailsPage>().dateScheldul(date);
                   },
                 )),
@@ -159,7 +163,8 @@ class TimeWidget extends StatelessWidget {
                                     fontSize: ScreenUtil().setSp(15)),
                               ),
                               Visibility(
-                                  visible: context.watch<ProviderDetailsPage>().time,
+                                  visible:
+                                      context.watch<ProviderDetailsPage>().time,
                                   child: Text(
                                     '${context.watch<ProviderDetailsPage>().hour}:${context.watch<ProviderDetailsPage>().minuner}',
                                     style: TextStyle(
@@ -176,7 +181,9 @@ class TimeWidget extends StatelessWidget {
                             activeColor: Colors.green,
                             value: context.watch<ProviderDetailsPage>().time,
                             onToggle: (values) {
-                              context.read<ProviderDetailsPage>().timeSwitch(values);
+                              context
+                                  .read<ProviderDetailsPage>()
+                                  .timeSwitch(values);
                             },
                           ),
                         ],

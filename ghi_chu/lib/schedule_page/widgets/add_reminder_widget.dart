@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screen_util.dart';
+import 'package:ghi_chu/common/constants/route_constants.dart';
 import 'package:ghi_chu/model/model_map.dart';
 import 'package:ghi_chu/schedule_page/provider_scheduled.dart';
 import 'package:provider/provider.dart';
@@ -52,10 +53,33 @@ class AddReminder extends StatelessWidget {
             visible: index == context.watch<ProviderSchedule>().indexSticky
                 ? true
                 : false,
-            child: Icon(
-              Icons.error_outline,
-              size: ScreenUtil().setSp(23),
-              color: Colors.red,
+            child: GestureDetector(
+              onTap: () {
+                Navigator.pushNamed(context, RouteList.editReminder,
+                    arguments: {
+                      'group': 'Reminder',
+                      'title': controller[index].text,
+                      'note': '',
+                      'date': null,
+                      'time': false,
+                      'createAt': DateTime.now().millisecondsSinceEpoch,
+                      'reminder': 'none'
+                    }).whenComplete(() {
+                  for (int i = 0; i < ModelListReminder.myList.length; i++) {
+                    controller[i].text = '';
+                  }
+                  Provider.of<ProviderSchedule>(context, listen: false).key1 =
+                      [];
+                  Provider.of<ProviderSchedule>(context, listen: false)
+                      .addTextEditing();
+                  context.read<ProviderSchedule>().getKey();
+                });
+              },
+              child: Icon(
+                Icons.error_outline,
+                size: ScreenUtil().setSp(23),
+                color: Colors.red,
+              ),
             )),
         prefixIcon: Icon(
           Icons.add_circle_outlined,

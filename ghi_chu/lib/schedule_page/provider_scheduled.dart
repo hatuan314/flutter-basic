@@ -8,8 +8,16 @@ class ProviderSchedule with ChangeNotifier, DiagnosticableTreeMixin {
   String title;
   String keyDate;
   int indexReminder,indexStickyReminder;
+  List<TextEditingController> textEditing = [];
   int indexSticky = null;
-
+  void addTextEditing(){
+    for (int i = 0; i <ProviderSchedule().getKey(); i++) {
+      textEditing.add(TextEditingController());
+    }
+  }
+void upDate(){
+  notifyListeners();
+}
   void setFoucs(int index) {
     this.indexSticky = index;
     notifyListeners();

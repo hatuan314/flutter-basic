@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ghi_chu/all_page/widgets/add_widget.dart';
+import 'package:ghi_chu/all_page/widgets/list_reminder_all.dart';
 import 'package:ghi_chu/model/reminder.dart';
 import 'package:sticky_headers/sticky_headers.dart';
 import 'package:intl/intl.dart';
@@ -12,7 +13,16 @@ class StickyHeaderAll extends StatelessWidget {
   String header;
   Map conTent;
   String color;
-  StickyHeaderAll({Key key, this.header, this.conTent, this.color})
+  int indexHeader, indexReminder;
+  List<TextEditingController> controller;
+  StickyHeaderAll(
+      {Key key,
+      this.header,
+      this.conTent,
+      this.color,
+      this.controller,
+      this.indexHeader,
+      this.indexReminder})
       : super(key: key);
 
   @override
@@ -47,79 +57,28 @@ class StickyHeaderAll extends StatelessWidget {
                             conTent.values.elementAt(index1).length, (index) {
                       List<Reminder> reminder =
                           conTent.values.elementAt(index1);
-                      return Row(
-                        children: [
-                          Icon(Icons.check_circle_outlined),
-                          SizedBox(
-                            width: ScreenUtil().setWidth(7),
-                          ),
-                          Expanded(
-                              child: Container(
-                            padding: EdgeInsets.symmetric(
-                                vertical: ScreenUtil().setHeight(10)),
-                            decoration: BoxDecoration(
-                                border: Border(
-                                    bottom:
-                                        BorderSide(color: Colors.black26))),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  '${reminder[index].title}',
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: ScreenUtil().setSp(18)),
-                                ),
-                                Visibility(
-                                    visible: reminder[index].date == null
-                                        ? false
-                                        : true,
-                                    child: Column(
-                                      children: [
-                                        SizedBox(
-                                          height: ScreenUtil().setHeight(5),
-                                        ),
-                                        Text(
-                                          reminder[index].date == null
-                                              ? ''
-                                              : reminder[index].time
-                                                  ? '${DateFormat('HH:mm,dd/MM/yyyy').format(DateTime.fromMillisecondsSinceEpoch(reminder[index].date))}'
-                                                  : '${DateFormat('dd/MM/yyyy').format(DateTime.fromMillisecondsSinceEpoch(reminder[index].date))}',
-                                          style: TextStyle(
-                                              color: Colors.black45,
-                                              fontSize:
-                                                  ScreenUtil().setSp(14)),
-                                        ),
-                                      ],
-                                    )),
-                                Visibility(
-                                    visible: reminder[index].note == ''
-                                        ? false
-                                        : true,
-                                    child: Column(
-                                      children: [
-                                        SizedBox(
-                                          height: ScreenUtil().setHeight(7),
-                                        ),
-                                        Text(
-                                          '${reminder[index].note}',
-                                          style: TextStyle(
-                                              color: Colors.black54,
-                                              fontSize:
-                                                  ScreenUtil().setSp(13)),
-                                        )
-                                      ],
-                                    ))
-                              ],
-                            ),
-                          ))
-                        ],
+                      indexReminder = indexReminder + 1;
+                      return ListReminderAll(
+                        controller: controller,
+                        index: indexReminder,
+                        indexGroup: indexHeader,
+                        title: reminder[index].title,
+                        note: reminder[index].note,
+                        date: reminder[index].date,
+                        time: reminder[index].time,
+                        group: reminder[index].group,
+                        createAt: reminder[index].createAt,
+                        reminder: reminder[index],
                       );
                     }));
                   }),
                 ),
               ),
-              AddWidget(group: header,)
+              AddWidget(
+                index: indexHeader,
+                group: header,
+                controller: controller,
+              )
             ],
           )),
     );

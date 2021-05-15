@@ -1,16 +1,16 @@
 
+
 import 'package:flutter/material.dart';
 import 'package:ghi_chu/add_list/provider_new_list.dart';
 import 'package:ghi_chu/all_page/all_page.dart';
+import 'package:ghi_chu/all_page/prrovider_all_page.dart';
 import 'package:ghi_chu/common/constants/route_constants.dart';
 import 'package:ghi_chu/details/details_page.dart';
 import 'package:ghi_chu/details/provider_details_page.dart';
+import 'package:ghi_chu/edit_reminder_page/edit_reminder_page.dart';
 import 'package:ghi_chu/home_page/home_page.dart';
 import 'package:ghi_chu/home_page/provider_home_page.dart';
-import 'package:ghi_chu/list_reminder/list_reminder.dart';
-import 'package:ghi_chu/list_reminder/prrovider_list_reminder_page.dart';
 import 'package:ghi_chu/my_list_page/my_list_page.dart';
-
 import 'package:ghi_chu/new_reminder/new_reminder_page.dart';
 import 'package:ghi_chu/new_reminder/provider_reminder.dart';
 import 'package:ghi_chu/reminders/reminder_page.dart';
@@ -22,6 +22,8 @@ import 'package:ghi_chu/to_day_page/today_page.dart';
 import 'package:provider/provider.dart';
 
 import 'add_list/add_list.dart';
+import 'list_group/list_group.dart';
+import 'list_group/prrovider_list_reminder_page.dart';
 class Routes {
   static Map<String, WidgetBuilder> getAll() {
     return {
@@ -33,7 +35,11 @@ class Routes {
         ], child: HomePage(),
         );
       },
-      RouteList.allPage: (context) => AllPage(),
+      RouteList.allPage: (context) => MultiProvider(providers: [
+        ChangeNotifierProvider(create: (_)=>ProviderAllPage())
+      ],
+        child: AllPage(),
+      ),
       RouteList.scheduled: (context) => MultiProvider(providers: [
         ChangeNotifierProvider(create: (_)=>ProviderSchedule())
       ],
@@ -70,7 +76,18 @@ class Routes {
           ],
         child: ListReminderPage(),
       ),
-      RouteList.myListPage:(context)=>MyListPage()
+      RouteList.myListPage:(context)=>MyListPage(),
+      RouteList.editReminder:(context)=>MultiProvider(
+        providers: [
+          ChangeNotifierProvider(
+            create: (_) => ProviderReminder(),
+          ),
+          ChangeNotifierProvider(
+            create: (_) => ProviderDetailsPage(),
+          )
+        ],
+        child: EditReminderPage(),
+      ),
     };
   }
 }

@@ -2,8 +2,9 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:ghi_chu/list_reminder/prrovider_list_reminder_page.dart';
-import 'package:ghi_chu/list_reminder/widgets/list_reminder_widget.dart';
+import 'package:ghi_chu/list_group/prrovider_list_reminder_page.dart';
+import 'package:ghi_chu/list_group/widgets/list_group_widget.dart';
+
 import 'package:ghi_chu/model/model_map.dart';
 import 'package:provider/provider.dart';
 class ListReminderPage extends StatefulWidget {

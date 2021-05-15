@@ -2,9 +2,11 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screen_util.dart';
+import 'package:ghi_chu/all_page/prrovider_all_page.dart';
 import 'package:ghi_chu/all_page/widgets/sticky_header_widget.dart';
 import 'package:ghi_chu/model/model_map.dart';
 import 'package:ghi_chu/model/reminder.dart';
+import 'package:provider/provider.dart';
 
 class AllPage extends StatefulWidget {
   @override
@@ -12,6 +14,16 @@ class AllPage extends StatefulWidget {
 }
 
 class _State extends State<AllPage> {
+  List<TextEditingController> listController = [];
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    for (int i = 0; i < ModelListReminder.myList.length; i++) {
+      listController.add(TextEditingController());
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,8 +46,13 @@ class _State extends State<AllPage> {
             Column(
               children:
                   List.generate(ModelListReminder.listReminder.length, (index) {
+                    int indexReminder=0;
                 return StickyHeaderAll(
-                  header: ModelListReminder.listReminder.keys.elementAt(index),
+                  indexReminder: indexReminder,
+                  indexHeader: index,
+                  controller: listController,
+                  header: context.watch<ProviderAllPage>().hedear =
+                      ModelListReminder.listReminder.keys.elementAt(index),
                   conTent: ModelListReminder.listReminder[
                       '${ModelListReminder.listReminder.keys.elementAt(index)}'],
                   color: ModelListReminder

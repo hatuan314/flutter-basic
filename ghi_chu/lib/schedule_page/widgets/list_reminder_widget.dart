@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screen_util.dart';
+import 'package:ghi_chu/common/constants/route_constants.dart';
 import 'package:ghi_chu/model/model_map.dart';
+import 'package:ghi_chu/model/reminder.dart';
 import 'package:ghi_chu/schedule_page/provider_scheduled.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -11,6 +13,8 @@ class ListReminderSchedule extends StatelessWidget {
   bool time;
   int indexSticky;
   int index;
+  int createAt;
+  Reminder reminder;
   List<TextEditingController> controller;
   ListReminderSchedule(
       {Key key,
@@ -22,7 +26,9 @@ class ListReminderSchedule extends StatelessWidget {
       this.indexSticky,
       this.index,
       this.controller,
-      this.keyDate})
+      this.keyDate,
+      this.createAt,
+      this.reminder})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -111,10 +117,30 @@ class ListReminderSchedule extends StatelessWidget {
                       ? true
                       : false
                   : false,
-              child: Icon(
-                Icons.error_outline,
-                size: ScreenUtil().setSp(23),
-                color: Colors.red,
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, RouteList.editReminder,
+                      arguments: {
+                        'group': group,
+                        'title': title,
+                        'note': note,
+                        'date': date,
+                        'time': time,
+                        'createAt': createAt,
+                        'reminder': reminder
+                      }).whenComplete(() {
+                    Provider.of<ProviderSchedule>(context, listen: false).key1 =
+                        [];
+                    Provider.of<ProviderSchedule>(context, listen: false)
+                        .addTextEditing();
+                    context.read<ProviderSchedule>().getKey();
+                  });
+                },
+                child: Icon(
+                  Icons.error_outline,
+                  size: ScreenUtil().setSp(23),
+                  color: Colors.red,
+                ),
               )),
           SizedBox(
             width: ScreenUtil().setWidth(20),

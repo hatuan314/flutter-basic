@@ -5,7 +5,9 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screen_util.dart';
+import 'package:provider/provider.dart';
 
+import '../provider_home_page.dart';
 class TodayWidget extends StatelessWidget {
   var data;
   TodayWidget(this.data);
@@ -13,7 +15,9 @@ class TodayWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: (){
-        Navigator.pushNamed(context, data['push']);
+        Navigator.pushNamed(context, data['push']).whenComplete(() {
+          context.read<ProviderHomePage>().update();
+        });
       },
       child: Container(
         margin: EdgeInsets.only(top: ScreenUtil().setHeight(20)),
