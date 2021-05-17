@@ -122,6 +122,8 @@ class NewListPage extends StatelessWidget {
                     fontWeight: FontWeight.w600,
                     fontSize: ScreenUtil().setSp(23)),
                 decoration: InputDecoration(
+                  // isDense: true,
+                  contentPadding: EdgeInsets.zero,
                   suffixIcon: Visibility(
                       visible: context.watch<ProviderNewList>().button,
                       child: GestureDetector(
@@ -137,7 +139,7 @@ class NewListPage extends StatelessWidget {
                   filled: true,
                   fillColor: Colors.black12.withOpacity(0.05),
                   focusedBorder: OutlineInputBorder(
-                    borderSide: new BorderSide(color: Colors.white),
+                    borderSide: new BorderSide(color: Colors.transparent),
                     borderRadius: new BorderRadius.circular(10),
                   ),
                   enabledBorder: UnderlineInputBorder(
