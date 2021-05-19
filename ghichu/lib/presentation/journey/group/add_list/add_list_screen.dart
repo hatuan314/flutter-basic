@@ -5,7 +5,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/screen_util.dart';
 import 'package:ghichu/presentation/blocs/check_buttom.dart';
 import 'package:ghichu/presentation/journey/group/add_list/add_list_constaner.dart';
-import 'package:ghichu/presentation/journey/group/add_list/bloc_add_list.dart';
+import 'package:ghichu/presentation/journey/group/add_list/bloc/add_list_state.dart';
+import 'package:ghichu/presentation/journey/group/add_list/bloc/add_list_bloc.dart';
 import 'package:ghichu/presentation/journey/group/add_list/widgets/select_colors.dart';
 import 'package:ghichu/presentation/journey/home/home_page/home_page_constants.dart';
 import 'package:ghichu/presentation/journey/widgets/app_bar.dart';
@@ -20,20 +21,29 @@ class AddListScreen extends StatefulWidget {
 class _AddListScreenState extends State<AddListScreen> {
   TextEditingController _textEditingController = TextEditingController();
   BlocCheckButton blocCheckButton = new BlocCheckButton();
-  BlocAddList blocAddList = new BlocAddList();
+  AddListBloc blocAddList = new AddListBloc();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBar(context, blocCheckButton, () {
-        showButtonModalSheet(context);
-      }, () {
-        blocAddList.addToDoGroup(
+      appBar: AppBarWidget(
+        blocCheckButton: blocCheckButton,
+        leading: () {
+          showButtonModalSheet(context);
+        },
+        actions: () {
+          blocAddList.addToDoGroup(
             _textEditingController.text.trim(),
-            blocAddList.color.value.toString(),
+            blocAddList.addListState.color.value.toString(),
             DateTime.now().millisecondsSinceEpoch,
-            DateTime.now().millisecondsSinceEpoch);
-        Navigator.pop(context);
-      }, 'Hủy', 'Danh sách mới', 'Xong'),
+            DateTime.now().millisecondsSinceEpoch,
+          );
+          Navigator.pop(context);
+        },
+        textLeft: 'Hủy',
+        title: 'Danh sách mới',
+        textRight: 'Xong',
+      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(15)),
@@ -44,14 +54,18 @@ class _AddListScreenState extends State<AddListScreen> {
                 height: AddListConstants.screenUntilHeight30,
               ),
               Center(
-                  child: StreamBuilder<Object>(
+                  child: StreamBuilder<AddListState>(
+                      initialData: AddListState(
+                          index: 4,
+                          color: AddListConstants.listColors[4]),
                       stream: blocAddList.selectColor,
                       builder: (context, snapshot) {
                         return IconWidget(
                           size: AddListConstants.sizeContainer,
-                          color: Color(blocAddList.color.value),
+                          color: Color(blocAddList.addListState.color.value),
                           colorGraient:
-                              Color(blocAddList.color.value).withOpacity(0.5),
+                              Color(blocAddList.addListState.color.value)
+                                  .withOpacity(0.5),
                           icon: Icons.list,
                           shadow: 0.2,
                           sizeIcon: AddListConstants.sizeIcon,
@@ -118,7 +132,7 @@ class _AddListScreenState extends State<AddListScreen> {
                 height: AddListConstants.screenUntilHeight30,
               ),
               SelectColors(
-                blocAddList: blocAddList,
+                addListBloc: blocAddList,
               )
             ],
           ),
@@ -129,9 +143,8 @@ class _AddListScreenState extends State<AddListScreen> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
-    blocAddList.disploy();
-    blocCheckButton.disploy();
+    blocAddList.dispose();
+    blocCheckButton.dispose();
   }
 }
