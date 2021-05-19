@@ -36,6 +36,8 @@ class RouteList {
   static const String todayListScreen = '/todayListScreen';
   static const String scheduledListScreen = '/scheduledListScreen';
 
+  //buoi 12
+  static const String b12Example = '/b12Example';
   // Learn
   static const String listScreen = '/listScreen';
   static const String homeScreen = '/homeScreen';
