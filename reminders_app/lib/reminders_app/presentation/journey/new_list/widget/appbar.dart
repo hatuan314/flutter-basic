@@ -1,11 +1,16 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:reminders_app/reminders_app/presentation/journey/new_list/list_stream.dart';
+import 'package:reminders_app/reminders_app/presentation/journey/new_list/bloc/create_list_state.dart';
+import 'package:reminders_app/reminders_app/presentation/journey/new_list/bloc/list_stream.dart';
 import '../../reminders_list.dart';
 
 Widget appBar(
-    BuildContext context, TextEditingController name, ListStream listStream) {
+  BuildContext context, {
+  TextEditingController name,
+  CreateListState createListState,
+  Function(String, Color) onDone,
+}) {
   return AppBar(
     elevation: 0,
     leadingWidth: ScreenUtil().screenWidth / 5,
@@ -49,50 +54,28 @@ Widget appBar(
           fontWeight: FontWeight.w700),
     ),
     actions: [
-      StreamBuilder(
-        stream: listStream.clearButtonStream,
-        initialData: false,
-        builder: (context, snapshot) => (snapshot.data == false
-            ? GestureDetector(
-                onTap: () => {},
-                child: Container(
-                  //color: Colors.blue,
-                  width: ScreenUtil().screenWidth / 6,
-                  child: Align(
-                    alignment: Alignment.center,
-                    child: Text(
-                      'Add',
-                      style: TextStyle(
-                          color: Colors.grey,
-                          fontSize: ScreenUtil().setSp(15),
-                          fontWeight: FontWeight.w600),
-                    ),
-                  ),
-                ),
-              )
-            : StreamBuilder(
-                stream: listStream.colorStream,
-                builder: (context, snapshot) => (GestureDetector(
-                      onTap: () => {
-                       // log(snapshot.hasData.toString()+snapshot.data.toString()),
-                        RemindersList.addList(name.text,listStream.listColor),
-                        Navigator.pop(context)
-                      },
-                      child: Container(
-                        //color: Colors.blue,
-                        width: ScreenUtil().screenWidth / 6,
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: Text(
-                            'Add',
-                            style: TextStyle(
-                                color: Colors.blue,
-                                fontSize: ScreenUtil().setSp(15),
-                                fontWeight: FontWeight.w600),
-                          ),
-                        ),
-                      ),
-                    )))),
+      GestureDetector(
+        onTap: () {
+          if (createListState.clearButton) {
+            onDone(name.text, createListState.listColor);
+            Navigator.pop(context);
+          }
+        },
+        child: Container(
+          //color: Colors.blue,
+          width: ScreenUtil().screenWidth / 6,
+          child: Align(
+            alignment: Alignment.center,
+            child: Text(
+              'Add',
+              style: TextStyle(
+                  color:
+                      createListState.clearButton ? Colors.blue : Colors.grey,
+                  fontSize: ScreenUtil().setSp(15),
+                  fontWeight: FontWeight.w600),
+            ),
+          ),
+        ),
       )
     ],
   );
