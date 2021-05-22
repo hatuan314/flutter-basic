@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:reminders_app/reminders_app/common/constants/route_constants.dart';
-import 'package:reminders_app/reminders_app/presentation/journey/new_list/create_new_list.dart';
+import 'package:reminders_app/reminders_app/presentation/journey/list/new_list/create_new_list.dart';
 
 import '../homepage_provider.dart';
-import '../homepage_stream.dart';
+import '../bloc/homepage_stream.dart';
 
 Widget bottomBar(BuildContext context, HomeStream homeStream) {
   //int value;
