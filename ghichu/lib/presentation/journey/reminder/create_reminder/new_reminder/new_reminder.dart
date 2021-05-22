@@ -35,7 +35,7 @@ class _newReminderPageState extends State<NewReminderPage> {
               titleController.text,
               noteController.text,
               newReminderBloc.newReminderState.valuesTime,
-             moDel[newReminderBloc.newReminderState.index],
+              moDel[newReminderBloc.newReminderState.index],
               'none',
               DateTime.now().millisecondsSinceEpoch,
               DateTime.now().millisecondsSinceEpoch,

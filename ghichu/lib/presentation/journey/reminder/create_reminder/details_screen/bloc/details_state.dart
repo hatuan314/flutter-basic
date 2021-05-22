@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
+import 'package:ghichu/common/extension/extensin_datetime.dart';
 class DetailsState {
   bool date = false;
   bool time = false;
@@ -89,42 +89,6 @@ class DetailsState {
 
   void dateScheldul(DateTime a) {
     this.dateTime = a;
-    if (dateTime.weekday == 1) {
-      thu = 'Thứ Hai';
-    }
-    if (dateTime.weekday == 2) {
-      thu = 'Thứ Ba';
-    }
-    if (dateTime.weekday == 3) {
-      thu = 'Thứ Tư';
-    }
-    if (dateTime.weekday == 4) {
-      thu = 'Thứ Năm';
-    }
-    if (dateTime.weekday == 5) {
-      thu = 'Thứ Sáu';
-    }
-    if (dateTime.weekday == 6) {
-      thu = 'Thứ Bảy';
-    }
-    if (dateTime.weekday == 7) {
-      thu = 'Chủ Nhật';
-    }
-    if (a.day == nowTime.day &&
-        a.month == nowTime.month &&
-        a.year == nowTime.year) {
-      timeDate = 'Hôm Nay';
-    } else if (a.day == nowTime.day + 1 &&
-        a.month == nowTime.month &&
-        a.year == nowTime.year) {
-      timeDate = 'Ngày Mai';
-    } else if (a.day == nowTime.day + 2 &&
-        a.month == nowTime.month &&
-        a.year == nowTime.year) {
-      timeDate = 'Ngày Kia';
-    } else {
-      timeDate = thu +
-          ',ngày ${dateTime.day} tháng ${dateTime.month}, ${dateTime.year}';
-    }
+        timeDate=dateTime.now;
   }
 }

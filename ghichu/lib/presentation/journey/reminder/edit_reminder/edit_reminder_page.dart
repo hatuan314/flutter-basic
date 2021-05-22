@@ -196,4 +196,12 @@ class _EditReminderState extends State<EditReminderPage> {
       detailsBloc.update();
     });
   }
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    newReminderBloc.dispose();
+    checkButtonBloc.dispose();
+    detailsBloc.dispose();
+  }
 }
