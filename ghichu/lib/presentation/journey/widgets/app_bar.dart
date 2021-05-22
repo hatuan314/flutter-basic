@@ -4,7 +4,7 @@ import 'package:ghichu/presentation/blocs/check_buttom.dart';
 import 'package:ghichu/presentation/journey/home/home_page/home_page_constants.dart';
 
 class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
-  final BlocCheckButton blocCheckButton;
+  final CheckButtonBloc blocCheckButton;
   final Function leading;
   final Function actions;
   final String textLeft;
@@ -28,7 +28,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
       elevation: 0,
       leading: Center(
           child: StreamBuilder<Object>(
-              stream: blocCheckButton.checkButtom,
+              stream: blocCheckButton.checkButton,
               builder: (context, snapshot) {
                 return GestureDetector(
                   onTap: blocCheckButton.check
@@ -51,7 +51,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
       actions: [
         Center(
           child: StreamBuilder<Object>(
-              stream: blocCheckButton.checkButtom,
+              stream: blocCheckButton.checkButton,
               builder: (context, snapshot) {
                 return GestureDetector(
                   onTap: blocCheckButton.check ? actions : null,

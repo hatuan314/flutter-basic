@@ -8,26 +8,25 @@ import 'package:ghichu/presentation/journey/group/add_list/add_list_constaner.da
 import 'package:ghichu/presentation/journey/group/add_list/bloc/add_list_state.dart';
 import 'package:ghichu/presentation/journey/group/add_list/bloc/add_list_bloc.dart';
 import 'package:ghichu/presentation/journey/group/add_list/widgets/select_colors.dart';
-import 'package:ghichu/presentation/journey/home/home_page/home_page_constants.dart';
 import 'package:ghichu/presentation/journey/widgets/app_bar.dart';
 import 'package:ghichu/presentation/journey/widgets/icon_widget.dart';
 import 'package:ghichu/presentation/journey/widgets/show_model_button_sheet.dart';
 
-class AddListScreen extends StatefulWidget {
+class AddGroupScreen extends StatefulWidget {
   @override
   _AddListScreenState createState() => _AddListScreenState();
 }
 
-class _AddListScreenState extends State<AddListScreen> {
+class _AddListScreenState extends State<AddGroupScreen> {
   TextEditingController _textEditingController = TextEditingController();
-  BlocCheckButton blocCheckButton = new BlocCheckButton();
-  AddListBloc blocAddList = new AddListBloc();
+  CheckButtonBloc checkButtonBloc =  CheckButtonBloc();
+  AddListBloc blocAddList =  AddListBloc();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBarWidget(
-        blocCheckButton: blocCheckButton,
+        blocCheckButton: checkButtonBloc,
         leading: () {
           showButtonModalSheet(context);
         },
@@ -56,16 +55,14 @@ class _AddListScreenState extends State<AddListScreen> {
               Center(
                   child: StreamBuilder<AddListState>(
                       initialData: AddListState(
-                          index: 4,
-                          color: AddListConstants.listColors[4]),
+                          index: 4, color: AddListConstants.listColors[4]),
                       stream: blocAddList.selectColor,
                       builder: (context, snapshot) {
                         return IconWidget(
                           size: AddListConstants.sizeContainer,
-                          color: Color(blocAddList.addListState.color.value),
+                          color: Color(snapshot.data.color.value),
                           colorGraient:
-                              Color(blocAddList.addListState.color.value)
-                                  .withOpacity(0.5),
+                              Color(snapshot.data.color.value).withOpacity(0.5),
                           icon: Icons.list,
                           shadow: 0.2,
                           sizeIcon: AddListConstants.sizeIcon,
@@ -97,14 +94,14 @@ class _AddListScreenState extends State<AddListScreen> {
                       maxHeight: ScreenUtil().setHeight(55),
                       minHeight: ScreenUtil().setHeight(55)),
                   suffixIcon: StreamBuilder(
-                      stream: blocCheckButton.checkButtom,
+                      stream: checkButtonBloc.checkButton,
                       builder: (context, snapshot) {
                         return Visibility(
                             visible: snapshot.hasData ? snapshot.data : false,
                             child: GestureDetector(
                                 onTap: () {
                                   _textEditingController.text = '';
-                                  blocCheckButton.setButtom('');
+                                  checkButtonBloc.setButtom('');
                                 },
                                 child: Icon(
                                   Icons.cancel,
@@ -125,7 +122,7 @@ class _AddListScreenState extends State<AddListScreen> {
                   border: InputBorder.none,
                 ),
                 onChanged: (value) {
-                  blocCheckButton.setButtom(value);
+                  checkButtonBloc.setButtom(value);
                 },
               ),
               SizedBox(
@@ -145,6 +142,6 @@ class _AddListScreenState extends State<AddListScreen> {
   void dispose() {
     super.dispose();
     blocAddList.dispose();
-    blocCheckButton.dispose();
+    checkButtonBloc.dispose();
   }
 }

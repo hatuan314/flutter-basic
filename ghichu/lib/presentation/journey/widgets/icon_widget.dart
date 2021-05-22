@@ -21,7 +21,7 @@ class IconWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(top: ScreenUtil().setHeight(5)),
-      padding: EdgeInsets.all(5),
+      padding: EdgeInsets.all(ScreenUtil().setSp(6)),
       width: size,
       height: size,
       decoration: BoxDecoration(

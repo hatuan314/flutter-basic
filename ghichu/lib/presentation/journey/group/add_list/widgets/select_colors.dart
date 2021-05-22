@@ -6,7 +6,7 @@ import 'package:ghichu/presentation/journey/group/add_list/bloc/add_list_state.d
 import '../add_list_constaner.dart';
 
 class SelectColors extends StatelessWidget {
-  final AddListBloc addListBloc;
+  AddListBloc addListBloc;
 
   SelectColors({Key key, this.addListBloc}) : super(key: key);
 
@@ -19,8 +19,7 @@ class SelectColors extends StatelessWidget {
             addListBloc.setColor(index, AddListConstants.listColors[index]);
           },
           child: StreamBuilder<AddListState>(
-              initialData:
-                  AddListState(index: 4, color: AddListConstants.listColors[4]),
+              initialData: addListBloc.addListState,
               stream: addListBloc.selectColor,
               builder: (context, snapshot) {
                 return Container(

@@ -8,14 +8,14 @@ import 'package:ghichu/presentation/journey/home/home_page/home_page_constants.d
 import 'package:ghichu/presentation/journey/widgets/icon_widget.dart';
 
 class EditWidget extends StatelessWidget {
-  BlocCheckButton blocCheckButton;
+  CheckButtonBloc blocCheckButton;
 
   EditWidget({Key key, this.blocCheckButton}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<Object>(
-        stream: blocCheckButton.checkButtom,
+        stream: blocCheckButton.checkButton,
         builder: (context, snapshot) {
           return Visibility(
             visible: blocCheckButton.check,
@@ -39,7 +39,7 @@ class EditWidget extends StatelessWidget {
                           index < HomePageConstants.list.length;
                           index++)
                         Row(
-                          key: Key('${index}'),
+                          key: Key('$index'),
                           children: [
                             SizedBox(
                               width: HomePageConstants.paddingWidth10,
@@ -101,7 +101,7 @@ class EditWidget extends StatelessWidget {
                       }
                       var item = HomePageConstants.list.removeAt(oldIndex);
                       HomePageConstants.list.insert(newIndex, item);
-                      blocCheckButton.batEvent.sink.add('event');
+                   blocCheckButton.checkButtom.sink.add('w');
                     }),
               ),
             ),

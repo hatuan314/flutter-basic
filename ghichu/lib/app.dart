@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:ghichu/presentation/route/routes.dart';
+import 'file:///C:/Users/ASUS%20TUF/OneDrive/Documents/flutter-basic/flutter-basic/ghichu/lib/routes.dart';
 
 import 'common/constants/route_constants.dart';
 

@@ -6,8 +6,8 @@ class RouteList {
   static const String todayPage = '/todayPage';
   static const String reminders = '/reminders';
   static const String scheduled = '/scheduled';
-  static const String addList = '/addlist';
-  static const String listReminderPage = '/listReminderpage';
+  static const String addGroup = '/addGroup';
+  static const String listGroup = '/listGroup';
   static const String myListPage = '/myListPage';
   static const String editReminder = '/editReminder';
 }

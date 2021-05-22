@@ -1,15 +1,12 @@
 import 'dart:async';
 
-class BlocCheckButton {
-  StreamController _checkButtom = new StreamController.broadcast();
-  StreamController batEvent = new StreamController();
-
-  Stream get checkButtom => _checkButtom.stream;
+class CheckButtonBloc {
+  StreamController checkButtom = new StreamController.broadcast();
+  Stream get checkButton => checkButtom.stream;
   bool check = false;
-
   void setCheck() {
     check = !check;
-    batEvent.sink.add('event');
+    checkButtom.sink.add(check);
   }
 
   void setButtom(String title) {
@@ -18,18 +15,10 @@ class BlocCheckButton {
     } else {
       check = false;
     }
-    batEvent.sink.add(check);
-  }
-
-  BlocCheckButton() {
-    batEvent.sink.add(check);
-    batEvent.stream.listen((event) {
-      _checkButtom.sink.add(event);
-    });
+    checkButtom.sink.add(check);
   }
 
   dispose() {
-    _checkButtom.close();
-    batEvent.close();
+    checkButtom.close();
   }
 }
