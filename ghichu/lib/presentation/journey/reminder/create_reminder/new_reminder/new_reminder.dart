@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screen_util.dart';
 import 'package:ghichu/common/constants/route_constants.dart';
+import 'package:ghichu/common/constants/string_constants.dart';
 import 'package:ghichu/presentation/blocs/check_buttom.dart';
 
 import 'package:ghichu/presentation/journey/reminder/create_reminder/new_reminder/bloc/new_reminder_bloc.dart';
@@ -22,6 +23,7 @@ class _newReminderPageState extends State<NewReminderPage> {
   TextEditingController noteController = new TextEditingController();
   CheckButtonBloc checkButtonBloc = CheckButtonBloc();
   NewReminderBloc newReminderBloc = NewReminderBloc();
+
   @override
   Widget build(BuildContext context) {
     List<String> moDel = ModalRoute.of(context).settings.arguments;
@@ -73,8 +75,10 @@ class _newReminderPageState extends State<NewReminderPage> {
                       onTap: () {
                         Navigator.pushNamed(context, RouteList.details,
                             arguments: {
-                              'date': snapshot.data.valuesTime,
-                              'time': snapshot.data.timeDetails
+                              StringConstants.reminderDate:
+                                  snapshot.data.valuesTime,
+                              StringConstants.isTimeArg:
+                                  snapshot.data.timeDetails
                             }).then((value) {
                           newReminderBloc.setTime(value);
                         });

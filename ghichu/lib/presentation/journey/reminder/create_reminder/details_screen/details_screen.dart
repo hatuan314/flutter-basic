@@ -5,6 +5,10 @@ import 'package:ghichu/presentation/journey/reminder/create_reminder/details_scr
 import 'package:ghichu/presentation/journey/reminder/create_reminder/details_screen/widgets/time_widget.dart';
 
 class DetailsPage extends StatefulWidget {
+  final bool isTime;
+  final int date;
+
+  const DetailsPage({Key key, this.isTime, this.date}) : super(key: key);
   @override
   _detailsPageState createState() => _detailsPageState();
 }
@@ -13,9 +17,9 @@ class _detailsPageState extends State<DetailsPage> {
   bool date = false;
   DetailsBloc detailsBloc = DetailsBloc();
   var moDel;
+
   @override
   Widget build(BuildContext context) {
-    moDel = ModalRoute.of(context).settings.arguments;
     // context.read<ProviderDetailsPage>().setdateTime(moDel[1], moDel[2]);
     return Scaffold(
       backgroundColor: Colors.white.withOpacity(0.95),
@@ -84,29 +88,28 @@ class _detailsPageState extends State<DetailsPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      detailsBloc.setTimeSwitch(moDel['time']);
-      if (moDel['time'] == true) {
+      detailsBloc.setTimeSwitch(widget.isTime);
+      if (widget.isTime == true) {
         detailsBloc.detailsState.timeHour(
-            DateTime.fromMillisecondsSinceEpoch(moDel['date']).hour,
-            DateTime.fromMillisecondsSinceEpoch(moDel['date']).minute);
+            DateTime.fromMillisecondsSinceEpoch(widget.date).hour,
+            DateTime.fromMillisecondsSinceEpoch(widget.date).minute);
       }
-      if (moDel['date'] != null) {
+      if (widget.date != null) {
         detailsBloc.detailsState.dateTime =
-            DateTime.fromMillisecondsSinceEpoch(moDel['date']);
+            DateTime.fromMillisecondsSinceEpoch(widget.date);
         detailsBloc.detailsState
-            .dateScheldul(DateTime.fromMillisecondsSinceEpoch(moDel['date']));
+            .dateScheldul(DateTime.fromMillisecondsSinceEpoch(widget.date));
         detailsBloc.setDateSwitch(true);
       } else {
         detailsBloc.setDateSwitch(false);
       }
     });
   }
+
   @override
   void dispose() {
-    // TODO: implement dispose
     detailsBloc.dispose();
     super.dispose();
   }

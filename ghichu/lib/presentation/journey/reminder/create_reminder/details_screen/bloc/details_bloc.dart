@@ -17,6 +17,7 @@ class DetailsBloc {
       minuner: DateTime.now().minute);
   StreamController _detailsController =
       new StreamController<DetailsState>.broadcast();
+
   Stream get detailsController => _detailsController.stream;
 
   void tableCanlender() {
@@ -48,9 +49,11 @@ class DetailsBloc {
     detailsState.dateSwitch(date);
     _detailsController.sink.add(detailsState);
   }
-void update(){
+
+  void update() {
     _detailsController.sink.add(detailsState);
-}
+  }
+
   void dispose() {
     _detailsController.close();
   }
