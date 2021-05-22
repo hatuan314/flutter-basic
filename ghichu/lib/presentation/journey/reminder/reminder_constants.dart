@@ -10,4 +10,8 @@ class ReminderContants{
   static double sizeColorGroup=ScreenUtil().setSp(7);
   static double fontSizeGroup=ScreenUtil().setSp(18);
   static double paddingWitdh=ScreenUtil().setWidth(6);
+  static String titleHintTxt='Title';
+  static String noteHintTxt='Notes';
+  static String detailsTxt='Chi tiết';
+  static String listTxt='Danh sách';
 }

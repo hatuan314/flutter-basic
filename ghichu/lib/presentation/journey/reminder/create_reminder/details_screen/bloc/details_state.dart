@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:ghichu/common/extension/extensin_datetime.dart';
+
 class DetailsState {
   bool date = false;
   bool time = false;
@@ -89,6 +90,6 @@ class DetailsState {
 
   void dateScheldul(DateTime a) {
     this.dateTime = a;
-        timeDate=dateTime.now;
+    timeDate = dateTime.now;
   }
 }

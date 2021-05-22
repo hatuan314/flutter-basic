@@ -5,6 +5,7 @@ import 'package:ghichu/presentation/blocs/check_buttom.dart';
 
 import 'package:ghichu/presentation/journey/reminder/create_reminder/new_reminder/bloc/new_reminder_bloc.dart';
 import 'package:ghichu/presentation/journey/reminder/create_reminder/new_reminder/bloc/new_reminder_state.dart';
+import 'package:ghichu/presentation/journey/reminder/reminder_constants.dart';
 import 'package:ghichu/presentation/journey/reminder/widgets/select_container.dart';
 import 'package:ghichu/presentation/journey/reminder/widgets/text_filed_title_note.dart';
 import 'package:ghichu/presentation/journey/widgets/app_bar.dart';
@@ -65,7 +66,7 @@ class _newReminderPageState extends State<NewReminderPage> {
                   stream: newReminderBloc.listGroupController,
                   builder: (context, snapshot) {
                     return SelectContainer(
-                      title: 'Chi tiết',
+                      title: ReminderContants.detailsTxt,
                       buttonDetails: snapshot.data.buttonDetails,
                       timeDetails: snapshot.data.timeDetails,
                       valuesTime: snapshot.data.valuesTime,
@@ -85,7 +86,7 @@ class _newReminderPageState extends State<NewReminderPage> {
                   stream: newReminderBloc.listGroupController,
                   builder: (context, snapshot) {
                     return SelectContainer(
-                      title: 'Danh sách',
+                      title: ReminderContants.listTxt,
                       buttonDetails: false,
                       group: snapshot.data.group,
                       color: ModelListReminder
