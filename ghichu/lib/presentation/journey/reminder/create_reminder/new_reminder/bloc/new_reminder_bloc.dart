@@ -9,8 +9,8 @@ class NewReminderBloc {
     index: 0,
     nowDate: DateTime.now(),
     button: false,
-    buttonDetails: false,
-    timeDetails: false,
+    isButtonDetails: false,
+    isTimeDetails: false,
   );
   StreamController _listGroupController =
       StreamController<NewReminderState>.broadcast();

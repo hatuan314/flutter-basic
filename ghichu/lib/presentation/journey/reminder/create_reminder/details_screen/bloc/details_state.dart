@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+
 import 'package:ghichu/common/extension/extensin_datetime.dart';
 
 class DetailsState {
@@ -32,18 +32,13 @@ class DetailsState {
   }
 
   void removePage(BuildContext context) {
-    int h = hour * 60 * 60 * 1000 + minuner * 60 * 1000;
-// print('${DateFormat('yyyy-MM-dd HH-mm').format(DateTime.fromMillisecondsSinceEpoch(a))}');
     if (date) {
       if (time) {
-        int a = DateTime.parse(DateFormat('yyyy-MM-dd').format(dateTime))
-                .millisecondsSinceEpoch +
-            h;
-        Navigator.pop(context, [a, true].toList());
+        Navigator.pop(context,
+            [dateTime.getTime(date, time, hour, minuner), true].toList());
       } else {
-        int a = DateTime.parse(DateFormat('yyyy-MM-dd').format(dateTime))
-            .millisecondsSinceEpoch;
-        Navigator.pop(context, [a, false].toList());
+        Navigator.pop(context,
+            [dateTime.getTime(date, time, hour, minuner), false].toList());
       }
     } else {
       Navigator.pop(context, null);
@@ -69,7 +64,7 @@ class DetailsState {
       tableCalender = false;
       time = false;
       timePicker = false;
-      // dateTime = nowTime;
+      dateTime = nowTime;
       hour = DateTime.now().hour;
       minuner = DateTime.now().minute;
       timeDate = 'Hôm Nay';

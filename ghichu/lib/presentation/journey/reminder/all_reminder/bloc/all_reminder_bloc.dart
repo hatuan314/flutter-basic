@@ -7,21 +7,25 @@ class AllReminderBloc {
       StreamController<AllReminderState>.broadcast();
 
   Stream get allController => _allController.stream;
-void addAll(String group,String title){
-  allReminderState.addAll(group, title);
-  _allController.sink.add(allReminderState);
-}
-void setIndexGroup(int index){
-  allReminderState.indexGroup=index;
-  _allController.sink.add(allReminderState);
-}
-void update(){
-  _allController.sink.add(allReminderState);
-}
-void setIndexReminder(int index,int indexReminder){
-  allReminderState.setIndex(index, indexReminder);
-  _allController.sink.add(allReminderState);
-}
+  void addAll(String group, String title) {
+    allReminderState.addAll(group, title);
+    _allController.sink.add(allReminderState);
+  }
+
+  void setIndexGroup(int index) {
+    allReminderState.indexGroup = index;
+    _allController.sink.add(allReminderState);
+  }
+
+  void update() {
+    _allController.sink.add(allReminderState);
+  }
+
+  void setIndexReminder(int index) {
+    allReminderState.setIndexReminder(index);
+    _allController.sink.add(allReminderState);
+  }
+
   void dispose() {
     _allController.close();
   }

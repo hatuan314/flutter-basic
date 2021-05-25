@@ -1,3 +1,4 @@
+import 'package:intl/intl.dart';
 extension DateTimeExtension on DateTime {
   String get now {
     String thu = '';
@@ -38,4 +39,23 @@ extension DateTimeExtension on DateTime {
       return thu + ',ngày ${this.day} tháng ${this.month}, ${this.year}';
     }
   }
+  int getTime(bool date,bool time,int hour,int minute){
+    int h = hour * 60 * 60 * 1000 + minute * 60 * 1000;
+// print('${DateFormat('yyyy-MM-dd HH-mm').format(DateTime.fromMillisecondsSinceEpoch(a))}');
+    if (date) {
+      if (time) {
+        int a = DateTime.parse(DateFormat('yyyy-MM-dd').format(this))
+            .millisecondsSinceEpoch +
+            h;
+        return a;
+      } else {
+        int a = DateTime.parse(DateFormat('yyyy-MM-dd').format(this))
+            .millisecondsSinceEpoch;
+       return a;
+      }
+    } else {
+      return null;
+    }
+  }
+
 }

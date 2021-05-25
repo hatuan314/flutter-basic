@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ghichu/common/constants/route_constants.dart';
+import 'package:ghichu/common/constants/string_constants.dart';
 import 'package:ghichu/presentation/blocs/check_buttom.dart';
 import 'package:ghichu/presentation/journey/home/home_page/bloc/home_page_state.dart';
 import 'package:ghichu/presentation/journey/home/home_page/home_page_constants.dart';
@@ -47,7 +48,9 @@ class _State extends State<HomePage> {
                               Navigator.pushNamed(
                                       context, RouteList.newReminder,
                                       arguments:
-                                          blocHomePage.homePageState.keyMyList)
+                                         {
+                                           StringConstants.listGroup: blocHomePage.homePageState.keyMyList
+                                         })
                                   .whenComplete(() {
                                 blocHomePage.update();
                               });

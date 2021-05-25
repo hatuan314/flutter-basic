@@ -2,25 +2,24 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ghichu/presentation/journey/reminder/all_reminder/bloc/all_reminder_bloc.dart';
-import 'package:ghichu/presentation/models/model_map.dart';
+import 'package:ghichu/presentation/journey/reminder/widgets/list_reminder.dart';
 import 'package:ghichu/presentation/models/reminder.dart';
 import 'package:sticky_headers/sticky_headers.dart';
+import '../../widgets/add_widget.dart';
 
-import 'add_widget.dart';
-import 'list_reminder_all.dart';
-
-class StickyHeaderAll extends StatelessWidget {
+class StickyReminderAll extends StatelessWidget {
   String header;
-  Map conTent;
+  Map<String, List<Reminder>> listReminderAll;
+
   String color;
   int indexHeader, indexReminder;
   AllReminderBloc allReminderBloc;
   List<TextEditingController> controller;
-  StickyHeaderAll(
+  StickyReminderAll(
       {Key key,
       this.allReminderBloc,
+      this.listReminderAll,
       this.header,
-      this.conTent,
       this.color,
       this.controller,
       this.indexHeader,
@@ -37,7 +36,7 @@ class StickyHeaderAll extends StatelessWidget {
         color: Colors.white,
         alignment: Alignment.centerLeft,
         child: Text(
-          ModelListReminder.myList['$header'].title,
+          header,
           style: TextStyle(
               color: Color(int.parse(color)),
               fontWeight: FontWeight.w700,
@@ -50,33 +49,26 @@ class StickyHeaderAll extends StatelessWidget {
           child: Column(
             children: [
               Padding(
-                padding: EdgeInsets.only(left: ScreenUtil().setWidth(10)),
-                child: Column(
-                  children: List.generate(conTent.values.length, (index1) {
-                    //lay lenght cua tat ca time
-                    return Column(
-                        children: List.generate(
-                            conTent.values.elementAt(index1).length, (index) {
+                  padding: EdgeInsets.only(left: ScreenUtil().setWidth(10)),
+                  child: Column(
+                    children:
+                        List.generate(listReminderAll.values.length, (index) {
                       List<Reminder> reminder =
-                          conTent.values.elementAt(index1);
-                      indexReminder = indexReminder + 1;
-                      return ListReminderAll(
-                        allReminderBloc: allReminderBloc,
-                        controller: controller,
-                        index: indexReminder,
-                        indexGroup: indexHeader,
-                        title: reminder[index].title,
-                        note: reminder[index].note,
-                        date: reminder[index].date,
-                        time: reminder[index].time,
-                        group: reminder[index].group,
-                        createAt: reminder[index].createAt,
-                        reminder: reminder[index],
+                          listReminderAll.values.elementAt(index);
+                      return Column(
+                        children: List.generate(reminder.length, (index1) {
+                          indexReminder=indexReminder+1;
+                          return ListReminder(
+                            indexReminder: indexReminder,
+                            title: reminder[index1].title,
+                            note: reminder[index1].note,
+                            date: reminder[index1].date,
+                            time: reminder[index1].time,
+                          );
+                        }),
                       );
-                    }));
-                  }),
-                ),
-              ),
+                    }),
+                  )),
               AddWidget(
                 allReminderBloc: allReminderBloc,
                 index: indexHeader,

@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/screen_util.dart';
 import 'package:ghichu/presentation/journey/reminder/all_reminder/bloc/all_reminder_bloc.dart';
 import 'package:ghichu/presentation/journey/reminder/all_reminder/bloc/all_reminder_state.dart';
 import 'package:ghichu/presentation/journey/reminder/all_reminder/widgets/sticky_header_widget.dart';
+
 import 'package:ghichu/presentation/models/model_map.dart';
 
 class AllPage extends StatefulWidget {
@@ -49,19 +50,18 @@ class _State extends State<AllPage> {
                     children: List.generate(
                         ModelListReminder.listReminder.length, (index) {
                       int indexReminder = 0;
-                      return StickyHeaderAll(
+                      String keyGroup = ModelListReminder.myList.keys
+                          .toList()
+                          .elementAt(index);
+                      return StickyReminderAll(
                         allReminderBloc: allReminderBloc,
                         indexReminder: indexReminder,
-                        indexHeader: index,
                         controller: listController,
-                        header: ModelListReminder.listReminder.keys
-                            .elementAt(index),
-                        conTent: ModelListReminder.listReminder[
-                            '${ModelListReminder.listReminder.keys.elementAt(index)}'],
-                        color: ModelListReminder
-                            .myList[
-                                '${ModelListReminder.listReminder.keys.elementAt(index)}']
-                            .color,
+                        indexHeader: index,
+                        header: ModelListReminder.myList['$keyGroup'].title,
+                        color: ModelListReminder.myList['$keyGroup'].color,
+                        listReminderAll:
+                            ModelListReminder.listReminder['$keyGroup'],
                       );
                     }),
                   );
@@ -98,6 +98,7 @@ class _State extends State<AllPage> {
       leadingWidth: ScreenUtil().setWidth(100),
     );
   }
+
   @override
   void dispose() {
     // TODO: implement dispose

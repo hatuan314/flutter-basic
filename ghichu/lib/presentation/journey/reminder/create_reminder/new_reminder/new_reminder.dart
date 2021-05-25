@@ -14,6 +14,10 @@ import 'package:ghichu/presentation/journey/widgets/show_model_button_sheet.dart
 import 'package:ghichu/presentation/models/model_map.dart';
 
 class NewReminderPage extends StatefulWidget {
+  List<String> listGroup;
+
+  NewReminderPage({this.listGroup});
+
   @override
   _newReminderPageState createState() => _newReminderPageState();
 }
@@ -23,12 +27,10 @@ class _newReminderPageState extends State<NewReminderPage> {
   TextEditingController noteController = new TextEditingController();
   CheckButtonBloc checkButtonBloc = CheckButtonBloc();
   NewReminderBloc newReminderBloc = NewReminderBloc();
-
   @override
   Widget build(BuildContext context) {
-    List<String> moDel = ModalRoute.of(context).settings.arguments;
     newReminderBloc.newReminderState.group =
-        ModelListReminder.myList['${moDel[0]}'].title;
+        ModelListReminder.myList['${widget.listGroup[0]}'].title;
     return Scaffold(
       backgroundColor: Colors.white.withOpacity(0.95),
       appBar: AppBarWidget(
@@ -38,11 +40,11 @@ class _newReminderPageState extends State<NewReminderPage> {
               titleController.text,
               noteController.text,
               newReminderBloc.newReminderState.valuesTime,
-              moDel[newReminderBloc.newReminderState.index],
+              widget.listGroup[newReminderBloc.newReminderState.index],
               'none',
               DateTime.now().millisecondsSinceEpoch,
               DateTime.now().millisecondsSinceEpoch,
-              newReminderBloc.newReminderState.timeDetails);
+              newReminderBloc.newReminderState.isTimeDetails);
           Navigator.pop(context);
         },
         leading: () {
@@ -69,8 +71,8 @@ class _newReminderPageState extends State<NewReminderPage> {
                   builder: (context, snapshot) {
                     return SelectContainer(
                       title: ReminderContants.detailsTxt,
-                      buttonDetails: snapshot.data.buttonDetails,
-                      timeDetails: snapshot.data.timeDetails,
+                      buttonDetails: snapshot.data.isButtonDetails,
+                      timeDetails: snapshot.data.isTimeDetails,
                       valuesTime: snapshot.data.valuesTime,
                       onTap: () {
                         Navigator.pushNamed(context, RouteList.details,
@@ -78,7 +80,12 @@ class _newReminderPageState extends State<NewReminderPage> {
                               StringConstants.reminderDate:
                                   snapshot.data.valuesTime,
                               StringConstants.isTimeArg:
-                                  snapshot.data.timeDetails
+                                  snapshot.data.isTimeDetails,
+                              StringConstants.keyGroup: widget.listGroup[
+                                  newReminderBloc.newReminderState.index],
+                              StringConstants.titleReminder:
+                                  titleController.text,
+                              StringConstants.noteReminder: noteController.text,
                             }).then((value) {
                           newReminderBloc.setTime(value);
                         });
@@ -94,15 +101,17 @@ class _newReminderPageState extends State<NewReminderPage> {
                       buttonDetails: false,
                       group: snapshot.data.group,
                       color: ModelListReminder
-                          .myList['${moDel[snapshot.data.index]}'].color,
+                          .myList['${widget.listGroup[snapshot.data.index]}']
+                          .color,
                       onTap: () async {
                         Navigator.pushNamed(context, RouteList.listGroup,
                             arguments: {
-                              'list': moDel,
-                              'index': snapshot.data.index
+                              StringConstants.listGroup: widget.listGroup,
+                              StringConstants.listIndexArg: snapshot.data.index
                             }).then((value) {
                           newReminderBloc.setGroup(
-                              ModelListReminder.myList['${moDel[value]}'].title,
+                              ModelListReminder
+                                  .myList['${widget.listGroup[value]}'].title,
                               value);
                         });
                       },

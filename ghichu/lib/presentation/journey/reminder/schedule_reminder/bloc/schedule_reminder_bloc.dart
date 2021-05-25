@@ -4,7 +4,7 @@ import 'package:ghichu/presentation/journey/reminder/schedule_reminder/bloc/sche
 
 class ScheduleReminderBloc {
   ScheduleReminderState scheduleReminderState =
-      ScheduleReminderState(key1: [], textEditing: []);
+      ScheduleReminderState(reminderSchedule: {}, textEditing: []);
   StreamController _streamController =
       StreamController<ScheduleReminderState>.broadcast();
 
@@ -13,17 +13,26 @@ class ScheduleReminderBloc {
     scheduleReminderState.addTextEditing();
     _streamController.sink.add(scheduleReminderState);
   }
-  void setIndexReminder(int index,int indexSticky){
-    scheduleReminderState.setIndexReminder(index, indexSticky);
+
+  void setIndexReminder(int index) {
+    scheduleReminderState.setIndexReminder(index);
     _streamController.sink.add(scheduleReminderState);
   }
-  void getKey(){
-    scheduleReminderState.getKey();
+
+  void setIndexGroup(int index) {
+    scheduleReminderState.setGroup(index);
     _streamController.sink.add(scheduleReminderState);
   }
-void update(){
+
+  void getKey() {
+    scheduleReminderState.getReminder();
     _streamController.sink.add(scheduleReminderState);
-}
+  }
+
+  void update() {
+    _streamController.sink.add(scheduleReminderState);
+  }
+
   void dispose() {
     _streamController.close();
   }

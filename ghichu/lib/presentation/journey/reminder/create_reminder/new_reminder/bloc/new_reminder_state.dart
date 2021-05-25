@@ -10,8 +10,8 @@ class NewReminderState {
   int valuesTime;
   DateTime nowDate = DateTime.now();
   bool button = false;
-  bool buttonDetails = false;
-  bool timeDetails = false;
+  bool isButtonDetails = false;
+  bool isTimeDetails = false;
 
   NewReminderState(
       {this.title,
@@ -21,8 +21,8 @@ class NewReminderState {
       this.valuesTime,
       this.nowDate,
       this.button,
-      this.buttonDetails,
-      this.timeDetails});
+      this.isButtonDetails,
+      this.isTimeDetails});
 
   void setGroup(String title, int index) {
     this.index = index;
@@ -40,10 +40,11 @@ class NewReminderState {
   void setTime(var values) {
     if (values == null) {
       valuesTime = null;
-      buttonDetails = false;
+      isButtonDetails = false;
+      isTimeDetails = false;
     } else {
-      buttonDetails = true;
-      timeDetails = values[1];
+      isButtonDetails = true;
+      isTimeDetails = values[1];
       valuesTime = values[0];
     }
   }

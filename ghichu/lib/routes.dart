@@ -8,7 +8,8 @@ class Routes {
     return {
       ...RouteGroup.getAll(),
       ...RouteHome.getAll(),
-      ...RouteReminder.getAll()
+      ...RouteReminder.getAll(),
+      ...RouteReminder.getRoutesWithSettings(),
     };
   }
   }

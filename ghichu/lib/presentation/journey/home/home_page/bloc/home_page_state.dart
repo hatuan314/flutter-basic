@@ -28,7 +28,7 @@ class HomePageState {
       if (HomePageConstants.list[i]['title'] == 'Today') {
         HomePageConstants.list[i]['sum'] = TodayReminderState(nowDate:  DateFormat('yyyy-MM-dd').format(DateTime.now())).getToday();
       } else if (HomePageConstants.list[i]['title'] == 'Scheduled') {
-        HomePageConstants.list[i]['sum'] = ScheduleReminderState(key1: []).getKey();
+        HomePageConstants.list[i]['sum'] = ScheduleReminderState(reminderSchedule: {}).getReminder();
       } else if (HomePageConstants.list[i]['title'] == 'All') {
         HomePageConstants.list[i]['sum'] = leghtAll;
       }

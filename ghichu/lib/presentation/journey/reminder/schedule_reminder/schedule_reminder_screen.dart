@@ -4,6 +4,9 @@ import 'package:flutter_screenutil/screen_util.dart';
 import 'package:ghichu/presentation/journey/reminder/schedule_reminder/bloc/schedule_reminder_bloc.dart';
 import 'package:ghichu/presentation/journey/reminder/schedule_reminder/bloc/schedule_reminder_state.dart';
 import 'package:ghichu/presentation/journey/reminder/schedule_reminder/widgets/sticky_header_widget.dart';
+import 'file:///C:/Users/ASUS%20TUF/OneDrive/Documents/flutter-basic/flutter-basic/ghichu/lib/presentation/journey/reminder/all_reminder/widgets/sticky_header_widget.dart';
+import 'package:ghichu/presentation/models/model_map.dart';
+import 'package:ghichu/presentation/models/reminder.dart';
 
 class SchedulePage extends StatefulWidget {
   @override
@@ -23,12 +26,15 @@ class _State extends State<SchedulePage> {
           children: [
             Padding(
               padding: EdgeInsets.only(left: ScreenUtil().setWidth(10)),
-              child: Text(
-                'Schedule',
-                style: TextStyle(
-                    color: Colors.red,
-                    fontWeight: FontWeight.w900,
-                    fontSize: ScreenUtil().setSp(30)),
+              child: GestureDetector(
+                onTap: () {},
+                child: Text(
+                  'Schedule',
+                  style: TextStyle(
+                      color: Colors.red,
+                      fontWeight: FontWeight.w900,
+                      fontSize: ScreenUtil().setSp(30)),
+                ),
               ),
             ),
             StreamBuilder<ScheduleReminderState>(
@@ -36,12 +42,14 @@ class _State extends State<SchedulePage> {
                 stream: scheduleReminderBloc.streamController,
                 builder: (context, snapshot) {
                   return Column(
-                    children: List.generate(snapshot.data.key1.length, (index) {
+                    children: List.generate(
+                        snapshot.data.reminderSchedule.length, (index) {
                       int indexReminder = 0;
-                      return StickyHeaderWidget(
+                      return StickyReminderSchedule(
                         scheduleReminderBloc: scheduleReminderBloc,
                         indexReminder: indexReminder,
-                        title: snapshot.data.key1[index],
+                        title: snapshot.data.reminderSchedule.keys
+                            .elementAt(index),
                         indexSticky: index,
                         controler: snapshot.data.textEditing,
                       );
@@ -86,7 +94,7 @@ class _State extends State<SchedulePage> {
     // TODO: implement initState
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      scheduleReminderBloc.scheduleReminderState.getKey();
+      scheduleReminderBloc.scheduleReminderState.getReminder();
       scheduleReminderBloc.addTextEditing();
     });
   }

@@ -4,13 +4,12 @@ import 'package:ghichu/presentation/models/reminder.dart';
 class AllReminderState{
   String group;
   String title;
-  int indexGroup,indexTextFiled,indexReminder;
+  int indexGroup,indexReminder;
   String hedear;
   void setGroup(String group) {
     this.group = group;
   }
-  void setIndex(int index,int indexReminder){
-    this.indexTextFiled=index;
+  void setIndexReminder(int index){
     this.indexReminder=indexReminder;
   }
   void addAll(String group, String title) {

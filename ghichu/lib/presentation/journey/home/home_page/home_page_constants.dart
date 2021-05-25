@@ -32,7 +32,7 @@ class HomePageConstants {
   static double heightContainer = ScreenUtil().setHeight(110);
   static double paddingWidth10 = ScreenUtil().setWidth(10);
   static double paddingWidth15 = ScreenUtil().setWidth(15);
-  static double paddingWidth20 = ScreenUtil().setWidth(20);
+  static double paddingWidth20 = ScreenUtil().setWidth(19);
   static double paddingHeight20 = ScreenUtil().setHeight(20);
   static double paddingHeight10 = ScreenUtil().setHeight(10);
   static Radius radiusCircle15=Radius.circular(ScreenUtil().setSp(15));
