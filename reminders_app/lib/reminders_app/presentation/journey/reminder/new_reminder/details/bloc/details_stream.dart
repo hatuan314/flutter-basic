@@ -17,7 +17,39 @@ class DetailsStream {
       StreamController<DetailsState>.broadcast();
 
   Stream get detailsStream => detailsController.stream;
+void setDefault(int date, int time, int priority)
+{
+  if(date!=0)
+    {
+      this.hasDate=true;
+      this.date=date;
+      if(time!=0)
+        {
+          this.hasTime=true;
+          this.time=time;
+        }
+      else
+        {
+          this.hasTime=false;
+          this.time=0;
+        }
+    }
+  else
+    {
+      this.hasDate=false;
+      this.date=0;
+      this.hasTime=false;
+      this.time=0;
+    }
+  this.priority=priority;
+  detailsController.sink.add(detailsState.update(
+      date: date,
+      time: time,
+      priority: priority,
+      hasDate: hasDate,
+      hasTime: hasTime));
 
+}
   void setPriority(int value) {
     priority = value;
     log(priority.toString());

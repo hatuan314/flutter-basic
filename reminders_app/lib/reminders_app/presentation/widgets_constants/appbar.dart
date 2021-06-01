@@ -7,19 +7,33 @@ class AppbarWidget extends AppBar {
       {String leadingText,
       String title,
       String actionText,
-      Function onTapAction})
+        Widget onTapAction,
+      Function onTapCancel})
       : super(
             elevation: 0,
-            leadingWidth: ScreenUtil().screenWidth / 4,
+            leadingWidth: title=='Details'?ScreenUtil().screenWidth / 4:ScreenUtil().screenWidth / 5,
             leading: GestureDetector(
-              onTap: () => Navigator.pop(context),
+              onTap: onTapCancel!=null?onTapCancel:()=> showDialog(context: context, builder: (_)=>AlertDialog(
+                  title:Text('Cancel ?'),
+                  actions: [
+                    FlatButton(
+                      onPressed: () {Navigator.pop(context);},
+                      child: Text('No'),
+                    ),
+                    FlatButton(
+                      onPressed: () {Navigator.pop(context);Navigator.pop(context);},
+                      child: Text('Yes'),
+                    ),])),
               child: Container(
                 child: Row(
                   children: [
-                    Expanded(
-                      flex: 1,
-                      child: Icon(Icons.arrow_back_ios_rounded,
-                          color: Colors.blue, size: ScreenUtil().setSp(15)),
+                    Visibility(
+                      visible: title=='Details'?true:false,
+                      child: Expanded(
+                        flex: 1,
+                        child: Icon(Icons.arrow_back_ios_rounded,
+                            color: Colors.blue, size: ScreenUtil().setSp(15)),
+                      ),
                     ),
                     Expanded(
                       flex: 4,
@@ -47,7 +61,8 @@ class AppbarWidget extends AppBar {
                   fontWeight: FontWeight.w700),
             ),
             actions: [
-              GestureDetector(
+              onTapAction
+           /*   GestureDetector(
                 onTap: onTapAction,
                 child: Container(
                   //color: Colors.blue,
@@ -61,6 +76,6 @@ class AppbarWidget extends AppBar {
                     ),
                   ),
                 ),
-              ),
+              ),*/
             ]);
 }

@@ -13,12 +13,12 @@ class ReminderStream{
 
   void setDetails(var value) {
     details = value;
-    reminderController.sink.add(ReminderState(title:title,notes:notes,list: list,details: details));
+    reminderController.sink.add(reminderState.update(title:title,notes:notes,list: list,details: details));
   }
 
   void setList(String value) {
     list = value;
-    reminderController.sink.add(ReminderState(title:title,notes:notes,list: list,details: details));
+    reminderController.sink.add(reminderState.update(title:title,notes:notes,list: list,details: details));
   }
 
   void test() {
@@ -27,12 +27,12 @@ class ReminderStream{
 
   void setTitle(String value) {
     title = value;
-    reminderController.sink.add(ReminderState(title:title,notes:notes,list: list,details: details));
+    reminderController.sink.add(reminderState.update(title:title,notes:notes,list: list,details: details));
   }
 
   void setNote(String value) {
     notes = value;
-    reminderController.sink.add(ReminderState(title:title,notes:notes,list: list,details: details));
+    reminderController.sink.add(reminderState.update(title:title,notes:notes,list: list,details: details));
   }
 
   void dispose()

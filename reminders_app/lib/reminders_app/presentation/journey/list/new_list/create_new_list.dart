@@ -145,17 +145,13 @@ class _NewList extends State<NewList> {
 }
 */
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
-
 import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
 import 'package:flutter_screenutil/screen_util.dart';
 import 'package:reminders_app/reminders_app/presentation/journey/list/new_list/bloc/create_list_state.dart';
 import 'package:reminders_app/reminders_app/presentation/journey/list/new_list/bloc/list_stream.dart';
-
 import 'package:reminders_app/reminders_app/presentation/journey/reminders_list.dart';
-
-import 'widget/appbar.dart';
+import 'package:reminders_app/reminders_app/presentation/widgets_constants/appbar.dart';
 
 class NewList extends StatefulWidget {
   @override
@@ -182,12 +178,30 @@ class _NewList extends State<NewList> {
         builder: (context, snapshot) {
           return SafeArea(
               child: Scaffold(
-                appBar: appBar(context,
-                    name: name,
-                    createListState: snapshot.data,
-                    onDone: (name, color) {
-                      RemindersList.addList(name,color);
-                    }),
+                appBar: AppbarWidget(context,leadingText: 'Cancel',title: 'New List',
+                  onTapAction: GestureDetector(
+                    onTap: () {
+                      if (snapshot.data.clearButton) {
+                        RemindersList.addList(name.text, snapshot.data.listColor);
+                        Navigator.pop(context);
+                      }
+                    },
+                    child: Container(
+                      width: ScreenUtil().screenWidth / 6,
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: Text(
+                          'Add',
+                          style: TextStyle(
+                              color:
+                              snapshot.data.clearButton ? Colors.blue : Colors.grey,
+                              fontSize: ScreenUtil().setSp(15),
+                              fontWeight: FontWeight.w600),
+                        ),
+                      ),
+                    ),
+                  )
+                ),
                 body: ListView(
                     shrinkWrap: true,
                     scrollDirection: Axis.vertical,

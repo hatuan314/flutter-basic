@@ -4,10 +4,9 @@ import 'dart:developer';
 import 'package:reminders_app/reminders_app/presentation/model/reminder.dart';
 
 import '../../../reminders_list.dart';
-
+import 'package:reminders_app/reminders_app/common/extensions/date_extensions.dart';
 class TodayStream{
-  String now =  DateTime.now().day<10?'0'+DateTime.now().day.toString():DateTime.now().day.toString() + "/" +((DateTime.now().month<10)?'0'+DateTime.now().month.toString():DateTime.now().month.toString()) + "/" +
-      DateTime.now().year.toString();
+  String now =  DateTime.now().dateDdMMyyyy;
   List<Reminder> todayList=[];
   StreamController todayListController= StreamController();
   Stream get todayListStream=>todayListController.stream;

@@ -4,10 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
+import 'package:reminders_app/reminders_app/presentation/journey/reminder/reminders_constants.dart';
 import 'package:reminders_app/reminders_app/presentation/journey/reminder/scheduled_list/bloc/scheduled_list_state.dart';
-import 'package:reminders_app/reminders_app/presentation/journey/reminder/widget_constants/appbar.dart';
+import 'package:reminders_app/reminders_app/presentation/theme/theme.dart';
+import 'package:reminders_app/reminders_app/presentation/widgets_constants/appbar_for_list_screen.dart';
 import 'bloc/scheduled_list_stream.dart';
 import '../../reminders_list.dart';
+import 'package:reminders_app/reminders_app/common/extensions/date_extensions.dart';
 
 class ScheduledList extends StatefulWidget {
   @override
@@ -16,15 +19,7 @@ class ScheduledList extends StatefulWidget {
 
 class _ScheduledList extends State<ScheduledList> {
   int id;
-  String now = DateTime.now().day < 10
-      ? '0' + DateTime.now().day.toString()
-      : DateTime.now().day.toString() +
-          "/" +
-          (DateTime.now().month < 10
-              ? '0' + DateTime.now().month.toString()
-              : DateTime.now().month.toString()) +
-          "/" +
-          DateTime.now().year.toString();
+  String now = DateTime.now().dateDdMMyyyy;
   ScheduledListStream scheduledListStream = ScheduledListStream();
   @override
   void dispose() {
@@ -42,7 +37,7 @@ class _ScheduledList extends State<ScheduledList> {
         return SafeArea(
             child: Scaffold(
                 backgroundColor: Colors.white,
-                appBar: appBar(context),
+                appBar: AppbarWidgetForListScreen(context),
                 body:
                     Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                   Padding(
@@ -50,11 +45,8 @@ class _ScheduledList extends State<ScheduledList> {
                         top: ScreenUtil().setHeight(10),
                         left: ScreenUtil().setWidth(20)),
                     child: Text(
-                      'Scheduled',
-                      style: TextStyle(
-                          color: Colors.red,
-                          fontSize: ScreenUtil().setSp(25),
-                          fontWeight: FontWeight.w700),
+                      RemindersConstants.scheduledTxt,
+                      style: ThemeText.headlineListScreen.copyWith(color: Colors.red),
                     ),
                   ),
                       (snapshot.hasData == false ||
@@ -65,13 +57,7 @@ class _ScheduledList extends State<ScheduledList> {
                                 100),
                         child: Align(
                           alignment: Alignment.center,
-                          child: Text(
-                            'No Reminders',
-                            style: TextStyle(
-                                color: Colors.grey,
-                                fontSize:
-                                ScreenUtil().setSp(20)),
-                          ),
+                          child: RemindersConstants.noReminders
                         ),
                       )
                           : Expanded(
@@ -104,16 +90,7 @@ class _ScheduledList extends State<ScheduledList> {
                                                 ? 'Today'
                                                 : snapshot
                                                 .data.dateList[index],
-                                            style: TextStyle(
-                                                color:
-                                                Colors.blue,
-                                                fontSize:
-                                                ScreenUtil()
-                                                    .setSp(
-                                                    20),
-                                                fontWeight:
-                                                FontWeight
-                                                    .w700),
+                                            style: ThemeText.headline2ListScreen
                                           ),
                                         ),
                                       ),
@@ -127,18 +104,14 @@ class _ScheduledList extends State<ScheduledList> {
                                               .length,
                                           itemBuilder:
                                               (context, index1) {
-                                            String time = DateFormat(
-                                                'HH:mm')
-                                                .format(DateTime.fromMillisecondsSinceEpoch(snapshot
+                                            String time = DateTime.fromMillisecondsSinceEpoch(snapshot
                                                 .data.scheduledList[snapshot
                                                 .data.dateList[index]][index1]
-                                                .dateAndTime));
-                                            String date = DateFormat(
-                                                'dd/MM/yyyy')
-                                                .format(DateTime.fromMillisecondsSinceEpoch(snapshot
+                                                .dateAndTime).hourHHmm;
+                                            String date = DateTime.fromMillisecondsSinceEpoch(snapshot
                                                 .data.scheduledList[snapshot
                                                 .data.dateList[index]][index1]
-                                                .dateAndTime));
+                                                .dateAndTime).dateDdMMyyyy;
                                             //  log(index1.toString()+'}}}}}}}}}}}}');
                                             return Slidable(
                                                 actionPane:
@@ -232,10 +205,7 @@ class _ScheduledList extends State<ScheduledList> {
                                                             BoxDecoration(
                                                               shape:
                                                               BoxShape.circle,
-                                                              color: (snapshot.data.scheduledList[snapshot.data.dateList[index]][index1].priority == 3
-                                                                  ? Colors.red
-                                                                  : (snapshot.data.scheduledList[snapshot.data.dateList[index]][index1].priority == 1 ? Colors.yellow : (snapshot.data.scheduledList[snapshot.data.dateList[index]][index1].priority == 2 ? Colors.orange : Colors.grey))),
-                                                            ),
+                                                              color: RemindersConstants.getPriorityColor(snapshot.data.scheduledList[snapshot.data.dateList[index]][index1].priority),   ),
                                                           ),
                                                           Padding(
                                                             padding:
@@ -243,15 +213,27 @@ class _ScheduledList extends State<ScheduledList> {
                                                             child: Column(
                                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                                 children: [
-                                                                  Text(
-                                                                  snapshot.data.scheduledList[snapshot.data.dateList[index]][index1].title,
-                                                                    style: TextStyle(fontWeight: FontWeight.w500, color: Colors.black, fontSize: ScreenUtil().setSp(17)),
+                                                                  Container(
+                                                                    width:ScreenUtil().screenWidth-75,
+                                                                    child: Text(
+                                                                    snapshot.data.scheduledList[snapshot.data.dateList[index]][index1].title,
+                                                                      overflow: TextOverflow.ellipsis,
+                                                                      maxLines: 5,
+                                                                      softWrap: false,
+                                                                      style: TextStyle(fontWeight: FontWeight.w500, color: Colors.black, fontSize: ScreenUtil().setSp(17)),
+                                                                    ),
                                                                   ),
                                                                   Padding(
                                                                     padding: EdgeInsets.only(top: ScreenUtil().setHeight(3)),
-                                                                    child: Text(
-                                                                      (snapshot.data.scheduledList[snapshot.data.dateList[index]][index1].dateAndTime % 10 == 1) ? '${time} \n${snapshot.data.scheduledList[snapshot.data.dateList[index]][index1].notes}' : '${snapshot.data.scheduledList[snapshot.data.dateList[index]][index1].notes}',
-                                                                      style: TextStyle(fontWeight: FontWeight.w500, color: Colors.grey, fontSize: ScreenUtil().setSp(12)),
+                                                                    child: Container(
+                                                                      width:ScreenUtil().screenWidth-75,
+                                                                      child: Text(
+                                                                        (snapshot.data.scheduledList[snapshot.data.dateList[index]][index1].dateAndTime % 10 == 1) ? '${time} \n${snapshot.data.scheduledList[snapshot.data.dateList[index]][index1].notes}' : '${snapshot.data.scheduledList[snapshot.data.dateList[index]][index1].notes}',
+                                                                        overflow: TextOverflow.ellipsis,
+                                                                        maxLines: 5,
+                                                                        softWrap: false,
+                                                                        style: TextStyle(fontWeight: FontWeight.w500, color: Colors.grey, fontSize: ScreenUtil().setSp(12)),
+                                                                      ),
                                                                     ),
                                                                   ),
                                                                   Container(

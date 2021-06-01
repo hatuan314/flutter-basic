@@ -44,7 +44,7 @@ homeStream.dispose();
               shrinkWrap: true,
               scrollDirection: Axis.vertical,
               children: [
-                searchBar(),
+                SearchBar(),
                 GridView(
                     padding: EdgeInsets.only(
                       top: ScreenUtil().setHeight(20),
@@ -65,15 +65,15 @@ homeStream.dispose();
                               context, RouteList.todayListScreen)
                               .whenComplete(() => homeStream.update());
                         },
-                        child: gridViewItem(
+                        child: GridViewItem(icon:
                             Icon(
                               Icons.today,
                               size: ScreenUtil().setSp(22),
                               color: Colors.white,
                             ),
-                            Colors.blue,
-                            'Today',
-                            snapshot.data.l1),
+                            bgColor: Colors.blue,
+                            title:'Today',
+                            count: snapshot.data.l1),
                       ),
                       GestureDetector(
                         onTap: () async {
@@ -81,15 +81,15 @@ homeStream.dispose();
                               context, RouteList.scheduledListScreen)
                               .whenComplete(() => homeStream.update());
                         },
-                        child: gridViewItem(
-                            Icon(
+                        child: GridViewItem(
+                            icon: Icon(
                               Icons.calendar_today_sharp,
                               size: ScreenUtil().setSp(22),
                               color: Colors.white,
                             ),
-                            Colors.red,
-                            'Scheduled',
-                            snapshot.data.l2),
+                          bgColor:  Colors.red,
+                           title: 'Scheduled',
+                          count:  snapshot.data.l2),
                       ),
                     ]),
                 Padding(
@@ -104,15 +104,16 @@ homeStream.dispose();
                       await Navigator.pushNamed(context, RouteList.allListScreen)
                           .whenComplete(() => homeStream.update());
                     },
-                    child: gridViewItem(
-                        Icon(
+                    child: GridViewItem(
+                     icon:   Icon(
                           Icons.format_align_left,
                           size: ScreenUtil().setSp(22),
                           color: Colors.white,
                         ),
-                        Colors.grey,
-                        'All',
-                        snapshot.data.l3),
+                      bgColor:  Colors.grey,
+                       title: 'All',
+                       count :snapshot.data.l3),
+
                   ),
                 ),
                 Padding(
@@ -143,7 +144,7 @@ homeStream.dispose();
             ),
             // CreateNewReminder(),
           ),
-          bottomNavigationBar: bottomBar(context,homeStream),
+          bottomNavigationBar: BottomBar(context,homeStream: homeStream),
         );
       }
     );
@@ -254,7 +255,7 @@ homeStream.dispose();
                    context,
                    MaterialPageRoute(
                        builder: (_) =>
-                       (listScreen(context, index))))
+                       (ListScreen(index))))
                    .whenComplete(() => homeStream.update());
              },
              child: Container(

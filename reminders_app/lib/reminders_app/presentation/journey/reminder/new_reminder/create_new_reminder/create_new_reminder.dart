@@ -1,19 +1,22 @@
 import 'dart:developer';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
-
+import 'package:reminders_app/reminders_app/common/enums/priority_type.dart';
+import 'package:reminders_app/reminders_app/common/extensions/date_extensions.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:reminders_app/reminders_app/common/constants/route_constants.dart';
+import 'package:reminders_app/reminders_app/common/utils/priority_type_utils.dart';
 import 'package:reminders_app/reminders_app/presentation/journey/reminder/new_reminder/create_new_reminder/bloc/reminder_stream.dart';
+
 import 'package:reminders_app/reminders_app/presentation/journey/reminder/new_reminder/create_new_reminder/widget/list_dialog_item.dart';
 import 'package:reminders_app/reminders_app/presentation/journey/reminder/new_reminder/create_new_reminder/widget/text_field.dart';
+import 'package:reminders_app/reminders_app/presentation/journey/reminder/new_reminder/details/details_screen.dart';
+import 'package:reminders_app/reminders_app/presentation/journey/reminder/new_reminder/new_reminder_constants.dart';
 import 'package:reminders_app/reminders_app/presentation/journey/reminders_list.dart';
+import 'package:reminders_app/reminders_app/presentation/widgets_constants/appbar.dart';
 import 'bloc/reminder_state.dart';
-import 'reminder_provider.dart';
+
 class CreateNewReminder extends StatefulWidget{
   @override
   State<StatefulWidget> createState()=> _CreateNewReminder();
@@ -26,15 +29,7 @@ class _CreateNewReminder extends State<CreateNewReminder> {
   String time;
   var details;
 
-  String now = DateTime.now().day < 10
-      ? '0' + DateTime.now().day.toString()
-      : DateTime.now().day.toString() +
-          "/" +
-          (DateTime.now().month < 10
-              ? '0' + DateTime.now().month.toString()
-              : DateTime.now().month.toString()) +
-          "/" +
-          DateTime.now().year.toString();
+  String now = DateTime.now().dateDdMMyyyy;
   ReminderStream reminderStream = ReminderStream();
   @override
   void dispose() {
@@ -68,11 +63,11 @@ reminderStream.setList('Reminders');
                   shrinkWrap: true,
                   itemCount: RemindersList.MyLists.length,
                   itemBuilder: (context, index) {
-                    return listDialogItem(() => {
+                    return ListItemWidget(onTap:() => {
                       reminderStream.setList(RemindersList.MyLists[index].name),
                       Navigator.pop(context)
-                    }, RemindersList
-                        .MyLists[index].color,  RemindersList.MyLists[index].name, RemindersList.MyLists[index].list.length);
+                    },bgIcon: RemindersList
+                        .MyLists[index].color,  name:RemindersList.MyLists[index].name,length: RemindersList.MyLists[index].list.length);
                   }))
         ]);
     return StreamBuilder<ReminderState>(
@@ -81,7 +76,53 @@ reminderStream.setList('Reminders');
       builder: (context, snapshot) {
         return SafeArea(
           child: Scaffold(
-            appBar: _appBar(context,snapshot.data),
+            appBar: AppbarWidget(context,leadingText: 'Cancel',title: 'New Reminder',
+              onTapAction:  (snapshot.data==null||snapshot.data.title == null ||
+                  snapshot.data.title  == '' )? Container(
+                //color: Colors.blue,
+                width: ScreenUtil().screenWidth / 6,
+                child: Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    'Add',
+                    style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: ScreenUtil().setSp(15),
+                        fontWeight: FontWeight.w600),
+                  ),
+                ),
+              ):
+              GestureDetector(
+                onTap: () => {
+
+                  RemindersList.addReminder(
+                      snapshot.data.title,
+                      snapshot.data.notes==null?'':snapshot.data.notes,
+                      snapshot.data.list,
+                      snapshot.data.details != null
+                          ?  snapshot.data.details['date'] +  snapshot.data.details['time']
+                          : 0,
+                      snapshot.data.details != null ?  snapshot.data.details['priority'] : 0),
+
+                  Navigator.pop(context)
+                },
+
+                child: Container(
+                  //color: Colors.blue,
+                  width: ScreenUtil().screenWidth / 6,
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: Text(
+                      'Add',
+                      style: TextStyle(
+                          color: Colors.blue,
+                          fontSize: ScreenUtil().setSp(15),
+                          fontWeight: FontWeight.w600),
+                    ),
+                  ),
+                ),
+              ),
+            ),
             body: ListView(
               scrollDirection: Axis.vertical,
               shrinkWrap: true,
@@ -97,11 +138,11 @@ reminderStream.setList('Reminders');
                           borderRadius: BorderRadius.circular(10)),
                       child: Column(
                         children: [
-                        textField('Name',1, (value) => {
+                        TextFieldWidget(hintText:NewReminderConstants.titleTxt,maxLine:1,onChanged: (value) => {
                           reminderStream.setTitle(value),
                           title = value,
                         }),
-                          textField('Notes', 5, (value) => {
+                          TextFieldWidget(hintText:NewReminderConstants.notesTxt,maxLine:5,onChanged: (value) => {
                             reminderStream.setNote(value),
                             notes = value,
                           })
@@ -119,9 +160,10 @@ reminderStream.setList('Reminders');
                           borderRadius: BorderRadius.circular(10)),
                       child: GestureDetector(
                         onTap: () async => {
-                          details = await Navigator.pushNamed(
-                              context, RouteList.detailsScreen),
-                          log(details['time'].toString()),
+
+                          details = await Navigator.push(
+                              context,
+                          MaterialPageRoute(builder: (context)=>details==null?DetailsScreen(date: 0,time: 0,priority: 0):DetailsScreen(date: details['date'],time: details['time'],priority: details['priority'],))),
                        reminderStream.setDetails(details),
                         },
                         child: Padding(
@@ -148,9 +190,9 @@ reminderStream.setList('Reminders');
                                         child: Text(
                                           snapshot.data.details['date'] != 0
                                               ? (snapshot.data.details['time']!=0
-                                              ? '${(DateFormat('dd/MM/yyyy').format(DateTime.fromMillisecondsSinceEpoch( snapshot.data.details['date'])).compareTo(now) == 0 ? 'Today' : DateFormat('dd/MM/yyyy').format(DateTime.fromMillisecondsSinceEpoch( snapshot.data.details['date'])) == now ? 'Today' : DateFormat('dd/MM/yyyy').format(DateTime.fromMillisecondsSinceEpoch( snapshot.data.details['date'])).compareTo(now) == 0 ? 'Today' : DateFormat('dd/MM/yyyy').format(DateTime.fromMillisecondsSinceEpoch( snapshot.data.details['date'])))}, ${DateFormat('HH:mm').format(DateTime.fromMillisecondsSinceEpoch( snapshot.data.details['date'] +  snapshot.data.details['time']))}, ${ snapshot.data.details['priority'] == 0 ? 'None' : ( snapshot.data.details['priority'] == 1 ? 'Low' : ( snapshot.data.details['priority'] == 2 ? 'Medium' : 'High'))}'
-                                              : '${(DateFormat('dd/MM/yyyy').format(DateTime.fromMillisecondsSinceEpoch( snapshot.data.details['date'])).compareTo(now) == 0 ? 'Today' : DateFormat('dd/MM/yyyy').format(DateTime.fromMillisecondsSinceEpoch( snapshot.data.details['date'])) == now ? 'Today' : DateFormat('dd/MM/yyyy').format(DateTime.fromMillisecondsSinceEpoch( snapshot.data.details['date'])).compareTo(now) == 0 ? 'Today' : DateFormat('dd/MM/yyyy').format(DateTime.fromMillisecondsSinceEpoch( snapshot.data.details['date'])))}, ${ snapshot.data.details['priority'] == 0 ? 'None' : ( snapshot.data.details['priority'] == 1 ? 'Low' : ( snapshot.data.details['priority'] == 2 ? 'Medium' : 'High'))}')
-                                              : '${ snapshot.data.details['priority'] == 0 ? 'None' : ( snapshot.data.details['priority'] == 1 ? 'Low' : ( snapshot.data.details['priority'] == 2 ? 'Medium' : 'High'))}',
+                                              ? '${DateTime.fromMillisecondsSinceEpoch( snapshot.data.details['date']).isToday}, ${DateFormat('HH:mm').format(DateTime.fromMillisecondsSinceEpoch( snapshot.data.details['date'] +  snapshot.data.details['time']))}, ${ getPriorityTypeText(snapshot.data.details['priority'])}'
+                                              : '${DateTime.fromMillisecondsSinceEpoch( snapshot.data.details['date']).isToday}, ${ getPriorityTypeText(snapshot.data.details['priority'])}')
+                                              : '${getPriorityTypeText(snapshot.data.details['priority'])}',
                                           style: TextStyle(
                                               fontSize:
                                               ScreenUtil().setSp(12),
@@ -248,92 +290,20 @@ reminderStream.setList('Reminders');
     );
       }
 
-
-
-  Widget _appBar(BuildContext context, ReminderState reminderState) {
-    int value;
-    return AppBar(
-      elevation: 0,
-      leadingWidth: ScreenUtil().screenWidth / 5,
-      leading: GestureDetector(
-        onTap: () =>  showDialog(context: context, builder: (_)=>AlertDialog(
-            title:Text('Cancel ?'),
-            actions: [
-              FlatButton(
-                onPressed: () {Navigator.pop(context);},
-                child: Text('No'),
-              ),
-              FlatButton(
-                onPressed: () {Navigator.pop(context);Navigator.pop(context);},
-                child: Text('Yes'),
-              ),])),
-        child: Align(
-          alignment: Alignment.center,
-          child: Text(
-            'Cancel',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-                color: Colors.blue,
-                fontWeight: FontWeight.w600,
-                fontSize: ScreenUtil().setSp(15)),
-          ),
-        ),
-      ),
-      backgroundColor: Colors.transparent,
-      centerTitle: true,
-      title: Text(
-        'New Reminder',
-        style: TextStyle(
-            color: Colors.black,
-            fontSize: ScreenUtil().setSp(16),
-            fontWeight: FontWeight.w700),
-      ),
-      actions: [ (reminderState==null||reminderState.title == null ||
-          reminderState.title  == '' )? Container(
-        //color: Colors.blue,
-        width: ScreenUtil().screenWidth / 6,
-        child: Align(
-          alignment: Alignment.center,
-          child: Text(
-            'Add',
-            style: TextStyle(
-                color: Colors.grey,
-                fontSize: ScreenUtil().setSp(15),
-                fontWeight: FontWeight.w600),
-          ),
-        ),
-      ):
-      GestureDetector(
-        onTap: () => {
-
-          RemindersList.addReminder(
-              reminderState.title,
-              reminderState.notes==null?'':reminderState.notes,
-              reminderState.list,
-              reminderState.details != null
-                  ?  reminderState.details['date'] +  reminderState.details['time']
-                  : 0,
-              reminderState.details != null ?  reminderState.details['priority'] : 0),
-          // log(value.toString()+'***********'),
-          Navigator.pop(context)
-        },
-
-        child: Container(
-          //color: Colors.blue,
-          width: ScreenUtil().screenWidth / 6,
-          child: Align(
-            alignment: Alignment.center,
-            child: Text(
-              'Add',
-              style: TextStyle(
-                  color: Colors.blue,
-                  fontSize: ScreenUtil().setSp(15),
-                  fontWeight: FontWeight.w600),
-            ),
-          ),
-        ),
-      ),
-      ],
-    );
+  String getPriorityTypeText(int intPriority) {
+    switch (intPriority) {
+      case 1:
+        return priorityTypeUtil(PriorityType.LOW);
+      case 2:
+        return priorityTypeUtil(PriorityType.MEDIUM);
+      case 3:
+        return priorityTypeUtil(PriorityType.HIGH);
+      default:
+        return priorityTypeUtil(PriorityType.NONE);
+    }
   }
+
+
+
+
 }

@@ -5,7 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:reminders_app/reminders_app/presentation/model/group.dart';
-
+import 'package:reminders_app/reminders_app/common/extensions/date_extensions.dart';
 import '../reminders_list.dart';
 
 class HomePageProvider with ChangeNotifier, DiagnosticableTreeMixin {
@@ -31,8 +31,8 @@ class HomePageProvider with ChangeNotifier, DiagnosticableTreeMixin {
       l3 = 0;
     } else {
       RemindersList.allReminders?.forEach((key, value) {
-        String now =  DateTime.now().day<10?'0'+DateTime.now().day.toString():DateTime.now().day.toString() + "/" +((DateTime.now().month<10)?'0'+DateTime.now().month.toString():DateTime.now().month.toString()) + "/" +
-            DateTime.now().year.toString();
+        String now =  DateTime.now().dateDdMMyyyy;
+        log(key.toString());
         if (key == now) {
           l1 = RemindersList.allReminders[now].length;
         }

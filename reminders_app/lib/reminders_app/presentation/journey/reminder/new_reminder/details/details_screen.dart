@@ -12,18 +12,28 @@ import 'package:reminders_app/reminders_app/presentation/journey/reminder/new_re
 import 'package:reminders_app/reminders_app/presentation/journey/reminder/new_reminder/details/bloc/details_stream.dart';
 import 'package:reminders_app/reminders_app/presentation/journey/reminder/new_reminder/details/details_constants.dart';
 import 'package:reminders_app/reminders_app/presentation/journey/reminder/new_reminder/details/widget/details_item.dart';
-import 'package:reminders_app/reminders_app/presentation/journey/reminder/new_reminder/details/widget/priority_list_item.dart';
+import 'package:reminders_app/reminders_app/presentation/journey/reminder/new_reminder/details/widget/priority_item.dart';
 import 'package:reminders_app/reminders_app/presentation/journey/reminder/new_reminder/new_reminder_constants.dart';
 import 'package:reminders_app/reminders_app/presentation/widgets_constants/appbar.dart';
 
 class DetailsScreen extends StatefulWidget {
+  int date;
+  int time;
+  int priority;
+
+  DetailsScreen({this.date, this.time, this.priority});
+
   @override
-  State<StatefulWidget> createState() => _DetailsScreen();
+  State<StatefulWidget> createState() => _DetailsScreen(date: date,time: time,priority: priority);
 }
 
 class _DetailsScreen extends State<DetailsScreen> {
   DetailsStream detailsStream = DetailsStream();
+  int date;
+  int time;
+  int priority;
 
+  _DetailsScreen({this.date, this.time, this.priority});
   @override
   void dispode() {
     detailsStream.dispose();
@@ -60,15 +70,6 @@ class _DetailsScreen extends State<DetailsScreen> {
             log(selectedPriority)
           },
           isNotLast: true,
-          // priorityTypeUtil(PriorityType.NONE),
-          // Colors.grey,
-          // () => {
-          //       detailsStream.setPriority(0),
-          //       Navigator.pop(context),
-          //       selectedPriority = priorityTypeUtil(PriorityType.NONE),
-          //       log(selectedPriority)
-          //     },
-          // true,
         ),
         PriorityItemWidget(
             name: priorityTypeUtil(PriorityType.LOW),
@@ -105,10 +106,10 @@ class _DetailsScreen extends State<DetailsScreen> {
 
     /// Kiểm tra date nhập vào có phải Today hay không?
     String now = DateTime.now().dateDdMMyyyy;
-
+detailsStream.setDefault(date, time, priority);
     return StreamBuilder<DetailsState>(
         initialData: DetailsState(
-            hasTime: false, hasDate: false, time: 0, date: 0, priority: 0),
+           hasTime: time!=0?true:false, hasDate:date!=0?true: false, time: time, date: date, priority: priority),
         stream: detailsStream.detailsStream,
         builder: (context, snapshot) {
           return SafeArea(
@@ -130,42 +131,45 @@ class _DetailsScreen extends State<DetailsScreen> {
                           childAspectRatio: 6,
                         ),
                         children: [
-                          detailsItem(
-                            'Date',
-                            snapshot.data.hasDate == true
-                                ? (DateTime.fromMillisecondsSinceEpoch(
-                                                snapshot.data.date)
-                                            .dateDdMMyyyy
-                                            .compareTo(now) ==
-                                        0
-                                    ? 'Today'
-                                    : DateTime.fromMillisecondsSinceEpoch(
-                                            snapshot.data.date)
-                                        .dateDdMMyyyy)
+                          DetailsItem(
+                            title: DetailConstants.dateTxt,
+                            subtitle: snapshot.data.hasDate == true
+                                ? DateTime.fromMillisecondsSinceEpoch(
+                                                snapshot.data.date).isToday
                                 : '',
-                            Icons.calendar_today_sharp,
-                            Colors.red,
-                            snapshot.data.hasDate,
-                            (bool value) {
+                            icon: Icons.calendar_today_sharp,
+                            bgIcon: Colors.red,
+                            switchValue: snapshot.data.hasDate,
+                            switchOnChanged: (bool value) {
                               selectDate(context, value);
+                              detailsStream.setTime(TimeOfDay.now(), false);
+                            },
+                            onTapItem: (){
+                              if(snapshot.data.hasDate)
+                                {
+                                selectDate(context, snapshot.data.hasDate);}
                             },
                           ),
-                          detailsItem(
-                            DetailConstants.timeTxt,
-                            snapshot.data.hasTime == true
+                          DetailsItem(
+                            title: DetailConstants.timeTxt,
+                            subtitle:(snapshot.data.hasDate && snapshot.data.hasTime  )
                                 ? DateFormat('HH:mm').format(
                                     DateTime.fromMillisecondsSinceEpoch(
                                         snapshot.data.date +
                                             snapshot.data.time))
                                 : '',
-                            Icons.timer,
-                            Colors.blue,
-                            detailsStream.hasDate == true
+                            icon: Icons.timer,
+                            bgIcon: Colors.blue,
+                            switchValue: detailsStream.hasDate == true
                                 ? snapshot.data.hasTime
                                 : false,
-                            (bool value) {
+                            switchOnChanged: (bool value) {
                               if (snapshot.data.hasDate)
                                 selectTime(context, value);
+                            },
+                            onTapItem: (){
+                              if (snapshot.data.hasDate && snapshot.data.hasTime)
+                                selectTime(context, snapshot.data.hasTime);
                             },
                           ),
                         ]),
@@ -246,8 +250,6 @@ class _DetailsScreen extends State<DetailsScreen> {
       );
       if (newTime != null) {
         detailsStream.setTime(newTime, hasTime);
-        //   time=newTime;
-        // log(item.time.toString());
       }
     } else {
       detailsStream.setTime(TimeOfDay.now(), hasTime);
@@ -263,8 +265,6 @@ class _DetailsScreen extends State<DetailsScreen> {
           lastDate: DateTime(2101));
       if (picked != null) {
         detailsStream.setDate(picked, hasDate);
-        // selectedDay=picked;
-        //log(selectedDay.day);
       }
     } else {
       detailsStream.setDate(DateTime.now(), hasDate);
@@ -273,11 +273,13 @@ class _DetailsScreen extends State<DetailsScreen> {
 
   Widget _appBar(BuildContext context, DetailsState detailsState) {
     return AppbarWidget(
+      
       context,
       leadingText: NewReminderConstants.newReminderTxt,
       title: NewReminderConstants.detailTxt,
       actionText: DetailConstants.saveTxt,
-      onTapAction: () => {
+      onTapAction:GestureDetector (
+      onTap: ()=> {
         Navigator.pop(
             context,
             ({
@@ -286,6 +288,22 @@ class _DetailsScreen extends State<DetailsScreen> {
               'priority': detailsState.priority
             })),
       },
+      child: Container(
+        //color: Colors.blue,
+        width: ScreenUtil().screenWidth / 6,
+        child: Align(
+          alignment: Alignment.center,
+          child: Text(
+            'Save',
+            style: TextStyle(
+                color: Colors.blue,
+                fontSize: ScreenUtil().setSp(15),
+                fontWeight: FontWeight.w600),
+          ),
+        ),
+      ),
+    ),
+      onTapCancel: ()=>{log('cancel'), Navigator.pop(context),},
     );
   }
 }

@@ -1,24 +1,23 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
-import 'package:reminders_app/reminders_app/common/constants/route_constants.dart';
-import 'package:reminders_app/reminders_app/presentation/journey/reminder/widget_constants/appbar.dart';
+import 'package:reminders_app/reminders_app/presentation/journey/reminder/reminders_constants.dart';
+import 'package:reminders_app/reminders_app/presentation/theme/theme.dart';
+import 'package:reminders_app/reminders_app/presentation/widgets_constants/appbar.dart';
+import 'package:reminders_app/reminders_app/common/extensions/date_extensions.dart';
+import 'package:reminders_app/reminders_app/presentation/widgets_constants/appbar_for_list_screen.dart';
 import 'bloc/today_list_stream.dart';
-
-
 import '../../reminders_list.dart';
+
 class TodayList extends StatefulWidget{
   @override
   State<StatefulWidget> createState() => _TodayList();
 
 }
 class _TodayList extends State<TodayList> {
-  String now =  DateTime.now().day<10?'0'+DateTime.now().day.toString():DateTime.now().day.toString() + "/" +(DateTime.now().month<10?'0'+DateTime.now().month.toString():DateTime.now().month.toString()) + "/" +
-      DateTime.now().year.toString();
+  String now =  DateTime.now().dateDdMMyyyy;
   TodayStream todayStream= TodayStream();
   @override
   void dispose() {
@@ -31,7 +30,7 @@ todayStream.update();
     return SafeArea(
         child: Scaffold(
             backgroundColor: Colors.white,
-            appBar: appBar(context),
+            appBar: AppbarWidgetForListScreen(context),
             body: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -39,23 +38,15 @@ todayStream.update();
                     padding: EdgeInsets.only(top: ScreenUtil().setHeight(10),
                         left: ScreenUtil().setWidth(20)),
                     child: Text(
-                      'Today',
-                      style: TextStyle(
-                          color: Colors.blue,
-                          fontSize: ScreenUtil().setSp(25),
-                          fontWeight: FontWeight.w700),
-                    ),
-                  ),
+                      RemindersConstants.todayTxt,
+                      style:ThemeText.headlineListScreen,
+                  ),),
                   RemindersList.allReminders.containsKey(now)?todayListWidget(context):Padding(
                     padding: EdgeInsets.only(top:ScreenUtil().screenHeight/2-100),
                     child:
                     Align(
                       alignment: Alignment.center,
-                      child: Text('No Reminders',
-                        style: TextStyle(
-                            color: Colors.grey,
-                            fontSize: ScreenUtil().setSp(20)
-                        ),),
+                      child: RemindersConstants.noReminders
                     ),
 
                   )
@@ -65,6 +56,7 @@ todayStream.update();
   }
 Widget todayListWidget(BuildContext context)
 {
+  todayStream.update();
   int id;
   return    Expanded(
       child: Padding(
@@ -132,8 +124,6 @@ Widget todayListWidget(BuildContext context)
                           ),
                         ],
                       )),
-
-
                     },
                     )
                     ],
@@ -148,22 +138,7 @@ Widget todayListWidget(BuildContext context)
                                 height: ScreenUtil().setHeight(15),
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
-                                  color: (RemindersList
-                                      .allReminders[now][index]
-                                      .priority ==
-                                      3
-                                      ? Colors.red
-                                      : (RemindersList
-                                      .allReminders[now][index]
-                                      .priority ==
-                                      1
-                                      ? Colors.yellow
-                                      : (RemindersList
-                                      .allReminders[now][index]
-                                      .priority ==
-                                      2
-                                      ? Colors.orange
-                                      : Colors.grey))),
+                                  color: RemindersConstants.getPriorityColor(RemindersList.allReminders[now][index].priority),
                                 ),
 
                               ),
@@ -174,29 +149,40 @@ Widget todayListWidget(BuildContext context)
                                 child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children:[
-                                      Text(
-                                        RemindersList
-                                            .allReminders[now][index]
-                                            .title,
-                                        style: TextStyle(
-                                            fontWeight:
-                                            FontWeight.w500,
-                                            color: Colors.black,
-                                            fontSize: ScreenUtil()
-                                                .setSp(17)),
+                                      Container(
+                                        width:ScreenUtil().screenWidth-75,
+                                        child: Text(
+                                          RemindersList
+                                              .allReminders[now][index]
+                                              .title,
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 5,
+                                          softWrap: false,
+                                          style: TextStyle(
+                                              fontWeight:
+                                              FontWeight.w500,
+                                              color: Colors.black,
+                                              fontSize: ScreenUtil()
+                                                  .setSp(17)),
+                                        ),
                                       ),
                                       Padding(
                                         padding: EdgeInsets.only(
                                             top: ScreenUtil()
                                                 .setHeight(3)),
-                                        child: Text
-                                              ( (RemindersList.allReminders[now][index].dateAndTime%10==1)
-                                              ? '${time} \n${RemindersList.allReminders[now][index].notes}'
-                                              : '${RemindersList.allReminders[now][index].notes}',
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.w500,
-                                              color: Colors.grey,
-                                              fontSize: ScreenUtil().setSp(12)),
+                                        child: Container(width: ScreenUtil().screenWidth-75,
+                                          child: Text
+                                                ( (RemindersList.allReminders[now][index].dateAndTime%10==1)
+                                                ? '${time} \n${RemindersList.allReminders[now][index].notes}'
+                                                : '${RemindersList.allReminders[now][index].notes}',
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 5,
+                                        softWrap: false,
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.grey,
+                                                fontSize: ScreenUtil().setSp(12)),
+                                          ),
                                         ),
                                       ),
                                       Container(
