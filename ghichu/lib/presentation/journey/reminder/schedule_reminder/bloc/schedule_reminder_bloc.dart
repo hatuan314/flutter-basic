@@ -14,8 +14,8 @@ class ScheduleReminderBloc {
     _streamController.sink.add(scheduleReminderState);
   }
 
-  void setIndexReminder(int index) {
-    scheduleReminderState.setIndexReminder(index);
+  void setIndexReminder(int index,int group) {
+    scheduleReminderState.setIndexReminder(index,group);
     _streamController.sink.add(scheduleReminderState);
   }
 

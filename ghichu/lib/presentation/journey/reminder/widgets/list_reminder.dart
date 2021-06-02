@@ -3,6 +3,8 @@ import 'package:flutter_screenutil/screen_util.dart';
 import 'package:ghichu/common/constants/route_constants.dart';
 import 'package:ghichu/presentation/journey/reminder/all_reminder/bloc/all_reminder_bloc.dart';
 import 'package:ghichu/presentation/journey/reminder/all_reminder/bloc/all_reminder_state.dart';
+import 'package:ghichu/presentation/journey/reminder/schedule_reminder/bloc/schedule_reminder_bloc.dart';
+import 'package:ghichu/presentation/journey/reminder/today_reminder/bloc/today_reminder_bloc.dart';
 import 'package:ghichu/presentation/models/model_map.dart';
 import 'package:ghichu/presentation/models/reminder.dart';
 import 'package:intl/intl.dart';
@@ -14,14 +16,19 @@ class ListReminder extends StatelessWidget {
   List<TextEditingController> controller;
   Reminder reminder;
   AllReminderBloc allReminderBloc;
-  int indexReminder;
+  ScheduleReminderBloc scheduleReminderBloc;
+  TodayReminderBloc todayReminderBloc;
+  int indexReminder, indexGroup, index;
   ListReminder(
       {Key key,
       this.title,
+        this.todayReminderBloc,
+      this.scheduleReminderBloc,
       this.indexReminder,
       this.group,
       this.note,
       this.date,
+      this.indexGroup,
       this.time,
       this.allReminderBloc,
       this.controller,
@@ -40,22 +47,28 @@ class ListReminder extends StatelessWidget {
         Expanded(
             child: GestureDetector(
           onTap: () {
-            if(allReminderBloc==null){
+            if (allReminderBloc != null) {
+              allReminderBloc.allReminderState.indexGroup = null;
+              allReminderBloc.setIndexReminder(indexReminder, indexGroup);
 
+            } else if(scheduleReminderBloc!=null) {
+              scheduleReminderBloc.scheduleReminderState.indexGroup = null;
+              scheduleReminderBloc.setIndexReminder(indexReminder, indexGroup);
+
+              // allReminderBloc.allReminderState.indexGroup = null;
+              // allReminderBloc.setIndexReminder(indexReminder);
+              // for (int i = 0; i < ModelListReminder.myList.length; i++) {
+              //   if (controller[i].text.isNotEmpty &&
+              //       indexReminder != allReminderBloc.allReminderState.indexGroup) {
+              //     allReminderBloc.addAll(
+              //         allReminderBloc.allReminderState.group, controller[i].text);
+              //   }
+              //   controller[i].text = '';
+              // }
             }else{
-              allReminderBloc.allReminderState.indexGroup=null;
-              allReminderBloc.setIndexReminder(indexReminder);
+              todayReminderBloc.todayReminderState.indexGroupReminder=0;
+              todayReminderBloc.setIndexReminder(indexReminder);
             }
-            // allReminderBloc.allReminderState.indexGroup = null;
-            // allReminderBloc.setIndexReminder(indexGroup, index);
-            // for (int i = 0; i < ModelListReminder.myList.length; i++) {
-            //   if (controller[i].text.isNotEmpty &&
-            //       index != allReminderBloc.allReminderState.indexGroup) {
-            //     allReminderBloc.addAll(
-            //         allReminderBloc.allReminderState.group, controller[i].text);
-            //   }
-            //   controller[i].text = '';
-            // }
           },
           child: Container(
             padding: EdgeInsets.symmetric(vertical: ScreenUtil().setHeight(10)),
@@ -137,43 +150,49 @@ class ListReminder extends StatelessWidget {
                     )
                   ],
                 ),
-                // StreamBuilder<AllReminderState>(
-                //     initialData: allReminderBloc.allReminderState,
-                //     stream: allReminderBloc.allController,
-                //     builder: (context, snapshot) {
-                //       return Padding(
-                //         padding:
-                //             EdgeInsets.only(right: ScreenUtil().setWidth(15)),
-                //         child: Visibility(
-                //             visible: indexGroup == snapshot.data.indexTextFiled
-                //                 ? index == snapshot.data.indexReminder
-                //                     ? true
-                //                     : false
-                //                 : false,
-                //             child: GestureDetector(
-                //               onTap: () {
-                //                 Navigator.pushNamed(
-                //                     context, RouteList.editReminder,
-                //                     arguments: {
-                //                       'group': group,
-                //                       'title': title,
-                //                       'note': note,
-                //                       'date': date,
-                //                       'time': time,
-                //                       'createAt': createAt,
-                //                       'reminder': reminder
-                //                     }).whenComplete(() {
-                //                   // allReminderBloc.update();
-                //                 });
-                //               },
-                //               child: Icon(
-                //                 Icons.error_outline,
-                //                 size: ScreenUtil().setSp(25),
-                //                 color: Colors.red,
-                //               ),
-                //             )),
-                //       );
-                //     }),
+                StreamBuilder(
+                    initialData: allReminderBloc == null
+                        ? scheduleReminderBloc==null?todayReminderBloc.todayReminderState:scheduleReminderBloc.scheduleReminderState
+                        : allReminderBloc.allReminderState,
+                    stream: allReminderBloc == null
+                        ? scheduleReminderBloc==null?todayReminderBloc.todayReminderController:scheduleReminderBloc.streamController
+                        : allReminderBloc.allController,
+                    builder: (context, snapshot) {
+                      return Padding(
+                        padding:
+                            EdgeInsets.only(right: ScreenUtil().setWidth(15)),
+                        child: Visibility(
+                            visible: indexGroup ==
+                                    snapshot.data.indexGroupReminder
+                                ? indexReminder ==
+                                snapshot.data.indexReminder
+                                    ? true
+                                    : false
+                                : false,
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.pushNamed(
+                                    context, RouteList.editReminder,
+                                    arguments: {
+                                      'group': group,
+                                      'title': title,
+                                      'note': note,
+                                      'date': date,
+                                      'time': time,
+                                      'createAt': createAt,
+                                      'reminder': reminder
+                                    }).whenComplete(() {
+                                  // allReminderBloc.update();
+                                });
+                              },
+                              child: Icon(
+                                Icons.error_outline,
+                                size: ScreenUtil().setSp(25),
+                                color: Colors.red,
+                              ),
+                            )),
+                      );
+                    }),
               ],
             ),
           ),

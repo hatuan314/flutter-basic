@@ -14,7 +14,10 @@ class TodayReminderBloc {
     todayReminderState.getToday();
     _todayReminderController.sink.add(todayReminderState);
   }
-
+void setIndexReminder(int index){
+    todayReminderState.setIndexReminder(index);
+    _todayReminderController.sink.add(todayReminderState);
+}
   void dispose() {
     _todayReminderController.close();
   }

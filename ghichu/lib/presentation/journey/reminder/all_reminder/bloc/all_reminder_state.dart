@@ -1,17 +1,21 @@
 import 'package:ghichu/presentation/models/model_map.dart';
 import 'package:ghichu/presentation/models/reminder.dart';
 
-class AllReminderState{
+class AllReminderState {
   String group;
   String title;
-  int indexGroup,indexReminder;
+  int indexGroup, indexReminder,indexGroupReminder;
   String hedear;
+
   void setGroup(String group) {
     this.group = group;
   }
-  void setIndexReminder(int index){
-    this.indexReminder=indexReminder;
+
+  void setIndexReminder(int index,int indexGroup) {
+    this.indexReminder = index;
+    this.indexGroupReminder=indexGroup;
   }
+
   void addAll(String group, String title) {
     if (ModelListReminder.listReminder['${group}']['orther'] == null) {
       ModelListReminder.listReminder['${group}'].addAll({
@@ -38,6 +42,5 @@ class AllReminderState{
           DateTime.now().millisecondsSinceEpoch,
           false));
     }
-
   }
 }

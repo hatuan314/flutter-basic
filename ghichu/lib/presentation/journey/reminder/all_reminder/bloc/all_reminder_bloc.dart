@@ -21,8 +21,8 @@ class AllReminderBloc {
     _allController.sink.add(allReminderState);
   }
 
-  void setIndexReminder(int index) {
-    allReminderState.setIndexReminder(index);
+  void setIndexReminder(int index,int group) {
+    allReminderState.setIndexReminder(index,group);
     _allController.sink.add(allReminderState);
   }
 

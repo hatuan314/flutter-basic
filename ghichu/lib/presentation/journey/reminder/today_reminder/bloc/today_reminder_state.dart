@@ -3,9 +3,11 @@ import 'package:intl/intl.dart';
 
 class TodayReminderState {
   String nowDate;
-
+  int indexReminder, indexGroup,indexGroupReminder;
   TodayReminderState({this.nowDate});
-
+void setIndexReminder(int index){
+  indexReminder=index;
+}
   int getToday() {
     int a = 0;
     ModelListReminder.listReminder.forEach((key, value) {

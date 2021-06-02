@@ -6,16 +6,16 @@ class ScheduleReminderState {
   Map<String, List<Reminder>> reminderSchedule;
   String title;
   String keyDate;
-  int indexReminder, indexStickyReminder;
+  int indexReminder, indexGroup,indexGroupReminder;
   List<TextEditingController> textEditing;
-  int indexGroup;
+
 
   ScheduleReminderState(
       {this.reminderSchedule,
       this.title,
       this.keyDate,
       this.indexReminder,
-      this.indexStickyReminder,
+      this.indexGroupReminder,
       this.textEditing,
       this.indexGroup});
 
@@ -29,8 +29,9 @@ class ScheduleReminderState {
     this.indexGroup = index;
   }
 
-  void setIndexReminder(int index) {
+  void setIndexReminder(int index,int group) {
     indexReminder = index;
+    indexGroupReminder =group;
   }
 
   void setTitle(String title) {

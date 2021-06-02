@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screen_util.dart';
 import 'package:ghichu/presentation/journey/reminder/today_reminder/bloc/today_reminder_bloc.dart';
 import 'package:ghichu/presentation/journey/reminder/today_reminder/bloc/today_reminder_state.dart';
+import 'package:ghichu/presentation/journey/reminder/widgets/list_reminder.dart';
 import 'package:ghichu/presentation/models/model_map.dart';
 import 'package:ghichu/presentation/models/reminder.dart';
 import 'package:intl/intl.dart';
@@ -56,74 +57,15 @@ class _State extends State<TodayPage> {
                         List<Reminder> reminder = ModelListReminder
                             .listReminder.values
                             .elementAt(index)['${snapshot.data.nowDate}'];
-                        return Row(
-                          children: [
-                            Icon(Icons.check_circle_outline_outlined),
-                            SizedBox(
-                              width: ScreenUtil().setWidth(10),
-                            ),
-                            Expanded(
-                                child: Container(
-                              padding: EdgeInsets.only(
-                                  bottom: ScreenUtil().setHeight(10),
-                                  top: ScreenUtil().setHeight(10)),
-                              decoration: BoxDecoration(
-                                  border: Border(
-                                      bottom:
-                                          BorderSide(color: Colors.black12))),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    '${reminder[index1].title}',
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: ScreenUtil().setSp(16)),
-                                  ),
-                                  SizedBox(
-                                    height: ScreenUtil().setHeight(5),
-                                  ),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        '${reminder[index1].group}',
-                                        style: TextStyle(
-                                            color: Colors.black45,
-                                            fontSize: ScreenUtil().setSp(14)),
-                                      ),
-                                      Visibility(
-                                          visible: reminder[index1].time,
-                                          child: Text(
-                                            ' - ${DateFormat('HH:mm').format(DateTime.fromMillisecondsSinceEpoch(reminder[index1].date))}',
-                                            style: TextStyle(
-                                                color: Colors.black45,
-                                                fontSize:
-                                                    ScreenUtil().setSp(14)),
-                                          ))
-                                    ],
-                                  ),
-                                  Visibility(
-                                      visible: reminder[index1].note == ''
-                                          ? false
-                                          : true,
-                                      child: Column(
-                                        children: [
-                                          SizedBox(
-                                            height: ScreenUtil().setHeight(5),
-                                          ),
-                                          Text(
-                                            '${reminder[index1].note}',
-                                            style: TextStyle(
-                                                color: Colors.black45,
-                                                fontSize:
-                                                    ScreenUtil().setSp(14)),
-                                          )
-                                        ],
-                                      ))
-                                ],
-                              ),
-                            ))
-                          ],
+                        return ListReminder(
+                          indexGroup: 0,
+                          todayReminderBloc: todayReminderBloc,
+                          indexReminder: index1,
+                          title: reminder[index1].title,
+                          note: reminder[index1].note,
+                          group: reminder[index1].group,
+                          time: reminder[index1].time,
+                          date: reminder[index1].date,
                         );
                       }),
                     );

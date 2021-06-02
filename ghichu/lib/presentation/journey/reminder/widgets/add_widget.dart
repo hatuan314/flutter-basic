@@ -36,8 +36,10 @@ class AddWidget extends StatelessWidget {
         // }
         // allReminderBloc.allReminderState.setGroup(group);
         if(allReminderBloc==null){
+          scheduleReminderBloc.scheduleReminderState.indexGroupReminder=null;
           scheduleReminderBloc.setIndexGroup(index);
         }else{
+          allReminderBloc.allReminderState.indexGroupReminder=null;
           allReminderBloc.setIndexGroup(index);
         }
       },
@@ -52,8 +54,6 @@ class AddWidget extends StatelessWidget {
         suffixIcon: StreamBuilder(
           initialData: scheduleReminderBloc==null?allReminderBloc.allReminderState:scheduleReminderBloc.scheduleReminderState,
           stream: scheduleReminderBloc==null?allReminderBloc.allController:scheduleReminderBloc.streamController,
-            // initialData: allReminderBloc.allReminderState,
-            // stream: allReminderBloc.allController,
             builder: (context, snapshot) {
               return Visibility(
                   visible: index == snapshot.data.indexGroup ? true : false,

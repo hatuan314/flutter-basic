@@ -65,18 +65,16 @@ class StickyReminderSchedule extends StatelessWidget {
                             .listReminder.values
                             .elementAt(index)['${title}'];
                         indexReminder = indexReminder + 1;
-                        return Padding(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: ScreenUtil().setWidth(10)),
-                          child: ListReminder(
-                            indexReminder: indexReminder,
-                            title: reminder[index1].title,
-                            note: reminder[index1].note,
-                            group: ModelListReminder
-                                .myList['${reminder[index1].group}'].title,
-                            date: reminder[index1].date,
-                            time: reminder[index1].time,
-                          ),
+                        return ListReminder(
+                          scheduleReminderBloc: scheduleReminderBloc,
+                          indexGroup: indexSticky,
+                          indexReminder: indexReminder,
+                          title: reminder[index1].title,
+                          note: reminder[index1].note,
+                          group: ModelListReminder
+                              .myList['${reminder[index1].group}'].title,
+                          date: reminder[index1].date,
+                          time: reminder[index1].time,
                         );
                       }),
                     );

@@ -59,6 +59,8 @@ class StickyReminderAll extends StatelessWidget {
                         children: List.generate(reminder.length, (index1) {
                           indexReminder=indexReminder+1;
                           return ListReminder(
+                            allReminderBloc: allReminderBloc,
+                            indexGroup: indexHeader,
                             indexReminder: indexReminder,
                             title: reminder[index1].title,
                             note: reminder[index1].note,
