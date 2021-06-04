@@ -18,6 +18,9 @@ void setIndexReminder(int index){
     todayReminderState.setIndexReminder(index);
     _todayReminderController.sink.add(todayReminderState);
 }
+void update(){
+    _todayReminderController.sink.add(todayReminderState);
+}
   void dispose() {
     _todayReminderController.close();
   }

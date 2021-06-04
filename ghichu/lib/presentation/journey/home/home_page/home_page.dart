@@ -66,7 +66,7 @@ class _State extends State<HomePage> {
                   });
                 },
                 child: Text(
-                  'Add List',
+                  HomePageConstants.addListTxt,
                   style: TextStyle(
                       color: Colors.blue,
                       fontSize: HomePageConstants.screenUtileSp18),
@@ -91,7 +91,7 @@ class _State extends State<HomePage> {
                     stream: blocCheckButton.checkButton,
                     builder: (context, snapshot) {
                       return Text(
-                        blocCheckButton.check ? 'Done' : 'Edit',
+                        blocCheckButton.check ? HomePageConstants.doneTxt : HomePageConstants.editTxt,
                         style: TextStyle(
                             color: Colors.blue,
                             fontWeight: FontWeight.w600,
@@ -130,7 +130,7 @@ class _State extends State<HomePage> {
                           top: HomePageConstants.paddingHeight10,
                           left: HomePageConstants.paddingWidth10),
                       child: Text(
-                        'My Lists',
+                        HomePageConstants.myListTxt,
                         style: TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.bold,

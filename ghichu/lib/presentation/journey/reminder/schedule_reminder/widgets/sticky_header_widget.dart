@@ -11,7 +11,7 @@ import 'package:sticky_headers/sticky_headers/widget.dart';
 import 'package:intl/intl.dart';
 
 class StickyReminderSchedule extends StatelessWidget {
-  String title;
+  String title, keyDate;
   int indexSticky;
   int indexReminder;
   List<TextEditingController> controler;
@@ -20,6 +20,7 @@ class StickyReminderSchedule extends StatelessWidget {
       {Key key,
       this.scheduleReminderBloc,
       this.title,
+        this.keyDate,
       this.indexSticky,
       this.controler,
       this.indexReminder})
@@ -66,6 +67,8 @@ class StickyReminderSchedule extends StatelessWidget {
                             .elementAt(index)['${title}'];
                         indexReminder = indexReminder + 1;
                         return ListReminder(
+                          controller: controler,
+                          keyDate: keyDate,
                           scheduleReminderBloc: scheduleReminderBloc,
                           indexGroup: indexSticky,
                           indexReminder: indexReminder,
@@ -80,6 +83,7 @@ class StickyReminderSchedule extends StatelessWidget {
                     );
                   })),
               AddWidget(
+                keyDate: title,
                 scheduleReminderBloc: scheduleReminderBloc,
                 index: indexSticky,
                 controller: controler,

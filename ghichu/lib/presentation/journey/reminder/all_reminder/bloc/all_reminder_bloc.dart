@@ -11,7 +11,10 @@ class AllReminderBloc {
     allReminderState.addAll(group, title);
     _allController.sink.add(allReminderState);
   }
-
+void setGroup(String group){
+    allReminderState.setGroup(group);
+    _allController.sink.add(allReminderState);
+}
   void setIndexGroup(int index) {
     allReminderState.indexGroup = index;
     _allController.sink.add(allReminderState);

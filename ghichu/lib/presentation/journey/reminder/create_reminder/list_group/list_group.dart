@@ -35,14 +35,8 @@ class _ListReminderpageState extends State<ListGroupScreen> {
         leading: () {
           Navigator.pop(context);
         },
-        textLeft: Text(
-          ListGroupConstants.appBarLeadingTxt,
-          style: ListGroupConstants.textStyleLeadingTxt,
-        ),
-        title: Text(
-          ListGroupConstants.titleTxt,
-          style: ListGroupConstants.textStyleAppBarTitle,
-        ),
+        textLeft: ListGroupConstants.appBarLeadingTxt,
+        title: ListGroupConstants.titleTxt
       ),
       body: Column(
         children: List.generate(widget.list.length, (index) {

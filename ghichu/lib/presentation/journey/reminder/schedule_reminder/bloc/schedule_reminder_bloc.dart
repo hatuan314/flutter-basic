@@ -13,22 +13,26 @@ class ScheduleReminderBloc {
     scheduleReminderState.addTextEditing();
     _streamController.sink.add(scheduleReminderState);
   }
-
   void setIndexReminder(int index,int group) {
     scheduleReminderState.setIndexReminder(index,group);
     _streamController.sink.add(scheduleReminderState);
   }
-
   void setIndexGroup(int index) {
     scheduleReminderState.setGroup(index);
     _streamController.sink.add(scheduleReminderState);
   }
-
   void getKey() {
     scheduleReminderState.getReminder();
     _streamController.sink.add(scheduleReminderState);
   }
-
+  void setKeyDate(String keyDate){
+    scheduleReminderState.keyDate=keyDate;
+    _streamController.sink.add(scheduleReminderState);
+  }
+void addReminder({String title, String group, String keyDate}){
+    scheduleReminderState.addReminder(title: title, group: group, keyDate: keyDate);
+    _streamController.sink.add(scheduleReminderState);
+}
   void update() {
     _streamController.sink.add(scheduleReminderState);
   }

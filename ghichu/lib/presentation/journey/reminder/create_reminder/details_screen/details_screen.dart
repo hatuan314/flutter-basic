@@ -28,14 +28,8 @@ class _detailsPageState extends State<DetailsPage> {
         leading: () {
           detailsBloc.detailsState.removePage(context);
         },
-        textLeft: Text(
-          DetailsContraints.leadingTxt,
-          style: DetailsContraints.textStyleLeading,
-        ),
-        title: Text(
-          DetailsContraints.titleTxt,
-          style: DetailsContraints.textStyleTitle,
-        ),
+        textLeft: DetailsContraints.leadingTxt,
+        title: DetailsContraints.titleTxt,
         actions: widget.title.isEmpty
             ? null
             : () {

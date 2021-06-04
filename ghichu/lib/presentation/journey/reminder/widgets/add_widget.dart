@@ -1,19 +1,24 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:ghichu/common/enums/reminder_enum.dart';
+import 'package:ghichu/common/untils/reminder_until.dart';
 import 'package:ghichu/presentation/journey/reminder/all_reminder/bloc/all_reminder_bloc.dart';
 import 'package:ghichu/presentation/journey/reminder/schedule_reminder/bloc/schedule_reminder_bloc.dart';
-
+import 'package:ghichu/presentation/models/model_map.dart';
 
 class AddWidget extends StatelessWidget {
-  String group;
+  String keyGroup, keyDate;
   List<TextEditingController> controller;
   int index;
   AllReminderBloc allReminderBloc;
   ScheduleReminderBloc scheduleReminderBloc;
   AddWidget(
       {Key key,
-      this.group,
+      this.keyGroup,
       this.controller,
+      this.keyDate,
       this.index,
       this.allReminderBloc,
       this.scheduleReminderBloc})
@@ -23,24 +28,29 @@ class AddWidget extends StatelessWidget {
     return TextField(
       controller: controller[index],
       onTap: () {
-        // allReminderBloc.allReminderState.indexReminder = null;
-        // if (index != allReminderBloc.allReminderState.indexGroup) {
-        //   for (int i = 0; i < ModelListReminder.myList.length; i++) {
-        //     if (controller[i].text.isNotEmpty &&
-        //         index != allReminderBloc.allReminderState.indexGroup) {
-        //       allReminderBloc.addAll(
-        //           allReminderBloc.allReminderState.group, controller[i].text);
-        //     }
-        //     controller[i].text = '';
-        //   }
-        // }
-        // allReminderBloc.allReminderState.setGroup(group);
-        if(allReminderBloc==null){
-          scheduleReminderBloc.scheduleReminderState.indexGroupReminder=null;
+        if (allReminderBloc == null) {
+          scheduleReminderBloc.scheduleReminderState.indexGroupReminder = null;
+          if (index != scheduleReminderBloc.scheduleReminderState.indexGroup) {
+            reminderUntil(
+                type: ReminderEnum.Schedule,
+                controller: controller,
+                scheduleReminderBloc: scheduleReminderBloc,
+                keyGroup: 'Reminder',
+                keyDate: scheduleReminderBloc.scheduleReminderState.keyDate);
+          }
+         scheduleReminderBloc.setKeyDate(keyDate);
           scheduleReminderBloc.setIndexGroup(index);
-        }else{
-          allReminderBloc.allReminderState.indexGroupReminder=null;
+        } else {
+          allReminderBloc.allReminderState.indexGroupReminder = null;
+          if (index != allReminderBloc.allReminderState.indexGroup) {
+            reminderUntil(
+                type: ReminderEnum.All,
+                controller: controller,
+                keyGroup: allReminderBloc.allReminderState.group,
+                allReminderBloc: allReminderBloc);
+          }
           allReminderBloc.setIndexGroup(index);
+          allReminderBloc.setGroup(keyGroup);
         }
       },
       style: TextStyle(fontSize: ScreenUtil().setSp(16)),
@@ -52,8 +62,12 @@ class AddWidget extends StatelessWidget {
           borderSide: BorderSide(color: Colors.black45, width: 1.5),
         ),
         suffixIcon: StreamBuilder(
-          initialData: scheduleReminderBloc==null?allReminderBloc.allReminderState:scheduleReminderBloc.scheduleReminderState,
-          stream: scheduleReminderBloc==null?allReminderBloc.allController:scheduleReminderBloc.streamController,
+            initialData: scheduleReminderBloc == null
+                ? allReminderBloc.allReminderState
+                : scheduleReminderBloc.scheduleReminderState,
+            stream: scheduleReminderBloc == null
+                ? allReminderBloc.allController
+                : scheduleReminderBloc.streamController,
             builder: (context, snapshot) {
               return Visibility(
                   visible: index == snapshot.data.indexGroup ? true : false,
@@ -71,6 +85,7 @@ class AddWidget extends StatelessWidget {
           size: ScreenUtil().setSp(25),
           color: Colors.black45,
         ),
+        helperText: scheduleReminderBloc != null ? "Reminder" : '',
         helperStyle:
             TextStyle(color: Colors.black45, fontSize: ScreenUtil().setSp(13)),
       ),

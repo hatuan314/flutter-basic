@@ -6,6 +6,7 @@ import 'package:ghichu/presentation/blocs/check_buttom.dart';
 
 import 'package:ghichu/presentation/journey/reminder/create_reminder/new_reminder/bloc/new_reminder_bloc.dart';
 import 'package:ghichu/presentation/journey/reminder/create_reminder/new_reminder/bloc/new_reminder_state.dart';
+import 'package:ghichu/presentation/journey/reminder/create_reminder/widgets/time_widget.dart';
 import 'package:ghichu/presentation/journey/reminder/reminder_constants.dart';
 import 'package:ghichu/presentation/journey/reminder/widgets/select_container.dart';
 import 'package:ghichu/presentation/journey/reminder/widgets/text_filed_title_note.dart';
@@ -27,6 +28,7 @@ class _newReminderPageState extends State<NewReminderPage> {
   TextEditingController noteController = new TextEditingController();
   CheckButtonBloc checkButtonBloc = CheckButtonBloc();
   NewReminderBloc newReminderBloc = NewReminderBloc();
+
   @override
   Widget build(BuildContext context) {
     newReminderBloc.newReminderState.group =
@@ -92,6 +94,7 @@ class _newReminderPageState extends State<NewReminderPage> {
                       },
                     );
                   }),
+
               StreamBuilder<NewReminderState>(
                   initialData: newReminderBloc.newReminderState,
                   stream: newReminderBloc.listGroupController,

@@ -3,12 +3,11 @@ import 'package:ghichu/presentation/models/model_map.dart';
 import 'package:ghichu/presentation/models/reminder.dart';
 
 class ScheduleReminderState {
-  Map<String, List<Reminder>> reminderSchedule;
+  Map<String, List<Reminder>> reminderSchedule={};
   String title;
   String keyDate;
-  int indexReminder, indexGroup,indexGroupReminder;
+  int indexReminder, indexGroup, indexGroupReminder;
   List<TextEditingController> textEditing;
-
 
   ScheduleReminderState(
       {this.reminderSchedule,
@@ -29,9 +28,9 @@ class ScheduleReminderState {
     this.indexGroup = index;
   }
 
-  void setIndexReminder(int index,int group) {
+  void setIndexReminder(int index, int group) {
     indexReminder = index;
-    indexGroupReminder =group;
+    indexGroupReminder = group;
   }
 
   void setTitle(String title) {
@@ -39,12 +38,13 @@ class ScheduleReminderState {
   }
 
   void addReminder(
-      TextEditingController controller, String title, String group) {
+      {@required String title,
+      @required String group,
+      @required String keyDate}) {
     if (title.trim().isNotEmpty) {
-      if (ModelListReminder.listReminder['${group}']['${this.keyDate}'] ==
-          null) {
-        ModelListReminder.listReminder['${group}'].addAll({
-          this.keyDate: [
+      if (ModelListReminder.listReminder['$group']['$keyDate'] == null) {
+        ModelListReminder.listReminder['$group'].addAll({
+          keyDate: [
             Reminder(
                 title,
                 '',
@@ -57,19 +57,17 @@ class ScheduleReminderState {
           ].toList()
         });
       } else {
-        ModelListReminder.listReminder['${group}']['${this.keyDate}'].add(
-            Reminder(
-                title,
-                '',
-                group,
-                'none',
-                DateTime.parse(this.keyDate).millisecondsSinceEpoch,
-                DateTime.now().millisecondsSinceEpoch,
-                DateTime.now().millisecondsSinceEpoch,
-                false));
+        ModelListReminder.listReminder['$group']['$keyDate'].add(Reminder(
+            title,
+            '',
+            group,
+            'none',
+            DateTime.parse(keyDate).millisecondsSinceEpoch,
+            DateTime.now().millisecondsSinceEpoch,
+            DateTime.now().millisecondsSinceEpoch,
+            false));
       }
     }
-    controller.text = '';
   }
 
   int getReminder() {
