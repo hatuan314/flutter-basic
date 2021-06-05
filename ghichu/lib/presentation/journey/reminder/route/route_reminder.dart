@@ -14,12 +14,16 @@ class RouteReminder {
     return {
       RouteList.allPage: (context) => AllPage(),
       RouteList.scheduled: (context) => SchedulePage(),
-      RouteList.todayPage: (context) => TodayPage(),
     };
   }
 
   static Map<String, WidgetBuilder> getRoutesWithSettings() {
     return {
+      RouteList.todayPage: (context) {
+        final args=ModalRoute.of(context).settings.arguments as Map<String,dynamic>;
+        var keyGroup=args[StringConstants.keyGroup];
+        return TodayPage(keyGroup: keyGroup,);
+      },
       RouteList.details: (context) {
         final args =
             ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
@@ -34,15 +38,27 @@ class RouteReminder {
           title: title,
           note: note,
           group: group,
+
         );
       },
       RouteList.newReminder: (context) {
         final args =
             ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
         var list = args[StringConstants.listGroup];
-
+        var title = args[StringConstants.titleReminder];
+        var note = args[StringConstants.noteReminder];
+        var isEdit = args[StringConstants.isEdit];
+        var date = args[StringConstants.date];
+        var isTimeArg = args[StringConstants.isTimeArg];
+        var index=args[StringConstants.listIndexArg];
         return NewReminderPage(
           listGroup: list,
+          title: title,
+          note: note,
+          isEdit: isEdit,
+          date: date,
+          isTime: isTimeArg,
+          index: index,
         );
       },
       RouteList.listGroup: (context) {

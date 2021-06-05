@@ -38,7 +38,7 @@ class AddWidget extends StatelessWidget {
                 keyGroup: 'Reminder',
                 keyDate: scheduleReminderBloc.scheduleReminderState.keyDate);
           }
-         scheduleReminderBloc.setKeyDate(keyDate);
+          scheduleReminderBloc.setKeyDate(keyDate);
           scheduleReminderBloc.setIndexGroup(index);
         } else {
           allReminderBloc.allReminderState.indexGroupReminder = null;

@@ -7,16 +7,19 @@ import 'package:ghichu/presentation/journey/reminder/widgets/app_bar_reminder.da
 import 'package:ghichu/presentation/journey/reminder/widgets/list_reminder.dart';
 import 'package:ghichu/presentation/models/model_map.dart';
 import 'package:ghichu/presentation/models/reminder.dart';
-import 'package:intl/intl.dart';
 
 class TodayPage extends StatefulWidget {
+  String keyGroup;
+
+  TodayPage({this.keyGroup});
+
   @override
   _State createState() => _State();
 }
 
 class _State extends State<TodayPage> {
-  int lenghtToDay = 0;
   bool isEdit;
+  int indexReminder=0;
   TodayReminderBloc todayReminderBloc = TodayReminderBloc();
   @override
   Widget build(BuildContext context) {
@@ -24,6 +27,7 @@ class _State extends State<TodayPage> {
         initialData: todayReminderBloc.todayReminderState,
         stream: todayReminderBloc.todayReminderController,
         builder: (context, snapshot) {
+          indexReminder=0;
           if (snapshot.data.indexReminder == null) {
             isEdit = false;
           } else {
@@ -32,10 +36,12 @@ class _State extends State<TodayPage> {
           return Scaffold(
             appBar: AppBarReminderWidget(
               isIconEdit: isEdit,
-              actions: isEdit ? () {
-                todayReminderBloc.todayReminderState.indexReminder=null;
-                todayReminderBloc.update();
-              } : null,
+              actions: isEdit
+                  ? () {
+                      todayReminderBloc.todayReminderState.indexReminder = null;
+                      todayReminderBloc.update();
+                    }
+                  : null,
             ),
             body: SingleChildScrollView(
               child: Column(
@@ -44,7 +50,9 @@ class _State extends State<TodayPage> {
                   Padding(
                     padding: EdgeInsets.only(left: ScreenUtil().setWidth(10)),
                     child: Text(
-                      'Hôm nay',
+                      widget.keyGroup == null
+                          ? 'Hôm nay'
+                          : ModelListReminder.myList[widget.keyGroup].title,
                       style: TextStyle(
                           color: Colors.blue,
                           fontWeight: FontWeight.w800,
@@ -53,31 +61,44 @@ class _State extends State<TodayPage> {
                   ),
                   Column(
                       children: List.generate(
-                          ModelListReminder.listReminder.values
-                                  .elementAt(0)
-                                  .isEmpty
-                              ? 0
-                              : ModelListReminder.listReminder.values.length,
-                          (index) {
+                          widget.keyGroup == null
+                              ? ModelListReminder.listReminder.values.length
+                              : ModelListReminder.listReminder[widget.keyGroup]
+                                  .values.length, (index) {
                     return Column(
                       children: List.generate(
-                          ModelListReminder.listReminder.values.elementAt(
-                                      index)['${snapshot.data.nowDate}'] ==
-                                  null
-                              ? 0
-                              : ModelListReminder.listReminder.values
-                                  .elementAt(index)['${snapshot.data.nowDate}']
+                          widget.keyGroup == null
+                              ? ModelListReminder.listReminder.values.elementAt(
+                                          index)['${snapshot.data.nowDate}'] ==
+                                      null
+                                  ? 0
+                                  : ModelListReminder.listReminder.values
+                                      .elementAt(
+                                          index)['${snapshot.data.nowDate}']
+                                      .length
+                              : ModelListReminder
+                                  .listReminder[widget.keyGroup].values
+                                  .elementAt(index)
                                   .length, (index1) {
-                        List<Reminder> reminder = ModelListReminder
-                            .listReminder.values
-                            .elementAt(index)['${snapshot.data.nowDate}'];
+                        List<Reminder> reminder;
+                        if (widget.keyGroup == null) {
+                          reminder = ModelListReminder.listReminder.values
+                              .elementAt(index)['${snapshot.data.nowDate}'];
+                        } else {
+                          reminder = ModelListReminder
+                              .listReminder[widget.keyGroup].values
+                              .elementAt(index);
+                        }
+                        indexReminder=indexReminder+1;
                         return ListReminder(
                           indexGroup: 0,
                           todayReminderBloc: todayReminderBloc,
-                          indexReminder: index1,
+                          indexReminder: indexReminder,
                           title: reminder[index1].title,
                           note: reminder[index1].note,
-                          group: reminder[index1].group,
+                          group: widget.keyGroup == null
+                              ? ModelListReminder.myList[reminder[index1].group].title
+                              : null,
                           time: reminder[index1].time,
                           date: reminder[index1].date,
                         );

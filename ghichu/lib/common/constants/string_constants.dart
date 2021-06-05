@@ -7,4 +7,6 @@ class StringConstants {
   static const String titleReminder='title_reminder';
  static const String noteReminder='note_reminder';
  static const String keyGroup='key_group';
+static const String isEdit='is_edit';
+static const String date='date';
 }

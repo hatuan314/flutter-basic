@@ -1,5 +1,9 @@
+
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screen_util.dart';
+import 'package:ghichu/common/constants/route_constants.dart';
+import 'package:ghichu/common/constants/string_constants.dart';
 
 import 'package:ghichu/common/enums/reminder_enum.dart';
 import 'package:ghichu/common/untils/reminder_until.dart';
@@ -8,6 +12,7 @@ import 'package:ghichu/presentation/journey/reminder/reminder_constants.dart';
 
 import 'package:ghichu/presentation/journey/reminder/schedule_reminder/bloc/schedule_reminder_bloc.dart';
 import 'package:ghichu/presentation/journey/reminder/today_reminder/bloc/today_reminder_bloc.dart';
+import 'package:ghichu/presentation/models/model_map.dart';
 
 import 'package:ghichu/presentation/models/reminder.dart';
 import 'package:intl/intl.dart';
@@ -172,19 +177,15 @@ class ListReminder extends StatelessWidget {
                                   : false,
                               child: GestureDetector(
                                 onTap: () {
-                                  // Navigator.pushNamed(
-                                  //     context, RouteList.editReminder,
-                                  //     arguments: {
-                                  //       'group': group,
-                                  //       'title': title,
-                                  //       'note': note,
-                                  //       'date': date,
-                                  //       'time': time,
-                                  //       'createAt': createAt,
-                                  //       'reminder': reminder
-                                  //     }).whenComplete(() {
-                                  //   // allReminderBloc.update();
-                                  // });
+                                  Navigator.pushNamed(context,RouteList.newReminder,arguments: {
+                                    StringConstants.titleReminder:title,
+                                    StringConstants.noteReminder:note,
+                                    StringConstants.listGroup:ModelListReminder.myList.keys.toList(),
+                                    StringConstants.isEdit:true,
+                                    StringConstants.date:date,
+                                    StringConstants.isTimeArg:time,
+                                    StringConstants.listIndexArg:indexGroup
+                                  });
                                 },
                                 child: Icon(
                                   Icons.error_outline,

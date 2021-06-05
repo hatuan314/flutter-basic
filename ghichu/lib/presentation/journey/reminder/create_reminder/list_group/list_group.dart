@@ -1,13 +1,11 @@
-import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ghichu/presentation/journey/reminder/create_reminder/list_group/bloc/list_group_bloc.dart';
 import 'package:ghichu/presentation/journey/reminder/create_reminder/list_group/list_group_constants.dart';
 import 'package:ghichu/presentation/journey/reminder/create_reminder/list_group/widgets/list_group_widget.dart';
 import 'package:ghichu/presentation/journey/reminder/widgets/app_bar_reminder.dart';
 import 'package:ghichu/presentation/models/model_map.dart';
-
 class ListGroupScreen extends StatefulWidget {
   int index;
   List<String> list;
@@ -36,7 +34,8 @@ class _ListReminderpageState extends State<ListGroupScreen> {
           Navigator.pop(context);
         },
         textLeft: ListGroupConstants.appBarLeadingTxt,
-        title: ListGroupConstants.titleTxt
+        title: ListGroupConstants.titleTxt,
+        textRight: Text(''),
       ),
       body: Column(
         children: List.generate(widget.list.length, (index) {

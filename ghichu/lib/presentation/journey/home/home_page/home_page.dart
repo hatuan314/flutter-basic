@@ -46,12 +46,12 @@ class _State extends State<HomePage> {
                           child: BottomNewReminder(
                             onTap: () {
                               Navigator.pushNamed(
-                                      context, RouteList.newReminder,
-                                      arguments:
-                                         {
-                                           StringConstants.listGroup: blocHomePage.homePageState.keyMyList
-                                         })
-                                  .whenComplete(() {
+                                  context, RouteList.newReminder,
+                                  arguments: {
+                                    StringConstants.listGroup:
+                                        blocHomePage.homePageState.keyMyList,
+                                    StringConstants.isEdit: false
+                                  }).whenComplete(() {
                                 blocHomePage.update();
                               });
                             },
@@ -91,7 +91,9 @@ class _State extends State<HomePage> {
                     stream: blocCheckButton.checkButton,
                     builder: (context, snapshot) {
                       return Text(
-                        blocCheckButton.check ? HomePageConstants.doneTxt : HomePageConstants.editTxt,
+                        blocCheckButton.check
+                            ? HomePageConstants.doneTxt
+                            : HomePageConstants.editTxt,
                         style: TextStyle(
                             color: Colors.blue,
                             fontWeight: FontWeight.w600,
@@ -156,11 +158,13 @@ class _State extends State<HomePage> {
                             List.generate(snapshot.data.keyMyList.length,
                                 (index) {
                           return MyListWidget(
+                            keyGroup: snapshot.data.keyMyList[index],
                             title: ModelListReminder
                                 .myList['${snapshot.data.keyMyList[index]}']
                                 .title,
                             index: index,
-                            leght: 0,
+                            leght: snapshot.data
+                                .myListLeght[snapshot.data.keyMyList[index]],
                             color: ModelListReminder
                                 .myList['${snapshot.data.keyMyList[index]}']
                                 .color,
@@ -178,6 +182,7 @@ class _State extends State<HomePage> {
           ],
         ));
   }
+
   @override
   void dispose() {
     // TODO: implement dispose

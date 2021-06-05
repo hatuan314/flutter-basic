@@ -1,6 +1,9 @@
+
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screen_util.dart';
+import 'package:ghichu/common/constants/string_constants.dart';
 import 'package:ghichu/presentation/journey/home/home_page/bloc/home_page_bloc.dart';
 import 'package:ghichu/presentation/journey/home/home_page/home_page_constants.dart';
 import 'package:ghichu/presentation/journey/home/widgets/information_reminder_widget.dart';
@@ -14,10 +17,17 @@ class SightWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, HomePageConstants.list[index]['push'])
-            .whenComplete(() {
-          homePageBloc.update();
-        });
+        if (HomePageConstants.list[index]['title'] == 'Today') {
+          Navigator.pushNamed(context, HomePageConstants.list[index]['push'],arguments: {StringConstants.keyGroup:null})
+              .whenComplete(() {
+            homePageBloc.update();
+          });
+        } else {
+          Navigator.pushNamed(context, HomePageConstants.list[index]['push'])
+              .whenComplete(() {
+            homePageBloc.update();
+          });
+        }
       },
       child: Container(
           margin: EdgeInsets.only(top: HomePageConstants.paddingHeight20),

@@ -19,6 +19,7 @@ class HomePageBloc {
   Stream get groupControllerStream => groupController.stream;
   void update() {
     homePageState.update();
+    homePageState.setLeght();
     groupController.sink.add(homePageState);
   }
 
