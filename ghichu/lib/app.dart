@@ -23,6 +23,7 @@ class MyApp extends StatelessWidget {
         // home: Screen2(),
         routes: Routes.getAll(),
         initialRoute: initialRoute,
+        onGenerateRoute: Routes.generateRoute,
       ),
     );
   }

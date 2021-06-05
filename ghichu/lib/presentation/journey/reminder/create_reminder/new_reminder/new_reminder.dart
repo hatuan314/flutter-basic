@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screen_util.dart';
+import 'package:ghichu/common/constants/layout_constants.dart';
 import 'package:ghichu/common/constants/route_constants.dart';
 import 'package:ghichu/common/constants/string_constants.dart';
 import 'package:ghichu/presentation/blocs/check_buttom.dart';
@@ -17,20 +18,23 @@ import 'package:ghichu/presentation/journey/widgets/show_model_button_sheet.dart
 import 'package:ghichu/presentation/models/model_map.dart';
 
 class NewReminderPage extends StatefulWidget {
-  List<String> listGroup;
-  String title;
-  String note;
-  int date, index;
-  bool isTime;
-  bool isEdit;
-  NewReminderPage(
-      {this.listGroup,
-      this.title,
-      this.note,
-      this.isEdit,
-      this.date,
-      this.isTime,
-      this.index});
+  final List<String> listGroup;
+  final String title;
+  final String note;
+  final int date, index;
+  final bool isTime;
+  final bool isEdit;
+
+  const NewReminderPage({
+    Key key,
+    this.listGroup,
+    this.title,
+    this.note,
+    this.date,
+    this.index,
+    this.isTime,
+    this.isEdit,
+  }) : super(key: key);
 
   @override
   _newReminderPageState createState() => _newReminderPageState();
@@ -42,15 +46,15 @@ class _newReminderPageState extends State<NewReminderPage> {
   CheckButtonBloc checkButtonBloc = CheckButtonBloc();
   NewReminderBloc newReminderBloc = NewReminderBloc();
   DetailsBloc detailsBloc;
+
   @override
   void initState() {
-    // TODO: implement initState
     if (widget.isEdit) {
       detailsBloc = DetailsBloc();
     }
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       if (widget.isEdit) {
-      setData();
+        setData();
       }
     });
     super.initState();
@@ -82,12 +86,17 @@ class _newReminderPageState extends State<NewReminderPage> {
           showButtonModalSheet(context);
         },
         textLeft: NewReminderContants.textLeading,
-        textRight:widget.isEdit? NewReminderContants.textRightEdit:NewReminderContants.textRight,
-        title: widget.isEdit?NewReminderContants.textTitleEdit:NewReminderContants.textTitle,
+        textRight: widget.isEdit
+            ? NewReminderContants.textRightEdit
+            : NewReminderContants.textRight,
+        title: widget.isEdit
+            ? NewReminderContants.textTitleEdit
+            : NewReminderContants.textTitle,
       ),
       body: Padding(
-        padding: EdgeInsets.fromLTRB(
-            ScreenUtil().setWidth(20), 0, ScreenUtil().setWidth(20), 0),
+        padding: EdgeInsets.symmetric(
+          horizontal:LayoutConstants.paddingHorizontalApp,
+        ),
         child: SingleChildScrollView(
           child: Column(
             children: [
@@ -162,32 +171,33 @@ class _newReminderPageState extends State<NewReminderPage> {
       ),
     );
   }
-void setData(){
-  checkButtonBloc.setButtom(widget.title);
-  newReminderBloc.setGroup(
-      ModelListReminder.myList['${widget.listGroup[widget.index]}'].title,
-      widget.index);
-  titleController.text = widget.title;
-  noteController.text = widget.note;
-  detailsBloc.setTimeSwitch(widget.isTime);
-  if (widget.isTime == true) {
-    detailsBloc.detailsState.timeHour(
-        DateTime.fromMillisecondsSinceEpoch(widget.date).hour,
-        DateTime.fromMillisecondsSinceEpoch(widget.date).minute);
+
+  void setData() {
+    checkButtonBloc.setButtom(widget.title);
+    newReminderBloc.setGroup(
+        ModelListReminder.myList['${widget.listGroup[widget.index]}'].title,
+        widget.index);
+    titleController.text = widget.title;
+    noteController.text = widget.note;
+    detailsBloc.setTimeSwitch(widget.isTime);
+    if (widget.isTime == true) {
+      detailsBloc.detailsState.timeHour(
+          DateTime.fromMillisecondsSinceEpoch(widget.date).hour,
+          DateTime.fromMillisecondsSinceEpoch(widget.date).minute);
+    }
+    if (widget.date != null) {
+      detailsBloc.detailsState.dateTime =
+          DateTime.fromMillisecondsSinceEpoch(widget.date);
+      detailsBloc.detailsState
+          .dateScheldul(DateTime.fromMillisecondsSinceEpoch(widget.date));
+      detailsBloc.setDateSwitch(true);
+    } else {
+      detailsBloc.setDateSwitch(false);
+    }
   }
-  if (widget.date != null) {
-    detailsBloc.detailsState.dateTime =
-        DateTime.fromMillisecondsSinceEpoch(widget.date);
-    detailsBloc.detailsState
-        .dateScheldul(DateTime.fromMillisecondsSinceEpoch(widget.date));
-    detailsBloc.setDateSwitch(true);
-  } else {
-    detailsBloc.setDateSwitch(false);
-  }
-}
+
   @override
   void dispose() {
-    // TODO: implement dispose
     checkButtonBloc.dispose();
     newReminderBloc.dispose();
     if (widget.isEdit) {

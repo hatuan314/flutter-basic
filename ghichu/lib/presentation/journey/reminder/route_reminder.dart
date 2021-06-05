@@ -17,16 +17,17 @@ class RouteReminder {
     };
   }
 
-  static Map<String, WidgetBuilder> getRoutesWithSettings() {
+  static Map<String, WidgetBuilder> getRoutesWithSettings(
+      RouteSettings settings) {
+    final args = settings.arguments as Map<String, dynamic>;
     return {
       RouteList.todayPage: (context) {
-        final args=ModalRoute.of(context).settings.arguments as Map<String,dynamic>;
-        var keyGroup=args[StringConstants.keyGroup];
-        return TodayPage(keyGroup: keyGroup,);
+        var keyGroup = args[StringConstants.keyGroup];
+        return TodayPage(
+          keyGroup: keyGroup,
+        );
       },
       RouteList.details: (context) {
-        final args =
-            ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
         var isTime = args[StringConstants.isTimeArg] ?? false;
         var date = args[StringConstants.reminderDate];
         var title = args[StringConstants.titleReminder];
@@ -38,12 +39,9 @@ class RouteReminder {
           title: title,
           note: note,
           group: group,
-
         );
       },
       RouteList.newReminder: (context) {
-        final args =
-            ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
         var list = args[StringConstants.listGroup];
         var title = args[StringConstants.titleReminder];
         var note = args[StringConstants.noteReminder];
@@ -62,8 +60,6 @@ class RouteReminder {
         );
       },
       RouteList.listGroup: (context) {
-        final args =
-            ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
         var index = args[StringConstants.listIndexArg] ?? 0;
         var list = args[StringConstants.listGroup];
         return ListGroupScreen(

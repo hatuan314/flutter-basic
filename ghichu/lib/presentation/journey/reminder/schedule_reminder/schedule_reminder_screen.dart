@@ -7,9 +7,6 @@ import 'package:ghichu/presentation/journey/reminder/schedule_reminder/bloc/sche
 import 'package:ghichu/presentation/journey/reminder/schedule_reminder/bloc/schedule_reminder_state.dart';
 import 'package:ghichu/presentation/journey/reminder/schedule_reminder/widgets/sticky_header_widget.dart';
 import 'package:ghichu/presentation/journey/reminder/widgets/app_bar_reminder.dart';
-import 'file:///C:/Users/ASUS%20TUF/OneDrive/Documents/flutter-basic/flutter-basic/ghichu/lib/presentation/journey/reminder/all_reminder/widgets/sticky_header_widget.dart';
-import 'package:ghichu/presentation/models/model_map.dart';
-import 'package:ghichu/presentation/models/reminder.dart';
 
 class SchedulePage extends StatefulWidget {
   @override
