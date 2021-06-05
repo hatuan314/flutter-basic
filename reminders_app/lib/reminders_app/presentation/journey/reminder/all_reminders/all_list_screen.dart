@@ -20,6 +20,7 @@ class AllRemindersList extends StatefulWidget {
 class _AllRemindersList extends State<AllRemindersList> {
   String now = DateTime.now().dateDdMMyyyy;
   AllListStream allListStream = AllListStream();
+
   @override
   void dispose() {
     allListStream.dispose();
@@ -70,8 +71,10 @@ class _AllRemindersList extends State<AllRemindersList> {
                                       alignment: Alignment.centerLeft,
                                       child: Text(
                                         allListStream.MyLists[index].name,
-                                        style: ThemeText.headline2ListScreen.copyWith( color: allListStream
-                                            .MyLists[index].color),
+                                        style: ThemeText.headline2ListScreen
+                                            .copyWith(
+                                                color: allListStream
+                                                    .MyLists[index].color),
                                       ),
                                     ),
                                   ),
@@ -210,7 +213,13 @@ class _AllRemindersList extends State<AllRemindersList> {
                                                                 BoxDecoration(
                                                               shape: BoxShape
                                                                   .circle,
-                                                              color: RemindersConstants.getPriorityColor(allListStream.MyLists[index].list[index1].priority),
+                                                              color: RemindersConstants
+                                                                  .getPriorityColor(allListStream
+                                                                      .MyLists[
+                                                                          index]
+                                                                      .list[
+                                                                          index1]
+                                                                      .priority),
                                                             ),
                                                           ),
                                                           Padding(
@@ -224,7 +233,9 @@ class _AllRemindersList extends State<AllRemindersList> {
                                                                         .start,
                                                                 children: [
                                                                   Container(
-                                                                    width:ScreenUtil().screenWidth-75,
+                                                                    width: ScreenUtil()
+                                                                            .screenWidth -
+                                                                        75,
                                                                     child: Text(
                                                                       allListStream
                                                                           .MyLists[
@@ -232,13 +243,16 @@ class _AllRemindersList extends State<AllRemindersList> {
                                                                           .list[
                                                                               index1]
                                                                           .title,
-                                                                      overflow: TextOverflow.ellipsis,
-                                                                      maxLines: 5,
-                                                                      softWrap: false,
+                                                                      overflow:
+                                                                          TextOverflow
+                                                                              .ellipsis,
+                                                                      maxLines:
+                                                                          5,
+                                                                      softWrap:
+                                                                          false,
                                                                       style: TextStyle(
-                                                                          fontWeight:
-                                                                              FontWeight
-                                                                                  .w500,
+                                                                          fontWeight: FontWeight
+                                                                              .w500,
                                                                           color: Colors
                                                                               .black,
                                                                           fontSize:
@@ -249,25 +263,30 @@ class _AllRemindersList extends State<AllRemindersList> {
                                                                     padding: EdgeInsets.only(
                                                                         top: ScreenUtil()
                                                                             .setHeight(3)),
-                                                                    child: Container(
-                                                                      width:ScreenUtil().screenWidth-75,
-                                                                      child: Text(
+                                                                    child:
+                                                                        Container(
+                                                                      width:
+                                                                          ScreenUtil().screenWidth -
+                                                                              75,
+                                                                      child:
+                                                                          Text(
                                                                         allListStream.MyLists[index].list[index1].dateAndTime !=
                                                                                 0
                                                                             ? ((allListStream.MyLists[index].list[index1].dateAndTime % 10 == 1)
                                                                                 ? '${date == now ? 'Today' : date}, ${time} \n${allListStream.MyLists[index].list[index1].notes}'
                                                                                 : '${date == now ? 'Today' : date}\n${allListStream.MyLists[index].list[index1].notes}')
                                                                             : '${allListStream.MyLists[index].list[index1].notes}',
-                                                                        overflow: TextOverflow.ellipsis,
-                                                                        maxLines: 5,
-                                                                        softWrap: false,
+                                                                        overflow:
+                                                                            TextOverflow.ellipsis,
+                                                                        maxLines:
+                                                                            5,
+                                                                        softWrap:
+                                                                            false,
                                                                         style: TextStyle(
-                                                                            fontWeight: FontWeight
-                                                                                .w500,
-                                                                            color: Colors
-                                                                                .grey,
-                                                                            fontSize:
-                                                                                ScreenUtil().setSp(12)),
+                                                                            fontWeight:
+                                                                                FontWeight.w500,
+                                                                            color: Colors.grey,
+                                                                            fontSize: ScreenUtil().setSp(12)),
                                                                       ),
                                                                     ),
                                                                   ),
