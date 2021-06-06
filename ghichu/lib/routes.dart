@@ -13,6 +13,10 @@ class Routes {
     };
   }
 
+  static Map<String, WidgetBuilder> generateRouteAll(RouteSettings settings) {
+    return {...RouteReminder.getRoutesWithSettings(settings)};
+  }
+
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case RouteList.todayPage:
@@ -20,8 +24,7 @@ class Routes {
       case RouteList.newReminder:
       case RouteList.listGroup:
         return MaterialPageRoute(
-            builder:
-                RouteReminder.getRoutesWithSettings(settings)[settings.name],
+            builder: generateRouteAll(settings)[settings.name],
             settings: settings);
     }
   }
