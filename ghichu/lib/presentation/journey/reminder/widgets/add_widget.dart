@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ghichu/common/enums/reminder_enum.dart';
 import 'package:ghichu/common/untils/reminder_until.dart';
+import 'package:ghichu/presentation/journey/reminder/__mock__/textfiled_controller.dart';
 import 'package:ghichu/presentation/journey/reminder/all_reminder/bloc/all_reminder_bloc.dart';
 import 'package:ghichu/presentation/journey/reminder/schedule_reminder/bloc/schedule_reminder_bloc.dart';
-import 'package:ghichu/presentation/models/model_map.dart';
 
 class AddWidget extends StatelessWidget {
   String keyGroup, keyDate;
-  List<TextEditingController> controller;
+  Map<String, TextFiledController> controller;
   int index;
   AllReminderBloc allReminderBloc;
   ScheduleReminderBloc scheduleReminderBloc;
@@ -26,7 +26,8 @@ class AddWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextField(
-      controller: controller[index],
+      controller: controller['$index'].textEditingController,
+      focusNode: controller['$index'].focusNode,
       onTap: () {
         if (allReminderBloc == null) {
           scheduleReminderBloc.scheduleReminderState.indexGroupReminder = null;
@@ -38,6 +39,7 @@ class AddWidget extends StatelessWidget {
                 keyGroup: 'Reminder',
                 keyDate: scheduleReminderBloc.scheduleReminderState.keyDate);
           }
+          controller['$index'].focusNode.requestFocus();
           scheduleReminderBloc.setKeyDate(keyDate);
           scheduleReminderBloc.setIndexGroup(index);
         } else {
@@ -49,6 +51,7 @@ class AddWidget extends StatelessWidget {
                 keyGroup: allReminderBloc.allReminderState.group,
                 allReminderBloc: allReminderBloc);
           }
+          controller['$index'].focusNode.requestFocus();
           allReminderBloc.setIndexGroup(index);
           allReminderBloc.setGroup(keyGroup);
         }

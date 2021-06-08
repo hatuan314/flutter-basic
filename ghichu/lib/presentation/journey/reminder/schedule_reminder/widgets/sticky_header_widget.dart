@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screen_util.dart';
+import 'package:ghichu/presentation/journey/reminder/__mock__/textfiled_controller.dart';
 import 'package:ghichu/presentation/journey/reminder/schedule_reminder/bloc/schedule_reminder_bloc.dart';
 import 'package:ghichu/presentation/journey/reminder/widgets/add_widget.dart';
 import 'package:ghichu/presentation/journey/reminder/widgets/list_reminder.dart';
@@ -14,7 +15,7 @@ class StickyReminderSchedule extends StatelessWidget {
   String title, keyDate;
   int indexSticky;
   int indexReminder;
-  List<TextEditingController> controler;
+  Map<String, TextFiledController> controler;
   ScheduleReminderBloc scheduleReminderBloc;
   StickyReminderSchedule(
       {Key key,

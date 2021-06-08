@@ -1,8 +1,10 @@
 import 'dart:ui';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screen_util.dart';
 import 'package:ghichu/common/enums/reminder_enum.dart';
 import 'package:ghichu/common/untils/reminder_until.dart';
+import 'package:ghichu/presentation/journey/reminder/__mock__/textfiled_controller.dart';
 import 'package:ghichu/presentation/journey/reminder/all_reminder/bloc/all_reminder_bloc.dart';
 import 'package:ghichu/presentation/journey/reminder/all_reminder/bloc/all_reminder_state.dart';
 import 'package:ghichu/presentation/journey/reminder/all_reminder/widgets/sticky_header_widget.dart';
@@ -16,7 +18,7 @@ class AllPage extends StatefulWidget {
 }
 
 class _State extends State<AllPage> {
-  List<TextEditingController> listController = [];
+  Map<String, TextFiledController> listController = {};
   AllReminderBloc allReminderBloc = AllReminderBloc();
   bool isEdit;
   @override
@@ -24,7 +26,11 @@ class _State extends State<AllPage> {
     // TODO: implement initState
     super.initState();
     for (int i = 0; i < ModelListReminder.myList.length; i++) {
-      listController.add(TextEditingController());
+      listController.addAll({
+        '$i': TextFiledController(
+            textEditingController: TextEditingController(),
+            focusNode: FocusNode())
+      });
     }
   }
 
@@ -93,7 +99,7 @@ class _State extends State<AllPage> {
                             ModelListReminder.listReminder['$keyGroup'],
                       );
                     }),
-                  )
+                  ),
                 ],
               ),
             ),

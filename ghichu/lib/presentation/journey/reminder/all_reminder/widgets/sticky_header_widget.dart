@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:ghichu/presentation/journey/reminder/__mock__/textfiled_controller.dart';
 import 'package:ghichu/presentation/journey/reminder/all_reminder/bloc/all_reminder_bloc.dart';
 import 'package:ghichu/presentation/journey/reminder/widgets/list_reminder.dart';
 import 'package:ghichu/presentation/models/model_map.dart';
@@ -11,16 +12,16 @@ import '../../widgets/add_widget.dart';
 class StickyReminderAll extends StatelessWidget {
   String header;
   Map<String, List<Reminder>> listReminderAll;
-String keyGroup;
+  String keyGroup;
   String color;
   int indexHeader, indexReminder;
   AllReminderBloc allReminderBloc;
-  List<TextEditingController> controller;
+  Map<String, TextFiledController> controller;
   StickyReminderAll(
       {Key key,
       this.allReminderBloc,
       this.listReminderAll,
-        this.keyGroup,
+      this.keyGroup,
       this.header,
       this.color,
       this.controller,
@@ -51,13 +52,12 @@ String keyGroup;
           child: Column(
             children: [
               Column(
-                children:
-                    List.generate(listReminderAll.values.length, (index) {
+                children: List.generate(listReminderAll.values.length, (index) {
                   List<Reminder> reminder =
                       listReminderAll.values.elementAt(index);
                   return Column(
                     children: List.generate(reminder.length, (index1) {
-                      indexReminder=indexReminder+1;
+                      indexReminder = indexReminder + 1;
                       return ListReminder(
                         keyGroup: keyGroup,
                         controller: controller,
@@ -78,7 +78,7 @@ String keyGroup;
                 index: indexHeader,
                 keyGroup: header,
                 controller: controller,
-              )
+              ),
             ],
           )),
     );

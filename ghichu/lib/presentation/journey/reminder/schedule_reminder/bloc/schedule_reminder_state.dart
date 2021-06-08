@@ -1,13 +1,14 @@
 import 'package:flutter/cupertino.dart';
+import 'package:ghichu/presentation/journey/reminder/__mock__/textfiled_controller.dart';
 import 'package:ghichu/presentation/models/model_map.dart';
 import 'package:ghichu/presentation/models/reminder.dart';
 
 class ScheduleReminderState {
-  Map<String, List<Reminder>> reminderSchedule={};
+  Map<String, List<Reminder>> reminderSchedule = {};
   String title;
   String keyDate;
   int indexReminder, indexGroup, indexGroupReminder;
-  List<TextEditingController> textEditing;
+  Map<String, TextFiledController> textEditing;
 
   ScheduleReminderState(
       {this.reminderSchedule,
@@ -20,7 +21,11 @@ class ScheduleReminderState {
 
   void addTextEditing() {
     for (int i = 0; i < reminderSchedule.length; i++) {
-      textEditing.add(TextEditingController());
+      textEditing.addAll({
+        '$i': TextFiledController(
+            textEditingController: TextEditingController(),
+            focusNode: FocusNode())
+      });
     }
   }
 

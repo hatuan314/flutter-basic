@@ -37,6 +37,7 @@ class _AddListScreenState extends State<AddGroupScreen> {
             DateTime.now().millisecondsSinceEpoch,
             DateTime.now().millisecondsSinceEpoch,
           );
+
           Navigator.pop(context);
         },
         textLeft: 'Hủy',

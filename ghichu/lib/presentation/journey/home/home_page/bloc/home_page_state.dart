@@ -5,13 +5,13 @@ import 'package:ghichu/presentation/models/model_map.dart';
 import 'package:intl/intl.dart';
 class HomePageState {
   List<String> keyMyList = [];
-  int leghtAll = 0;
-  int leghtToDay = 0;
-  int leghtSchedule = 0;
+  int leghtAll ;
+  int leghtToDay ;
+  int leghtSchedule ;
   int index;
   bool buttonDelete = false;
   var data = HomePageConstants.list;
-  Map<String, int> myListLeght = {'Reminder': 0};
+  Map<String, int> myListLeght ;
   HomePageState(
       {this.keyMyList,
       this.leghtAll,

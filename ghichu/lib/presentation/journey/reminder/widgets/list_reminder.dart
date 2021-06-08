@@ -7,6 +7,7 @@ import 'package:ghichu/common/constants/string_constants.dart';
 
 import 'package:ghichu/common/enums/reminder_enum.dart';
 import 'package:ghichu/common/untils/reminder_until.dart';
+import 'package:ghichu/presentation/journey/reminder/__mock__/textfiled_controller.dart';
 import 'package:ghichu/presentation/journey/reminder/all_reminder/bloc/all_reminder_bloc.dart';
 import 'package:ghichu/presentation/journey/reminder/reminder_constants.dart';
 
@@ -21,7 +22,7 @@ class ListReminder extends StatelessWidget {
   String title, group, note, keyGroup, keyDate;
   int date, createAt;
   bool time;
-  List<TextEditingController> controller;
+  Map<String, TextFiledController> controller;
   Reminder reminder;
   AllReminderBloc allReminderBloc;
   ScheduleReminderBloc scheduleReminderBloc;

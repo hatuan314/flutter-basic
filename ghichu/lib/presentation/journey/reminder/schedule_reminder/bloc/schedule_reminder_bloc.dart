@@ -4,7 +4,7 @@ import 'package:ghichu/presentation/journey/reminder/schedule_reminder/bloc/sche
 
 class ScheduleReminderBloc {
   ScheduleReminderState scheduleReminderState =
-      ScheduleReminderState(reminderSchedule: {}, textEditing: []);
+      ScheduleReminderState(reminderSchedule: {}, textEditing: {});
   StreamController _streamController =
       StreamController<ScheduleReminderState>.broadcast();
 
