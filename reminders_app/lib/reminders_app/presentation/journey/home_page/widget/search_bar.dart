@@ -6,7 +6,7 @@ class SearchBar extends StatelessWidget{
     return Padding(
       padding: EdgeInsets.only(
           top: ScreenUtil().setHeight(30),
-          bottom: ScreenUtil().setHeight(15),
+          bottom: ScreenUtil().setHeight(25),
           left: ScreenUtil().setWidth(20),
           right: ScreenUtil().setWidth(20)),
       child: Container(

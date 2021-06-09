@@ -49,7 +49,6 @@ class GridViewItem extends StatelessWidget{
               alignment: Alignment.centerLeft,
               child: Text(
                 title,
-                textAlign: TextAlign.left,
                 style: TextStyle(
                     fontSize: ScreenUtil().setSp(15),
                     color: Colors.grey,

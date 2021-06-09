@@ -17,7 +17,7 @@ class TodayStream{
   }
   void update()
   {
-    log(now);
+    log(now+"update");
     if(RemindersList.allReminders[now]!=0)
     {  todayList=RemindersList.allReminders[now];
    todayListController.sink.add(todayList);

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:flutter/cupertino.dart';
 import 'package:reminders_app/reminders_app/presentation/journey/reminder/scheduled_list/bloc/scheduled_list_state.dart';
 import 'package:reminders_app/reminders_app/presentation/model/reminder.dart';
 
@@ -63,6 +64,7 @@ Stream get scheduledStream=>scheduledController.stream;
       }
     }
     scheduledController.sink.add(ScheduledListState(dateList: dateList,scheduledList: scheduledList));
+    log(dateList.length.toString()+" update "+scheduledList.length.toString());
   }
   void dispose()
   {

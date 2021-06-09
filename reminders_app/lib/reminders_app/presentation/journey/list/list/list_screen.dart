@@ -1,11 +1,17 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screen_util.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
+import 'package:reminders_app/reminders_app/common/constants/route_constants.dart';
 import 'package:reminders_app/reminders_app/presentation/journey/list/list/bloc/list_stream.dart';
 import 'package:reminders_app/reminders_app/presentation/journey/reminder/reminders_constants.dart';
 import 'package:reminders_app/reminders_app/presentation/model/reminder.dart';
+import 'package:reminders_app/reminders_app/presentation/theme/theme.dart';
 import 'package:reminders_app/reminders_app/presentation/widgets_constants/appbar_for_list_screen.dart';
+import 'package:reminders_app/reminders_app/presentation/widgets_constants/confirm_dialog.dart';
+import 'package:reminders_app/reminders_app/presentation/widgets_constants/icon_slide_widget.dart';
 import '../../reminders_list.dart';
 
 import 'package:reminders_app/reminders_app/common/extensions/date_extensions.dart';
@@ -34,10 +40,10 @@ class _ListScreen extends State<ListScreen> {
     return StreamBuilder<List<Reminder>>(
         stream: listStream.listStream,
         builder: (context, snapshot) {
-          return SafeArea(
-              child: Scaffold(
+          return Scaffold(
                   backgroundColor: Colors.white,
-                  appBar: AppbarWidgetForListScreen(context),
+                  appBar: AppbarWidgetForListScreen(context, () { Navigator.pushNamed(context, RouteList.createNewScreen).whenComplete(() async =>await listStream.update(index));}
+                  ),
                   body: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -47,11 +53,8 @@ class _ListScreen extends State<ListScreen> {
                               left: ScreenUtil().setWidth(20)),
                           child: Text(
                             RemindersList.MyLists[index].name,
-                            style: TextStyle(
-                                color: RemindersList.MyLists[index].color,
-                                fontSize: ScreenUtil().setSp(25),
-                                fontWeight: FontWeight.w700),
-                          ),
+                            style: ThemeText.headlineListScreen.copyWith( color: RemindersList.MyLists[index].color,),
+                        ),
                         ),
                         listStream.list.length != 0
                             ? listWidget(index, context)
@@ -62,7 +65,7 @@ class _ListScreen extends State<ListScreen> {
                                     alignment: Alignment.center,
                                     child: RemindersConstants.noReminders),
                               )
-                      ])));
+                      ]));
         });
   }
 
@@ -76,85 +79,32 @@ class _ListScreen extends State<ListScreen> {
               left: ScreenUtil().setWidth(20),
             ),
             child: ListView.builder(
-                scrollDirection: Axis.vertical,
                 shrinkWrap: true,
                 itemCount: RemindersList.MyLists[index].list.length,
                 itemBuilder: (context, index1) {
-                  String time = DateFormat('HH:mm').format(
-                      DateTime.fromMillisecondsSinceEpoch(RemindersList
-                          .MyLists[index].list[index1].dateAndTime));
-                  String date = DateFormat('dd/MM/yyyy').format(
-                      DateTime.fromMillisecondsSinceEpoch(RemindersList
-                          .MyLists[index].list[index1].dateAndTime));
+                  String time =   DateTime.fromMillisecondsSinceEpoch(RemindersList
+                          .MyLists[index].list[index1].dateAndTime).hourHHmm;
+                  String date =   DateTime.fromMillisecondsSinceEpoch(RemindersList
+                          .MyLists[index].list[index1].dateAndTime).dateDdMMyyyy;
                   return Slidable(
                       closeOnScroll: true,
                       actionPane: SlidableDrawerActionPane(),
                       secondaryActions: [
-                        IconSlideAction(
-                          caption: 'Edit',
-                          iconWidget: Icon(
-                            Icons.edit,
-                            color: Colors.white,
-                          ),
-                          color: Colors.blue,
-                          onTap: () => {},
-                        ),
-                        IconSlideAction(
-                          caption: 'Delete',
-                          iconWidget: Icon(
-                            Icons.delete,
-                            color: Colors.white,
-                          ),
-                          color: Colors.red,
-                          onTap: () => {
-                            showDialog(
-                                context: context,
-                                builder: (_) => AlertDialog(
-                                      title: Text('Delete ?'),
-                                      actions: [
-                                        FlatButton(
-                                          onPressed: () {
-                                            Navigator.pop(context);
-                                          },
-                                          child: Text('Cancel'),
-                                        ),
-                                        FlatButton(
-                                          onPressed: () {
-                                            String delDate;
-                                            id = RemindersList
-                                                .MyLists[index].list[index1].id;
-                                            RemindersList.MyLists[index].list
-                                                .removeAt(index1);
-
-                                            RemindersList.allReminders
-                                                .forEach((key, value) {
-                                              for (int i = 0;
-                                                  i < value.length;
-                                                  i++) {
-                                                if (value[i].id == id) {
-                                                  value.removeAt(i);
-                                                  i--;
-                                                }
-                                                if (RemindersList
-                                                        .allReminders[key]
-                                                        .length ==
-                                                    0) {
-                                                  delDate = key;
-                                                }
-                                              }
-                                            });
-                                            RemindersList.allReminders
-                                                .remove(delDate);
-                                            index1--;
-                                            listStream.update(index);
-                                            Navigator.pop(context);
-                                          },
-                                          child: Text('OK'),
-                                        ),
-                                      ],
-                                    )),
-                          },
-                        )
+                       IconSlideWidget.edit(),
+                       IconSlideWidget.delete(  () => {
+                         log('aaaaa'),
+                         showDialog(
+                             context: context,
+                             builder: (_) => ConfirmDialog(
+                               content: 'Are you sure you want to delete this reminder ?',
+                               title:  'Delete ?',
+                                   onPressedCancel: () {
+                                     Navigator.pop(context);
+                                   },
+                                   onPressedOk: ()=>deleteReminder(index1),
+                                 ),
+                             )
+                       },)
                       ],
                       actionExtentRatio: 0.2,
                       child: Container(
@@ -180,54 +130,30 @@ class _ListScreen extends State<ListScreen> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-
-                                       Container(
-                                         width:ScreenUtil().screenWidth-75,
-                                            child: Text(
-                                                RemindersList.MyLists[index]
-                                                    .list[index1].title,
-                                                overflow: TextOverflow.ellipsis,
-                                                maxLines: 5,
-                                                softWrap: false,
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.w500,
-                                                    color: Colors.black,
-                                                    fontSize: ScreenUtil().setSp(17)),
-
-                                          ),
+                                        Container(
+                                          width: ScreenUtil().screenWidth - 75,
+                                          child: Text(
+                                            RemindersList.MyLists[index]
+                                                .list[index1].title,
+                                            overflow: TextOverflow.ellipsis,
+                                            maxLines: 5,
+                                            softWrap: false,
+                                            style:ThemeText.title
                                         ),
-
+                                        ),
                                         Padding(
                                           padding: EdgeInsets.only(
                                               top: ScreenUtil().setHeight(3)),
                                           child: Container(
-                                            width: ScreenUtil().screenWidth-75,
-                                            child: Text(
-                                              RemindersList
-                                                          .MyLists[index]
-                                                          .list[index1]
-                                                          .dateAndTime !=
-                                                      0
-                                                  ? ((RemindersList
-                                                                  .MyLists[index]
-                                                                  .list[index1]
-                                                                  .dateAndTime %
-                                                              10 ==
-                                                          1)
-                                                      ? '${date == now ? 'Today' : date}, ${time} \n${RemindersList.MyLists[index].list[index1].notes}'
-                                                      : '${date == now ? 'Today' : date}\n${RemindersList.MyLists[index].list[index1].notes}')
-                                                  : '${RemindersList.MyLists[index].list[index1].notes}',
+                                            width:
+                                                ScreenUtil().screenWidth - 75,
+                                            child: Text(getDetails(index1, date, time),
                                               overflow: TextOverflow.ellipsis,
                                               maxLines: 5,
                                               softWrap: false,
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Colors.grey,
-                                                  fontSize:
-                                                      ScreenUtil().setSp(12)),
+                                              style: ThemeText.subtitle),
                                             ),
                                           ),
-                                        ),
                                         Container(
                                           margin: EdgeInsets.only(
                                               top: ScreenUtil().setHeight(10)),
@@ -239,5 +165,33 @@ class _ListScreen extends State<ListScreen> {
                                 )
                               ])));
                 })));
+  }
+ deleteReminder(int index1) {
+    String delDate;
+    id = RemindersList .MyLists[index].list[index1].id;
+    RemindersList.MyLists[index].list .removeAt(index1);
+    RemindersList.allReminders .forEach((key, value) {
+      for (int i = 0; i < value.length; i++) {
+        if (value[i].id == id) {
+          value.removeAt(i);
+          i--;
+        }
+        if (RemindersList .allReminders[key] .length ==  0) {
+          delDate = key;
+        }
+      }
+    });
+    RemindersList.allReminders .remove(delDate);
+    index1--;
+    listStream.update(index);
+    Navigator.pop(context);
+  }
+  String getDetails(int index1, String date, String time)
+  {
+   return RemindersList .MyLists[index] .list[index1] .dateAndTime !=  0
+        ? ((RemindersList .MyLists[ index] .list[index1]  .dateAndTime % 10 ==  1)
+        ? '${date == now ? 'Today' : date}, ${time} \n${RemindersList.MyLists[index].list[index1].notes}'
+        : '${date == now ? 'Today' : date}\n${RemindersList.MyLists[index].list[index1].notes}')
+        : '${RemindersList.MyLists[index].list[index1].notes}';
   }
 }

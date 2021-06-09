@@ -8,12 +8,15 @@ import 'package:intl/intl.dart';
 import 'package:reminders_app/reminders_app/common/extensions/date_extensions.dart';
 import 'package:reminders_app/reminders_app/common/enums/priority_type.dart';
 import 'package:reminders_app/reminders_app/common/utils/priority_type_utils.dart';
+import 'package:reminders_app/reminders_app/presentation/journey/home_page/homepage_constants.dart';
 import 'package:reminders_app/reminders_app/presentation/journey/reminder/new_reminder/details/bloc/details_state.dart';
 import 'package:reminders_app/reminders_app/presentation/journey/reminder/new_reminder/details/bloc/details_stream.dart';
 import 'package:reminders_app/reminders_app/presentation/journey/reminder/new_reminder/details/details_constants.dart';
 import 'package:reminders_app/reminders_app/presentation/journey/reminder/new_reminder/details/widget/details_item.dart';
+import 'package:reminders_app/reminders_app/presentation/journey/reminder/new_reminder/details/widget/priority_dialog.dart';
 import 'package:reminders_app/reminders_app/presentation/journey/reminder/new_reminder/details/widget/priority_item.dart';
 import 'package:reminders_app/reminders_app/presentation/journey/reminder/new_reminder/new_reminder_constants.dart';
+import 'package:reminders_app/reminders_app/presentation/theme/theme.dart';
 import 'package:reminders_app/reminders_app/presentation/widgets_constants/appbar.dart';
 
 class DetailsScreen extends StatefulWidget {
@@ -44,188 +47,124 @@ class _DetailsScreen extends State<DetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final SimpleDialog priorityDialog = SimpleDialog(
-      titlePadding: EdgeInsets.only(
-        top: ScreenUtil().setHeight(15),
-        left: ScreenUtil().setWidth(15),
-      ),
-      contentPadding: EdgeInsets.symmetric(
-        vertical: 0,
-      ),
-      title: Text(
-        DetailConstants.priorityTxt,
-        style: TextStyle(
-            fontSize: ScreenUtil().setSp(20),
-            fontWeight: FontWeight.w700,
-            color: Colors.black),
-      ),
-      children: [
-        PriorityItemWidget(
-          name: priorityTypeUtil(PriorityType.NONE),
-          color: Colors.grey,
-          onTap: () => {
-            detailsStream.setPriority(0),
-            Navigator.pop(context),
-            selectedPriority = priorityTypeUtil(PriorityType.NONE),
-            log(selectedPriority)
-          },
-          isNotLast: true,
-        ),
-        PriorityItemWidget(
-            name: priorityTypeUtil(PriorityType.LOW),
-            color: Colors.yellow,
-            onTap: () => {
-                  detailsStream.setPriority(1),
-                  Navigator.pop(context),
-                  selectedPriority = priorityTypeUtil(PriorityType.LOW),
-                  log(selectedPriority)
-                },
-            isNotLast: true),
-        PriorityItemWidget(
-            name: priorityTypeUtil(PriorityType.MEDIUM),
-            color: Colors.orange,
-            onTap: () => {
-                  detailsStream.setPriority(2),
-                  Navigator.pop(context),
-                  selectedPriority = priorityTypeUtil(PriorityType.MEDIUM),
-                  log(selectedPriority)
-                },
-            isNotLast: true),
-        PriorityItemWidget(
-            name: priorityTypeUtil(PriorityType.HIGH),
-            color: Colors.red,
-            onTap: () => {
-                  detailsStream.setPriority(3),
-                  Navigator.pop(context),
-                  selectedPriority = priorityTypeUtil(PriorityType.HIGH),
-                  log(selectedPriority)
-                },
-            isNotLast: false),
-      ],
-    );
-
-    /// Kiểm tra date nhập vào có phải Today hay không?
-    String now = DateTime.now().dateDdMMyyyy;
+String now = DateTime.now().dateDdMMyyyy;
 detailsStream.setDefault(date, time, priority);
     return StreamBuilder<DetailsState>(
         initialData: DetailsState(
            hasTime: time!=0?true:false, hasDate:date!=0?true: false, time: time, date: date, priority: priority),
         stream: detailsStream.detailsStream,
         builder: (context, snapshot) {
-          return SafeArea(
-            child: Scaffold(
-                appBar: _appBar(context, snapshot.data),
-                body: Column(children: [
-                  Container(
-                    margin: EdgeInsets.symmetric(
-                      horizontal: DetailConstants.marginHorizontal,
-                    ),
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10)),
-                    child: GridView(
-                        scrollDirection: Axis.vertical,
-                        shrinkWrap: true,
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 1,
-                          childAspectRatio: 6,
-                        ),
-                        children: [
-                          DetailsItem(
-                            title: DetailConstants.dateTxt,
-                            subtitle: snapshot.data.hasDate == true
-                                ? DateTime.fromMillisecondsSinceEpoch(
-                                                snapshot.data.date).isToday
-                                : '',
-                            icon: Icons.calendar_today_sharp,
-                            bgIcon: Colors.red,
-                            switchValue: snapshot.data.hasDate,
-                            switchOnChanged: (bool value) {
-                              selectDate(context, value);
-                              detailsStream.setTime(TimeOfDay.now(), false);
-                            },
-                            onTapItem: (){
-                              if(snapshot.data.hasDate)
-                                {
-                                selectDate(context, snapshot.data.hasDate);}
-                            },
-                          ),
-                          DetailsItem(
-                            title: DetailConstants.timeTxt,
-                            subtitle:(snapshot.data.hasDate && snapshot.data.hasTime  )
-                                ? DateFormat('HH:mm').format(
-                                    DateTime.fromMillisecondsSinceEpoch(
-                                        snapshot.data.date +
-                                            snapshot.data.time))
-                                : '',
-                            icon: Icons.timer,
-                            bgIcon: Colors.blue,
-                            switchValue: detailsStream.hasDate == true
-                                ? snapshot.data.hasTime
-                                : false,
-                            switchOnChanged: (bool value) {
-                              if (snapshot.data.hasDate)
-                                selectTime(context, value);
-                            },
-                            onTapItem: (){
-                              if (snapshot.data.hasDate && snapshot.data.hasTime)
-                                selectTime(context, snapshot.data.hasTime);
-                            },
-                          ),
-                        ]),
+          return Scaffold(
+              appBar: _appBar(context, snapshot.data),
+              body: Column(children: [
+                Container(
+                  margin: EdgeInsets.symmetric(
+                    horizontal: DetailConstants.marginHorizontal,
                   ),
-                  Container(
-                    margin: EdgeInsets.all(
-                      DetailConstants.marginHorizontal,
-                    ),
-                    padding: EdgeInsets.all(ScreenUtil().setWidth(7)),
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10)),
-                    child: GestureDetector(
-                      onTap: () async {
-                        await showDialog(
-                            context: context,
-                            builder: (context) => priorityDialog);
-                      },
-                      child: Padding(
-                        padding: EdgeInsets.all(ScreenUtil().setHeight(8.0)),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              flex: 9,
-                              child: Text(
-                                DetailConstants.priorityTxt,
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10)),
+                  child: GridView(
+                      scrollDirection: Axis.vertical,
+                      shrinkWrap: true,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 1,
+                        childAspectRatio: 6,
+                      ),
+                      children: [
+                        DetailsItem(
+                          title: DetailConstants.dateTxt,
+                          subtitle: snapshot.data.hasDate == true
+                              ? DateTime.fromMillisecondsSinceEpoch(
+                              snapshot.data.date).isToday
+                              : '',
+                          icon: Icons.calendar_today_sharp,
+                          bgIcon: Colors.red,
+                          switchValue: snapshot.data.hasDate,
+                          switchOnChanged: (bool value) {
+                            selectDate(context, value);
+                            detailsStream.setTime(TimeOfDay.now(), false);
+                          },
+                          onTapItem: (){
+                            if(snapshot.data.hasDate)
+                            {
+                              selectDate(context, snapshot.data.hasDate);}
+                          },
+                        ),
+                        DetailsItem(
+                          title: DetailConstants.timeTxt,
+                          subtitle:(snapshot.data.hasDate && snapshot.data.hasTime  )
+                              ?   DateTime.fromMillisecondsSinceEpoch(
+                              snapshot.data.date +
+                                  snapshot.data.time).hourHHmm
+                              : '',
+                          icon: Icons.timer,
+                          bgIcon: Colors.blue,
+                          switchValue:snapshot.data.hasTime
+                             ,
+                          switchOnChanged: (bool value) {
+                            if (snapshot.data.hasDate)
+                              selectTime(context, value);
+                            else{
+                              selectDate(context, value);
+                             // selectTime(context, value);
+                            }
+                          },
+                          onTapItem: (){
+                            if (snapshot.data.hasDate && snapshot.data.hasTime)
+                              selectTime(context, snapshot.data.hasTime);
+                            else if(snapshot.data.hasDate == false )
+                            {
+                              selectDate(context, snapshot.data.hasDate); selectTime(context, snapshot.data.hasTime);
+                            }
+                          },
+                        ),
+                      ]),
+                ),
+                Container(
+                  margin: EdgeInsets.all(
+                    DetailConstants.marginHorizontal,
+                  ),
+                  padding: EdgeInsets.all(ScreenUtil().setWidth(7)),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10)),
+                  child: GestureDetector(
+                    onTap: () async {
+                      await showDialog(
+                          context: context,
+                          builder: (context) => PriorityDialog(detailsStream: detailsStream, selectedPriority: selectedPriority));
+                    },
+                    child: Padding(
+                      padding: EdgeInsets.all(ScreenUtil().setHeight(8.0)),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            flex: 9,
+                            child: Text(
+                              DetailConstants.priorityTxt,
+                              style: ThemeText.title2
+                            ),
+                          ),
+                          Expanded(
+                            flex: 2,
+                            child: Text(
+                                getPriorityTypeText(snapshot.data.priority),
+                                textAlign: TextAlign.right,
                                 style: TextStyle(
-                                    fontSize: ScreenUtil().setSp(15),
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.black),
-                              ),
-                            ),
-                            Expanded(
-                              flex: 2,
-                              child: Text(
-                                  getPriorityTypeText(snapshot.data.priority),
-                                  textAlign: TextAlign.right,
-                                  style: TextStyle(
-                                    fontSize: ScreenUtil().setSp(12.5),
-                                    color: Colors.grey,
-                                  )),
-                            ),
-                            Expanded(
-                                flex: 1,
-                                child: Icon(
-                                  Icons.arrow_forward_ios_rounded,
-                                  size: ScreenUtil().setSp(15),
+                                  fontSize: ScreenUtil().setSp(12.5),
                                   color: Colors.grey,
                                 )),
-                          ],
-                        ),
+                          ),
+                          Expanded(
+                              flex: 1,
+                              child: HomePageConstant.iconArrow),
+                        ],
                       ),
                     ),
                   ),
-                ])),
-          );
+                ),
+              ]));
         });
   }
 

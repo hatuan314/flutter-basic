@@ -56,13 +56,35 @@ class RemindersList {
             .millisecondsSinceEpoch,
         priority);
     r.priority = priority;
-    //log(r.priority.toString() + '@@@@@@@@@@@@@');
-    //  log(r.date + '#############');
-
-    /// log(title + '' + notes + '' + list);
     for (int i = 0; i < MyLists.length; i++) {
       if (list == (MyLists[i].name)) {
         MyLists[i].list.add(r);
+        //sắp xếp theo thứ tự ưu tiên
+        for(int k=0;k<MyLists[i].list.length;k++)
+          {
+            for(int h=k+1;h<MyLists[i].list.length;h++)
+              {
+                if(MyLists[i].list[k]?.priority<= MyLists[i].list[h]?.priority)
+                  {
+                    Reminder a= MyLists[i].list[k];
+                    MyLists[i].list[k]=MyLists[i].list[h];
+                    MyLists[i].list[h]=a;
+                  }
+              }
+          }
+        //sắp xếp lại theo ngày
+        for(int k=0;k<MyLists[i].list.length;k++)
+        {
+          for(int h=k+1;h<MyLists[i].list.length;h++)
+          {
+            if((MyLists[i].list[k]?.priority== MyLists[i].list[h]?.priority) && (MyLists[i].list[k]?.dateAndTime>=MyLists[i].list[h]?.dateAndTime ))
+            {
+              Reminder a= MyLists[i].list[k];
+              MyLists[i].list[k]=MyLists[i].list[h];
+              MyLists[i].list[h]=a;
+            }
+          }
+        }
       }
     }
     if (dateAndTime != 0) {
@@ -85,6 +107,18 @@ class RemindersList {
               allReminders[date][j] = a;
             }
           }
+        for(int k=0;k<allReminders[date]?.length;k++)
+        {
+          for(int h=k+1;h<allReminders[date]?.length;h++)
+          {
+            if((allReminders[date][k]?.priority== allReminders[date][h]?.priority) && (allReminders[date][k]?.dateAndTime>= allReminders[date][h]?.dateAndTime) )
+            {
+              Reminder a=  allReminders[date][k];
+              allReminders[date][k]= allReminders[date][h];
+              allReminders[date][h]=a;
+            }
+          }
+        }
       }
     }
       else {

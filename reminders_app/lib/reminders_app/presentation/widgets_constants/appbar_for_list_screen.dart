@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:reminders_app/reminders_app/common/constants/route_constants.dart';
 
 class AppbarWidgetForListScreen extends AppBar {
-  AppbarWidgetForListScreen(BuildContext context)
+  AppbarWidgetForListScreen(BuildContext context, Function onTapCreateNew)
       : super(
           elevation: 0,
           titleSpacing: 0,
@@ -23,8 +23,7 @@ class AppbarWidgetForListScreen extends AppBar {
           ),
           actions: [
             GestureDetector(
-              onTap: () =>
-                  Navigator.pushNamed(context, RouteList.createNewScreen),
+              onTap: onTapCreateNew,
               child: Container(
                 padding: EdgeInsets.all(ScreenUtil().setWidth(2)),
                 margin: EdgeInsets.all(ScreenUtil().setWidth(10)),

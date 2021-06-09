@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:reminders_app/reminders_app/presentation/model/group.dart';
 
@@ -12,6 +13,7 @@ Stream get myListsStream=>myListsController.stream;
   {
     MyLists=RemindersList.MyLists;
 myListsController.sink.add(MyLists);
+log(MyLists.length.toString()+"update");
   }
   void dispose()
   {

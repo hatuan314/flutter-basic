@@ -11,16 +11,11 @@ import '../reminders_list.dart';
 class HomePageProvider with ChangeNotifier, DiagnosticableTreeMixin {
   int l1 = 0, l2 = 0, l3 = 0;
   Color listColor = Colors.blue;
-//  bool addNew=false;
-  // l4=0;
   List<Group> MyLists = [];
-//RemindersList RemindersList= RemindersList();
-
   void setColor(Color value) {
     listColor = value;
     notifyListeners();
   }
-
   void update() {
     l1 = 0;
     l2 = 0;
