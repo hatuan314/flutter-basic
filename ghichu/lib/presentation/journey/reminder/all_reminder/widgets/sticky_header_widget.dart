@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:ghichu/presentation/blocs/check_buttom.dart';
 import 'package:ghichu/presentation/journey/reminder/__mock__/textfiled_controller.dart';
 import 'package:ghichu/presentation/journey/reminder/all_reminder/bloc/all_reminder_bloc.dart';
 import 'package:ghichu/presentation/journey/reminder/widgets/list_reminder.dart';
@@ -16,6 +17,7 @@ class StickyReminderAll extends StatelessWidget {
   String color;
   int indexHeader, indexReminder;
   AllReminderBloc allReminderBloc;
+
   Map<String, TextFiledController> controller;
   StickyReminderAll(
       {Key key,

@@ -23,85 +23,88 @@ class MyListWidget extends StatelessWidget {
             arguments: {StringConstants.keyGroup: keyGroup});
       },
       child: Container(
-        decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.only(
-              topLeft: index == 0
-                  ? HomePageConstants.radiusCircle15
-                  : Radius.circular(0),
-              topRight: index == 0
-                  ? HomePageConstants.radiusCircle15
-                  : Radius.circular(0),
-              bottomLeft: index == ModelListReminder.myList.length - 1
-                  ? HomePageConstants.radiusCircle15
-                  : Radius.circular(0),
-              bottomRight: index == ModelListReminder.myList.length - 1
-                  ? HomePageConstants.radiusCircle15
-                  : Radius.circular(0),
-            )),
-        child: Row(
-          children: [
-            SizedBox(
-              width: HomePageConstants.paddingWidth10,
-            ),
-            IconWidget(
-              icon: Icons.list,
-              shadow: 0,
-              colorGraient: Color(int.parse(color)),
-              color: Color(int.parse(color)),
-            ),
-            SizedBox(
-              width: HomePageConstants.paddingWidth10,
-            ),
-            Expanded(
-              child: Container(
-                padding: EdgeInsets.symmetric(
-                    vertical: HomePageConstants.paddingHeight20),
-                decoration: BoxDecoration(
-                    border: Border(
-                        bottom: BorderSide(
-                            color: index == ModelListReminder.myList.length - 1
-                                ? Colors.transparent
-                                : Colors.black12))),
-                child: Row(
-                  children: [
-                    Container(
-                      width: HomePageConstants.widthGroupText270,
-                      child: Text(
-                        title,
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: ScreenUtil().setSp(18)),
-                      ),
-                    ),
-                    Expanded(
-                      child: Align(
-                          alignment: Alignment.centerRight,
+          decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                topLeft: index == 0
+                    ? HomePageConstants.radiusCircle15
+                    : Radius.circular(0),
+                topRight: index == 0
+                    ? HomePageConstants.radiusCircle15
+                    : Radius.circular(0),
+                bottomLeft: index == ModelListReminder.myList.length - 1
+                    ? HomePageConstants.radiusCircle15
+                    : Radius.circular(0),
+                bottomRight: index == ModelListReminder.myList.length - 1
+                    ? HomePageConstants.radiusCircle15
+                    : Radius.circular(0),
+              )),
+          child: Row(
+            children: [
+              SizedBox(
+                width: HomePageConstants.paddingWidth10,
+              ),
+              IconWidget(
+                icon: Icons.list,
+                shadow: 0,
+                colorGraient: Color(int.parse(color)),
+                color: Color(int.parse(color)),
+              ),
+              SizedBox(
+                width: HomePageConstants.paddingWidth10,
+              ),
+              Expanded(
+                child: Container(
+                  padding: EdgeInsets.symmetric(
+                      vertical: HomePageConstants.paddingHeight20),
+                  decoration: BoxDecoration(
+                      border: Border(
+                          bottom: BorderSide(
+                              color:
+                                  index == ModelListReminder.myList.length - 1
+                                      ? Colors.transparent
+                                      : Colors.black12))),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        flex: 10,
+                        child: Container(
+                          // width: HomePageConstants.widthGroupText270,
                           child: Text(
-                            leght == null ? '0' : '$leght',
+                            title,
                             style: TextStyle(
-                                color: Colors.black54,
-                                fontSize: ScreenUtil().setSp(16)),
-                          )),
-                    ),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Icon(
-                        Icons.navigate_next_outlined,
-                        color: Colors.black26,
-                        size: ScreenUtil().setSp(20),
+                                color: Colors.black,
+                                fontSize: ScreenUtil().setSp(18)),
+                          ),
+                        ),
                       ),
-                    ),
-                    SizedBox(
-                      width: ScreenUtil().setWidth(5),
-                    )
-                  ],
+                      Expanded(
+                        child: Align(
+                            alignment: Alignment.centerRight,
+                            child: Text(
+                              leght == null ? '0' : '$leght',
+                              style: TextStyle(
+                                  color: Colors.black54,
+                                  fontSize: ScreenUtil().setSp(16)),
+                            )),
+                      ),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: Icon(
+                          Icons.navigate_next_outlined,
+                          color: Colors.black26,
+                          size: ScreenUtil().setSp(20),
+                        ),
+                      ),
+                      SizedBox(
+                        width: ScreenUtil().setWidth(5),
+                      )
+                    ],
+                  ),
                 ),
               ),
-            )
-          ],
-        ),
-      ),
+            ],
+          )),
     );
   }
 }

@@ -1,18 +1,19 @@
-
-
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/screen_util.dart';
 import 'package:ghichu/common/constants/route_constants.dart';
 import 'package:ghichu/common/constants/string_constants.dart';
 
 import 'package:ghichu/common/enums/reminder_enum.dart';
 import 'package:ghichu/common/untils/reminder_until.dart';
+import 'package:ghichu/presentation/blocs/check_buttom.dart';
 import 'package:ghichu/presentation/journey/reminder/__mock__/textfiled_controller.dart';
 import 'package:ghichu/presentation/journey/reminder/all_reminder/bloc/all_reminder_bloc.dart';
 import 'package:ghichu/presentation/journey/reminder/reminder_constants.dart';
 
 import 'package:ghichu/presentation/journey/reminder/schedule_reminder/bloc/schedule_reminder_bloc.dart';
 import 'package:ghichu/presentation/journey/reminder/today_reminder/bloc/today_reminder_bloc.dart';
+import 'package:ghichu/presentation/journey/reminder/widgets/check_box.dart';
 import 'package:ghichu/presentation/models/model_map.dart';
 
 import 'package:ghichu/presentation/models/reminder.dart';
@@ -28,12 +29,14 @@ class ListReminder extends StatelessWidget {
   ScheduleReminderBloc scheduleReminderBloc;
   TodayReminderBloc todayReminderBloc;
   int indexReminder, indexGroup, index;
+
   ListReminder(
       {Key key,
       this.title,
       this.keyDate,
       this.todayReminderBloc,
       this.scheduleReminderBloc,
+
       this.indexReminder,
       this.group,
       this.note,
@@ -53,7 +56,8 @@ class ListReminder extends StatelessWidget {
       padding: EdgeInsets.only(left: ScreenUtil().setWidth(10)),
       child: Row(
         children: [
-          Icon(Icons.check_circle_outlined),
+          // Icon(Icons.check_circle_outlined),
+         CheckBoxWidget(),
           SizedBox(
             width: ScreenUtil().setWidth(7),
           ),
@@ -178,20 +182,24 @@ class ListReminder extends StatelessWidget {
                                   : false,
                               child: GestureDetector(
                                 onTap: () {
-                                  Navigator.pushNamed(context,RouteList.newReminder,arguments: {
-                                    StringConstants.titleReminder:title,
-                                    StringConstants.noteReminder:note,
-                                    StringConstants.listGroup:ModelListReminder.myList.keys.toList(),
-                                    StringConstants.isEdit:true,
-                                    StringConstants.date:date,
-                                    StringConstants.isTimeArg:time,
-                                    StringConstants.listIndexArg:indexGroup
-                                  });
+                                  Navigator.pushNamed(
+                                      context, RouteList.newReminder,
+                                      arguments: {
+                                        StringConstants.titleReminder: title,
+                                        StringConstants.noteReminder: note,
+                                        StringConstants.listGroup:
+                                            ModelListReminder.myList.keys
+                                                .toList(),
+                                        StringConstants.isEdit: true,
+                                        StringConstants.date: date,
+                                        StringConstants.isTimeArg: time,
+                                        StringConstants.listIndexArg: indexGroup
+                                      });
                                 },
                                 child: Icon(
                                   Icons.error_outline,
                                   size: ScreenUtil().setSp(25),
-                                  color: Colors.red,
+                                  color: ReminderContants.colorIcon,
                                 ),
                               )),
                         );

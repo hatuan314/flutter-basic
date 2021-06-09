@@ -4,6 +4,7 @@ class CheckButtonBloc {
   StreamController checkButtom = new StreamController.broadcast();
   Stream get checkButton => checkButtom.stream;
   bool check = false;
+
   void setCheck() {
     check = !check;
     checkButtom.sink.add(check);

@@ -8,6 +8,8 @@ import 'package:ghichu/presentation/journey/reminder/__mock__/textfiled_controll
 import 'package:ghichu/presentation/journey/reminder/all_reminder/bloc/all_reminder_bloc.dart';
 import 'package:ghichu/presentation/journey/reminder/schedule_reminder/bloc/schedule_reminder_bloc.dart';
 
+import '../reminder_constants.dart';
+
 class AddWidget extends StatelessWidget {
   String keyGroup, keyDate;
   Map<String, TextFiledController> controller;
@@ -79,7 +81,7 @@ class AddWidget extends StatelessWidget {
                     child: Icon(
                       Icons.error_outline,
                       size: ScreenUtil().setSp(23),
-                      color: Colors.red,
+                      color: ReminderContants.colorIcon,
                     ),
                   ));
             }),

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screen_util.dart';
 import 'package:ghichu/common/enums/reminder_enum.dart';
 import 'package:ghichu/common/untils/reminder_until.dart';
+import 'package:ghichu/presentation/blocs/check_buttom.dart';
 import 'package:ghichu/presentation/journey/reminder/__mock__/textfiled_controller.dart';
 import 'package:ghichu/presentation/journey/reminder/all_reminder/bloc/all_reminder_bloc.dart';
 import 'package:ghichu/presentation/journey/reminder/all_reminder/bloc/all_reminder_state.dart';
@@ -20,6 +21,7 @@ class AllPage extends StatefulWidget {
 class _State extends State<AllPage> {
   Map<String, TextFiledController> listController = {};
   AllReminderBloc allReminderBloc = AllReminderBloc();
+
   bool isEdit;
   @override
   void initState() {
