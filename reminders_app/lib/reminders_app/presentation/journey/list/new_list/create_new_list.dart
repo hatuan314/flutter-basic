@@ -39,7 +39,7 @@ class _NewList extends State<NewList> {
               stream: listStream.createListStream,
               builder: (context, snapshot) {
                 return Scaffold(
-                  appBar: _appbar(snapshot.data),
+                  appBar: _appbar(state),
                   body: ListView(shrinkWrap: true, children: [
                     Align(
                       alignment: Alignment.topCenter,
@@ -81,9 +81,12 @@ class _NewList extends State<NewList> {
                                 ),
                                 onChanged: (value) {
                                   if (value.isNotEmpty) {
-                                    listStream.setClearButton(true);
+                                    log("active");
+                                    BlocProvider.of<AddListBloc>(context)
+                                        .add(ActiveAddButtonEvent(activeAddButton: true));
                                   } else {
-                                    listStream.setClearButton(false);
+                                    BlocProvider.of<AddListBloc>(context)
+                                        .add(ActiveAddButtonEvent(activeAddButton: false));
                                   }
                                 },
                               ),
@@ -91,11 +94,12 @@ class _NewList extends State<NewList> {
                             Expanded(
                               flex: 1,
                               child: Visibility(
-                                visible: snapshot.data.clearButton,
+                                visible: state.activeAddBtn,
                                 child: GestureDetector(
                                   onTap: () => {
                                     name.clear(),
-                                    listStream.setClearButton(false)
+                                  BlocProvider.of<AddListBloc>(context)
+                                      .add(ActiveAddButtonEvent(activeAddButton: false)),
                                   },
                                   child: Container(
                                     padding: EdgeInsets.all(
@@ -146,15 +150,15 @@ class _NewList extends State<NewList> {
     );
   }
 
-  Widget _appbar(CreateListState createListState) {
+  Widget _appbar(AddListState state) {
     return AppbarWidget(
       context,
       leadingText: 'Cancel',
       title: 'New List',
       onTapAction: GestureDetector(
         onTap: () {
-          if (createListState.clearButton) {
-            RemindersList.addList(name.text, createListState.listColor);
+          if (state.activeAddBtn) {
+            RemindersList.addList(name.text, state.selectColor);
             Navigator.pop(context);
           }
         },
@@ -165,7 +169,7 @@ class _NewList extends State<NewList> {
               child: Text('Add',
                   style: ThemeText.actionButton.copyWith(
                     color:
-                        createListState.clearButton ? Colors.blue : Colors.grey,
+                    state.activeAddBtn ? Colors.blue : Colors.grey,
                   )),
             )),
       ),

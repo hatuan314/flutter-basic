@@ -105,6 +105,7 @@ class _TodayList extends State<TodayList> {
                             showDialog(
                                 context: context,
                                 builder: (_) => ConfirmDialog(
+                                  confirmText: 'Delete',
                                       content:
                                           'Are you sure you want to delete this reminder ?',
                                       title: 'Delete ?',

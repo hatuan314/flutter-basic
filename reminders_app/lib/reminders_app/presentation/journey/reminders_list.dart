@@ -27,10 +27,10 @@ class RemindersList {
   }
 
   static void addList(String name, Color color) {
-    Group g = new Group(name, color, DateTime
+    Group g = new Group(name:name,color: color,createAt: DateTime
         .now()
         .millisecondsSinceEpoch,
-        DateTime
+        lastUpdate:   DateTime
             .now()
             .millisecondsSinceEpoch);
     //log(g.name);

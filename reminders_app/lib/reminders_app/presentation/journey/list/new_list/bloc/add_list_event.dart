@@ -9,3 +9,8 @@ class SelectColorEvent extends AddListEvent {
 
   SelectColorEvent({@required this.color});
 }
+
+class ActiveAddButtonEvent extends AddListEvent{
+  final bool activeAddButton;
+  ActiveAddButtonEvent({@required this.activeAddButton});
+}

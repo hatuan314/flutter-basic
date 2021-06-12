@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screen_util.dart';
 import 'package:reminders_app/reminders_app/presentation/theme/theme_text.dart';
+import 'package:reminders_app/reminders_app/presentation/widgets_constants/confirm_dialog.dart';
 
 class AppbarWidget extends AppBar {
   AppbarWidget(BuildContext context,
@@ -13,17 +14,14 @@ class AppbarWidget extends AppBar {
             elevation: 0,
             leadingWidth: title=='Details'?ScreenUtil().screenWidth / 4:ScreenUtil().screenWidth / 5,
             leading: GestureDetector(
-              onTap: onTapCancel!=null?onTapCancel:()=> showDialog(context: context, builder: (_)=>AlertDialog(
-                  title:Text('Cancel ?'),
-                  actions: [
-                    FlatButton(
-                      onPressed: () {Navigator.pop(context);},
-                      child: Text('No'),
-                    ),
-                    FlatButton(
-                      onPressed: () {Navigator.pop(context);Navigator.pop(context);},
-                      child: Text('Yes'),
-                    ),])),
+              onTap: onTapCancel!=null?onTapCancel:()=> showDialog(context: context, builder: (_)=>ConfirmDialog(
+                confirmText: 'Cancel',
+                  title:'Cancel ?',
+                      onPressedCancel: () {Navigator.pop(context);},
+
+                      onPressedOk: () {Navigator.pop(context);Navigator.pop(context);},
+
+                     )),
               child: Container(
                 child: Row(
                   children: [

@@ -107,7 +107,7 @@ class _ListScreen extends State<ListScreen> {
                             log('aaaaa'),
                             showDialog(
                               context: context,
-                              builder: (_) => ConfirmDialog(
+                              builder: (_) => ConfirmDialog(      confirmText: 'Delete',
                                 content:
                                     'Are you sure you want to delete this reminder ?',
                                 title: 'Delete ?',

@@ -128,7 +128,7 @@ class _AllRemindersList extends State<AllRemindersList> {
                   showDialog( context: context,
                     builder:
                         (_) =>
-                        ConfirmDialog(
+                        ConfirmDialog(      confirmText: 'Delete',
                             content: 'Are you sure you want to delete this reminder ?',
                             title:  'Delete ?',
                             onPressedCancel:

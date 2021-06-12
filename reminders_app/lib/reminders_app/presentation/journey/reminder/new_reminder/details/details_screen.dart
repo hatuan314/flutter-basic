@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/screen_util.dart';
 import 'package:intl/intl.dart';
 
@@ -9,6 +10,8 @@ import 'package:reminders_app/reminders_app/common/extensions/date_extensions.da
 import 'package:reminders_app/reminders_app/common/enums/priority_type.dart';
 import 'package:reminders_app/reminders_app/common/utils/priority_type_utils.dart';
 import 'package:reminders_app/reminders_app/presentation/journey/home_page/homepage_constants.dart';
+import 'package:reminders_app/reminders_app/presentation/journey/reminder/new_reminder/details/bloc/add_details_bloc.dart';
+import 'package:reminders_app/reminders_app/presentation/journey/reminder/new_reminder/details/bloc/add_details_event.dart';
 import 'package:reminders_app/reminders_app/presentation/journey/reminder/new_reminder/details/bloc/details_state.dart';
 import 'package:reminders_app/reminders_app/presentation/journey/reminder/new_reminder/details/bloc/details_stream.dart';
 import 'package:reminders_app/reminders_app/presentation/journey/reminder/new_reminder/details/details_constants.dart';
@@ -18,6 +21,8 @@ import 'package:reminders_app/reminders_app/presentation/journey/reminder/new_re
 import 'package:reminders_app/reminders_app/presentation/journey/reminder/new_reminder/new_reminder_constants.dart';
 import 'package:reminders_app/reminders_app/presentation/theme/theme.dart';
 import 'package:reminders_app/reminders_app/presentation/widgets_constants/appbar.dart';
+
+import 'bloc/add_details_state.dart';
 
 class DetailsScreen extends StatefulWidget {
   int date;
@@ -35,7 +40,28 @@ class _DetailsScreen extends State<DetailsScreen> {
   int date;
   int time;
   int priority;
-
+  void setDefault(int date, int time, int priority,BuildContext context) {
+    if (date != 0) {
+      BlocProvider.of<AddDetailsBloc>(context)
+          .add(SetDateEvent(hasDate: true, date: date));
+      if (time != 0) {
+        BlocProvider.of<AddDetailsBloc>(context)
+            .add(SetTimeEvent(hasTime: true, time: time));
+      }
+      else {
+        BlocProvider.of<AddDetailsBloc>(context)
+            .add(SetTimeEvent(hasTime: false, time: 0));
+      }
+    }
+    else {
+      BlocProvider.of<AddDetailsBloc>(context)
+          .add(SetDateEvent(hasDate: false, date: 0));
+      BlocProvider.of<AddDetailsBloc>(context)
+          .add(SetTimeEvent(hasTime: false, time: 0));
+    }
+   BlocProvider.of<AddDetailsBloc>(context)
+    .add(SetPriorityEvent(priority: priority));
+  }
   _DetailsScreen({this.date, this.time, this.priority});
   @override
   void dispode() {
@@ -49,123 +75,134 @@ class _DetailsScreen extends State<DetailsScreen> {
   Widget build(BuildContext context) {
 String now = DateTime.now().dateDdMMyyyy;
 detailsStream.setDefault(date, time, priority);
-    return StreamBuilder<DetailsState>(
-        initialData: DetailsState(
-           hasTime: time!=0?true:false, hasDate:date!=0?true: false, time: time, date: date, priority: priority),
-        stream: detailsStream.detailsStream,
-        builder: (context, snapshot) {
-          return Scaffold(
-              appBar: _appBar(context, snapshot.data),
-              body: Column(children: [
-                Container(
-                  margin: EdgeInsets.symmetric(
-                    horizontal: DetailConstants.marginHorizontal,
-                  ),
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10)),
-                  child: GridView(
-                      scrollDirection: Axis.vertical,
-                      shrinkWrap: true,
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 1,
-                        childAspectRatio: 6,
+    return BlocProvider<AddDetailsBloc>(
+      create: (context) => AddDetailsBloc(),
+      child:BlocBuilder<AddDetailsBloc,AddDetailsState>(
+        builder: (context,state){
+          setDefault(date, time, priority,context);
+          return StreamBuilder<DetailsState>(
+              initialData: DetailsState(
+                  hasTime: time!=0?true:false, hasDate:date!=0?true: false, time: time, date: date, priority: priority),
+              stream: detailsStream.detailsStream,
+              builder: (context, snapshot) {
+                return Scaffold(
+                    appBar: _appBar(context, state),
+                    body: Column(children: [
+                      Container(
+                        margin: EdgeInsets.symmetric(
+                          horizontal: DetailConstants.marginHorizontal,
+                        ),
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10)),
+                        child: GridView(
+                            scrollDirection: Axis.vertical,
+                            shrinkWrap: true,
+                            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 1,
+                              childAspectRatio: 6,
+                            ),
+                            children: [
+                              DetailsItem(
+                                title: DetailConstants.dateTxt,
+                                subtitle: state.hasDate == true
+                                    ? DateTime.fromMillisecondsSinceEpoch(
+                                    state.date).isToday
+                                    : '',
+                                icon: Icons.calendar_today_sharp,
+                                bgIcon: Colors.red,
+                                switchValue: state.hasDate,
+                                switchOnChanged: (bool value) {
+                                  selectDate(context, value);
+                                  selectTime(context, false);
+                                  detailsStream.setTime(TimeOfDay.now(), false);
+                                },
+                                onTapItem: (){
+                                  if(state.hasDate)
+                                  {
+                                    selectDate(context, state.hasDate);}
+                                },
+                              ),
+                              DetailsItem(
+                                title: DetailConstants.timeTxt,
+                                subtitle:(state.hasDate && state.hasTime  )
+                                    ?   DateTime.fromMillisecondsSinceEpoch(
+                                    state.date +
+                                        state.time).hourHHmm
+                                    : '',
+                                icon: Icons.timer,
+                                bgIcon: Colors.blue,
+                                switchValue:state.hasTime
+                                ,
+                                switchOnChanged: (bool value) {
+                                  if (state.hasDate)
+                                    selectTime(context, value);
+                                  else{
+                                    selectDate(context, value);
+                                    // selectTime(context, value);
+                                  }
+                                },
+                                onTapItem: (){
+                                  if (state.hasDate && state.hasTime)
+                                    selectTime(context, state.hasTime);
+                                 /* else if(state.hasDate == false )
+                                  {
+                                    selectDate(context, state.hasDate); selectTime(context, state.hasTime);
+                                  }*/
+                                },
+                              ),
+                            ]),
                       ),
-                      children: [
-                        DetailsItem(
-                          title: DetailConstants.dateTxt,
-                          subtitle: snapshot.data.hasDate == true
-                              ? DateTime.fromMillisecondsSinceEpoch(
-                              snapshot.data.date).isToday
-                              : '',
-                          icon: Icons.calendar_today_sharp,
-                          bgIcon: Colors.red,
-                          switchValue: snapshot.data.hasDate,
-                          switchOnChanged: (bool value) {
-                            selectDate(context, value);
-                            detailsStream.setTime(TimeOfDay.now(), false);
-                          },
-                          onTapItem: (){
-                            if(snapshot.data.hasDate)
-                            {
-                              selectDate(context, snapshot.data.hasDate);}
-                          },
+                      Container(
+                        margin: EdgeInsets.all(
+                          DetailConstants.marginHorizontal,
                         ),
-                        DetailsItem(
-                          title: DetailConstants.timeTxt,
-                          subtitle:(snapshot.data.hasDate && snapshot.data.hasTime  )
-                              ?   DateTime.fromMillisecondsSinceEpoch(
-                              snapshot.data.date +
-                                  snapshot.data.time).hourHHmm
-                              : '',
-                          icon: Icons.timer,
-                          bgIcon: Colors.blue,
-                          switchValue:snapshot.data.hasTime
-                             ,
-                          switchOnChanged: (bool value) {
-                            if (snapshot.data.hasDate)
-                              selectTime(context, value);
-                            else{
-                              selectDate(context, value);
-                             // selectTime(context, value);
-                            }
+                        padding: EdgeInsets.all(ScreenUtil().setWidth(7)),
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10)),
+                        child: GestureDetector(
+                          onTap: () async {
+                            await showDialog(
+                                context: context,
+                                builder: (context) => priorityDialog(context));
+                                    //PriorityDialog(detailsStream: detailsStream, selectedPriority: selectedPriority, context1: context,));
                           },
-                          onTapItem: (){
-                            if (snapshot.data.hasDate && snapshot.data.hasTime)
-                              selectTime(context, snapshot.data.hasTime);
-                            else if(snapshot.data.hasDate == false )
-                            {
-                              selectDate(context, snapshot.data.hasDate); selectTime(context, snapshot.data.hasTime);
-                            }
-                          },
-                        ),
-                      ]),
-                ),
-                Container(
-                  margin: EdgeInsets.all(
-                    DetailConstants.marginHorizontal,
-                  ),
-                  padding: EdgeInsets.all(ScreenUtil().setWidth(7)),
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10)),
-                  child: GestureDetector(
-                    onTap: () async {
-                      await showDialog(
-                          context: context,
-                          builder: (context) => PriorityDialog(detailsStream: detailsStream, selectedPriority: selectedPriority));
-                    },
-                    child: Padding(
-                      padding: EdgeInsets.all(ScreenUtil().setHeight(8.0)),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            flex: 9,
-                            child: Text(
-                              DetailConstants.priorityTxt,
-                              style: ThemeText.title2
+                          child: Padding(
+                            padding: EdgeInsets.all(ScreenUtil().setHeight(8.0)),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  flex: 9,
+                                  child: Text(
+                                      DetailConstants.priorityTxt,
+                                      style: ThemeText.title2
+                                  ),
+                                ),
+                                Expanded(
+                                  flex: 2,
+                                  child: Text(
+                                      getPriorityTypeText(state.priority),
+                                      textAlign: TextAlign.right,
+                                      style: TextStyle(
+                                        fontSize: ScreenUtil().setSp(12.5),
+                                        color: Colors.grey,
+                                      )),
+                                ),
+                                Expanded(
+                                    flex: 1,
+                                    child: HomePageConstant.iconArrow),
+                              ],
                             ),
                           ),
-                          Expanded(
-                            flex: 2,
-                            child: Text(
-                                getPriorityTypeText(snapshot.data.priority),
-                                textAlign: TextAlign.right,
-                                style: TextStyle(
-                                  fontSize: ScreenUtil().setSp(12.5),
-                                  color: Colors.grey,
-                                )),
-                          ),
-                          Expanded(
-                              flex: 1,
-                              child: HomePageConstant.iconArrow),
-                        ],
+                        ),
                       ),
-                    ),
-                  ),
-                ),
-              ]));
-        });
+                    ]));
+              });
+        },
+      )
+
+    );
   }
 
   String getPriorityTypeText(int intPriority) {
@@ -180,7 +217,71 @@ detailsStream.setDefault(date, time, priority);
         return priorityTypeUtil(PriorityType.NONE);
     }
   }
-
+  Widget priorityDialog(BuildContext context) {
+    return SimpleDialog (
+      titlePadding: EdgeInsets.only(
+        top: ScreenUtil().setHeight(15),
+        left: ScreenUtil().setWidth(15),
+      ),
+      contentPadding: EdgeInsets.symmetric(
+        vertical: 0,
+      ),
+      title: Text(
+        DetailConstants.priorityTxt,
+        style: TextStyle(
+            fontSize: ScreenUtil().setSp(20),
+            fontWeight: FontWeight.w700,
+            color: Colors.black),
+      ),
+      children: [
+        PriorityItemWidget(
+          name: priorityTypeUtil(PriorityType.NONE),
+          color: Colors.grey,
+          onTap: () => {
+            BlocProvider.of<AddDetailsBloc>(context)
+                .add(SetPriorityEvent(priority: 0)),
+            Navigator.pop(context),
+            selectedPriority = priorityTypeUtil(PriorityType.NONE),
+            log(selectedPriority)
+          },
+          isNotLast: true,
+        ),
+        PriorityItemWidget(
+            name: priorityTypeUtil(PriorityType.LOW),
+            color: Colors.yellow,
+            onTap: () => {
+              BlocProvider.of<AddDetailsBloc>(context)
+                  .add(SetPriorityEvent(priority: 1)),
+              Navigator.pop(context),
+              selectedPriority = priorityTypeUtil(PriorityType.LOW),
+              log(selectedPriority)
+            },
+            isNotLast: true),
+        PriorityItemWidget(
+            name: priorityTypeUtil(PriorityType.MEDIUM),
+            color: Colors.orange,
+            onTap: () => {
+              BlocProvider.of<AddDetailsBloc>(context)
+                  .add(SetPriorityEvent(priority: 2)),
+              Navigator.pop(context),
+              selectedPriority = priorityTypeUtil(PriorityType.MEDIUM),
+              log(selectedPriority)
+            },
+            isNotLast: true),
+        PriorityItemWidget(
+            name: priorityTypeUtil(PriorityType.HIGH),
+            color: Colors.red,
+            onTap: () => {
+              BlocProvider.of<AddDetailsBloc>(context)
+                  .add(SetPriorityEvent(priority: 3)),
+              Navigator.pop(context),
+              selectedPriority = priorityTypeUtil(PriorityType.HIGH),
+              log(selectedPriority)
+            },
+            isNotLast: false),
+      ],
+    );
+  }
   void selectTime(BuildContext context, bool hasTime) async {
     if (hasTime) {
       final TimeOfDay newTime = await showTimePicker(
@@ -188,9 +289,15 @@ detailsStream.setDefault(date, time, priority);
         initialTime: TimeOfDay.now(),
       );
       if (newTime != null) {
+        time = (newTime.hour * 60 * 60 + newTime.minute * 60) * 1000 + 1;
+        BlocProvider.of<AddDetailsBloc>(context)
+            .add(SetTimeEvent(hasTime:hasTime,time: time));
         detailsStream.setTime(newTime, hasTime);
       }
     } else {
+      time=0;
+      BlocProvider.of<AddDetailsBloc>(context)
+          .add(SetTimeEvent(hasTime:false,time: 0));
       detailsStream.setTime(TimeOfDay.now(), hasTime);
     }
   }
@@ -203,14 +310,24 @@ detailsStream.setDefault(date, time, priority);
           firstDate: DateTime(2015, 8),
           lastDate: DateTime(2101));
       if (picked != null) {
+        date = DateTime
+            .parse(DateFormat('yyyy-MM-dd').format(picked))
+            .millisecondsSinceEpoch;
+        BlocProvider.of<AddDetailsBloc>(context)
+            .add(SetDateEvent(hasDate: hasDate, date: date));
         detailsStream.setDate(picked, hasDate);
       }
-    } else {
-      detailsStream.setDate(DateTime.now(), hasDate);
+    }else {
+        date = 0;
+        BlocProvider.of<AddDetailsBloc>(context)
+            .add(SetDateEvent(hasDate: hasDate, date: 0));
+
+        detailsStream.setDate(DateTime.now(), hasDate);
+
     }
   }
 
-  Widget _appBar(BuildContext context, DetailsState detailsState) {
+  Widget _appBar(BuildContext context,AddDetailsState addDetailsState) {
     return AppbarWidget(
       
       context,
@@ -222,9 +339,9 @@ detailsStream.setDefault(date, time, priority);
         Navigator.pop(
             context,
             ({
-              'date': detailsState.date,
-              'time': detailsState.time,
-              'priority': detailsState.priority
+              'date': addDetailsState.date,
+              'time': addDetailsState.time,
+              'priority': addDetailsState.priority
             })),
       },
       child: Container(

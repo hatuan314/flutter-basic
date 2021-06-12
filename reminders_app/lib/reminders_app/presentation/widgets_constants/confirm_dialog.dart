@@ -7,10 +7,12 @@ class ConfirmDialog extends StatelessWidget{
   Function onPressedOk;
   Function onPressedCancel;
 String content;
+String confirmText;
 String title;
   ConfirmDialog({@required this.onPressedOk,
     @required this.onPressedCancel,
   @required this.title,
+    @required this.confirmText,
   this.content});
 
   @override
@@ -44,7 +46,7 @@ String title;
               GestureDetector(
                   onTap: onPressedOk,
                   child: Container(
-                    child: Text('Delete', textAlign: TextAlign.center,style: TextStyle(fontSize: 17.sp,
+                    child: Text(confirmText, textAlign: TextAlign.center,style: TextStyle(fontSize: 17.sp,
                         color: Colors.red,
                         fontWeight: FontWeight.w600
                     ),),
