@@ -61,106 +61,109 @@ class _NewReminderPageState extends State<NewReminderPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<NewReminderBloc, NewReminderState>(
-        builder: (context, state) {
-      return Scaffold(
-        backgroundColor: Colors.white.withOpacity(0.95),
-        appBar: AppBarWidget(
-          actions: () {
-            if (widget.isEdit == false) {
-              // newReminderBloc.newReminderState.addTodoList(
-              //     titleController.text,
-              //     noteController.text,
-              //     newReminderBloc.newReminderState.valuesTime,
-              //     widget.listGroup[newReminderBloc.newReminderState.index],
-              //     'none',
-              //     DateTime.now().millisecondsSinceEpoch,
-              //     DateTime.now().millisecondsSinceEpoch,
-              //     newReminderBloc.newReminderState.isTimeDetails);
-            }
-            Navigator.pop(context);
-          },
-          leading: () {
-            showButtonModalSheet(context);
-          },
-          color: state.activeBtn ? Colors.blue : Colors.black38,
-          textLeft: NewReminderContants.textLeading,
-          textRight: widget.isEdit
-              ? NewReminderContants.textRightEdit
-              : NewReminderContants.textRight,
-          title: widget.isEdit
-              ? NewReminderContants.textTitleEdit
-              : NewReminderContants.textTitle,
-        ),
-        body: Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: LayoutConstants.paddingHorizontalApp,
+    return BlocConsumer<NewReminderBloc, NewReminderState>(
+        listener: (context, state) {
+      if (state is PushToDetailState) {
+        Navigator.pushNamed(context, RouteList.details, arguments: {
+          StringConstants.reminderDate:
+              12345678900000,
+          StringConstants.isTimeArg:
+              false,
+          StringConstants.keyGroup: widget.listGroup[0],
+          StringConstants.titleReminder: titleController.text,
+          StringConstants.noteReminder: noteController.text,
+        });
+      }
+    }, builder: (context, state) {
+      if (state is InitialNewReminderState) {
+        return Scaffold(
+          backgroundColor: Colors.white.withOpacity(0.95),
+          appBar: AppBarWidget(
+            actions: () {
+              if (widget.isEdit == false) {
+                // newReminderBloc.newReminderState.addTodoList(
+                //     titleController.text,
+                //     noteController.text,
+                //     newReminderBloc.newReminderState.valuesTime,
+                //     widget.listGroup[newReminderBloc.newReminderState.index],
+                //     'none',
+                //     DateTime.now().millisecondsSinceEpoch,
+                //     DateTime.now().millisecondsSinceEpoch,
+                //     newReminderBloc.newReminderState.isTimeDetails);
+              }
+              Navigator.pop(context);
+            },
+            leading: () {
+              showButtonModalSheet(context);
+            },
+            color: state.activeBtn ? Colors.blue : Colors.black38,
+            textLeft: NewReminderContants.textLeading,
+            textRight: widget.isEdit
+                ? NewReminderContants.textRightEdit
+                : NewReminderContants.textRight,
+            title: widget.isEdit
+                ? NewReminderContants.textTitleEdit
+                : NewReminderContants.textTitle,
           ),
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                TitleNoteWidget(
-                  onChange: (value) {
-                    BlocProvider.of<NewReminderBloc>(context)
-                        .add(ActiveBtn(title: value));
-                  },
-                  titleController: titleController,
-                  noteController: noteController,
-                ),
-                widget.isEdit
-                    ? Padding(
-                        padding:
-                            EdgeInsets.only(top: ReminderContants.marginTop),
-                        child: TimeWidget(
-                          detailsBloc: detailsBloc,
+          body: Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: LayoutConstants.paddingHorizontalApp,
+            ),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  TitleNoteWidget(
+                    onChange: (value) {
+                      BlocProvider.of<NewReminderBloc>(context)
+                          .add(ActiveBtn(title: value));
+                    },
+                    titleController: titleController,
+                    noteController: noteController,
+                  ),
+                  widget.isEdit
+                      ? Padding(
+                          padding:
+                              EdgeInsets.only(top: ReminderContants.marginTop),
+                          child: TimeWidget(
+                            detailsBloc: detailsBloc,
+                          ),
+                        )
+                      : SelectContainer(
+                          title: ReminderContants.detailsTxt,
+                          buttonDetails: false,
+                          // buttonDetails: snapshot.data.isButtonDetails,
+                          // timeDetails: snapshot.data.isTimeDetails,
+                          // valuesTime: snapshot.data.valuesTime,
+                          onTap: () {
+                            BlocProvider.of<NewReminderBloc>(context)
+                                .add(PushDetailEvent());
+                          },
                         ),
-                      )
-                    : SelectContainer(
-                        title: ReminderContants.detailsTxt,
-                        buttonDetails: false,
-                        // buttonDetails: snapshot.data.isButtonDetails,
-                        // timeDetails: snapshot.data.isTimeDetails,
-                        // valuesTime: snapshot.data.valuesTime,
-                        onTap: () {
-                          // Navigator.pushNamed(context, RouteList.details,
-                          //     arguments: {
-                          //       // StringConstants.reminderDate:
-                          //       //     snapshot.data.valuesTime,
-                          //       // StringConstants.isTimeArg:
-                          //       //     snapshot.data.isTimeDetails,
-                          //       StringConstants.keyGroup: widget.listGroup[
-                          //           newReminderBloc.newReminderState.index],
-                          //       StringConstants.titleReminder:
-                          //           titleController.text,
-                          //       StringConstants.noteReminder: noteController.text,
-                          //     }).then((value) {
-                          //   newReminderBloc.setTime(value);
-                          // });
-                        },
-                      ),
-                SelectContainer(
-                  title: ReminderContants.listTxt,
-                  buttonDetails: false,
-                  // group: snapshot.data.group,
-                  color: widget.listGroup[0].color,
-                  onTap: () async {
-                    Navigator.pushNamed(context, RouteList.listGroup,
-                        arguments: {
-                          StringConstants.listGroup: widget.listGroup,
-                          // StringConstants.listIndexArg: snapshot.data.index
-                        }).then((index) {
-                      // newReminderBloc.setGroup(
-                      //     ModelListReminder
-                      //         .myList['${widget.listGroup[index]}'].title,
-                      //     index);
-                    });
-                  },
-                )
-              ],
+                  SelectContainer(
+                    title: ReminderContants.listTxt,
+                    buttonDetails: false,
+                    // group: snapshot.data.group,
+                    color: widget.listGroup[0].color,
+                    onTap: () async {
+                      Navigator.pushNamed(context, RouteList.listGroup,
+                          arguments: {
+                            StringConstants.listGroup: widget.listGroup,
+                            // StringConstants.listIndexArg: snapshot.data.index
+                          }).then((index) {
+                        // newReminderBloc.setGroup(
+                        //     ModelListReminder
+                        //         .myList['${widget.listGroup[index]}'].title,
+                        //     index);
+                      });
+                    },
+                  )
+                ],
+              ),
             ),
           ),
-        ),
-      );
+        );
+      }
+      return SizedBox();
     });
   }
 

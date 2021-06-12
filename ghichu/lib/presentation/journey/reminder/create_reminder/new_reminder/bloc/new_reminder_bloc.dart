@@ -4,8 +4,7 @@ import 'package:ghichu/presentation/journey/reminder/create_reminder/new_reminde
 
 class NewReminderBloc extends Bloc<NewReminderEvent, NewReminderState> {
   @override
-  // TODO: implement initialState
-  NewReminderState get initialState => NewReminderState(
+  NewReminderState get initialState => InitialNewReminderState(
         isDateDetails: false,
         activeBtn: false,
       );
@@ -15,9 +14,14 @@ class NewReminderBloc extends Bloc<NewReminderEvent, NewReminderState> {
     if (event is ActiveBtn) {
       yield* _mapActiveBtn(event);
     }
+    if (event is PushDetailEvent) {
+      yield PushToDetailState();
+    }
   }
 
   Stream<NewReminderState> _mapActiveBtn(ActiveBtn event) async* {
-    yield state.update(activeBtn: event.activeBtn);
+    final currentState = state;
+    if (currentState is InitialNewReminderState)
+      yield currentState.update(activeBtn: event.activeBtn);
   }
 }

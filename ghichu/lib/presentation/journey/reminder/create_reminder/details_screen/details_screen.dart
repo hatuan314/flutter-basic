@@ -6,27 +6,33 @@ import 'package:ghichu/presentation/journey/reminder/create_reminder/new_reminde
 import 'package:ghichu/presentation/journey/reminder/create_reminder/widgets/time_widget.dart';
 import 'package:ghichu/common/extension/extensin_datetime.dart';
 import 'package:ghichu/presentation/journey/reminder/widgets/app_bar_reminder.dart';
+import 'package:ghichu/presentation/models/group.dart';
 
 class DetailsPage extends StatefulWidget {
   final bool isTime;
   final int date;
-  final String title, note, group;
+  final String title, note;
+  final Groups group;
+
   const DetailsPage(
       {Key key, this.isTime, this.date, this.group, this.title, this.note})
       : super(key: key);
+
   @override
   _detailsPageState createState() => _detailsPageState();
 }
 
 class _detailsPageState extends State<DetailsPage> {
   DetailsBloc detailsBloc = DetailsBloc();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white.withOpacity(0.95),
       appBar: AppBarReminderWidget(
         leading: () {
-          detailsBloc.detailsState.removePage(context);
+          // detailsBloc.detailsState.removePage(context);
+          Navigator.pop(context);
         },
         textLeft: DetailsContraints.leadingTxt,
         title: DetailsContraints.titleTxt,

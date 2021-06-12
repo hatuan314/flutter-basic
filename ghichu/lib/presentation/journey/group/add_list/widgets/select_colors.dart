@@ -8,7 +8,7 @@ import 'package:ghichu/presentation/journey/group/add_list/bloc/add_list_state.d
 import '../add_list_constaner.dart';
 
 class SelectColors extends StatelessWidget {
-  AddListState addListState;
+  InitialAddListState addListState;
 
   SelectColors({Key key, this.addListState}) : super(key: key);
 

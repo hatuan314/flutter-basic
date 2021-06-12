@@ -1,18 +1,26 @@
 import 'package:equatable/equatable.dart';
 
-class NewReminderState extends Equatable {
+abstract class NewReminderState extends Equatable {
+
+}
+class InitialNewReminderState extends NewReminderState {
   final bool isDateDetails;
   final bool activeBtn;
 
-  NewReminderState({this.isDateDetails, this.activeBtn});
-  NewReminderState update({bool isDateDetails, bool activeBtn}) =>
-      NewReminderState(
+  InitialNewReminderState({this.isDateDetails, this.activeBtn});
+  InitialNewReminderState update({bool isDateDetails, bool activeBtn}) =>
+      InitialNewReminderState(
           isDateDetails: isDateDetails ?? this.isDateDetails,
           activeBtn: activeBtn ?? this.activeBtn);
 
   @override
-  // TODO: implement props
   List<Object> get props => [this.activeBtn, this.isDateDetails];
+}
+
+class PushToDetailState extends NewReminderState {
+  @override
+  List<Object> get props => [];
+
 }
 // class NewReminderState extends Equatable {
 //   final bool activeBtn;

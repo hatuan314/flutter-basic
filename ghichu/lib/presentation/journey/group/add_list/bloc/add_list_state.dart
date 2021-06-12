@@ -1,25 +1,18 @@
 import 'package:flutter/material.dart';
-
-// class AddListState {
-//   int index;
-//   Color color;
-//
-//   AddListState({this.index, this.color});
-//  void upDate({int index,Color color}){
-//    this.index=index??this.index;
-//    this.color=color??this.color;
-//  }
-// }
 import 'package:equatable/equatable.dart';
-import 'package:flutter/cupertino.dart';
 
-class AddListState extends Equatable {
+abstract class AddListState extends Equatable {}
+
+class InitialAddListState extends AddListState {
   final Color color;
   final bool activeAddBtn;
   final int index;
-  AddListState({@required this.color, this.activeAddBtn, this.index});
-  AddListState update({Color selectColor, bool activeAddBtn, int index}) =>
-      AddListState(
+
+  InitialAddListState({@required this.color, this.activeAddBtn, this.index});
+
+  InitialAddListState update(
+          {Color selectColor, bool activeAddBtn, int index}) =>
+      InitialAddListState(
           color: selectColor ?? this.color,
           activeAddBtn: activeAddBtn ?? this.activeAddBtn,
           index: index ?? this.index);
@@ -30,4 +23,13 @@ class AddListState extends Equatable {
         this.index,
         this.activeAddBtn,
       ];
+}
+
+class SuccessAddListState extends AddListState {
+  final bool isCreate;
+
+  SuccessAddListState({@required this.isCreate});
+
+  @override
+  List<Object> get props => [this.isCreate];
 }
