@@ -1,0 +1,35 @@
+{
+	"reminder_app": [
+		{
+			"reminders": [
+				{
+					"title": "Title is required",
+					"notes": "Note is not required",
+					"details": {
+						"date": "2021-06-08",
+						"time": "20:00",
+						"priority": "None"
+					},
+					"list": "This is group name",
+					"create_at": "2021-06-08 20:00",
+					"last_update": "2021-06-08 20:00"
+				}	
+			],
+			"groups": [
+				{
+					"name": "Name is required",			
+					"color": "AE4132",
+					"create_at": "2021-06-08 20:00",
+					"last_update": "2021-06-08 20:00"
+				}
+			],
+			"priorities": [
+				{
+					"name": "Name is required",
+					"create_at": "2021-06-08 20:00",
+					"last_update": "2021-06-08 20:00"
+				}
+			]
+		}
+	]
+}
