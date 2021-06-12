@@ -1,11 +1,62 @@
-
 import 'package:flutter/material.dart';
+import 'package:ghichu/presentation/models/prorities.dart';
 import 'package:ghichu/presentation/models/reminder.dart';
 
 import 'group.dart';
 
+class ModelListReminder {
+  static Map<String, Map<String, List<Reminder>>> listReminder = {
+    'Reminder': {}
+  };
+  static Map<String, Group> myList = {
+    'Reminder': Group('Reminder', Colors.blue.value.toString(), 0, 0)
+  };
+  static Map<String, dynamic> reminderApp = ReminderApp(
+      reminders: [],
+      groups: [Groups(name: 'Reminder', color: Colors.blue.value.toString())],
+      priorities: []).toJson();
+}
 
-class ModelListReminder{
- static Map<String,Map<String,List<Reminder>>> listReminder={'Reminder':{}};
- static Map<String,Group> myList={'Reminder':Group('Reminder', Colors.blue.value.toString(), 0, 0)};
+//
+class ReminderApp {
+  List<Reminders> reminders;
+  List<Groups> groups;
+  List<Priorities> priorities;
+
+  ReminderApp({this.reminders, this.groups, this.priorities});
+
+  ReminderApp.fromJson(Map<String, dynamic> json) {
+    if (json['reminders'] != null) {
+      reminders = new List<Reminders>();
+      json['reminders'].forEach((v) {
+        reminders.add(new Reminders.fromJson(v));
+      });
+    }
+    if (json['groups'] != null) {
+      groups = new List<Groups>();
+      json['groups'].forEach((v) {
+        groups.add(new Groups.fromJson(v));
+      });
+    }
+    if (json['priorities'] != null) {
+      priorities = new List<Priorities>();
+      json['priorities'].forEach((v) {
+        priorities.add(new Priorities.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.reminders != null) {
+      data['reminders'] = this.reminders.map((v) => v.toJson()).toList();
+    }
+    if (this.groups != null) {
+      data['groups'] = this.groups.map((v) => v.toJson()).toList();
+    }
+    if (this.priorities != null) {
+      data['priorities'] = this.priorities.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
 }

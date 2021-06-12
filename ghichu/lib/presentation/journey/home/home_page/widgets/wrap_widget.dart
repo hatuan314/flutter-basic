@@ -10,8 +10,8 @@ import 'package:ghichu/presentation/journey/home/home_page/widgets/sight_widget.
 
 class WrapWidget extends StatelessWidget {
   CheckButtonBloc blocCheckButton;
-  HomePageBloc homePageBloc;
-  WrapWidget({Key key,this.blocCheckButton,this.homePageBloc}):super(key:key);
+  // HomePageBloc homePageBloc;
+  WrapWidget({Key key,this.blocCheckButton}):super(key:key);
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<Object>(
@@ -24,17 +24,11 @@ class WrapWidget extends StatelessWidget {
           child: AnimatedOpacity(
             opacity: blocCheckButton.check?0:1,
             duration: HomePageConstants.durationContainer,
-            child: StreamBuilder<HomePageState>(
-              initialData: homePageBloc.homePageState,
-              stream: homePageBloc.groupControllerStream,
-              builder: (context, snapshot) {
-                return Wrap(
-                    spacing: HomePageConstants.paddingWidth20,
-                    children: List.generate(3, (index) {
-                      return SightWidget(index: index,homePageBloc: homePageBloc,);
-                    }));
-              }
-            ),
+            child: Wrap(
+                spacing: HomePageConstants.paddingWidth20,
+                children: List.generate(3, (index) {
+                  return SightWidget(index: index);
+                }))
           ),
         );
       }

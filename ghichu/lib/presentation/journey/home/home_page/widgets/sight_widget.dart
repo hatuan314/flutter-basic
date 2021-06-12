@@ -20,12 +20,12 @@ class SightWidget extends StatelessWidget {
         if (HomePageConstants.list[index]['title'] == 'Today') {
           Navigator.pushNamed(context, HomePageConstants.list[index]['push'],arguments: {StringConstants.keyGroup:null})
               .whenComplete(() {
-            homePageBloc.update();
+            // homePageBloc.update();
           });
         } else {
           Navigator.pushNamed(context, HomePageConstants.list[index]['push'])
               .whenComplete(() {
-            homePageBloc.update();
+            // homePageBloc.update();
           });
         }
       },

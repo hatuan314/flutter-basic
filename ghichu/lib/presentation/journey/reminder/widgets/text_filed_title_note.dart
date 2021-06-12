@@ -1,16 +1,15 @@
-
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screen_util.dart';
-import 'package:ghichu/presentation/blocs/check_buttom.dart';
 import 'package:ghichu/presentation/journey/reminder/reminder_constants.dart';
-
+// ignore: must_be_immutable
 class TitleNoteWidget extends StatelessWidget {
-  CheckButtonBloc checkButtonBloc;
   TextEditingController titleController;
   TextEditingController noteController;
-  TitleNoteWidget({Key key, this.checkButtonBloc,this.titleController, this.noteController})
+  Function onChange;
+  TitleNoteWidget(
+      {Key key, this.onChange, this.titleController, this.noteController})
       : super(key: key);
 
   @override
@@ -31,15 +30,13 @@ class TitleNoteWidget extends StatelessWidget {
                 border: Border(
                     bottom: BorderSide(color: Colors.black, width: 0.2))),
             child: TextField(
-              controller: titleController,
-              decoration: InputDecoration(
-                  border: InputBorder.none,
-                  hintText: 'Title',
-                  hintStyle: TextStyle(fontSize: ReminderContants.fontHineText)),
-              onChanged: (value) {
-             checkButtonBloc.setButtom(value);
-              },
-            ),
+                controller: titleController,
+                decoration: InputDecoration(
+                    border: InputBorder.none,
+                    hintText: 'Title',
+                    hintStyle:
+                        TextStyle(fontSize: ReminderContants.fontHineText)),
+                onChanged: onChange),
           ),
           SizedBox(
             height: ScreenUtil().setHeight(5),
@@ -53,7 +50,8 @@ class TitleNoteWidget extends StatelessWidget {
                   decoration: InputDecoration(
                       border: InputBorder.none,
                       hintText: 'Notes',
-                      hintStyle: TextStyle(fontSize: ReminderContants.fontHineText)),
+                      hintStyle:
+                          TextStyle(fontSize: ReminderContants.fontHineText)),
                 ),
               ],
             ),

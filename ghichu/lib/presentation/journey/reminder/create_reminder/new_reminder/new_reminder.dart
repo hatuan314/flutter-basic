@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/screen_util.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ghichu/common/constants/layout_constants.dart';
 import 'package:ghichu/common/constants/route_constants.dart';
 import 'package:ghichu/common/constants/string_constants.dart';
 import 'package:ghichu/presentation/blocs/check_buttom.dart';
 import 'package:ghichu/presentation/journey/reminder/create_reminder/details_screen/bloc/details_bloc.dart';
-
 import 'package:ghichu/presentation/journey/reminder/create_reminder/new_reminder/bloc/new_reminder_bloc.dart';
+import 'package:ghichu/presentation/journey/reminder/create_reminder/new_reminder/bloc/new_reminder_event.dart';
 import 'package:ghichu/presentation/journey/reminder/create_reminder/new_reminder/bloc/new_reminder_state.dart';
 import 'package:ghichu/presentation/journey/reminder/create_reminder/new_reminder/new_reminder_constants.dart';
 import 'package:ghichu/presentation/journey/reminder/create_reminder/widgets/time_widget.dart';
@@ -15,10 +15,10 @@ import 'package:ghichu/presentation/journey/reminder/widgets/select_container.da
 import 'package:ghichu/presentation/journey/reminder/widgets/text_filed_title_note.dart';
 import 'package:ghichu/presentation/journey/widgets/app_bar.dart';
 import 'package:ghichu/presentation/journey/widgets/show_model_button_sheet.dart';
-import 'package:ghichu/presentation/models/model_map.dart';
+import 'package:ghichu/presentation/models/group.dart';
 
 class NewReminderPage extends StatefulWidget {
-  final List<String> listGroup;
+  final List<Groups> listGroup;
   final String title;
   final String note;
   final int date, index;
@@ -37,14 +37,13 @@ class NewReminderPage extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _newReminderPageState createState() => _newReminderPageState();
+  _NewReminderPageState createState() => _NewReminderPageState();
 }
 
-class _newReminderPageState extends State<NewReminderPage> {
+class _NewReminderPageState extends State<NewReminderPage> {
   TextEditingController titleController = new TextEditingController();
   TextEditingController noteController = new TextEditingController();
   CheckButtonBloc checkButtonBloc = CheckButtonBloc();
-  NewReminderBloc newReminderBloc = NewReminderBloc();
   DetailsBloc detailsBloc;
 
   @override
@@ -62,144 +61,137 @@ class _newReminderPageState extends State<NewReminderPage> {
 
   @override
   Widget build(BuildContext context) {
-    newReminderBloc.newReminderState.group =
-        ModelListReminder.myList['${widget.listGroup[0]}'].title;
-    return Scaffold(
-      backgroundColor: Colors.white.withOpacity(0.95),
-      appBar: AppBarWidget(
-        blocCheckButton: checkButtonBloc,
-        actions: () {
-          if (widget.isEdit == false) {
-            newReminderBloc.newReminderState.addTodoList(
-                titleController.text,
-                noteController.text,
-                newReminderBloc.newReminderState.valuesTime,
-                widget.listGroup[newReminderBloc.newReminderState.index],
-                'none',
-                DateTime.now().millisecondsSinceEpoch,
-                DateTime.now().millisecondsSinceEpoch,
-                newReminderBloc.newReminderState.isTimeDetails);
-          }
-          Navigator.pop(context);
-        },
-        leading: () {
-          showButtonModalSheet(context);
-        },
-        textLeft: NewReminderContants.textLeading,
-        textRight: widget.isEdit
-            ? NewReminderContants.textRightEdit
-            : NewReminderContants.textRight,
-        title: widget.isEdit
-            ? NewReminderContants.textTitleEdit
-            : NewReminderContants.textTitle,
-      ),
-      body: Padding(
-        padding: EdgeInsets.symmetric(
-          horizontal:LayoutConstants.paddingHorizontalApp,
+    return BlocBuilder<NewReminderBloc, NewReminderState>(
+        builder: (context, state) {
+      return Scaffold(
+        backgroundColor: Colors.white.withOpacity(0.95),
+        appBar: AppBarWidget(
+          actions: () {
+            if (widget.isEdit == false) {
+              // newReminderBloc.newReminderState.addTodoList(
+              //     titleController.text,
+              //     noteController.text,
+              //     newReminderBloc.newReminderState.valuesTime,
+              //     widget.listGroup[newReminderBloc.newReminderState.index],
+              //     'none',
+              //     DateTime.now().millisecondsSinceEpoch,
+              //     DateTime.now().millisecondsSinceEpoch,
+              //     newReminderBloc.newReminderState.isTimeDetails);
+            }
+            Navigator.pop(context);
+          },
+          leading: () {
+            showButtonModalSheet(context);
+          },
+          color: state.activeBtn ? Colors.blue : Colors.black38,
+          textLeft: NewReminderContants.textLeading,
+          textRight: widget.isEdit
+              ? NewReminderContants.textRightEdit
+              : NewReminderContants.textRight,
+          title: widget.isEdit
+              ? NewReminderContants.textTitleEdit
+              : NewReminderContants.textTitle,
         ),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              TitleNoteWidget(
-                checkButtonBloc: checkButtonBloc,
-                titleController: titleController,
-                noteController: noteController,
-              ),
-              widget.isEdit
-                  ? Padding(
-                      padding: EdgeInsets.only(top: ReminderContants.marginTop),
-                      child: TimeWidget(
-                        detailsBloc: detailsBloc,
+        body: Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal: LayoutConstants.paddingHorizontalApp,
+          ),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                TitleNoteWidget(
+                  onChange: (value) {
+                    BlocProvider.of<NewReminderBloc>(context)
+                        .add(ActiveBtn(title: value));
+                  },
+                  titleController: titleController,
+                  noteController: noteController,
+                ),
+                widget.isEdit
+                    ? Padding(
+                        padding:
+                            EdgeInsets.only(top: ReminderContants.marginTop),
+                        child: TimeWidget(
+                          detailsBloc: detailsBloc,
+                        ),
+                      )
+                    : SelectContainer(
+                        title: ReminderContants.detailsTxt,
+                        buttonDetails: false,
+                        // buttonDetails: snapshot.data.isButtonDetails,
+                        // timeDetails: snapshot.data.isTimeDetails,
+                        // valuesTime: snapshot.data.valuesTime,
+                        onTap: () {
+                          // Navigator.pushNamed(context, RouteList.details,
+                          //     arguments: {
+                          //       // StringConstants.reminderDate:
+                          //       //     snapshot.data.valuesTime,
+                          //       // StringConstants.isTimeArg:
+                          //       //     snapshot.data.isTimeDetails,
+                          //       StringConstants.keyGroup: widget.listGroup[
+                          //           newReminderBloc.newReminderState.index],
+                          //       StringConstants.titleReminder:
+                          //           titleController.text,
+                          //       StringConstants.noteReminder: noteController.text,
+                          //     }).then((value) {
+                          //   newReminderBloc.setTime(value);
+                          // });
+                        },
                       ),
-                    )
-                  : StreamBuilder<NewReminderState>(
-                      initialData: newReminderBloc.newReminderState,
-                      stream: newReminderBloc.listGroupController,
-                      builder: (context, snapshot) {
-                        return SelectContainer(
-                          title: ReminderContants.detailsTxt,
-                          buttonDetails: snapshot.data.isButtonDetails,
-                          timeDetails: snapshot.data.isTimeDetails,
-                          valuesTime: snapshot.data.valuesTime,
-                          onTap: () {
-                            Navigator.pushNamed(context, RouteList.details,
-                                arguments: {
-                                  StringConstants.reminderDate:
-                                      snapshot.data.valuesTime,
-                                  StringConstants.isTimeArg:
-                                      snapshot.data.isTimeDetails,
-                                  StringConstants.keyGroup: widget.listGroup[
-                                      newReminderBloc.newReminderState.index],
-                                  StringConstants.titleReminder:
-                                      titleController.text,
-                                  StringConstants.noteReminder:
-                                      noteController.text,
-                                }).then((value) {
-                              newReminderBloc.setTime(value);
-                            });
-                          },
-                        );
-                      }),
-              StreamBuilder<NewReminderState>(
-                  initialData: newReminderBloc.newReminderState,
-                  stream: newReminderBloc.listGroupController,
-                  builder: (context, snapshot) {
-                    return SelectContainer(
-                      title: ReminderContants.listTxt,
-                      buttonDetails: false,
-                      group: snapshot.data.group,
-                      color: ModelListReminder
-                          .myList['${widget.listGroup[snapshot.data.index]}']
-                          .color,
-                      onTap: () async {
-                        Navigator.pushNamed(context, RouteList.listGroup,
-                            arguments: {
-                              StringConstants.listGroup: widget.listGroup,
-                              StringConstants.listIndexArg: snapshot.data.index
-                            }).then((index) {
-                          newReminderBloc.setGroup(
-                              ModelListReminder
-                                  .myList['${widget.listGroup[index]}'].title,
-                              index);
-                        });
-                      },
-                    );
-                  }),
-            ],
+                SelectContainer(
+                  title: ReminderContants.listTxt,
+                  buttonDetails: false,
+                  // group: snapshot.data.group,
+                  color: widget.listGroup[0].color,
+                  onTap: () async {
+                    Navigator.pushNamed(context, RouteList.listGroup,
+                        arguments: {
+                          StringConstants.listGroup: widget.listGroup,
+                          // StringConstants.listIndexArg: snapshot.data.index
+                        }).then((index) {
+                      // newReminderBloc.setGroup(
+                      //     ModelListReminder
+                      //         .myList['${widget.listGroup[index]}'].title,
+                      //     index);
+                    });
+                  },
+                )
+              ],
+            ),
           ),
         ),
-      ),
-    );
+      );
+    });
   }
 
   void setData() {
-    checkButtonBloc.setButtom(widget.title);
-    newReminderBloc.setGroup(
-        ModelListReminder.myList['${widget.listGroup[widget.index]}'].title,
-        widget.index);
-    titleController.text = widget.title;
-    noteController.text = widget.note;
-    detailsBloc.setTimeSwitch(widget.isTime);
-    if (widget.isTime == true) {
-      detailsBloc.detailsState.timeHour(
-          DateTime.fromMillisecondsSinceEpoch(widget.date).hour,
-          DateTime.fromMillisecondsSinceEpoch(widget.date).minute);
-    }
-    if (widget.date != null) {
-      detailsBloc.detailsState.dateTime =
-          DateTime.fromMillisecondsSinceEpoch(widget.date);
-      detailsBloc.detailsState
-          .dateScheldul(DateTime.fromMillisecondsSinceEpoch(widget.date));
-      detailsBloc.setDateSwitch(true);
-    } else {
-      detailsBloc.setDateSwitch(false);
-    }
+    // checkButtonBloc.setButtom(widget.title);
+    // newReminderBloc.setGroup(
+    //     ModelListReminder.myList['${widget.listGroup[widget.index]}'].title,
+    //     widget.index);
+    // titleController.text = widget.title;
+    // noteController.text = widget.note;
+    // detailsBloc.setTimeSwitch(widget.isTime);
+    // if (widget.isTime == true) {
+    //   detailsBloc.detailsState.timeHour(
+    //       DateTime.fromMillisecondsSinceEpoch(widget.date).hour,
+    //       DateTime.fromMillisecondsSinceEpoch(widget.date).minute);
+    // }
+    // if (widget.date != null) {
+    //   detailsBloc.detailsState.dateTime =
+    //       DateTime.fromMillisecondsSinceEpoch(widget.date);
+    //   detailsBloc.detailsState
+    //       .dateScheldul(DateTime.fromMillisecondsSinceEpoch(widget.date));
+    //   detailsBloc.setDateSwitch(true);
+    // } else {
+    //   detailsBloc.setDateSwitch(false);
+    // }
   }
 
   @override
   void dispose() {
     checkButtonBloc.dispose();
-    newReminderBloc.dispose();
+
     if (widget.isEdit) {
       detailsBloc.dispose();
     }

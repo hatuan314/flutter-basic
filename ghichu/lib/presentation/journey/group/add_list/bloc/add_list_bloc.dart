@@ -1,27 +1,38 @@
-import 'dart:async';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ghichu/presentation/journey/group/add_list/add_list_constaner.dart';
-import 'package:ghichu/presentation/journey/group/add_list/bloc/add_list_state.dart';
-import 'package:ghichu/presentation/models/group.dart';
-import 'package:ghichu/presentation/models/model_map.dart';
 
-class AddListBloc {
-  AddListState addListState = AddListState(index: 4,color: AddListConstants.listColors[4]);
-  StreamController _selectColor =
-      new StreamController<AddListState>.broadcast();
-  Stream get selectColor => _selectColor.stream;
-  void setColor(int index, Color color) {
-          addListState.upDate(index: index,color: color);
-    _selectColor.sink.add(addListState);
-  }
-  void addToDoGroup(String title, String color, int createAt, int lastUpdate) {
-    ModelListReminder.myList.addAll(
-        {'$title+$createAt': Group(title, color, createAt, lastUpdate)});
-    ModelListReminder.listReminder.addAll({'$title+$createAt': {}});
+import 'add_list_event.dart';
+import 'add_list_state.dart';
+
+class AddListBloc extends Bloc<AddListEvent, AddListState> {
+  @override
+  AddListState get initialState => AddListState(
+      color: AddListConstants.listColors[4], index: 4, activeAddBtn: false);
+
+  @override
+  Stream<AddListState> mapEventToState(AddListEvent event) async* {
+
+    if (event is SelectColorEvent) {
+      yield* _mapSelectColorEventToState(event);
+    }
+    if (event is ActiveAddBtn) {
+      yield* _mapActiveAddBtn(event);
+    }
   }
 
-  dispose() {
-    _selectColor.close();
+  Stream<AddListState> _mapActiveAddBtn(ActiveAddBtn event) async* {
+    if (event.text.trim().isEmpty) {
+      yield state.update(activeAddBtn: false);
+    } else {
+      yield state.update(activeAddBtn: true);
+    }
+  }
+
+  Stream<AddListState> _mapSelectColorEventToState(
+      SelectColorEvent event) async* {
+    final Color selectColor = event.color;
+    final int indexSelect = event.indexSelect;
+    yield state.update(selectColor: selectColor, index: indexSelect);
   }
 }

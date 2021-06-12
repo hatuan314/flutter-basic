@@ -33,19 +33,19 @@ class _detailsPageState extends State<DetailsPage> {
         actions: widget.title.isEmpty
             ? null
             : () {
-                NewReminderState().addTodoList(
-                    widget.title,
-                    widget.note,
-                    detailsBloc.detailsState.dateTime.getTime(
-                        detailsBloc.detailsState.date,
-                        detailsBloc.detailsState.time,
-                        detailsBloc.detailsState.hour,
-                        detailsBloc.detailsState.minuner),
-                    widget.group,
-                    'none',
-                    DateTime.now().millisecondsSinceEpoch,
-                    DateTime.now().millisecondsSinceEpoch,
-                    detailsBloc.detailsState.time);
+                // NewReminderState().addTodoList(
+                //     widget.title,
+                //     widget.note,
+                //     detailsBloc.detailsState.dateTime.getTime(
+                //         detailsBloc.detailsState.date,
+                //         detailsBloc.detailsState.time,
+                //         detailsBloc.detailsState.hour,
+                //         detailsBloc.detailsState.minuner),
+                //     widget.group,
+                //     'none',
+                //     DateTime.now().millisecondsSinceEpoch,
+                //     DateTime.now().millisecondsSinceEpoch,
+                //     detailsBloc.detailsState.time);
                 Navigator.pop(context);
                 Navigator.pop(context);
               },

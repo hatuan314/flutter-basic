@@ -1,64 +1,22 @@
-import 'package:ghichu/presentation/journey/home/home_page/home_page_constants.dart';
-import 'package:ghichu/presentation/journey/reminder/schedule_reminder/bloc/schedule_reminder_state.dart';
-import 'package:ghichu/presentation/journey/reminder/today_reminder/bloc/today_reminder_state.dart';
-import 'package:ghichu/presentation/models/model_map.dart';
-import 'package:intl/intl.dart';
-class HomePageState {
-  List<String> keyMyList = [];
-  int leghtAll ;
-  int leghtToDay ;
-  int leghtSchedule ;
-  int index;
-  bool buttonDelete = false;
-  var data = HomePageConstants.list;
-  Map<String, int> myListLeght ;
-  HomePageState(
-      {this.keyMyList,
-      this.leghtAll,
-      this.leghtToDay,
-      this.leghtSchedule,
-      this.index,
-      this.buttonDelete,
-      this.data,
-      this.myListLeght});
+import 'package:equatable/equatable.dart';
+import 'package:ghichu/presentation/models/group.dart';
 
-  void update() {
-    setLeght();
-    for (int i = 0; i < HomePageConstants.list.length; i++) {
-      if (HomePageConstants.list[i]['title'] == 'Today') {
-        HomePageConstants.list[i]['sum'] = TodayReminderState(nowDate:  DateFormat('yyyy-MM-dd').format(DateTime.now())).getToday();
-      } else if (HomePageConstants.list[i]['title'] == 'Scheduled') {
-        HomePageConstants.list[i]['sum'] = ScheduleReminderState(reminderSchedule: {}).getReminder();
-      } else if (HomePageConstants.list[i]['title'] == 'All') {
-        HomePageConstants.list[i]['sum'] = leghtAll;
-      }
-    }
-  }
-
-  void setButtonDelete(int index) {
-    this.index = index;
-  }
-
-  void addList() {
-    keyMyList.add(ModelListReminder.myList.keys
-        .elementAt(ModelListReminder.myList.length - 1));
-  }
-
-  void setLeght() {
-    int all = 0;
-    int leght = 0;
-    ModelListReminder.listReminder.forEach((key, value) {
-      value.forEach((key, value) {
-        all = all + value.length;
-        leght = leght + value.length;
-      });
-      if (key == "Reminder") {
-        myListLeght['Reminder'] = leght;
-      } else {
-        myListLeght.addAll({key: leght});
-      }
-      leght = 0;
-    });
-    leghtAll = all;
-  }
+// ignore: must_be_immutable
+class HomePageState extends Equatable {
+  List<Groups> keyMyList = [];
+  bool updateOrder;
+  Map<String, int> myListLeght;
+  HomePageState({this.keyMyList, this.updateOrder, this.myListLeght});
+  HomePageState update(
+          {List<Groups> keyMyList,
+          bool updateOrder,
+          Map<String, int> myListLeght}) =>
+      HomePageState(
+          keyMyList: keyMyList ?? this.keyMyList,
+          updateOrder: updateOrder ?? this.updateOrder,
+          myListLeght: myListLeght ?? this.myListLeght);
+  @override
+  // TODO: implement props
+  List<Object> get props =>
+      [this.keyMyList, this.updateOrder, this.myListLeght];
 }

@@ -1,34 +1,34 @@
 import 'dart:async';
 
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ghichu/data/data_group_respositories_req.dart';
+import 'package:ghichu/presentation/journey/home/home_page/bloc/home_page_event.dart';
 import 'package:ghichu/presentation/journey/home/home_page/bloc/home_page_state.dart';
-import 'package:ghichu/presentation/models/model_map.dart';
+import 'package:ghichu/presentation/models/group.dart';
 
-import '../home_page_constants.dart';
-
-class HomePageBloc {
-  HomePageState homePageState = HomePageState(
-      keyMyList: ['Reminder'],
-      leghtAll: 0,
-      leghtToDay: 0,
-      leghtSchedule: 0,
-      buttonDelete: false,
-      data: HomePageConstants.list,
-      myListLeght: {'Reminder': 0});
-  StreamController groupController =
-      new StreamController<HomePageState>.broadcast();
-  Stream get groupControllerStream => groupController.stream;
-  void update() {
-    homePageState.update();
-    homePageState.setLeght();
-    groupController.sink.add(homePageState);
+class HomePageBloc extends Bloc<HomePageEvent, HomePageState> {
+  @override
+  // TODO: implement initialState
+  HomePageState get initialState =>
+      HomePageState(keyMyList: [], myListLeght: {'Reminder': 0});
+  @override
+  Stream<HomePageState> mapEventToState(HomePageEvent event) async* {
+    if (event is UpDate) {
+      yield* _mapUpdataToState(event);
+    }
+    if (event is OrderGroup) {
+      yield* _mapOrderGroup(event);
+    }
   }
 
-  void getKey() {
-    homePageState.keyMyList = ModelListReminder.myList.keys.toList();
-    groupController.sink.add(homePageState);
+  Stream<HomePageState> _mapOrderGroup(OrderGroup orderGroup) async* {
+    List<Groups> listGroupOrder = orderGroup.listGroup;
+    bool updateOrder=orderGroup.updateOrder;
+    DataGroupRespositoriesReq().orderGroup(listGroupOrder);
+    yield state.update(keyMyList: listGroupOrder,updateOrder: updateOrder);
   }
-
-  void dispose() {
-    groupController.close();
+  Stream<HomePageState> _mapUpdataToState(UpDate upDate) async* {
+    List<Groups> listGroup = await DataGroupRespositoriesReq().fetchGroup();
+    yield state.update(keyMyList: listGroup);
   }
 }

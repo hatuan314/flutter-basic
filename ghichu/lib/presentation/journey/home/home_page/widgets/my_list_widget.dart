@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ghichu/common/constants/route_constants.dart';
 import 'package:ghichu/common/constants/string_constants.dart';
+import 'package:ghichu/presentation/journey/home/home_page/bloc/home_page_state.dart';
 import 'package:ghichu/presentation/journey/home/home_page/home_page_constants.dart';
 import 'package:ghichu/presentation/journey/widgets/icon_widget.dart';
 import 'package:ghichu/presentation/models/model_map.dart';
@@ -10,10 +11,17 @@ class MyListWidget extends StatelessWidget {
   int index;
   String keyGroup;
   String title;
+  HomePageState state;
   int leght = 0;
   String color;
   MyListWidget(
-      {Key key, this.index, this.title, this.leght, this.color, this.keyGroup})
+      {Key key,
+      this.index,
+      this.title,
+      this.leght,
+      this.color,
+      this.keyGroup,
+      this.state})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -32,10 +40,10 @@ class MyListWidget extends StatelessWidget {
                 topRight: index == 0
                     ? HomePageConstants.radiusCircle15
                     : Radius.circular(0),
-                bottomLeft: index == ModelListReminder.myList.length - 1
+                bottomLeft: index == state.keyMyList.length - 1
                     ? HomePageConstants.radiusCircle15
                     : Radius.circular(0),
-                bottomRight: index == ModelListReminder.myList.length - 1
+                bottomRight: index == state.keyMyList.length - 1
                     ? HomePageConstants.radiusCircle15
                     : Radius.circular(0),
               )),
@@ -60,10 +68,9 @@ class MyListWidget extends StatelessWidget {
                   decoration: BoxDecoration(
                       border: Border(
                           bottom: BorderSide(
-                              color:
-                                  index == ModelListReminder.myList.length - 1
-                                      ? Colors.transparent
-                                      : Colors.black12))),
+                              color: index == state.keyMyList.length - 1
+                                  ? Colors.transparent
+                                  : Colors.black12))),
                   child: Row(
                     children: [
                       Expanded(

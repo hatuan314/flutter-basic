@@ -1,37 +1,23 @@
-import 'dart:async';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ghichu/presentation/journey/reminder/create_reminder/new_reminder/bloc/new_reminder_event.dart';
 import 'package:ghichu/presentation/journey/reminder/create_reminder/new_reminder/bloc/new_reminder_state.dart';
 
-class NewReminderBloc {
-  NewReminderState newReminderState = NewReminderState(
-    title: '',
-    note: '',
-    index: 0,
-    nowDate: DateTime.now(),
-    button: false,
-    isButtonDetails: false,
-    isTimeDetails: false,
-  );
-  StreamController _listGroupController =
-      StreamController<NewReminderState>.broadcast();
+class NewReminderBloc extends Bloc<NewReminderEvent, NewReminderState> {
+  @override
+  // TODO: implement initialState
+  NewReminderState get initialState => NewReminderState(
+        isDateDetails: false,
+        activeBtn: false,
+      );
 
-  Stream get listGroupController => _listGroupController.stream;
-
-  void setGroup(String group, int index) {
-    newReminderState.setGroup(group, index);
-    _listGroupController.sink.add(newReminderState);
+  @override
+  Stream<NewReminderState> mapEventToState(NewReminderEvent event) async* {
+    if (event is ActiveBtn) {
+      yield* _mapActiveBtn(event);
+    }
   }
 
-  void setTime(var time) {
-    newReminderState.setTime(time);
-    _listGroupController.sink.add(newReminderState);
-  }
-
-  void update() {
-    _listGroupController.sink.add(newReminderState);
-  }
-
-  void dispose() {
-    _listGroupController.close();
+  Stream<NewReminderState> _mapActiveBtn(ActiveBtn event) async* {
+    yield state.update(activeBtn: event.activeBtn);
   }
 }
