@@ -32,7 +32,6 @@ class _NewList extends State<NewList> {
       create: (context) => AddListBloc(),
       child: BlocBuilder<AddListBloc, AddListState>(
         builder: (context, state) {
-          log("currenState - state: $state");
           return StreamBuilder<CreateListState>(
               initialData:
               CreateListState(listColor: Colors.blue, clearButton: false),
@@ -81,7 +80,6 @@ class _NewList extends State<NewList> {
                                 ),
                                 onChanged: (value) {
                                   if (value.isNotEmpty) {
-                                    log("active");
                                     BlocProvider.of<AddListBloc>(context)
                                         .add(ActiveAddButtonEvent(activeAddButton: true));
                                   } else {
@@ -142,7 +140,6 @@ class _NewList extends State<NewList> {
           selectedColor: state.selectColor,
           onColorChange: (selected) {
             // listStream.setColor(selected),
-            log('CreateNewList -Select');
             BlocProvider.of<AddListBloc>(context)
                 .add(SelectColorEvent(color: selected));
             // log(state.selectColor.toString())

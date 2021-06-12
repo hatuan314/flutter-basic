@@ -22,6 +22,7 @@ class PriorityItemWidget extends StatelessWidget {
       children: [
         GestureDetector(
           onTap: onTap,
+          behavior: HitTestBehavior.translucent,
           child: Container(
               margin: EdgeInsets.all(ScreenUtil().setHeight(15)),
               child: Row(children: [
