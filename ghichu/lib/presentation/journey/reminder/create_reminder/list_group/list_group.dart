@@ -1,11 +1,13 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ghichu/presentation/journey/reminder/create_reminder/list_group/bloc/list_group_bloc.dart';
 import 'package:ghichu/presentation/journey/reminder/create_reminder/list_group/list_group_constants.dart';
-import 'package:ghichu/presentation/journey/reminder/create_reminder/list_group/widgets/list_group_widget.dart';
+import 'package:ghichu/presentation/journey/reminder/create_reminder/widgets/list_group_widget.dart';
+
 import 'package:ghichu/presentation/journey/reminder/widgets/app_bar_reminder.dart';
 import 'package:ghichu/presentation/models/model_map.dart';
+
+// ignore: must_be_immutable
 class ListGroupScreen extends StatefulWidget {
   int index;
   List<String> list;

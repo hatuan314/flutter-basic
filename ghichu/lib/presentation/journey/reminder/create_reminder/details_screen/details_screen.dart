@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screen_util.dart';
 import 'package:ghichu/presentation/journey/reminder/create_reminder/details_screen/bloc/details_bloc.dart';
+import 'package:ghichu/presentation/journey/reminder/create_reminder/details_screen/bloc/details_state.dart';
 import 'package:ghichu/presentation/journey/reminder/create_reminder/details_screen/details_containst.dart';
-import 'package:ghichu/presentation/journey/reminder/create_reminder/new_reminder/bloc/new_reminder_state.dart';
-import 'package:ghichu/presentation/journey/reminder/create_reminder/widgets/time_widget.dart';
-import 'package:ghichu/common/extension/extensin_datetime.dart';
+import 'package:ghichu/presentation/journey/reminder/create_reminder/details_screen/widgets/time_widget.dart';
+
 import 'package:ghichu/presentation/journey/reminder/widgets/app_bar_reminder.dart';
+import 'package:ghichu/presentation/journey/reminder/widgets/select_container.dart';
 import 'package:ghichu/presentation/models/group.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class DetailsPage extends StatefulWidget {
   final bool isTime;
@@ -19,65 +21,65 @@ class DetailsPage extends StatefulWidget {
       : super(key: key);
 
   @override
-  _detailsPageState createState() => _detailsPageState();
+  _DetailsPageState createState() => _DetailsPageState();
 }
 
-class _detailsPageState extends State<DetailsPage> {
-  DetailsBloc detailsBloc = DetailsBloc();
-
+class _DetailsPageState extends State<DetailsPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white.withOpacity(0.95),
-      appBar: AppBarReminderWidget(
-        leading: () {
-          // detailsBloc.detailsState.removePage(context);
-          Navigator.pop(context);
-        },
-        textLeft: DetailsContraints.leadingTxt,
-        title: DetailsContraints.titleTxt,
-        actions: widget.title.isEmpty
-            ? null
-            : () {
-                // NewReminderState().addTodoList(
-                //     widget.title,
-                //     widget.note,
-                //     detailsBloc.detailsState.dateTime.getTime(
-                //         detailsBloc.detailsState.date,
-                //         detailsBloc.detailsState.time,
-                //         detailsBloc.detailsState.hour,
-                //         detailsBloc.detailsState.minuner),
-                //     widget.group,
-                //     'none',
-                //     DateTime.now().millisecondsSinceEpoch,
-                //     DateTime.now().millisecondsSinceEpoch,
-                //     detailsBloc.detailsState.time);
-                Navigator.pop(context);
-                Navigator.pop(context);
-              },
-        textRight: Text(
-          DetailsContraints.textRight,
-          style: TextStyle(
-              color: widget.title.isEmpty ? Colors.black26 : Colors.blue,
-              fontWeight: FontWeight.w600,
-              fontSize: ScreenUtil().setSp(18)),
-        ),
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.only(
-              left: ScreenUtil().setWidth(15),
-              right: ScreenUtil().setWidth(15)),
-          child: Column(
-            children: [
-              TimeWidget(
-                detailsBloc: detailsBloc,
-              )
-            ],
-          ),
-        ),
-      ),
-    );
+    return BlocConsumer<DetailsBloc, DetailsState>(
+        listener: (context, state) {},
+        builder: (context, state) {
+          if (state is InitDetailsState) {
+            return Scaffold(
+              backgroundColor: Colors.white.withOpacity(0.95),
+              appBar: AppBarReminderWidget(
+                leading: () {
+                  // detailsBloc.detailsState.removePage(context);
+                  Navigator.pop(context);
+                },
+                textLeft: DetailsContraints.leadingTxt,
+                title: DetailsContraints.titleTxt,
+                actions: widget.title.isEmpty
+                    ? null
+                    : () {
+                        Navigator.pop(context);
+                        Navigator.pop(context);
+                      },
+                textRight: Text(
+                  DetailsContraints.textRight,
+                  style: TextStyle(
+                      color:
+                          widget.title.isEmpty ? Colors.black26 : Colors.blue,
+                      fontWeight: FontWeight.w600,
+                      fontSize: ScreenUtil().setSp(18)),
+                ),
+              ),
+              body: SingleChildScrollView(
+                child: Padding(
+                  padding: EdgeInsets.only(
+                      left: ScreenUtil().setWidth(15),
+                      right: ScreenUtil().setWidth(15)),
+                  child: Column(
+                    children: [
+                      TimeWidget(
+                        state: state,
+                      ),
+                      SelectContainer(
+                        title: 'Mức ưu tiên',
+                        group: 'Không có',
+                        buttonDetails: false,
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            );
+          }
+          return Material(
+            color: Colors.white,
+          );
+        });
   }
 
   @override
@@ -102,7 +104,6 @@ class _detailsPageState extends State<DetailsPage> {
 
   @override
   void dispose() {
-    detailsBloc.dispose();
     super.dispose();
   }
 }

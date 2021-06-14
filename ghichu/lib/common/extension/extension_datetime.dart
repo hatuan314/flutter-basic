@@ -1,6 +1,6 @@
 import 'package:intl/intl.dart';
 extension DateTimeExtension on DateTime {
-  String get now {
+  String get getDateOnString {
     String thu = '';
     if (this.weekday == 1) {
       thu = 'Thứ Hai';

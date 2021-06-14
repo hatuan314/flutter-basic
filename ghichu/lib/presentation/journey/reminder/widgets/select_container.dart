@@ -90,7 +90,7 @@ class SelectContainer extends StatelessWidget {
                       Text(
                         group == null ? '' : group,
                         style: TextStyle(
-                            color: Colors.black87,
+                            color: Colors.black45,
                             fontSize: ReminderContants.fontSizeGroup),
                       )
                     ],

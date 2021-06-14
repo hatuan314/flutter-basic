@@ -5,11 +5,12 @@ import 'package:ghichu/common/constants/route_constants.dart';
 import 'package:ghichu/common/constants/string_constants.dart';
 import 'package:ghichu/presentation/blocs/check_buttom.dart';
 import 'package:ghichu/presentation/journey/reminder/create_reminder/details_screen/bloc/details_bloc.dart';
+import 'package:ghichu/presentation/journey/reminder/create_reminder/details_screen/widgets/time_widget.dart';
 import 'package:ghichu/presentation/journey/reminder/create_reminder/new_reminder/bloc/new_reminder_bloc.dart';
 import 'package:ghichu/presentation/journey/reminder/create_reminder/new_reminder/bloc/new_reminder_event.dart';
 import 'package:ghichu/presentation/journey/reminder/create_reminder/new_reminder/bloc/new_reminder_state.dart';
 import 'package:ghichu/presentation/journey/reminder/create_reminder/new_reminder/new_reminder_constants.dart';
-import 'package:ghichu/presentation/journey/reminder/create_reminder/widgets/time_widget.dart';
+
 import 'package:ghichu/presentation/journey/reminder/reminder_constants.dart';
 import 'package:ghichu/presentation/journey/reminder/widgets/select_container.dart';
 import 'package:ghichu/presentation/journey/reminder/widgets/text_filed_title_note.dart';
@@ -48,9 +49,6 @@ class _NewReminderPageState extends State<NewReminderPage> {
 
   @override
   void initState() {
-    if (widget.isEdit) {
-      detailsBloc = DetailsBloc();
-    }
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       if (widget.isEdit) {
         setData();
@@ -124,9 +122,7 @@ class _NewReminderPageState extends State<NewReminderPage> {
                       ? Padding(
                           padding:
                               EdgeInsets.only(top: ReminderContants.marginTop),
-                          child: TimeWidget(
-                            detailsBloc: detailsBloc,
-                          ),
+                          child: TimeWidget(),
                         )
                       : SelectContainer(
                           title: ReminderContants.detailsTxt,
@@ -197,9 +193,6 @@ class _NewReminderPageState extends State<NewReminderPage> {
   void dispose() {
     checkButtonBloc.dispose();
 
-    if (widget.isEdit) {
-      detailsBloc.dispose();
-    }
     super.dispose();
   }
 }

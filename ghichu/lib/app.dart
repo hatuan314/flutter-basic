@@ -7,19 +7,18 @@ class MyApp extends StatelessWidget {
   String get initialRoute {
     return RouteList.homePage;
   }
+
   @override
   Widget build(BuildContext context) {
-    return ScreenUtilInit
-      (
+    return ScreenUtilInit(
       designSize: Size(414, 896),
-      builder:()=> MaterialApp(
+      builder: () => MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
             primarySwatch: Colors.blue,
             visualDensity: VisualDensity.adaptivePlatformDensity,
             textSelectionHandleColor: Colors.amberAccent,
-            fontFamily: 'MS'
-        ),
+            fontFamily: 'MS'),
         // home: Screen2(),
         routes: Routes.getAll(),
         initialRoute: initialRoute,
@@ -28,4 +27,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
