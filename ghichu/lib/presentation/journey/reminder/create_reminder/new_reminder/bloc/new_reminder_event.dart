@@ -14,6 +14,4 @@ class ActiveBtn extends NewReminderEvent {
   }
 }
 
-class PushDetailEvent extends NewReminderEvent {
-
-}
+class PushDetailEvent extends NewReminderEvent {}

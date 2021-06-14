@@ -1,8 +1,7 @@
 import 'package:equatable/equatable.dart';
 
-abstract class NewReminderState extends Equatable {
+abstract class NewReminderState extends Equatable {}
 
-}
 class InitialNewReminderState extends NewReminderState {
   final bool isDateDetails;
   final bool activeBtn;
@@ -20,7 +19,6 @@ class InitialNewReminderState extends NewReminderState {
 class PushToDetailState extends NewReminderState {
   @override
   List<Object> get props => [];
-
 }
 // class NewReminderState extends Equatable {
 //   final bool activeBtn;

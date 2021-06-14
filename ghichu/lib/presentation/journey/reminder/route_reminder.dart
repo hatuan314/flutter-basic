@@ -6,11 +6,13 @@ import 'package:ghichu/presentation/journey/reminder/all_reminder/all_reminder_s
 import 'package:ghichu/presentation/journey/reminder/create_reminder/details_screen/details_screen.dart';
 import 'package:ghichu/presentation/journey/reminder/create_reminder/list_group/list_group.dart';
 import 'package:ghichu/presentation/journey/reminder/create_reminder/new_reminder/bloc/new_reminder_bloc.dart';
-import 'package:ghichu/presentation/journey/reminder/create_reminder/new_reminder/bloc/new_reminder_event.dart';
+
 import 'package:ghichu/presentation/journey/reminder/create_reminder/new_reminder/new_reminder.dart';
 
 import 'package:ghichu/presentation/journey/reminder/schedule_reminder/schedule_reminder_screen.dart';
 import 'package:ghichu/presentation/journey/reminder/today_reminder/today_reminder_screen.dart';
+
+import 'create_reminder/new_reminder/bloc/new_reminder_event.dart';
 
 class RouteReminder {
   static Map<String, WidgetBuilder> getAll() {
@@ -55,7 +57,7 @@ class RouteReminder {
         return MultiBlocProvider(
             providers: [
               BlocProvider<NewReminderBloc>(
-                  create: (context) => NewReminderBloc()..add(UpDate())),
+                  create: (context) => NewReminderBloc()),
             ],
             child: NewReminderPage(
               listGroup: list,

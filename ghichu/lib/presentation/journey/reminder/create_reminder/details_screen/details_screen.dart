@@ -83,21 +83,21 @@ class _detailsPageState extends State<DetailsPage> {
   @override
   void initState() {
     super.initState();
-    detailsBloc.setTimeSwitch(widget.isTime);
-    if (widget.isTime == true) {
-      detailsBloc.detailsState.timeHour(
-          DateTime.fromMillisecondsSinceEpoch(widget.date).hour,
-          DateTime.fromMillisecondsSinceEpoch(widget.date).minute);
-    }
-    if (widget.date != null) {
-      detailsBloc.detailsState.dateTime =
-          DateTime.fromMillisecondsSinceEpoch(widget.date);
-      detailsBloc.detailsState
-          .dateScheldul(DateTime.fromMillisecondsSinceEpoch(widget.date));
-      detailsBloc.setDateSwitch(true);
-    } else {
-      detailsBloc.setDateSwitch(false);
-    }
+    // detailsBloc.setTimeSwitch(widget.isTime);
+    // if (widget.isTime == true) {
+    //   detailsBloc.detailsState.timeHour(
+    //       DateTime.fromMillisecondsSinceEpoch(widget.date).hour,
+    //       DateTime.fromMillisecondsSinceEpoch(widget.date).minute);
+    // }
+    // if (widget.date != null) {
+    //   detailsBloc.detailsState.dateTime =
+    //       DateTime.fromMillisecondsSinceEpoch(widget.date);
+    //   detailsBloc.detailsState
+    //       .dateScheldul(DateTime.fromMillisecondsSinceEpoch(widget.date));
+    //   detailsBloc.setDateSwitch(true);
+    // } else {
+    //   detailsBloc.setDateSwitch(false);
+    // }
   }
 
   @override

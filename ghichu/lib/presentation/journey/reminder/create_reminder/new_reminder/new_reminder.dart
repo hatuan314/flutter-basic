@@ -65,13 +65,13 @@ class _NewReminderPageState extends State<NewReminderPage> {
         listener: (context, state) {
       if (state is PushToDetailState) {
         Navigator.pushNamed(context, RouteList.details, arguments: {
-          StringConstants.reminderDate:
-              12345678900000,
-          StringConstants.isTimeArg:
-              false,
+          StringConstants.reminderDate: 12345678900000,
+          StringConstants.isTimeArg: false,
           StringConstants.keyGroup: widget.listGroup[0],
           StringConstants.titleReminder: titleController.text,
           StringConstants.noteReminder: noteController.text,
+        }).whenComplete(() {
+          BlocProvider.of<NewReminderBloc>(context).add(UpDate());
         });
       }
     }, builder: (context, state) {
@@ -163,7 +163,9 @@ class _NewReminderPageState extends State<NewReminderPage> {
           ),
         );
       }
-      return SizedBox();
+      return Material(
+        color: Colors.transparent,
+      );
     });
   }
 
