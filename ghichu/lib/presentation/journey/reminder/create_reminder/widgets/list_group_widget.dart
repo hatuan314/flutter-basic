@@ -6,21 +6,27 @@ import 'package:ghichu/presentation/journey/reminder/create_reminder/list_group/
 import 'package:ghichu/presentation/journey/reminder/create_reminder/list_group/bloc/list_group_state.dart';
 import 'package:ghichu/presentation/journey/reminder/create_reminder/list_group/list_group_constants.dart';
 
+// ignore: must_be_immutable
 class ListGroupWidget extends StatelessWidget {
   String color;
   String title;
   int index;
+  bool isIcon;
   ListGroupBloc listGroupBloc;
+  Function onTap;
   ListGroupWidget(
-      {Key key, this.color, this.title, this.index, this.listGroupBloc})
+      {Key key,
+      this.isIcon,
+      this.color,
+      this.title,
+      this.index,
+      this.listGroupBloc,
+      this.onTap})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        listGroupBloc.setIndex(index);
-        Navigator.pop(context, index);
-      },
+      onTap: onTap,
       child: Container(
         margin: EdgeInsets.only(top: ListGroupConstants.paddingHeight10),
         width: double.infinity,
@@ -34,18 +40,21 @@ class ListGroupWidget extends StatelessWidget {
               right: ListGroupConstants.paddingWitdh10),
           child: Row(
             children: [
-              Container(
-                width: ListGroupConstants.sizeIcon,
-                height: ListGroupConstants.sizeIcon,
-                decoration: BoxDecoration(
-                    color: Color(int.parse(color)), shape: BoxShape.circle),
-                child: Center(
-                    child: Icon(
-                  Icons.list,
-                  color: Colors.white,
-                  size: ScreenUtil().setSp(22),
-                )),
-              ),
+              isIcon
+                  ? Container(
+                      width: ListGroupConstants.sizeIcon,
+                      height: ListGroupConstants.sizeIcon,
+                      decoration: BoxDecoration(
+                          color: Color(int.parse(color)),
+                          shape: BoxShape.circle),
+                      child: Center(
+                          child: Icon(
+                        Icons.list,
+                        color: Colors.white,
+                        size: ScreenUtil().setSp(22),
+                      )),
+                    )
+                  : SizedBox(),
               SizedBox(
                 width: ScreenUtil().setWidth(15),
               ),
@@ -65,7 +74,7 @@ class ListGroupWidget extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                '${title}',
+                                '$title',
                                 style: ListGroupConstants.titleGroup,
                               ),
                               index == snapshot.data.indexCheck

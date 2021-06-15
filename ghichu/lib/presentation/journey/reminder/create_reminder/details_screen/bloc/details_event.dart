@@ -28,8 +28,11 @@ class SelectDate extends DetailsEvent {
   final DateTime selectDate;
   SelectDate(this.selectDate);
 }
-class SelectTime extends DetailsEvent{
+
+class SelectTime extends DetailsEvent {
   final TimeOfDay timeOfDay;
 
   SelectTime(this.timeOfDay);
 }
+
+class PushPrioritiesEvent extends DetailsEvent {}

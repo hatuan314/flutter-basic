@@ -1,10 +1,12 @@
+
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ghichu/common/constants/layout_constants.dart';
 import 'package:ghichu/common/constants/route_constants.dart';
 import 'package:ghichu/common/constants/string_constants.dart';
 import 'package:ghichu/presentation/blocs/check_buttom.dart';
-import 'package:ghichu/presentation/journey/reminder/create_reminder/details_screen/bloc/details_bloc.dart';
+
 import 'package:ghichu/presentation/journey/reminder/create_reminder/details_screen/widgets/time_widget.dart';
 import 'package:ghichu/presentation/journey/reminder/create_reminder/new_reminder/bloc/new_reminder_bloc.dart';
 import 'package:ghichu/presentation/journey/reminder/create_reminder/new_reminder/bloc/new_reminder_event.dart';
@@ -45,8 +47,6 @@ class _NewReminderPageState extends State<NewReminderPage> {
   TextEditingController titleController = new TextEditingController();
   TextEditingController noteController = new TextEditingController();
   CheckButtonBloc checkButtonBloc = CheckButtonBloc();
-  DetailsBloc detailsBloc;
-
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
@@ -69,7 +69,13 @@ class _NewReminderPageState extends State<NewReminderPage> {
           StringConstants.titleReminder: titleController.text,
           StringConstants.noteReminder: noteController.text,
         }).whenComplete(() {
-          BlocProvider.of<NewReminderBloc>(context).add(UpDate());
+          BlocProvider.of<NewReminderBloc>(context)
+              .add(UpDateNewReminderEvent());
+        });
+      }
+      if(state is PushToListGroupState){
+        Navigator.pushNamed(context,RouteList.listGroup,arguments: {
+          StringConstants.listGroup:widget.listGroup
         });
       }
     }, builder: (context, state) {
@@ -138,19 +144,11 @@ class _NewReminderPageState extends State<NewReminderPage> {
                   SelectContainer(
                     title: ReminderContants.listTxt,
                     buttonDetails: false,
-                    // group: snapshot.data.group,
-                    color: widget.listGroup[0].color,
-                    onTap: () async {
-                      Navigator.pushNamed(context, RouteList.listGroup,
-                          arguments: {
-                            StringConstants.listGroup: widget.listGroup,
-                            // StringConstants.listIndexArg: snapshot.data.index
-                          }).then((index) {
-                        // newReminderBloc.setGroup(
-                        //     ModelListReminder
-                        //         .myList['${widget.listGroup[index]}'].title,
-                        //     index);
-                      });
+                    group: state.nameGroup,
+                    color: state.colorsGroup.value.toString(),
+                    onTap: () {
+                      BlocProvider.of<NewReminderBloc>(context)
+                          .add(PushListGroupEvent());
                     },
                   )
                 ],

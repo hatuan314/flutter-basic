@@ -90,7 +90,7 @@ class _AddListScreenState extends State<AddGroupScreen> {
                         textAlign: TextAlign.center,
 
                         style: TextStyle(
-                            color: Colors.blue,
+                            color: state.color,
                             fontWeight: FontWeight.w600,
                             fontSize: AddListConstants.screenUtilText),
                         decoration: InputDecoration(

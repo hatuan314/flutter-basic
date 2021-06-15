@@ -5,12 +5,13 @@ import 'package:ghichu/presentation/journey/reminder/create_reminder/list_group/
 import 'package:ghichu/presentation/journey/reminder/create_reminder/widgets/list_group_widget.dart';
 
 import 'package:ghichu/presentation/journey/reminder/widgets/app_bar_reminder.dart';
+import 'package:ghichu/presentation/models/group.dart';
 import 'package:ghichu/presentation/models/model_map.dart';
 
 // ignore: must_be_immutable
 class ListGroupScreen extends StatefulWidget {
   int index;
-  List<String> list;
+  List<Groups> list;
   ListGroupScreen({this.index, this.list});
   @override
   _ListReminderpageState createState() => _ListReminderpageState();
@@ -42,9 +43,14 @@ class _ListReminderpageState extends State<ListGroupScreen> {
       body: Column(
         children: List.generate(widget.list.length, (index) {
           return ListGroupWidget(
+            onTap: () {
+              listGroupBloc.setIndex(index);
+              Navigator.pop(context, index);
+            },
+            isIcon: true,
             listGroupBloc: listGroupBloc,
-            title: ModelListReminder.myList['${widget.list[index]}'].title,
-            color: ModelListReminder.myList['${widget.list[index]}'].color,
+            title: widget.list[index].name,
+            color: widget.list[index].color,
             index: index,
           );
         }),

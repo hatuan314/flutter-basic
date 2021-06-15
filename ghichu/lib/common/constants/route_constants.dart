@@ -10,4 +10,5 @@ class RouteList {
   static const String listGroup = '/listGroup';
   static const String myListPage = '/myListPage';
   static const String editReminder = '/editReminder';
+  static const String prioritiesScreen = '/priorities';
 }

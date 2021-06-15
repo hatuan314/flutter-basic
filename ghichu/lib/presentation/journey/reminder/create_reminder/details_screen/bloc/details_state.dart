@@ -41,3 +41,9 @@ class InitDetailsState extends DetailsState {
         this.timeOfDay
       ];
 }
+
+class PushPrioritiesState extends DetailsState {
+  @override
+
+  List<Object> get props => [];
+}

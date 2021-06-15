@@ -23,6 +23,7 @@ class Routes {
       case RouteList.details:
       case RouteList.newReminder:
       case RouteList.listGroup:
+      case RouteList.prioritiesScreen:
         return MaterialPageRoute(
             builder: generateRouteAll(settings)[settings.name],
             settings: settings);

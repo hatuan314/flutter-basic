@@ -1,6 +1,13 @@
+import 'package:flutter/cupertino.dart';
+
 abstract class NewReminderEvent {}
 
-class UpDate extends NewReminderEvent {}
+class UpDateNewReminderEvent extends NewReminderEvent {
+  final String nameGroup;
+  final Color colorGroup;
+  final bool isDateDetails;
+  UpDateNewReminderEvent({this.isDateDetails, this.nameGroup, this.colorGroup});
+}
 
 class ActiveBtn extends NewReminderEvent {
   final String title;
@@ -15,3 +22,5 @@ class ActiveBtn extends NewReminderEvent {
 }
 
 class PushDetailEvent extends NewReminderEvent {}
+
+class PushListGroupEvent extends NewReminderEvent {}

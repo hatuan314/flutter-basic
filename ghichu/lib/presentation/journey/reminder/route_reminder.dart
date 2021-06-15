@@ -2,13 +2,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ghichu/common/constants/route_constants.dart';
 import 'package:ghichu/common/constants/string_constants.dart';
+
 import 'package:ghichu/presentation/journey/reminder/all_reminder/all_reminder_screen.dart';
 import 'package:ghichu/presentation/journey/reminder/create_reminder/details_screen/bloc/details_bloc.dart';
+
 import 'package:ghichu/presentation/journey/reminder/create_reminder/details_screen/details_screen.dart';
 import 'package:ghichu/presentation/journey/reminder/create_reminder/list_group/list_group.dart';
 import 'package:ghichu/presentation/journey/reminder/create_reminder/new_reminder/bloc/new_reminder_bloc.dart';
+import 'package:ghichu/presentation/journey/reminder/create_reminder/new_reminder/bloc/new_reminder_state.dart';
 
 import 'package:ghichu/presentation/journey/reminder/create_reminder/new_reminder/new_reminder.dart';
+import 'package:ghichu/presentation/journey/reminder/create_reminder/priorities_screen/priorities_screen.dart';
 
 import 'package:ghichu/presentation/journey/reminder/schedule_reminder/schedule_reminder_screen.dart';
 import 'package:ghichu/presentation/journey/reminder/today_reminder/today_reminder_screen.dart';
@@ -32,6 +36,9 @@ class RouteReminder {
         return TodayPage(
           keyGroup: keyGroup,
         );
+      },
+      RouteList.prioritiesScreen: (context) {
+        return PrioritiesScreen();
       },
       RouteList.details: (context) {
         var isTime = args[StringConstants.isTimeArg] ?? false;
@@ -61,7 +68,10 @@ class RouteReminder {
         return MultiBlocProvider(
             providers: [
               BlocProvider<NewReminderBloc>(
-                  create: (context) => NewReminderBloc()),
+                  create: (context) => NewReminderBloc()
+                    ..add(UpDateNewReminderEvent(
+                        colorGroup: Color(int.parse(list[0].color)),
+                        nameGroup: list[0].name))),
             ],
             child: NewReminderPage(
               listGroup: list,
