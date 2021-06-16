@@ -77,7 +77,7 @@ class _NewReminderPageState extends State<NewReminderPage> {
         return Scaffold(
           backgroundColor: Colors.white.withOpacity(0.95),
           appBar: AppBarWidget(
-            actions: () {
+            actions:state.activeBtn ?() {
               if (widget.settingNewReminder.isEditReminder == false) {
                 // newReminderBloc.newReminderState.addTodoList(
                 //     titleController.text,
@@ -90,7 +90,7 @@ class _NewReminderPageState extends State<NewReminderPage> {
                 //     newReminderBloc.newReminderState.isTimeDetails);
               }
               Navigator.pop(context);
-            },
+            }:null,
             leading: showBttomSheet(state)
                 ? () {
                     showButtonModalSheet(context);
@@ -162,6 +162,7 @@ class _NewReminderPageState extends State<NewReminderPage> {
   bool showBttomSheet(InitialNewReminderState state) {
     if (state.activeBtn ||
         state.isDateDetails ||
+
         state.groups != widget.settingNewReminder.listGroup[0]) {
       return true;
     } else {
