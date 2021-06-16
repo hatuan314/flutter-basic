@@ -2,20 +2,29 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ghichu/common/constants/route_constants.dart';
 import 'package:ghichu/common/constants/string_constants.dart';
+import 'package:ghichu/common/setting_argument/settting_argument.dart';
 
 import 'package:ghichu/presentation/journey/reminder/all_reminder/all_reminder_screen.dart';
 import 'package:ghichu/presentation/journey/reminder/create_reminder/details_screen/bloc/details_bloc.dart';
+import 'package:ghichu/presentation/journey/reminder/create_reminder/details_screen/bloc/details_event.dart';
+import 'package:ghichu/presentation/journey/reminder/create_reminder/details_screen/bloc/details_state.dart';
 
 import 'package:ghichu/presentation/journey/reminder/create_reminder/details_screen/details_screen.dart';
+import 'package:ghichu/presentation/journey/reminder/create_reminder/list_group/bloc/list_group_bloc.dart';
+import 'package:ghichu/presentation/journey/reminder/create_reminder/list_group/bloc/list_group_event.dart';
 import 'package:ghichu/presentation/journey/reminder/create_reminder/list_group/list_group.dart';
 import 'package:ghichu/presentation/journey/reminder/create_reminder/new_reminder/bloc/new_reminder_bloc.dart';
-import 'package:ghichu/presentation/journey/reminder/create_reminder/new_reminder/bloc/new_reminder_state.dart';
 
 import 'package:ghichu/presentation/journey/reminder/create_reminder/new_reminder/new_reminder.dart';
+import 'package:ghichu/presentation/journey/reminder/create_reminder/priorities_screen/bloc/priority_bloc.dart';
+import 'package:ghichu/presentation/journey/reminder/create_reminder/priorities_screen/bloc/priority_event.dart';
+import 'package:ghichu/presentation/journey/reminder/create_reminder/priorities_screen/bloc/priority_state.dart';
+
 import 'package:ghichu/presentation/journey/reminder/create_reminder/priorities_screen/priorities_screen.dart';
 
 import 'package:ghichu/presentation/journey/reminder/schedule_reminder/schedule_reminder_screen.dart';
 import 'package:ghichu/presentation/journey/reminder/today_reminder/today_reminder_screen.dart';
+import 'package:ghichu/presentation/models/model_map.dart';
 
 import 'create_reminder/new_reminder/bloc/new_reminder_event.dart';
 
@@ -29,67 +38,61 @@ class RouteReminder {
 
   static Map<String, WidgetBuilder> getRoutesWithSettings(
       RouteSettings settings) {
-    final args = settings.arguments as Map<String, dynamic>;
+    final args = settings.arguments;
     return {
       RouteList.todayPage: (context) {
-        var keyGroup = args[StringConstants.keyGroup];
+        // var keyGroup = args[StringConstants.keyGroup];
         return TodayPage(
-          keyGroup: keyGroup,
-        );
+            // keyGroup: keyGroup,
+            );
       },
       RouteList.prioritiesScreen: (context) {
-        return PrioritiesScreen();
+        SettingPriority setting = args;
+        return MultiBlocProvider(providers: [
+          BlocProvider(
+              create: (context) => PriorityBloc()
+                ..add(SelectPriortyEvent(indexSelect: setting.indexSelect))),
+        ], child: PrioritiesScreen());
       },
       RouteList.details: (context) {
-        var isTime = args[StringConstants.isTimeArg] ?? false;
-        var date = args[StringConstants.reminderDate];
-        var title = args[StringConstants.titleReminder];
-        var note = args[StringConstants.noteReminder];
-        var group = args[StringConstants.keyGroup];
+        SettingDetails settingDetails = args;
         return MultiBlocProvider(
-          providers: [BlocProvider(create: (context) => DetailsBloc())],
+          providers: [
+            BlocProvider(
+                create: (context) => DetailsBloc()
+                  ..add(UpDateStateDetailsEvent(state: settingDetails.state)))
+          ],
           child: DetailsPage(
-            isTime: isTime,
-            date: date,
-            title: title,
-            note: note,
-            group: group,
+            settingDetails: settingDetails,
           ),
         );
       },
       RouteList.newReminder: (context) {
-        var list = args[StringConstants.listGroup];
-        var title = args[StringConstants.titleReminder];
-        var note = args[StringConstants.noteReminder];
-        var isEdit = args[StringConstants.isEdit];
-        var date = args[StringConstants.date];
-        var isTimeArg = args[StringConstants.isTimeArg];
-        var index = args[StringConstants.listIndexArg];
+        SettingNewReminder settingNewReminder = args;
         return MultiBlocProvider(
             providers: [
               BlocProvider<NewReminderBloc>(
                   create: (context) => NewReminderBloc()
                     ..add(UpDateNewReminderEvent(
-                        colorGroup: Color(int.parse(list[0].color)),
-                        nameGroup: list[0].name))),
+                        isDateDetails: false,
+                        groups: settingNewReminder.listGroup[0]))),
             ],
             child: NewReminderPage(
-              listGroup: list,
-              title: title,
-              note: note,
-              isEdit: isEdit,
-              date: date,
-              isTime: isTimeArg,
-              index: index,
+              settingNewReminder: settingNewReminder,
             ));
       },
       RouteList.listGroup: (context) {
-        var index = args[StringConstants.listIndexArg] ?? 0;
-        var list = args[StringConstants.listGroup];
-        return ListGroupScreen(
-          index: index,
-          list: list,
-        );
+        SettingListGroup settingListGroup = args;
+        return MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                  create: (context) => ListGroupBloc()
+                    ..add(SelectGroupEvent(settingListGroup.listGroup
+                        .indexOf(settingListGroup.group)))),
+            ],
+            child: ListGroupScreen(
+              settingListGroup: settingListGroup,
+            ));
       }
     };
   }

@@ -7,10 +7,14 @@ abstract class DetailsState extends Equatable {}
 class InitDetailsState extends DetailsState {
   final bool isDateSwitch, isTimeSwitch, isDateTableCanlender, isTimeTable;
   DateTime selectDate;
+  String priority;
+  int indexSelect;
   TimeOfDay timeOfDay;
   InitDetailsState(
       {this.isDateSwitch,
       this.isTimeSwitch,
+      this.indexSelect,
+      this.priority,
       this.selectDate,
       this.timeOfDay,
       this.isDateTableCanlender,
@@ -19,10 +23,14 @@ class InitDetailsState extends DetailsState {
           {bool isDateSwitch,
           bool isTimeSwitch,
           bool isDateTableCanlender,
+          int indexSelect,
+          String priority,
           DateTime selectDate,
           TimeOfDay timeOfDay,
           bool isTimeTable}) =>
       InitDetailsState(
+          indexSelect: indexSelect ?? this.indexSelect,
+          priority: priority ?? this.priority,
           timeOfDay: timeOfDay ?? this.timeOfDay,
           selectDate: selectDate ?? this.selectDate,
           isDateSwitch: isDateSwitch ?? this.isDateSwitch,
@@ -33,17 +41,20 @@ class InitDetailsState extends DetailsState {
 
   @override
   List<Object> get props => [
+        this.indexSelect,
         this.isDateSwitch,
         this.isTimeSwitch,
         this.isDateTableCanlender,
         this.isTimeTable,
         this.selectDate,
-        this.timeOfDay
+        this.timeOfDay,
+        this.priority,
       ];
 }
 
 class PushPrioritiesState extends DetailsState {
+  final int indexSelect;
+  PushPrioritiesState({this.indexSelect});
   @override
-
   List<Object> get props => [];
 }

@@ -1,10 +1,9 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ghichu/common/constants/layout_constants.dart';
 import 'package:ghichu/common/constants/route_constants.dart';
 import 'package:ghichu/common/constants/string_constants.dart';
+import 'package:ghichu/common/setting_argument/settting_argument.dart';
 import 'package:ghichu/presentation/blocs/check_buttom.dart';
 
 import 'package:ghichu/presentation/journey/reminder/create_reminder/details_screen/widgets/time_widget.dart';
@@ -21,23 +20,9 @@ import 'package:ghichu/presentation/journey/widgets/show_model_button_sheet.dart
 import 'package:ghichu/presentation/models/group.dart';
 
 class NewReminderPage extends StatefulWidget {
-  final List<Groups> listGroup;
-  final String title;
-  final String note;
-  final int date, index;
-  final bool isTime;
-  final bool isEdit;
+  final SettingNewReminder settingNewReminder;
 
-  const NewReminderPage({
-    Key key,
-    this.listGroup,
-    this.title,
-    this.note,
-    this.date,
-    this.index,
-    this.isTime,
-    this.isEdit,
-  }) : super(key: key);
+  const NewReminderPage({Key key, this.settingNewReminder}) : super(key: key);
 
   @override
   _NewReminderPageState createState() => _NewReminderPageState();
@@ -50,7 +35,7 @@ class _NewReminderPageState extends State<NewReminderPage> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      if (widget.isEdit) {
+      if (widget.settingNewReminder.isEditReminder) {
         setData();
       }
     });
@@ -62,20 +47,36 @@ class _NewReminderPageState extends State<NewReminderPage> {
     return BlocConsumer<NewReminderBloc, NewReminderState>(
         listener: (context, state) {
       if (state is PushToDetailState) {
-        Navigator.pushNamed(context, RouteList.details, arguments: {
-          StringConstants.reminderDate: 12345678900000,
-          StringConstants.isTimeArg: false,
-          StringConstants.keyGroup: widget.listGroup[0],
-          StringConstants.titleReminder: titleController.text,
-          StringConstants.noteReminder: noteController.text,
-        }).whenComplete(() {
-          BlocProvider.of<NewReminderBloc>(context)
-              .add(UpDateNewReminderEvent());
+        Navigator.pushNamed(context, RouteList.details,
+                arguments: SettingDetails(
+                    note: noteController.text,
+                    title: titleController.text,
+                    state: state.initDetailsState))
+            .then((value) {
+          SettingDetails settingDetails = value;
+          bool isDetailsTime;
+          if (settingDetails.dateAndTime == null) {
+            isDetailsTime = false;
+          } else {
+            isDetailsTime = true;
+          }
+          BlocProvider.of<NewReminderBloc>(context).add(UpDateNewReminderEvent(
+              date: settingDetails.dateAndTime,
+              initDetailsState: settingDetails.state,
+              isDateDetails: isDetailsTime,
+              isTime: settingDetails.isTime));
         });
       }
-      if(state is PushToListGroupState){
-        Navigator.pushNamed(context,RouteList.listGroup,arguments: {
-          StringConstants.listGroup:widget.listGroup
+      if (state is PushToListGroupState) {
+        Navigator.pushNamed(context, RouteList.listGroup,
+                arguments: SettingListGroup(
+                    listGroup: widget.settingNewReminder.listGroup,
+                    group: state.groups))
+            .then((value) {
+          Groups groups = value as Groups;
+
+          BlocProvider.of<NewReminderBloc>(context)
+              .add(UpDateNewReminderEvent(groups: groups));
         });
       }
     }, builder: (context, state) {
@@ -84,7 +85,7 @@ class _NewReminderPageState extends State<NewReminderPage> {
           backgroundColor: Colors.white.withOpacity(0.95),
           appBar: AppBarWidget(
             actions: () {
-              if (widget.isEdit == false) {
+              if (widget.settingNewReminder.isEditReminder == false) {
                 // newReminderBloc.newReminderState.addTodoList(
                 //     titleController.text,
                 //     noteController.text,
@@ -102,10 +103,10 @@ class _NewReminderPageState extends State<NewReminderPage> {
             },
             color: state.activeBtn ? Colors.blue : Colors.black38,
             textLeft: NewReminderContants.textLeading,
-            textRight: widget.isEdit
+            textRight: widget.settingNewReminder.isEditReminder
                 ? NewReminderContants.textRightEdit
                 : NewReminderContants.textRight,
-            title: widget.isEdit
+            title: widget.settingNewReminder.isEditReminder
                 ? NewReminderContants.textTitleEdit
                 : NewReminderContants.textTitle,
           ),
@@ -124,7 +125,7 @@ class _NewReminderPageState extends State<NewReminderPage> {
                     titleController: titleController,
                     noteController: noteController,
                   ),
-                  widget.isEdit
+                  widget.settingNewReminder.isEditReminder
                       ? Padding(
                           padding:
                               EdgeInsets.only(top: ReminderContants.marginTop),
@@ -132,10 +133,9 @@ class _NewReminderPageState extends State<NewReminderPage> {
                         )
                       : SelectContainer(
                           title: ReminderContants.detailsTxt,
-                          buttonDetails: false,
-                          // buttonDetails: snapshot.data.isButtonDetails,
-                          // timeDetails: snapshot.data.isTimeDetails,
-                          // valuesTime: snapshot.data.valuesTime,
+                          buttonDetails: state.isDateDetails,
+                          valuesTime: state.date,
+                          timeDetails: state.isTime,
                           onTap: () {
                             BlocProvider.of<NewReminderBloc>(context)
                                 .add(PushDetailEvent());
@@ -144,8 +144,8 @@ class _NewReminderPageState extends State<NewReminderPage> {
                   SelectContainer(
                     title: ReminderContants.listTxt,
                     buttonDetails: false,
-                    group: state.nameGroup,
-                    color: state.colorsGroup.value.toString(),
+                    group: state.groups.name,
+                    color: state.groups.color,
                     onTap: () {
                       BlocProvider.of<NewReminderBloc>(context)
                           .add(PushListGroupEvent());

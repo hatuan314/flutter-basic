@@ -3,14 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:ghichu/presentation/journey/reminder/create_reminder/new_reminder/bloc/new_reminder_event.dart';
 import 'package:ghichu/presentation/journey/reminder/create_reminder/new_reminder/bloc/new_reminder_state.dart';
+import 'package:ghichu/presentation/models/group.dart';
 
 class NewReminderBloc extends Bloc<NewReminderEvent, NewReminderState> {
   @override
   NewReminderState get initialState => InitialNewReminderState(
-      isDateDetails: false,
-      activeBtn: false,
-      nameGroup: '',
-      colorsGroup: Colors.blue);
+      isDateDetails: false, activeBtn: false, groups: Groups(),isTime: false);
 
   @override
   Stream<NewReminderState> mapEventToState(NewReminderEvent event) async* {
@@ -26,7 +24,7 @@ class NewReminderBloc extends Bloc<NewReminderEvent, NewReminderState> {
       if (state is InitialNewReminderState) {
         current = state;
       }
-      yield PushToDetailState();
+      yield PushToDetailState(initDetailsState: current.initDetailsState);
       yield current;
     }
     if (event is PushListGroupEvent) {
@@ -34,7 +32,7 @@ class NewReminderBloc extends Bloc<NewReminderEvent, NewReminderState> {
       if (state is InitialNewReminderState) {
         current = state;
       }
-      yield PushToListGroupState();
+      yield PushToListGroupState(groups: current.groups);
       yield current;
     }
   }
@@ -44,8 +42,11 @@ class NewReminderBloc extends Bloc<NewReminderEvent, NewReminderState> {
     final current = state;
     if (current is InitialNewReminderState) {
       yield current.update(
-        colorsGroup: event.colorGroup,
-        nameGroup: event.nameGroup,
+        initDetailsState: event.initDetailsState,
+          groups: event.groups,
+          date: event.date,
+          isDateDetails: event.isDateDetails,
+        isTime: event.isTime
       );
     }
   }

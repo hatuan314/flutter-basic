@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:ghichu/presentation/journey/reminder/create_reminder/details_screen/bloc/details_state.dart';
 
 abstract class DetailsEvent {}
 
@@ -7,7 +8,12 @@ class DateSwitchEvent extends DetailsEvent {
   final bool isDateSwitch;
   DateSwitchEvent({@required this.isDateSwitch});
 }
+class UpDateStateDetailsEvent extends DetailsEvent{
+  final InitDetailsState state;
 
+  UpDateStateDetailsEvent({this.state});
+
+}
 class IsShowDateTableCanlenderEvent extends DetailsEvent {
   final bool isShowDateTableCanlender;
 
@@ -35,4 +41,13 @@ class SelectTime extends DetailsEvent {
   SelectTime(this.timeOfDay);
 }
 
-class PushPrioritiesEvent extends DetailsEvent {}
+class UpDatePriorityEvent extends DetailsEvent {
+  final String priority;
+  final int indexSelect;
+  UpDatePriorityEvent({this.priority, this.indexSelect});
+}
+
+class PushPrioritiesEvent extends DetailsEvent {
+  final int index;
+  PushPrioritiesEvent({this.index});
+}

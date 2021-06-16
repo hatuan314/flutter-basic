@@ -1,38 +1,55 @@
-import 'dart:ui';
-
 import 'package:equatable/equatable.dart';
+import 'package:ghichu/presentation/journey/reminder/create_reminder/details_screen/bloc/details_state.dart';
+import 'package:ghichu/presentation/models/group.dart';
 
 abstract class NewReminderState extends Equatable {}
 
 class InitialNewReminderState extends NewReminderState {
-  final bool isDateDetails;
+  final bool isDateDetails, isTime;
   final bool activeBtn;
-  final String nameGroup;
-  final Color colorsGroup;
+  final Groups groups;
+  final int date;
+  final InitDetailsState initDetailsState;
   InitialNewReminderState(
-      {this.isDateDetails, this.activeBtn, this.colorsGroup, this.nameGroup});
-  InitialNewReminderState update(
-          {bool isDateDetails,
-          bool activeBtn,
-          String nameGroup,
-          Color colorsGroup}) =>
+      {this.date,
+      this.initDetailsState,
+      this.isTime,
+      this.isDateDetails,
+      this.activeBtn,
+      this.groups});
+  InitialNewReminderState update({
+    bool isDateDetails,
+    InitDetailsState initDetailsState,
+    Groups groups,
+    bool isTime,
+    bool activeBtn,
+    int date,
+  }) =>
       InitialNewReminderState(
-          colorsGroup: colorsGroup ?? this.colorsGroup,
-          nameGroup: nameGroup ?? this.nameGroup,
+          initDetailsState: initDetailsState ?? this.initDetailsState,
+          isTime: isTime ?? this.isTime,
+          date: date ?? this.date,
+          groups: groups ?? this.groups,
           isDateDetails: isDateDetails ?? this.isDateDetails,
           activeBtn: activeBtn ?? this.activeBtn);
 
   @override
   List<Object> get props =>
-      [this.activeBtn, this.isDateDetails, this.nameGroup, this.colorsGroup];
+      [this.date, this.activeBtn, this.isDateDetails, this.groups, this.isTime];
 }
 
 class PushToDetailState extends NewReminderState {
+  final InitDetailsState initDetailsState;
+
+  PushToDetailState({this.initDetailsState});
   @override
   List<Object> get props => [];
 }
 
 class PushToListGroupState extends NewReminderState {
+  final Groups groups;
+
+  PushToListGroupState({this.groups});
   @override
   // TODO: implement props
   List<Object> get props => [];

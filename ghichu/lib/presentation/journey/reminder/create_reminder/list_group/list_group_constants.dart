@@ -16,5 +16,5 @@ class ListGroupConstants {
       TextStyle(color: Colors.blue, fontSize: ScreenUtil().setSp(15));
   static TextStyle titleGroup=TextStyle(
       color: Colors.black,
-      fontSize: ScreenUtil().setSp(20));
+      fontSize: ScreenUtil().setSp(16));
 }

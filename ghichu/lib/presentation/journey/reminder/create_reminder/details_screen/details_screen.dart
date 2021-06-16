@@ -1,28 +1,19 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screen_util.dart';
 import 'package:ghichu/common/constants/route_constants.dart';
+import 'package:ghichu/common/setting_argument/settting_argument.dart';
 import 'package:ghichu/presentation/journey/reminder/create_reminder/details_screen/bloc/details_bloc.dart';
 import 'package:ghichu/presentation/journey/reminder/create_reminder/details_screen/bloc/details_event.dart';
 import 'package:ghichu/presentation/journey/reminder/create_reminder/details_screen/bloc/details_state.dart';
 import 'package:ghichu/presentation/journey/reminder/create_reminder/details_screen/details_containst.dart';
 import 'package:ghichu/presentation/journey/reminder/create_reminder/details_screen/widgets/time_widget.dart';
-
 import 'package:ghichu/presentation/journey/reminder/widgets/app_bar_reminder.dart';
 import 'package:ghichu/presentation/journey/reminder/widgets/select_container.dart';
-import 'package:ghichu/presentation/models/group.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class DetailsPage extends StatefulWidget {
-  final bool isTime;
-  final int date;
-  final String title, note;
-  final Groups group;
-
-  const DetailsPage(
-      {Key key, this.isTime, this.date, this.group, this.title, this.note})
-      : super(key: key);
-
+  final SettingDetails settingDetails;
+  const DetailsPage({Key key, this.settingDetails}) : super(key: key);
   @override
   _DetailsPageState createState() => _DetailsPageState();
 }
@@ -32,7 +23,14 @@ class _DetailsPageState extends State<DetailsPage> {
   Widget build(BuildContext context) {
     return BlocConsumer<DetailsBloc, DetailsState>(listener: (context, state) {
       if (state is PushPrioritiesState) {
-        Navigator.pushNamed(context, RouteList.prioritiesScreen);
+        Navigator.pushNamed(context, RouteList.prioritiesScreen,
+                arguments: SettingPriority(indexSelect: state.indexSelect))
+            .then((value) {
+          SettingPriority settingPriority = value;
+          BlocProvider.of<DetailsBloc>(context).add(UpDatePriorityEvent(
+              indexSelect: settingPriority.indexSelect,
+              priority: settingPriority.priority));
+        });
       }
     }, builder: (context, state) {
       if (state is InitDetailsState) {
@@ -40,12 +38,31 @@ class _DetailsPageState extends State<DetailsPage> {
           backgroundColor: Colors.white.withOpacity(0.95),
           appBar: AppBarReminderWidget(
             leading: () {
-              // detailsBloc.detailsState.removePage(context);
-              Navigator.pop(context);
+              TimeOfDay timeOfDay;
+              DateTime dateTime;
+              if (state.isDateSwitch == false) {
+                dateTime = null;
+                timeOfDay = null;
+              } else {
+                dateTime = state.selectDate;
+                if (state.isTimeSwitch) {
+                  timeOfDay = state.timeOfDay;
+                } else {
+                  timeOfDay = null;
+                }
+              }
+              Navigator.pop(
+                  context,
+                  SettingDetails(
+                      state: state,
+                      timeOfDay: timeOfDay,
+                      priorty: state.priority,
+                      date: dateTime,
+                      isTime: state.isTimeSwitch));
             },
             textLeft: DetailsContraints.leadingTxt,
             title: DetailsContraints.titleTxt,
-            actions: widget.title.isEmpty
+            actions: widget.settingDetails.title.isEmpty
                 ? null
                 : () {
                     Navigator.pop(context);
@@ -54,7 +71,9 @@ class _DetailsPageState extends State<DetailsPage> {
             textRight: Text(
               DetailsContraints.textRight,
               style: TextStyle(
-                  color: widget.title.isEmpty ? Colors.black26 : Colors.blue,
+                  color: widget.settingDetails.title.isEmpty
+                      ? Colors.black26
+                      : Colors.blue,
                   fontWeight: FontWeight.w600,
                   fontSize: ScreenUtil().setSp(18)),
             ),
@@ -71,11 +90,11 @@ class _DetailsPageState extends State<DetailsPage> {
                   ),
                   SelectContainer(
                     title: 'Mức ưu tiên',
-                    group: 'Không có',
+                    group: state.priority,
                     buttonDetails: false,
                     onTap: () {
                       BlocProvider.of<DetailsBloc>(context)
-                          .add(PushPrioritiesEvent());
+                          .add(PushPrioritiesEvent(index: state.indexSelect));
                     },
                   )
                 ],

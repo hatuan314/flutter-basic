@@ -1,20 +1,20 @@
-import 'dart:async';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ghichu/presentation/journey/reminder/create_reminder/list_group/bloc/list_group_event.dart';
 import 'package:ghichu/presentation/journey/reminder/create_reminder/list_group/bloc/list_group_state.dart';
 
-class ListGroupBloc {
-  ListGroupState listGroupState = ListGroupState(indexCheck: 0);
-  StreamController _selectIndex =
-      new StreamController<ListGroupState>.broadcast();
+class ListGroupBloc extends Bloc<ListGroupEvent, ListGroupState> {
+  @override
+  // TODO: implement initialState
+  ListGroupState get initialState => ListGroupState(indexCheck: 0);
 
-  Stream get selectIndex => _selectIndex.stream;
-
-  void setIndex(int index) {
-    listGroupState.setindexCheck(index);
-    _selectIndex.sink.add(listGroupState);
+  @override
+  Stream<ListGroupState> mapEventToState(ListGroupEvent event) async* {
+    if (event is SelectGroupEvent) {
+      yield* _mapSelectGroupToState(event);
+    }
   }
 
-  void dispose() {
-    _selectIndex.close();
+  Stream<ListGroupState> _mapSelectGroupToState(SelectGroupEvent event) async* {
+    yield state.update(indexCheck: event.indexSelect);
   }
 }

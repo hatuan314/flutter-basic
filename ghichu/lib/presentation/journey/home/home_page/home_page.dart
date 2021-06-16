@@ -3,8 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ghichu/common/constants/route_constants.dart';
-import 'package:ghichu/common/constants/string_constants.dart';
-import 'package:ghichu/data/data_group_respositories_req.dart';
+
+import 'package:ghichu/common/setting_argument/settting_argument.dart';
 import 'package:ghichu/presentation/blocs/check_buttom.dart';
 import 'package:ghichu/presentation/journey/home/home_page/bloc/home_page_event.dart';
 import 'package:ghichu/presentation/journey/home/home_page/bloc/home_page_state.dart';
@@ -14,8 +14,6 @@ import 'package:ghichu/presentation/journey/home/home_page/widgets/my_list_widge
 import 'package:ghichu/presentation/journey/home/home_page/widgets/search.dart';
 import 'package:ghichu/presentation/journey/home/home_page/widgets/wrap_widget.dart';
 import 'package:ghichu/presentation/journey/widgets/bottom_new_reminder.dart';
-import 'package:ghichu/presentation/models/group.dart';
-import 'package:ghichu/presentation/models/model_map.dart';
 import 'package:reorderables/reorderables.dart';
 import 'bloc/home_page_bloc.dart';
 
@@ -59,12 +57,11 @@ class _State extends State<HomePage> {
                               child: BottomNewReminder(
                                 onTap: () {
                                   Navigator.pushNamed(
-                                      context, RouteList.newReminder,
-                                      arguments: {
-                                        StringConstants.listGroup:
-                                            state.keyMyList,
-                                        StringConstants.isEdit: false
-                                      }).whenComplete(() {
+                                          context, RouteList.newReminder,
+                                          arguments: SettingNewReminder(
+                                              listGroup: state.keyMyList,
+                                              isEditReminder: false))
+                                      .whenComplete(() {
                                     BlocProvider.of<HomePageBloc>(context)
                                         .add(UpDate());
                                   });

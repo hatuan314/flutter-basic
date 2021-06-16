@@ -1,9 +1,10 @@
-class ListGroupState {
-  int indexCheck;
+import 'package:equatable/equatable.dart';
 
+class ListGroupState extends Equatable {
+  final int indexCheck;
   ListGroupState({this.indexCheck});
-
-  void setindexCheck(int index) {
-    indexCheck = index;
-  }
+  ListGroupState update({int indexCheck}) =>
+      ListGroupState(indexCheck: indexCheck ?? this.indexCheck);
+  @override
+  List<Object> get props => [this.indexCheck];
 }

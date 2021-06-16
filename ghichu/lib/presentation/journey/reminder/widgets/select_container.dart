@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ghichu/presentation/journey/reminder/reminder_constants.dart';
 import 'package:intl/intl.dart';
@@ -47,7 +48,9 @@ class SelectContainer extends StatelessWidget {
                 Text(
                   title,
                   style: TextStyle(
-                      color: Colors.black, fontSize: ReminderContants.fontSize),
+                    color: Colors.black,
+                    fontSize: ReminderContants.fontSize,
+                  ),
                 ),
                 buttonDetails
                     ? Row(
@@ -87,11 +90,17 @@ class SelectContainer extends StatelessWidget {
                       SizedBox(
                         width: ReminderContants.paddingWitdh,
                       ),
-                      Text(
-                        group == null ? '' : group,
-                        style: TextStyle(
-                            color: Colors.black45,
-                            fontSize: ReminderContants.fontSizeGroup),
+                      Container(
+                        constraints: BoxConstraints(
+                            maxWidth: ScreenUtil().setWidth(200)),
+                        child: Text(
+                          group == null ? '' : group,
+                          style: TextStyle(
+                              color: Colors.black45,
+                              fontSize: ReminderContants.fontSizeGroup),
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                        ),
                       )
                     ],
                   ),

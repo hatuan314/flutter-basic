@@ -11,10 +11,13 @@ class ModelListReminder {
   static Map<String, Group> myList = {
     'Reminder': Group('Reminder', Colors.blue.value.toString(), 0, 0)
   };
-  static Map<String, dynamic> reminderApp = ReminderApp(
-      reminders: [],
-      groups: [Groups(name: 'Reminder', color: Colors.blue.value.toString())],
-      priorities: []).toJson();
+  static Map<String, dynamic> reminderApp = ReminderApp(reminders: [], groups: [
+    Groups(name: 'Reminder', color: Colors.blue.value.toString())
+  ], priorities: [
+    Priorities(name: 'Thấp'),
+    Priorities(name: 'Trung bình'),
+    Priorities(name: 'Cao')
+  ]).toJson();
 }
 
 //

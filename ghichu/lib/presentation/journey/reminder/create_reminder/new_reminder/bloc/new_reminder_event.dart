@@ -1,12 +1,17 @@
 import 'package:flutter/cupertino.dart';
+import 'package:ghichu/presentation/journey/reminder/create_reminder/details_screen/bloc/details_state.dart';
+import 'package:ghichu/presentation/models/group.dart';
+import 'package:ghichu/presentation/models/reminder.dart';
 
 abstract class NewReminderEvent {}
 
 class UpDateNewReminderEvent extends NewReminderEvent {
-  final String nameGroup;
-  final Color colorGroup;
-  final bool isDateDetails;
-  UpDateNewReminderEvent({this.isDateDetails, this.nameGroup, this.colorGroup});
+  final Details details;
+  final Groups groups;
+  final bool isDateDetails,isTime;
+final int date;
+final InitDetailsState initDetailsState;
+  UpDateNewReminderEvent({this.initDetailsState,this.details,this.isDateDetails, this.groups,this.date,this.isTime});
 }
 
 class ActiveBtn extends NewReminderEvent {

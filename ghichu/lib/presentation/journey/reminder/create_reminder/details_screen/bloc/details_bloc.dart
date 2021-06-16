@@ -9,6 +9,7 @@ class DetailsBloc extends Bloc<DetailsEvent, DetailsState> {
   DetailsState get initialState => InitDetailsState(
       isDateSwitch: false,
       isTimeSwitch: false,
+      priority: 'Không có',
       isDateTableCanlender: false,
       isTimeTable: false,
       selectDate: DateTime.now(),
@@ -16,6 +17,20 @@ class DetailsBloc extends Bloc<DetailsEvent, DetailsState> {
 
   @override
   Stream<DetailsState> mapEventToState(DetailsEvent event) async* {
+    if (event is UpDatePriorityEvent) {
+      final currentState = state;
+      if (currentState is InitDetailsState) {
+        yield currentState.update(
+            priority: event.priority, indexSelect: event.indexSelect);
+      }
+    }
+    if (event is UpDateStateDetailsEvent) {
+      final current = state;
+      if (current is InitDetailsState) {
+        print('${event.state.priority}');
+        yield event.state;
+      }
+    }
     if (event is DateSwitchEvent) {
       yield* _mapDateSwitchToState(event);
     }
@@ -41,14 +56,12 @@ class DetailsBloc extends Bloc<DetailsEvent, DetailsState> {
 
   Stream<DetailsState> _mapPushPrioritiesToState(
       PushPrioritiesEvent event) async* {
-    yield PushPrioritiesState();
-    yield InitDetailsState(
-        isDateSwitch: false,
-        isTimeSwitch: false,
-        isDateTableCanlender: false,
-        isTimeTable: false,
-        selectDate: DateTime.now(),
-        timeOfDay: TimeOfDay.now());
+    InitDetailsState currentState;
+    if (state is InitDetailsState) {
+      currentState = state;
+    }
+    yield PushPrioritiesState(indexSelect: event.index);
+    yield currentState;
   }
 
   Stream<DetailsState> _mapSelectTimeToState(SelectTime event) async* {
