@@ -74,11 +74,9 @@ class _DetailsScreen extends State<DetailsScreen> {
   @override
   Widget build(BuildContext context) {
     String now = DateTime.now().dateDdMMyyyy;
-    return BlocProvider<AddDetailsBloc>(
-        create: (context) => AddDetailsBloc(),
-        child: BlocBuilder<AddDetailsBloc, AddDetailsState>(
+    return BlocBuilder<AddDetailsBloc, AddDetailsState>(
           builder: (context, state) {
-            // setDefault(date, time, priority, context);
+           // setDefault(date, time, priority, context);
             return Scaffold(
                 appBar: _appBar(context, state),
                 body: Column(children: [
@@ -195,7 +193,7 @@ class _DetailsScreen extends State<DetailsScreen> {
                   ),
                 ]));
           },
-        ));
+        );
   }
 
   String getPriorityTypeText(int intPriority) {
@@ -233,7 +231,8 @@ class _DetailsScreen extends State<DetailsScreen> {
             BlocProvider.of<AddDetailsBloc>(context)
                 .add(SetPriorityEvent(priority: 0)),
             Navigator.pop(context),
-            // selectedPriority = priorityTypeUtil(PriorityType.NONE),
+            priority=0,
+         //   selectedPriority = priorityTypeUtil(PriorityType.NONE),
             // log(selectedPriority)
           },
           isNotLast: true,
@@ -245,7 +244,8 @@ class _DetailsScreen extends State<DetailsScreen> {
                   BlocProvider.of<AddDetailsBloc>(context)
                       .add(SetPriorityEvent(priority: 1)),
                   Navigator.pop(context),
-                  // selectedPriority = priorityTypeUtil(PriorityType.LOW),
+              priority=1,
+                  selectedPriority = priorityTypeUtil(PriorityType.LOW),
                   // log(selectedPriority)
                 },
             isNotLast: true),
@@ -256,7 +256,8 @@ class _DetailsScreen extends State<DetailsScreen> {
                   BlocProvider.of<AddDetailsBloc>(context)
                       .add(SetPriorityEvent(priority: 2)),
                   Navigator.pop(context),
-                  // selectedPriority = priorityTypeUtil(PriorityType.MEDIUM),
+              priority=2,
+                   selectedPriority = priorityTypeUtil(PriorityType.MEDIUM),
                   // log(selectedPriority)
                 },
             isNotLast: true),
@@ -267,7 +268,8 @@ class _DetailsScreen extends State<DetailsScreen> {
                   BlocProvider.of<AddDetailsBloc>(context)
                       .add(SetPriorityEvent(priority: 3)),
                   Navigator.pop(context),
-                  // selectedPriority = priorityTypeUtil(PriorityType.HIGH),
+              priority=3,
+                   selectedPriority = priorityTypeUtil(PriorityType.HIGH),
                   // log(selectedPriority)
                 },
             isNotLast: false),

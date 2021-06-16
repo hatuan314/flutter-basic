@@ -1,16 +1,20 @@
 import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:reminders_app/reminders_app/common/enums/priority_type.dart';
 import 'package:reminders_app/reminders_app/common/extensions/date_extensions.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:reminders_app/reminders_app/common/utils/priority_type_utils.dart';
+import 'package:reminders_app/reminders_app/presentation/journey/reminder/new_reminder/create_new_reminder/bloc/new_reminder_bloc.dart';
+import 'package:reminders_app/reminders_app/presentation/journey/reminder/new_reminder/create_new_reminder/bloc/new_reminder_event.dart';
 import 'package:reminders_app/reminders_app/presentation/journey/reminder/new_reminder/create_new_reminder/bloc/reminder_stream.dart';
 import 'package:reminders_app/reminders_app/presentation/journey/reminder/new_reminder/create_new_reminder/widget/container_button_widget.dart';
 
 import 'package:reminders_app/reminders_app/presentation/journey/reminder/new_reminder/create_new_reminder/widget/list_dialog_item.dart';
 import 'package:reminders_app/reminders_app/presentation/journey/reminder/new_reminder/create_new_reminder/widget/reminder_form_widget.dart';
+import 'package:reminders_app/reminders_app/presentation/journey/reminder/new_reminder/details/bloc/add_details_bloc.dart';
 import 'package:reminders_app/reminders_app/presentation/journey/reminder/new_reminder/details/details_screen.dart';
 import 'package:reminders_app/reminders_app/presentation/journey/reminders_list.dart';
 import 'package:reminders_app/reminders_app/presentation/widgets_constants/appbar.dart';
@@ -29,16 +33,17 @@ class _CreateNewReminder extends State<CreateNewReminder> {
   var details;
 
   String now = DateTime.now().dateDdMMyyyy;
-  ReminderStream reminderStream = ReminderStream();
+ // ReminderStream reminderStream = ReminderStream();
 
-  Widget _appBarWidget(AsyncSnapshot<ReminderState> snapshot) {
+  Widget _appBarWidget(NewReminderState state) {
     return AppbarWidget(
       context,
       leadingText: 'Cancel',
+      onTapCancel: state.title == null? ()=>{Navigator.pop(context)}:null ,
       title: 'New Reminder',
-      onTapAction: (snapshot.data == null ||
-              snapshot.data.title == null ||
-              snapshot.data.title == '')
+      onTapAction: (state == null ||
+              state.title == null ||
+              state.title == '')
           ? Container(
               //color: Colors.blue,
               width: ScreenUtil().screenWidth / 6,
@@ -55,16 +60,17 @@ class _CreateNewReminder extends State<CreateNewReminder> {
             )
           : GestureDetector(
               onTap: () => {
+                log(state.list),
                 RemindersList.addReminder(
-                    snapshot.data.title,
-                    snapshot.data.notes == null ? '' : snapshot.data.notes,
-                    snapshot.data.list,
-                    snapshot.data.details != null
-                        ? snapshot.data.details['date'] +
-                            snapshot.data.details['time']
+                    state.title,
+                    state.notes == null ? '' : state.notes,
+                    state.list,
+                    state.details != null
+                        ? state.details['date'] +
+                            state.details['time']
                         : 0,
-                    snapshot.data.details != null
-                        ? snapshot.data.details['priority']
+                    state.details != null
+                        ? state.details['priority']
                         : 0),
                 Navigator.pop(context)
               },
@@ -88,13 +94,13 @@ class _CreateNewReminder extends State<CreateNewReminder> {
 
   @override
   void dispose() {
-    reminderStream.dispose();
+  //  reminderStream.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    reminderStream.setList('Reminders');
+   // reminderStream.setList('Reminders');
     final SimpleDialog listDialog = SimpleDialog(
         contentPadding: EdgeInsets.only(
           bottom: ScreenUtil().setHeight(10),
@@ -118,11 +124,10 @@ class _CreateNewReminder extends State<CreateNewReminder> {
                   scrollDirection: Axis.vertical,
                   shrinkWrap: true,
                   itemCount: RemindersList.MyLists.length,
-                  itemBuilder: (context, index) {
+                  itemBuilder: (listcontext, index) {
                     return ListItemWidget(
                         onTap: () => {
-                              reminderStream
-                                  .setList(RemindersList.MyLists[index].name),
+                              BlocProvider.of<NewReminderBloc>(context).add(SetListEvent(list:   RemindersList.MyLists[index].name)),
                               Navigator.pop(context)
                             },
                         bgIcon: RemindersList.MyLists[index].color,
@@ -130,56 +135,55 @@ class _CreateNewReminder extends State<CreateNewReminder> {
                         length: RemindersList.MyLists[index].list.length);
                   }))
         ]);
-    return StreamBuilder<ReminderState>(
-        initialData: ReminderState(list: 'Reminders'),
-        stream: reminderStream.reminderStream,
-        builder: (context, snapshot) {
-          return SafeArea(
-            child: Scaffold(
-              appBar: _appBarWidget(snapshot),
-              body: ListView(
-                shrinkWrap: true,
-                children: [
-                  ReminderFormWidget(
-                      onChangeTitle: (value) => {
-                            reminderStream.setTitle(value),
-                            title = value,
-                          },
-                      onChangeNotes: (value) => {
-                            reminderStream.setNote(value),
-                            notes = value,
-                          }),
-                  ContainerButtonWidget(
-                    title: 'Details',
-                    content: snapshot.data.details != null ? getContent(snapshot.data.details) : null,
-                    onPressed: () async {
-                      details = await Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => details == null
-                                  ? DetailsScreen(
-                                  date: 0, time: 0, priority: 0)
-                                  : DetailsScreen(
-                                date: details['date'],
-                                time: details['time'],
-                                priority: details['priority'],
-                              )));
-                      reminderStream.setDetails(details);
-                    },
-                  ),
-                  ContainerButtonWidget(
-                    title: 'List',
-                    subTitle: snapshot.data.list != null
-                        ? snapshot.data.list
-                        : 'Reminders',
-                    onPressed: () => showDialog(
-                        context: context, builder: (context) => listDialog),
-                  ),
-                ],
+    return  BlocBuilder<NewReminderBloc,NewReminderState>(
+      builder: (context,state) {
+        return  Scaffold(
+          appBar: _appBarWidget(state),
+          body: ListView(
+            shrinkWrap: true,
+            children: [
+              ReminderFormWidget(
+                  onChangeTitle: (value) => {
+                    BlocProvider.of<NewReminderBloc>(context).add(SetTitleEvent(title: value)),
+                    title = value,
+                  },
+                  onChangeNotes: (value) => {
+                    BlocProvider.of<NewReminderBloc>(context).add(SetNotesEvent(notes: value)),
+                    notes = value,
+                  }),
+              ContainerButtonWidget(
+                title: 'Details',
+                content: state.details != null ? getContent(state.details) : null,
+                onPressed: () async {
+                  details = await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => details == null
+                              ? BlocProvider<AddDetailsBloc>(
+                              create: (context) => AddDetailsBloc(), child:DetailsScreen(
+                              date: 0, time: 0, priority: 0))
+                              : BlocProvider<AddDetailsBloc>(
+                              create: (context) => AddDetailsBloc(), child:DetailsScreen(
+                            date: details['date'],
+                            time: details['time'],
+                            priority: details['priority'],
+                          ))));
+                  BlocProvider.of<NewReminderBloc>(context).add(SetDetailsEvent(details: details));
+                },
               ),
-            ),
-          );
-        });
+              ContainerButtonWidget(
+                title: 'List',
+                subTitle: state.list != null
+                    ? state.list
+                    : 'Reminders',
+                onPressed: () => showDialog(
+                    context: context, builder: (dialogContext) => listDialog),
+              ),
+            ],
+          ),
+        );
+      }
+    );
   }
 
   String getContent(content) {

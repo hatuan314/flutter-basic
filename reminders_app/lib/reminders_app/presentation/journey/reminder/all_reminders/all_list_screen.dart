@@ -1,10 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
 import 'package:reminders_app/reminders_app/common/constants/route_constants.dart';
+import 'package:reminders_app/reminders_app/presentation/journey/reminder/all_reminders/bloc/all_list_bloc.dart';
+import 'package:reminders_app/reminders_app/presentation/journey/reminder/all_reminders/bloc/all_list_event.dart';
+import 'package:reminders_app/reminders_app/presentation/journey/reminder/all_reminders/bloc/all_list_state.dart';
 import 'package:reminders_app/reminders_app/presentation/journey/reminder/reminders_constants.dart';
 import 'package:reminders_app/reminders_app/presentation/theme/theme.dart';
 import 'package:reminders_app/reminders_app/presentation/widgets_constants/appbar_for_list_screen.dart';
@@ -32,89 +36,86 @@ class _AllRemindersList extends State<AllRemindersList> {
 
   @override
   Widget build(BuildContext context) {
-    allListStream.update();
+  //  allListStream.update();
     int id;
-    return Scaffold(
-            backgroundColor: Colors.white,
-            appBar: AppbarWidgetForListScreen(context, () { Navigator.pushNamed(context, RouteList.createNewScreen).whenComplete(() async => await allListStream.update());}
-              ,),
-            body: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(
-                        top: ScreenUtil().setHeight(10),
-                        left: ScreenUtil().setWidth(20)),
-                    child: Text(RemindersConstants.allTxt,
-                        style: ThemeText.headlineListScreen.copyWith(color: Colors.black)),
-                  ),
-                  Expanded(
-                      child: Padding(
-                    padding: EdgeInsets.only(
-                      bottom: ScreenUtil().setHeight(12),
-                      right: ScreenUtil().setWidth(12),
-                      left: ScreenUtil().setWidth(20),
+    return BlocBuilder<AllReminderBloc,AllReminderState>(
+      builder: (context,state){
+     return Scaffold(
+              backgroundColor: Colors.white,
+              appBar: AppbarWidgetForListScreen(context, () { Navigator.pushNamed(context, RouteList.createNewScreen).whenComplete(() async => await  BlocProvider.of<AllReminderBloc>(context)
+                  .add(UpdateEvent(myLists: RemindersList.MyLists)),);}
+                ,),
+              body: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(
+                          top: ScreenUtil().setHeight(10),
+                          left: ScreenUtil().setWidth(20)),
+                      child: Text(RemindersConstants.allTxt,
+                          style: ThemeText.headlineListScreen.copyWith(color: Colors.black)),
                     ),
-                    child: StreamBuilder(
-                        stream: allListStream.myListsStream,
-                        builder: (context, snapshot) {
-                          return ListView.builder(
-                              shrinkWrap: true,
-                              itemCount: snapshot.hasData ? snapshot.data.length : 1,
-                              itemBuilder: (context, index) {
-                                return Column(children: [
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                      top: ScreenUtil().setHeight(10),
-                                    ),
-                                    child: Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: Text(
-                                        allListStream.MyLists[index].name,
-                                        style: ThemeText.headline2ListScreen
-                                            .copyWith(
-                                                color: allListStream
-                                                    .MyLists[index].color),
-                                      ),
-                                    ),
+                    Expanded(
+                        child: Padding(
+                      padding: EdgeInsets.only(
+                        bottom: ScreenUtil().setHeight(12),
+                        right: ScreenUtil().setWidth(12),
+                        left: ScreenUtil().setWidth(20),
+                      ),
+                      child: ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: state.myLists.length,
+                          itemBuilder: (context, index) {
+                            return Column(children: [
+                              Padding(
+                                padding: EdgeInsets.only(
+                                  top: ScreenUtil().setHeight(10),
+                                ),
+                                child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    state.myLists[index].name,
+                                    style: ThemeText.headline2ListScreen
+                                        .copyWith(
+                                        color: state.myLists[index].color),
                                   ),
-                                  allListStream.MyLists[index].list.length == 0
-                                      ? Padding(
-                                          padding: EdgeInsets.only(
-                                              top: ScreenUtil().setHeight(20),
-                                              bottom:
-                                                  ScreenUtil().setHeight(20)),
-                                          child: Align(
-                                              alignment: Alignment.center,
-                                              child: RemindersConstants
-                                                  .noReminders),
-                                        )
-                                      : getReminderOfList(index)
-                                ]);
-                              });
-                        }),
-                  ))
-                ]));
+                                ),
+                              ),
+                              state.myLists[index].list.length == 0
+                                  ? Padding(
+                                padding: EdgeInsets.only(
+                                    top: ScreenUtil().setHeight(20),
+                                    bottom:
+                                    ScreenUtil().setHeight(20)),
+                                child: Align(
+                                    alignment: Alignment.center,
+                                    child: RemindersConstants
+                                        .noReminders),
+                              )
+                                  : getReminderOfList(index,state)
+                            ]);
+                          }),
+                    ))
+                  ])
+    );}
+    );
   }
 
-  Widget getReminderOfList(int index)
+  Widget getReminderOfList(int index,AllReminderState state)
   {
    return ListView.builder(
         shrinkWrap: true,
-        itemCount: allListStream
-            .MyLists[index].list.length,
+        itemCount: state.myLists[index].list.length,
         itemBuilder: (context, index1) {
           String time = (DateTime
               .fromMillisecondsSinceEpoch(
-              allListStream
-                  .MyLists[index]
+              state.myLists[index]
                   .list[index1]
                   .dateAndTime)
               .hourHHmm);
           String date = DateTime
               .fromMillisecondsSinceEpoch(
-              allListStream
-                  .MyLists[index]
+              state.myLists[index]
                   .list[index1]
                   .dateAndTime)
               .dateDdMMyyyy;
@@ -127,7 +128,7 @@ class _AllRemindersList extends State<AllRemindersList> {
                 IconSlideWidget.delete(() => {
                   showDialog( context: context,
                     builder:
-                        (_) =>
+                        (dialogContext) =>
                         ConfirmDialog(      confirmText: 'Delete',
                             content: 'Are you sure you want to delete this reminder ?',
                             title:  'Delete ?',
@@ -136,7 +137,7 @@ class _AllRemindersList extends State<AllRemindersList> {
                               Navigator.pop(
                                   context);
                             },
-                            onPressedOk: ()=> _deleteReminder(index, index1)
+                            onPressedOk: ()=> _deleteReminder(index, index1,state)
                         ),  ) },)
               ],
               actionExtentRatio: 0.2,
@@ -156,8 +157,7 @@ class _AllRemindersList extends State<AllRemindersList> {
                           BoxDecoration(
                             shape: BoxShape  .circle,
                             color: RemindersConstants
-                                .getPriorityColor(allListStream
-                                .MyLists[
+                                .getPriorityColor(state.myLists[
                             index]
                                 .list[
                             index1]
@@ -175,9 +175,9 @@ class _AllRemindersList extends State<AllRemindersList> {
                                   .start,
                               children: [
                                 Container(
-                                  width: ScreenUtil() .screenWidth -  75,
+                                  width: ScreenUtil() .screenWidth -  85,
                                   child: Text(
-                                      allListStream .MyLists[ index] .list[ index1] .title,
+                                      state.myLists[ index] .list[ index1] .title,
                                       overflow:
                                       TextOverflow
                                           .ellipsis,
@@ -196,9 +196,9 @@ class _AllRemindersList extends State<AllRemindersList> {
                                   Container(
                                     width:
                                     ScreenUtil().screenWidth -
-                                        75,
+                                        85,
                                     child:
-                                    Text(getDetails(index, index1, date, time),
+                                    Text(getDetails(index, index1, date, time,state),
                                       overflow:  TextOverflow.ellipsis,
                                       maxLines:  5,
                                       softWrap:  false,
@@ -216,7 +216,7 @@ class _AllRemindersList extends State<AllRemindersList> {
                                       0.5),
                                   width: ScreenUtil()
                                       .screenWidth -
-                                      75,
+                                      85,
                                 )
                               ]),
                         )
@@ -224,20 +224,19 @@ class _AllRemindersList extends State<AllRemindersList> {
         });
   }
 
-  String getDetails(int index, int index1, String date, String time)
+  String getDetails(int index, int index1, String date, String time, AllReminderState state)
   {
-    return allListStream.MyLists[index].list[index1].dateAndTime !=
+    return state.myLists[index].list[index1].dateAndTime !=
         0
-        ? ((allListStream.MyLists[index].list[index1].dateAndTime % 10 == 1)
-        ? '${date == now ? 'Today' : date}, ${time} \n${allListStream.MyLists[index].list[index1].notes}'
-        : '${date == now ? 'Today' : date}\n${allListStream.MyLists[index].list[index1].notes}')
-        : '${allListStream.MyLists[index].list[index1].notes}';
+        ? ((state.myLists[index].list[index1].dateAndTime % 10 == 1)
+        ? '${date == now ? 'Today' : date}, ${time} \n${state.myLists[index].list[index1].notes}'
+        : '${date == now ? 'Today' : date}\n${state.myLists[index].list[index1].notes}')
+        : '${state.myLists[index].list[index1].notes}';
   }
-  void _deleteReminder(int index, int index1)
+  void _deleteReminder(int index, int index1,AllReminderState state)
   {
       String  delDate;
-      int id = allListStream
-          .MyLists[index]
+      int id = state.myLists[index]
           .list[index1]
           .id;
       RemindersList
@@ -264,8 +263,7 @@ class _AllRemindersList extends State<AllRemindersList> {
           .allReminders
           .remove(delDate);
       index1--;
-      allListStream
-          .update();
+      BlocProvider.of<AllReminderBloc>(context).add(UpdateEvent(myLists: RemindersList.MyLists));
       Navigator.pop(
           context);
 

@@ -1,8 +1,13 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/screen_util.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:reminders_app/reminders_app/presentation/journey/home_page/bloc/home_state.dart';
+import 'package:reminders_app/reminders_app/presentation/journey/home_page/bloc/homepage_bloc.dart';
+import 'package:reminders_app/reminders_app/presentation/journey/home_page/bloc/homepage_event.dart';
 import 'package:reminders_app/reminders_app/presentation/journey/home_page/bloc/homepage_stream.dart';
 import 'package:reminders_app/reminders_app/presentation/journey/list/list/list_screen.dart';
 import 'package:reminders_app/reminders_app/presentation/theme/theme.dart';
@@ -13,17 +18,16 @@ import '../../reminders_list.dart';
 import '../homepage_constants.dart';
 
 class MyListsWidget extends StatelessWidget{
-  HomeState homeState;
-HomeStream homeStream;
-  MyListsWidget({@required this.homeState,@required this.homeStream});
+ String name;
+ int index;
+ Color color;
+ int length;
+ 
+  MyListsWidget({@required this.color, @required this.name ,@required this.index,@required this.length,});
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-        shrinkWrap: true,
-        itemCount:
-        homeState.MyLists.length == null ? 1 : homeState.MyLists.length,
-        itemBuilder: (context, index) {
+   // log(myLists.toString());
           return Slidable(
             closeOnScroll: true,
             actionPane: SlidableDrawerActionPane(),
@@ -35,10 +39,10 @@ HomeStream homeStream;
               Padding(
                 padding: EdgeInsets.symmetric(vertical: ScreenUtil().setWidth(10)),
                 child: IconSlideWidget.delete(() => {
-                  RemindersList.MyLists[index].name == 'Reminders'
+                   name == 'Reminders'
                       ? showDialog(
                       context: context,
-                      builder: (_) => AlertDialog(
+                      builder: (dialogContext) => AlertDialog(
                           backgroundColor: Colors.white,
                           shape: RoundedRectangleBorder(
                               borderRadius:
@@ -65,7 +69,8 @@ HomeStream homeStream;
                           ]))
                       : showDialog(
                       context: context,
-                      builder: (_) => ConfirmDialog(
+                      builder: (dialogContext) => ConfirmDialog(
+                        confirmText: 'Delete',
                         onPressedCancel: () {
                           Navigator.pop(context);
                         },
@@ -82,7 +87,7 @@ HomeStream homeStream;
               onTap: () async {
                 await Navigator.push(context,
                     MaterialPageRoute(builder: (_) => (ListScreen(index))))
-                    .whenComplete(() => homeStream.update());
+                    .whenComplete(() => BlocProvider.of<HomeBloc>(context).add(UpdateEvent()));
               },
               child: Container(
                 margin: EdgeInsets.symmetric(vertical: ScreenUtil().setWidth(10)),
@@ -96,7 +101,7 @@ HomeStream homeStream;
                       flex: 4,
                       child: Align(
                         alignment: Alignment.topLeft,
-                        child: HomePageConstant.listIconWidget(homeState.MyLists[index].color),
+                        child: HomePageConstant.listIconWidget( color),
                       ),
                     ),
                     Expanded(
@@ -104,7 +109,7 @@ HomeStream homeStream;
                       child: Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          homeState.MyLists[index].name,
+                         name,
                           style: ThemeText.title2,
                         ),
                       ),
@@ -112,7 +117,7 @@ HomeStream homeStream;
                     Expanded(
                         flex: 2,
                         child: Text(
-                          '${homeState.MyLists[index].list.length}',
+                          '${length}',
                           textAlign: TextAlign.right,
                           style: TextStyle(
                               fontSize: ScreenUtil().setSp(15),
@@ -125,7 +130,7 @@ HomeStream homeStream;
               ),
             ),
           );
-        });
+
   }
 
   deleteList(BuildContext context, int index) {
@@ -147,9 +152,9 @@ HomeStream homeStream;
       });
     }
     ;
-    RemindersList.MyLists.removeAt(index);
+   RemindersList.MyLists.removeAt(index);
     index--;
-    homeStream.update();
+    BlocProvider.of<HomeBloc>(context).add(UpdateEvent( ));
     Navigator.pop(context);
   }
 

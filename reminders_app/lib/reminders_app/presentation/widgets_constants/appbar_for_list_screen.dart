@@ -29,10 +29,13 @@ class AppbarWidgetForListScreen extends AppBar {
                 margin: EdgeInsets.all(ScreenUtil().setWidth(10)),
                 decoration:
                     BoxDecoration(shape: BoxShape.circle, color: Colors.blue),
-                child: Icon(
-                  Icons.add,
-                  color: Colors.white,
-                  size: ScreenUtil().setSp(30),
+                child: FittedBox(
+                  fit: BoxFit.fill,
+                  child: Icon(
+                    Icons.add,
+                    color: Colors.white,
+                    size: ScreenUtil().setSp(30),
+                  ),
                 ),
               ),
             )

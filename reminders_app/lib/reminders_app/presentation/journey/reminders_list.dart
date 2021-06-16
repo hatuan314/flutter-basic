@@ -28,36 +28,31 @@ class RemindersList {
 
   static void addList(String name, Color color) {
     Group g = new Group(name:name,color: color,createAt: DateTime
-        .now()
-        .millisecondsSinceEpoch,
+        .now().toString() ,
         lastUpdate:   DateTime
-            .now()
-            .millisecondsSinceEpoch);
-    //log(g.name);
+            .now().toString());
     MyLists.add(g);
-
-    //  log(MyLists.toString());
-    // notifyListeners();
   }
 
   static void addReminder(String title, String notes, String list,
       int dateAndTime, int priority) {
     Reminder r = new Reminder(
-        i++,
-        title,
-        notes,
-        list,
-        dateAndTime,
-        DateTime
+        id:i++,
+       title: title,
+       notes: notes,
+      list:  list,
+        dateAndTime:    dateAndTime,
+      createAt:  DateTime
             .now()
             .millisecondsSinceEpoch,
-        DateTime
+       lastUpdate: DateTime
             .now()
             .millisecondsSinceEpoch,
-        priority);
+        priority: priority);
     r.priority = priority;
     for (int i = 0; i < MyLists.length; i++) {
       if (list == (MyLists[i].name)) {
+        log("add vao list");
         MyLists[i].list.add(r);
         //sắp xếp theo thứ tự ưu tiên
         for(int k=0;k<MyLists[i].list.length;k++)

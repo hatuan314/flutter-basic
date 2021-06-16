@@ -173,7 +173,7 @@ class _ScheduledList extends State<ScheduledList> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Container(
-                                  width: ScreenUtil().screenWidth - 75,
+                                  width: ScreenUtil().screenWidth - 85,
                                   child: Text(
                                       RemindersList.allReminders[scheduledListState
                                       .dateList[index]][index1]
@@ -195,7 +195,7 @@ class _ScheduledList extends State<ScheduledList> {
                                   padding: EdgeInsets.only(
                                       top: ScreenUtil().setHeight(3)),
                                   child: Container(
-                                    width: ScreenUtil().screenWidth - 75,
+                                    width: ScreenUtil().screenWidth - 85,
                                     child: Text(
                                       getDetails(scheduledListState, index,
                                           index1, time),
@@ -214,7 +214,7 @@ class _ScheduledList extends State<ScheduledList> {
                                       top: ScreenUtil().setHeight(10)),
                                   color: Colors.grey,
                                   height: ScreenUtil().setHeight(0.5),
-                                  width: ScreenUtil().screenWidth - 75,
+                                  width: ScreenUtil().screenWidth - 85,
                                 )
                               ]),
                         )

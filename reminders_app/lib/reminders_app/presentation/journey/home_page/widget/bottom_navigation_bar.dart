@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:reminders_app/reminders_app/common/constants/route_constants.dart';
+import 'package:reminders_app/reminders_app/presentation/journey/home_page/bloc/homepage_bloc.dart';
+import 'package:reminders_app/reminders_app/presentation/journey/home_page/bloc/homepage_event.dart';
+import 'package:reminders_app/reminders_app/presentation/journey/list/new_list/bloc/add_list_bloc.dart';
 import 'package:reminders_app/reminders_app/presentation/journey/list/new_list/create_new_list.dart';
 
+import '../../reminders_list.dart';
 import '../homepage_provider.dart';
 import '../bloc/homepage_stream.dart';
 class BottomBar extends StatelessWidget
-{BuildContext context; HomeStream homeStream;
+{BuildContext context1;
 
-BottomBar(this.context, {this.homeStream});
+BottomBar(this.context1 );
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +30,7 @@ BottomBar(this.context, {this.homeStream});
                   onTap: () async
                   {await Navigator.pushNamed(context, RouteList.createNewScreen)
                       .whenComplete(()=>
-                      homeStream.update()) ;
+                      BlocProvider.of<HomeBloc>(context1).add(UpdateEvent( ))) ;
                   },
                   child: Row(children: [
                     Container(
@@ -53,9 +58,10 @@ BottomBar(this.context, {this.homeStream});
           Expanded(
               child: GestureDetector(
                 onTap: () async
-                {await Navigator.push(context, MaterialPageRoute(builder: (context)=>NewList()))
+                {await Navigator.push(context, MaterialPageRoute(builder: (context)=> BlocProvider<AddListBloc>(
+                    create: (context) => AddListBloc(), child: NewList())))
                     .whenComplete(()=>
-                    homeStream.update()) ;
+                    BlocProvider.of<HomeBloc>(context1).add(UpdateEvent( ))) ;
                 },
                 child: Text(
                   'Add List',

@@ -1,26 +1,27 @@
 import 'dart:developer';
 
+import 'package:hive/hive.dart';
+part 'reminder.g.dart';
+@HiveType(typeId: 1)
 class Reminder {
+  Reminder({this.id, this.title, this.notes, this.list, this.dateAndTime,
+    this.createAt, this.lastUpdate, this.priority});
+  @HiveField(0)
   int id;
+  @HiveField(1)
   String title;
+  @HiveField(2)
   String notes;
+  @HiveField(3)
   String list='Reminders';
+  @HiveField(4)
   int dateAndTime;
+  @HiveField(5)
   int createAt;
+  @HiveField(6)
   int lastUpdate;
+  @HiveField(7)
   int priority=0;
-  bool isDeleted=false;
 
-  Reminder(int id,String title, String notes, String list, int dateAndTime, int createAt,
-  int lastUpdate, int priority){
-    this.id=id;
-    this.title=title;
-    this.notes=notes;
-    this.list=list;
-    this.dateAndTime=dateAndTime;
-    this.createAt=createAt;
-    this.lastUpdate=lastUpdate;
-    this.priority=priority;
-    log(this.priority.toString()+'pppppppppp');
-  }
+
 }

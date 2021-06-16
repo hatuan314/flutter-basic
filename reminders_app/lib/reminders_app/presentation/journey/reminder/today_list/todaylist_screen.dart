@@ -143,7 +143,7 @@ class _TodayList extends State<TodayList> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Container(
-                                          width: ScreenUtil().screenWidth - 75,
+                                          width: ScreenUtil().screenWidth - 85,
                                           child: Text(
                                             RemindersList
                                                 .allReminders[now][index].title,
@@ -162,7 +162,7 @@ class _TodayList extends State<TodayList> {
                                               top: ScreenUtil().setHeight(3)),
                                           child: Container(
                                             width:
-                                                ScreenUtil().screenWidth - 75,
+                                                ScreenUtil().screenWidth - 85,
                                             child: Text(
                                               (RemindersList
                                                               .allReminders[now]
@@ -188,7 +188,7 @@ class _TodayList extends State<TodayList> {
                                               top: ScreenUtil().setHeight(10)),
                                           color: Colors.grey,
                                           height: ScreenUtil().setHeight(0.5),
-                                          width: ScreenUtil().screenWidth - 75,
+                                          width: ScreenUtil().screenWidth - 85,
                                         )
                                       ]),
                                 )

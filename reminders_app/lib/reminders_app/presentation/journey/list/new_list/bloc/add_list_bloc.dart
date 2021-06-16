@@ -21,7 +21,6 @@ class AddListBloc extends Bloc<AddListEvent, AddListState> {
 
   Stream<AddListState> _mapActiveAddButtonEventToState(
       ActiveAddButtonEvent event) async* {
-    log(event.activeAddButton.toString());
     final bool activeAddBtn = event.activeAddButton;
     yield state.update(
       activeAddBtn: activeAddBtn,

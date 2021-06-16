@@ -145,7 +145,7 @@ class _ListScreen extends State<ListScreen> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Container(
-                                          width: ScreenUtil().screenWidth - 75,
+                                          width: ScreenUtil().screenWidth - 85,
                                           child: Text(
                                               RemindersList.MyLists[index]
                                                   .list[index1].title,
@@ -159,7 +159,7 @@ class _ListScreen extends State<ListScreen> {
                                               top: ScreenUtil().setHeight(3)),
                                           child: Container(
                                             width:
-                                                ScreenUtil().screenWidth - 75,
+                                                ScreenUtil().screenWidth - 85,
                                             child: Text(
                                                 getDetails(index1, date, time),
                                                 overflow: TextOverflow.ellipsis,
@@ -173,7 +173,7 @@ class _ListScreen extends State<ListScreen> {
                                               top: ScreenUtil().setHeight(10)),
                                           color: Colors.grey,
                                           height: ScreenUtil().setHeight(0.5),
-                                          width: ScreenUtil().screenWidth - 75,
+                                          width: ScreenUtil().screenWidth - 85,
                                         )
                                       ]),
                                 )

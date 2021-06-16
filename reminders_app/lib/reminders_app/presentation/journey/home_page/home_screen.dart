@@ -1,49 +1,69 @@
 import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/screen_util.dart';
 import 'package:reminders_app/reminders_app/common/constants/layout_constants.dart';
 import 'package:reminders_app/reminders_app/common/constants/route_constants.dart';
+import 'package:reminders_app/reminders_app/presentation/journey/home_page/bloc/homepage_bloc.dart';
+import 'package:reminders_app/reminders_app/presentation/journey/home_page/bloc/homepage_event.dart';
 import 'package:reminders_app/reminders_app/presentation/journey/home_page/bloc/homepage_stream.dart';
 import 'package:reminders_app/reminders_app/presentation/journey/home_page/homepage_constants.dart';
 import 'package:reminders_app/reminders_app/presentation/journey/home_page/widget/my_lists_widget.dart';
 import 'package:reminders_app/reminders_app/presentation/journey/list/list/list_screen.dart';
+import 'package:reminders_app/reminders_app/presentation/model/boxex.dart';
+import 'package:reminders_app/reminders_app/presentation/model/group.dart';
 import 'package:reminders_app/reminders_app/presentation/theme/theme.dart';
 import 'package:reminders_app/reminders_app/presentation/widgets_constants/confirm_dialog.dart';
 import 'package:reminders_app/reminders_app/presentation/widgets_constants/icon_slide_widget.dart';
 import 'bloc/home_state.dart';
 
+import 'package:reminders_app/reminders_app/common/extensions/date_extensions.dart';
 import '../reminders_list.dart';
 import 'widget/bottom_navigation_bar.dart';
 import 'widget/grid_view_item.dart';
 import 'widget/search_bar.dart';
 
-class B10HomeScreen extends StatefulWidget {
-  State<StatefulWidget> createState() => _B10HomeScreen();
+class  HomeScreen extends StatefulWidget {
+  State<StatefulWidget> createState() => _HomeScreen();
 }
 
-class _B10HomeScreen extends State<B10HomeScreen> {
+class _HomeScreen extends State< HomeScreen> {
   final TextEditingController textName = TextEditingController();
-  HomeStream homeStream = HomeStream();
+  //HomeStream homeStream = HomeStream();
 
   @override
   void dispose() {
-    homeStream.dispose();
+  //  homeStream.dispose();
     super.dispose();
   }
-
+  Future addDefaultList()
+  {
+    final box= Boxes.getGroup();
+    if(box.isEmpty) {
+      final g = Group()
+        ..name = 'Reminders'
+        ..color = Colors.blue
+        ..createAt = DateTime
+            .now()
+            .dateDdMMyyyy
+        ..lastUpdate = DateTime
+            .now()
+            .dateDdMMyyyy;
+      box.add(g);
+      log('added default list');
+    }
+  }
   @override
   Widget build(BuildContext context) {
     RemindersList.addDefaultList();
-    // homeStream.update();
-    return StreamBuilder<HomeState>(
-        initialData:
-            HomeState(l1: 0, l2: 0, l3: 0, MyLists: RemindersList.MyLists),
-        stream: homeStream.homeStream,
-        builder: (context, snapshot) {
+     BlocProvider.of<HomeBloc>(context).add(UpdateEvent());
+    return BlocBuilder<HomeBloc,HomeState>(
+      builder: (context, state)
+    {
           return Scaffold(
             backgroundColor: Colors.grey.shade100,
             body: SafeArea(
@@ -66,25 +86,25 @@ class _B10HomeScreen extends State<B10HomeScreen> {
                           onTap: () async {
                             await Navigator.pushNamed(
                                     context, RouteList.todayListScreen)
-                                .whenComplete(() => homeStream.update());
+                                .whenComplete(() => BlocProvider.of<HomeBloc>(context).add(UpdateEvent()));
                           },
                           child: GridViewItem(
                               icon: HomePageConstant.iconToday,
                               bgColor: Colors.blue,
                               title: 'Today',
-                              count: snapshot.data.l1),
+                              count: state.todayListLength),
                         ),
                         GestureDetector(
                           onTap: () async {
                             await Navigator.pushNamed(
                                     context, RouteList.scheduledListScreen)
-                                .whenComplete(() => homeStream.update());
+                                .whenComplete(() => BlocProvider.of<HomeBloc>(context).add(UpdateEvent()));
                           },
                           child: GridViewItem(
                               icon: HomePageConstant.iconScheduled,
                               bgColor: Colors.red,
                               title: 'Scheduled',
-                              count: snapshot.data.l2),
+                              count: state.scheduledListLength),
                         ),
                       ]),
                   Padding(
@@ -95,13 +115,13 @@ class _B10HomeScreen extends State<B10HomeScreen> {
                       onTap: () async {
                         await Navigator.pushNamed(
                                 context, RouteList.allListScreen)
-                            .whenComplete(() => homeStream.update());
+                            .whenComplete(() => BlocProvider.of<HomeBloc>(context).add(UpdateEvent( )));
                       },
                       child: GridViewItem(
                           icon: HomePageConstant.iconAll,
                           bgColor: Colors.grey,
                           title: 'All',
-                          count: snapshot.data.l3),
+                          count: state.allListLength),
                     ),
                   ),
                   Padding(
@@ -119,12 +139,18 @@ class _B10HomeScreen extends State<B10HomeScreen> {
                   Padding(
                     padding: EdgeInsets.symmetric(
                         horizontal: LayoutConstants.paddingHorizontalItem),
-                    child:MyListsWidget(homeState:snapshot.data, homeStream: homeStream),
-                  )
-                ],
+                    child:ListView.builder(
+                        shrinkWrap: true,
+                        itemCount:  state.myLists.length,
+                        itemBuilder: (context, index) {
+                          log(state.myLists[index].name);
+                          return MyListsWidget(color: state.myLists[index].color, name: state.myLists[index].name , index: index, length: state.myLists[index].list.length);
+                        }),
+                    )
+                                  ],
               ),
             ),
-            bottomNavigationBar: BottomBar(context, homeStream: homeStream),
+            bottomNavigationBar: BottomBar(context ),
           );
         });
   }
