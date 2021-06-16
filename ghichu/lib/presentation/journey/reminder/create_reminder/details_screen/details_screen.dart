@@ -38,27 +38,11 @@ class _DetailsPageState extends State<DetailsPage> {
           backgroundColor: Colors.white.withOpacity(0.95),
           appBar: AppBarReminderWidget(
             leading: () {
-              TimeOfDay timeOfDay;
-              DateTime dateTime;
-              if (state.isDateSwitch == false) {
-                dateTime = null;
-                timeOfDay = null;
-              } else {
-                dateTime = state.selectDate;
-                if (state.isTimeSwitch) {
-                  timeOfDay = state.timeOfDay;
-                } else {
-                  timeOfDay = null;
-                }
-              }
               Navigator.pop(
                   context,
                   SettingDetails(
-                      state: state,
-                      timeOfDay: timeOfDay,
-                      priorty: state.priority,
-                      date: dateTime,
-                      isTime: state.isTimeSwitch));
+                    state: state,
+                  ));
             },
             textLeft: DetailsContraints.leadingTxt,
             title: DetailsContraints.titleTxt,

@@ -14,6 +14,7 @@ class ModelListReminder {
   static Map<String, dynamic> reminderApp = ReminderApp(reminders: [], groups: [
     Groups(name: 'Reminder', color: Colors.blue.value.toString())
   ], priorities: [
+    Priorities(name: 'không có'),
     Priorities(name: 'Thấp'),
     Priorities(name: 'Trung bình'),
     Priorities(name: 'Cao')

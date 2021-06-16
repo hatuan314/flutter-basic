@@ -73,8 +73,7 @@ class RouteReminder {
             providers: [
               BlocProvider<NewReminderBloc>(
                   create: (context) => NewReminderBloc()
-                    ..add(UpDateNewReminderEvent(
-                        isDateDetails: false,
+                    ..add(UpDateNewReminderListGroupEvent(
                         groups: settingNewReminder.listGroup[0]))),
             ],
             child: NewReminderPage(

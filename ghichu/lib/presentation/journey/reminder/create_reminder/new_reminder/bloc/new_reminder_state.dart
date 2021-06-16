@@ -10,9 +10,11 @@ class InitialNewReminderState extends NewReminderState {
   final Groups groups;
   final int date;
   final InitDetailsState initDetailsState;
+  final String timeDateDetails;
   InitialNewReminderState(
       {this.date,
       this.initDetailsState,
+      this.timeDateDetails,
       this.isTime,
       this.isDateDetails,
       this.activeBtn,
@@ -20,12 +22,14 @@ class InitialNewReminderState extends NewReminderState {
   InitialNewReminderState update({
     bool isDateDetails,
     InitDetailsState initDetailsState,
+    String timeDateDetails,
     Groups groups,
     bool isTime,
     bool activeBtn,
     int date,
   }) =>
       InitialNewReminderState(
+          timeDateDetails: timeDateDetails ?? this.timeDateDetails,
           initDetailsState: initDetailsState ?? this.initDetailsState,
           isTime: isTime ?? this.isTime,
           date: date ?? this.date,
@@ -34,8 +38,15 @@ class InitialNewReminderState extends NewReminderState {
           activeBtn: activeBtn ?? this.activeBtn);
 
   @override
-  List<Object> get props =>
-      [this.date, this.activeBtn, this.isDateDetails, this.groups, this.isTime];
+  List<Object> get props => [
+        this.timeDateDetails,
+        this.initDetailsState,
+        this.date,
+        this.activeBtn,
+        this.isDateDetails,
+        this.groups,
+        this.isTime
+      ];
 }
 
 class PushToDetailState extends NewReminderState {
@@ -43,7 +54,7 @@ class PushToDetailState extends NewReminderState {
 
   PushToDetailState({this.initDetailsState});
   @override
-  List<Object> get props => [];
+  List<Object> get props => [this.initDetailsState];
 }
 
 class PushToListGroupState extends NewReminderState {

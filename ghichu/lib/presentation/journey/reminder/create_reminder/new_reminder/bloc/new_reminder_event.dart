@@ -5,13 +5,17 @@ import 'package:ghichu/presentation/models/reminder.dart';
 
 abstract class NewReminderEvent {}
 
-class UpDateNewReminderEvent extends NewReminderEvent {
+class UpDateNewReminderDetailsEvent extends NewReminderEvent {
   final Details details;
+  final bool isDateDetails;
+  final InitDetailsState initDetailsState;
+  UpDateNewReminderDetailsEvent(
+      {this.initDetailsState, this.details, this.isDateDetails});
+}
+
+class UpDateNewReminderListGroupEvent extends NewReminderEvent {
   final Groups groups;
-  final bool isDateDetails,isTime;
-final int date;
-final InitDetailsState initDetailsState;
-  UpDateNewReminderEvent({this.initDetailsState,this.details,this.isDateDetails, this.groups,this.date,this.isTime});
+  UpDateNewReminderListGroupEvent({this.groups});
 }
 
 class ActiveBtn extends NewReminderEvent {

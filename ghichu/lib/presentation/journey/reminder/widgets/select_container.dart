@@ -12,8 +12,7 @@ class SelectContainer extends StatelessWidget {
   Function onTap;
   String color;
   bool buttonDetails;
-  bool timeDetails;
-  int valuesTime;
+  String timeDetails;
   SelectContainer(
       {Key key,
       this.title,
@@ -21,7 +20,6 @@ class SelectContainer extends StatelessWidget {
       this.onTap,
       this.color,
       this.timeDetails,
-      this.valuesTime,
       this.buttonDetails})
       : super(key: key);
 
@@ -53,22 +51,10 @@ class SelectContainer extends StatelessWidget {
                   ),
                 ),
                 buttonDetails
-                    ? Row(
-                        children: [
-                          timeDetails
-                              ? Text(
-                                  '${DateFormat('HH:mm,').format(DateTime.fromMillisecondsSinceEpoch(valuesTime))}',
-                                  style: TextStyle(
-                                      color: Colors.black87.withOpacity(0.6),
-                                      fontSize: ScreenUtil().setSp(14)))
-                              : Text(''),
-                          Text(
-                              '${DateFormat('dd/MM/yyyy').format(DateTime.fromMillisecondsSinceEpoch(valuesTime))}',
-                              style: TextStyle(
-                                  color: Colors.black87.withOpacity(0.6),
-                                  fontSize: ScreenUtil().setSp(14)))
-                        ],
-                      )
+                    ? Text('$timeDetails',
+                        style: TextStyle(
+                            color: Colors.black87.withOpacity(0.6),
+                            fontSize: ScreenUtil().setSp(14)))
                     : SizedBox(),
               ],
             ),

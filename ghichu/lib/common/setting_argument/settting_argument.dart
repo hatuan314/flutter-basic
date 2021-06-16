@@ -17,30 +17,13 @@ class SettingListGroup {
 
 class SettingDetails {
   final InitDetailsState state;
-  final String title, note, priorty;
-  final TimeOfDay timeOfDay;
-  final DateTime date;
-  final bool isTime;
-  int dateAndTime;
-  SettingDetails(
-      {this.isTime,
-      this.state,
-      this.title,
-      this.note,
-      this.timeOfDay,
-      this.date,
-      this.priorty}) {
-    if (date != null) {
-      if (timeOfDay != null) {
-        dateAndTime =
-            date.getTime(true, true, timeOfDay.hour, timeOfDay.minute);
-      } else {
-        dateAndTime = date.getTime(true, false, 0, 0);
-      }
-    } else {
-      dateAndTime = null;
-    }
-  }
+  final String title, note;
+
+  SettingDetails({
+    this.state,
+    this.title,
+    this.note,
+  });
 }
 
 class SettingPriority {

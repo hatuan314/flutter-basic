@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ghichu/common/constants/layout_constants.dart';
 import 'package:ghichu/common/constants/route_constants.dart';
-import 'package:ghichu/common/constants/string_constants.dart';
+
 import 'package:ghichu/common/setting_argument/settting_argument.dart';
 import 'package:ghichu/presentation/blocs/check_buttom.dart';
 
@@ -31,6 +31,7 @@ class NewReminderPage extends StatefulWidget {
 class _NewReminderPageState extends State<NewReminderPage> {
   TextEditingController titleController = new TextEditingController();
   TextEditingController noteController = new TextEditingController();
+  int indexSelect = 0;
   CheckButtonBloc checkButtonBloc = CheckButtonBloc();
   @override
   void initState() {
@@ -54,17 +55,10 @@ class _NewReminderPageState extends State<NewReminderPage> {
                     state: state.initDetailsState))
             .then((value) {
           SettingDetails settingDetails = value;
-          bool isDetailsTime;
-          if (settingDetails.dateAndTime == null) {
-            isDetailsTime = false;
-          } else {
-            isDetailsTime = true;
-          }
-          BlocProvider.of<NewReminderBloc>(context).add(UpDateNewReminderEvent(
-              date: settingDetails.dateAndTime,
-              initDetailsState: settingDetails.state,
-              isDateDetails: isDetailsTime,
-              isTime: settingDetails.isTime));
+          BlocProvider.of<NewReminderBloc>(context).add(
+              UpDateNewReminderDetailsEvent(
+                  initDetailsState: settingDetails.state,
+                  isDateDetails: settingDetails.state.isDateSwitch));
         });
       }
       if (state is PushToListGroupState) {
@@ -74,9 +68,8 @@ class _NewReminderPageState extends State<NewReminderPage> {
                     group: state.groups))
             .then((value) {
           Groups groups = value as Groups;
-
           BlocProvider.of<NewReminderBloc>(context)
-              .add(UpDateNewReminderEvent(groups: groups));
+              .add(UpDateNewReminderListGroupEvent(groups: groups));
         });
       }
     }, builder: (context, state) {
@@ -98,9 +91,13 @@ class _NewReminderPageState extends State<NewReminderPage> {
               }
               Navigator.pop(context);
             },
-            leading: () {
-              showButtonModalSheet(context);
-            },
+            leading: showBttomSheet(state)
+                ? () {
+                    showButtonModalSheet(context);
+                  }
+                : () {
+                    Navigator.pop(context);
+                  },
             color: state.activeBtn ? Colors.blue : Colors.black38,
             textLeft: NewReminderContants.textLeading,
             textRight: widget.settingNewReminder.isEditReminder
@@ -134,8 +131,7 @@ class _NewReminderPageState extends State<NewReminderPage> {
                       : SelectContainer(
                           title: ReminderContants.detailsTxt,
                           buttonDetails: state.isDateDetails,
-                          valuesTime: state.date,
-                          timeDetails: state.isTime,
+                          timeDetails: state.timeDateDetails,
                           onTap: () {
                             BlocProvider.of<NewReminderBloc>(context)
                                 .add(PushDetailEvent());
@@ -161,6 +157,16 @@ class _NewReminderPageState extends State<NewReminderPage> {
         color: Colors.transparent,
       );
     });
+  }
+
+  bool showBttomSheet(InitialNewReminderState state) {
+    if (state.activeBtn ||
+        state.isDateDetails ||
+        state.groups != widget.settingNewReminder.listGroup[0]) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   void setData() {

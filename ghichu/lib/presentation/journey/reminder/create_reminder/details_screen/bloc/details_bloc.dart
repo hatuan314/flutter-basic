@@ -27,8 +27,7 @@ class DetailsBloc extends Bloc<DetailsEvent, DetailsState> {
     if (event is UpDateStateDetailsEvent) {
       final current = state;
       if (current is InitDetailsState) {
-        print('${event.state.priority}');
-        yield event.state;
+        yield event.state ?? current;
       }
     }
     if (event is DateSwitchEvent) {

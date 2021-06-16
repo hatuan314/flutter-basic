@@ -42,15 +42,9 @@ class _PrioritiesScreenState extends State<PrioritiesScreen> {
           builder: (context, state) {
             return Column(
               children: List.generate(
-                  ModelListReminder.reminderApp['priorities'].length + 1,
+                  ModelListReminder.reminderApp['priorities'].length,
                   (index) {
-                String title;
-                if (index == 0) {
-                  title = 'Không có';
-                } else {
-                  title = ModelListReminder.reminderApp['priorities'][index - 1]
-                      ['name'];
-                }
+                String title= ModelListReminder.reminderApp['priorities'][index ]['name'];
                 return ListGroupWidget(
                   onTap: () {
                     BlocProvider.of<PriorityBloc>(context)
