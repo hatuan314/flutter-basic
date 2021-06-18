@@ -1,11 +1,13 @@
+import 'package:ghichu/domain/entities/group_entity.dart';
 
-import 'package:ghichu/presentation/models/group.dart';
+
 abstract class HomePageEvent {}
 
 class UpDate extends HomePageEvent {}
 
 class OrderGroup extends HomePageEvent {
-  final List<Groups> listGroup;
+  final int oldIndex;
+  final int newIndex;
   final bool updateOrder;
-  OrderGroup({this.listGroup,this.updateOrder});
+  OrderGroup({this.updateOrder, this.newIndex, this.oldIndex});
 }

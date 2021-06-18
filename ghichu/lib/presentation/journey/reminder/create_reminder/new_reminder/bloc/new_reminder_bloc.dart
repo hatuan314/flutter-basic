@@ -2,12 +2,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ghichu/common/extension/extension_datetime.dart';
 import 'package:ghichu/presentation/journey/reminder/create_reminder/new_reminder/bloc/new_reminder_event.dart';
 import 'package:ghichu/presentation/journey/reminder/create_reminder/new_reminder/bloc/new_reminder_state.dart';
-import 'package:ghichu/presentation/models/group.dart';
+
 
 class NewReminderBloc extends Bloc<NewReminderEvent, NewReminderState> {
   @override
   NewReminderState get initialState => InitialNewReminderState(
-      isDateDetails: false, activeBtn: false, groups: Groups(), isTime: false);
+      isDateDetails: false, activeBtn: false, isTime: false);
 
   @override
   Stream<NewReminderState> mapEventToState(NewReminderEvent event) async* {

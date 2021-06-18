@@ -1,8 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
-import 'package:ghichu/presentation/models/group.dart';
-import 'package:ghichu/presentation/models/model_map.dart';
+
 
 abstract class AddListEvent {}
 
@@ -22,8 +21,8 @@ class ActiveAddBtn extends AddListEvent {
 class CreateListEvent extends AddListEvent {
   final String name;
   final String color;
-  final int createAt;
-  final int lastUpdate;
+  final String createAt;
+  final String lastUpdate;
 
   CreateListEvent({
     @required this.name,
@@ -31,4 +30,10 @@ class CreateListEvent extends AddListEvent {
     @required this.createAt,
     @required this.lastUpdate,
   });
+}
+
+class PopAddListGroupEvent extends AddListEvent {
+  final bool isRemove;
+
+  PopAddListGroupEvent({this.isRemove});
 }

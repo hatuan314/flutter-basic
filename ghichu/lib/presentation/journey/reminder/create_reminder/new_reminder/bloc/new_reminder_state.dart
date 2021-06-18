@@ -1,13 +1,14 @@
 import 'package:equatable/equatable.dart';
+import 'package:ghichu/domain/entities/group_entity.dart';
 import 'package:ghichu/presentation/journey/reminder/create_reminder/details_screen/bloc/details_state.dart';
-import 'package:ghichu/presentation/models/group.dart';
+
 
 abstract class NewReminderState extends Equatable {}
 
 class InitialNewReminderState extends NewReminderState {
   final bool isDateDetails, isTime;
   final bool activeBtn;
-  final Groups groups;
+  final GroupEntity groups;
   final int date;
   final InitDetailsState initDetailsState;
   final String timeDateDetails;
@@ -23,7 +24,7 @@ class InitialNewReminderState extends NewReminderState {
     bool isDateDetails,
     InitDetailsState initDetailsState,
     String timeDateDetails,
-    Groups groups,
+    GroupEntity groups,
     bool isTime,
     bool activeBtn,
     int date,
@@ -58,7 +59,7 @@ class PushToDetailState extends NewReminderState {
 }
 
 class PushToListGroupState extends NewReminderState {
-  final Groups groups;
+  final GroupEntity groups;
 
   PushToListGroupState({this.groups});
   @override

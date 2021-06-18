@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
+import 'package:ghichu/data/models/reminder.dart';
+import 'package:ghichu/domain/entities/group_entity.dart';
 import 'package:ghichu/presentation/journey/reminder/create_reminder/details_screen/bloc/details_state.dart';
-import 'package:ghichu/presentation/models/group.dart';
-import 'package:ghichu/presentation/models/reminder.dart';
+
 
 abstract class NewReminderEvent {}
 
@@ -14,7 +15,7 @@ class UpDateNewReminderDetailsEvent extends NewReminderEvent {
 }
 
 class UpDateNewReminderListGroupEvent extends NewReminderEvent {
-  final Groups groups;
+  final GroupEntity groups;
   UpDateNewReminderListGroupEvent({this.groups});
 }
 

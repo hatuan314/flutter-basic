@@ -1,12 +1,13 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screen_util.dart';
+import 'package:ghichu/data/models/model_map.dart';
+import 'package:ghichu/data/models/reminder.dart';
 import 'package:ghichu/presentation/journey/reminder/today_reminder/bloc/today_reminder_bloc.dart';
 import 'package:ghichu/presentation/journey/reminder/today_reminder/bloc/today_reminder_state.dart';
 import 'package:ghichu/presentation/journey/reminder/widgets/app_bar_reminder.dart';
 import 'package:ghichu/presentation/journey/reminder/widgets/list_reminder.dart';
-import 'package:ghichu/presentation/models/model_map.dart';
-import 'package:ghichu/presentation/models/reminder.dart';
+
 
 class TodayPage extends StatefulWidget {
   String keyGroup;

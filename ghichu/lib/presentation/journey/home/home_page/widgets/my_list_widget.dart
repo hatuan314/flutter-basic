@@ -5,7 +5,7 @@ import 'package:ghichu/common/constants/string_constants.dart';
 import 'package:ghichu/presentation/journey/home/home_page/bloc/home_page_state.dart';
 import 'package:ghichu/presentation/journey/home/home_page/home_page_constants.dart';
 import 'package:ghichu/presentation/journey/widgets/icon_widget.dart';
-import 'package:ghichu/presentation/models/model_map.dart';
+
 
 class MyListWidget extends StatelessWidget {
   int index;

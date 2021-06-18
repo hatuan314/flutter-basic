@@ -1,5 +1,7 @@
-import 'package:ghichu/presentation/models/model_map.dart';
-import 'package:ghichu/presentation/models/reminder.dart';
+
+
+import 'package:ghichu/data/models/model_map.dart';
+import 'package:ghichu/data/models/reminder.dart';
 
 class AllReminderState {
   String group;
@@ -33,7 +35,7 @@ class AllReminderState {
         ].toList()
       });
     } else {
-      ModelListReminder.listReminder['${group}']['orther'].add(Reminder(
+      ModelListReminder.listReminder['$group']['orther'].add(Reminder(
           title,
           '',
           group,

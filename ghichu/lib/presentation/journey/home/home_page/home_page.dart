@@ -175,11 +175,11 @@ class _State extends State<HomePage> {
                         onReorder: (int oldIndex, int newIndex) {
                           if (newIndex != oldIndex) {
                             updateOrder = !updateOrder;
-                            var item = state.keyMyList.removeAt(oldIndex);
-                            state.keyMyList.insert(newIndex, item);
+
                             BlocProvider.of<HomePageBloc>(context).add(
                                 OrderGroup(
-                                    listGroup: state.keyMyList,
+                                   oldIndex: oldIndex,
+                                    newIndex: newIndex,
                                     updateOrder: updateOrder));
                           }
                         }))

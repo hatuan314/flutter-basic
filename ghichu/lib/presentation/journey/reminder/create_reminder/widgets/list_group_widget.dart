@@ -2,11 +2,12 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screen_util.dart';
+import 'package:ghichu/data/models/model_map.dart';
 import 'package:ghichu/presentation/journey/home/home_page/home_page_constants.dart';
 import 'package:ghichu/presentation/journey/reminder/create_reminder/list_group/bloc/list_group_state.dart';
 import 'package:ghichu/presentation/journey/reminder/create_reminder/list_group/list_group_constants.dart';
 import 'package:ghichu/presentation/journey/reminder/create_reminder/priorities_screen/bloc/priority_state.dart';
-import 'package:ghichu/presentation/models/model_map.dart';
+
 
 // ignore: must_be_immutable
 class ListGroupWidget extends StatelessWidget {

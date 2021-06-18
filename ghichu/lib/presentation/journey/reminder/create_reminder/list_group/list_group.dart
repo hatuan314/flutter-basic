@@ -9,7 +9,7 @@ import 'package:ghichu/presentation/journey/reminder/create_reminder/list_group/
 import 'package:ghichu/presentation/journey/reminder/create_reminder/widgets/list_group_widget.dart';
 
 import 'package:ghichu/presentation/journey/reminder/widgets/app_bar_reminder.dart';
-import 'package:ghichu/presentation/models/group.dart';
+
 
 // ignore: must_be_immutable
 class ListGroupScreen extends StatefulWidget {

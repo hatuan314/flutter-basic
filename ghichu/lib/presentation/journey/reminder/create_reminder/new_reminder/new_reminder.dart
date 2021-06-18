@@ -1,9 +1,11 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ghichu/common/constants/layout_constants.dart';
 import 'package:ghichu/common/constants/route_constants.dart';
 
 import 'package:ghichu/common/setting_argument/settting_argument.dart';
+import 'package:ghichu/domain/entities/group_entity.dart';
 import 'package:ghichu/presentation/blocs/check_buttom.dart';
 
 import 'package:ghichu/presentation/journey/reminder/create_reminder/details_screen/widgets/time_widget.dart';
@@ -17,7 +19,6 @@ import 'package:ghichu/presentation/journey/reminder/widgets/select_container.da
 import 'package:ghichu/presentation/journey/reminder/widgets/text_filed_title_note.dart';
 import 'package:ghichu/presentation/journey/widgets/app_bar.dart';
 import 'package:ghichu/presentation/journey/widgets/show_model_button_sheet.dart';
-import 'package:ghichu/presentation/models/group.dart';
 
 class NewReminderPage extends StatefulWidget {
   final SettingNewReminder settingNewReminder;
@@ -67,7 +68,7 @@ class _NewReminderPageState extends State<NewReminderPage> {
                     listGroup: widget.settingNewReminder.listGroup,
                     group: state.groups))
             .then((value) {
-          Groups groups = value as Groups;
+          GroupEntity groups = value as GroupEntity;
           BlocProvider.of<NewReminderBloc>(context)
               .add(UpDateNewReminderListGroupEvent(groups: groups));
         });
@@ -77,20 +78,22 @@ class _NewReminderPageState extends State<NewReminderPage> {
         return Scaffold(
           backgroundColor: Colors.white.withOpacity(0.95),
           appBar: AppBarWidget(
-            actions:state.activeBtn ?() {
-              if (widget.settingNewReminder.isEditReminder == false) {
-                // newReminderBloc.newReminderState.addTodoList(
-                //     titleController.text,
-                //     noteController.text,
-                //     newReminderBloc.newReminderState.valuesTime,
-                //     widget.listGroup[newReminderBloc.newReminderState.index],
-                //     'none',
-                //     DateTime.now().millisecondsSinceEpoch,
-                //     DateTime.now().millisecondsSinceEpoch,
-                //     newReminderBloc.newReminderState.isTimeDetails);
-              }
-              Navigator.pop(context);
-            }:null,
+            actions: state.activeBtn
+                ? () {
+                    if (widget.settingNewReminder.isEditReminder == false) {
+                      // newReminderBloc.newReminderState.addTodoList(
+                      //     titleController.text,
+                      //     noteController.text,
+                      //     newReminderBloc.newReminderState.valuesTime,
+                      //     widget.listGroup[newReminderBloc.newReminderState.index],
+                      //     'none',
+                      //     DateTime.now().millisecondsSinceEpoch,
+                      //     DateTime.now().millisecondsSinceEpoch,
+                      //     newReminderBloc.newReminderState.isTimeDetails);
+                    }
+                    Navigator.pop(context);
+                  }
+                : null,
             leading: showBttomSheet(state)
                 ? () {
                     showButtonModalSheet(context);
@@ -162,7 +165,6 @@ class _NewReminderPageState extends State<NewReminderPage> {
   bool showBttomSheet(InitialNewReminderState state) {
     if (state.activeBtn ||
         state.isDateDetails ||
-
         state.groups != widget.settingNewReminder.listGroup[0]) {
       return true;
     } else {
@@ -197,7 +199,6 @@ class _NewReminderPageState extends State<NewReminderPage> {
   @override
   void dispose() {
     checkButtonBloc.dispose();
-
     super.dispose();
   }
 }

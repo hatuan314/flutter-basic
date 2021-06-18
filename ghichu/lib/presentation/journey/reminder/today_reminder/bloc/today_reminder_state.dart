@@ -1,4 +1,5 @@
-import 'package:ghichu/presentation/models/model_map.dart';
+
+import 'package:ghichu/data/models/model_map.dart';
 import 'package:intl/intl.dart';
 
 class TodayReminderState {

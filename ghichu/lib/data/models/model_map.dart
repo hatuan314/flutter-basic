@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:ghichu/presentation/models/prorities.dart';
-import 'package:ghichu/presentation/models/reminder.dart';
+import 'package:ghichu/data/models/prorities.dart';
+import 'package:ghichu/data/models/reminder.dart';
+
 
 import 'group.dart';
 
@@ -8,8 +9,8 @@ class ModelListReminder {
   static Map<String, Map<String, List<Reminder>>> listReminder = {
     'Reminder': {}
   };
-  static Map<String, Group> myList = {
-    'Reminder': Group('Reminder', Colors.blue.value.toString(), 0, 0)
+  static Map<String, dynamic> myList = {
+    'Reminder':''
   };
   static Map<String, dynamic> reminderApp = ReminderApp(reminders: [], groups: [
     Groups(name: 'Reminder', color: Colors.blue.value.toString())

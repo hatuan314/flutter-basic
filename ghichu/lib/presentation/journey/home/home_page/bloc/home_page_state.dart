@@ -1,14 +1,15 @@
 import 'package:equatable/equatable.dart';
-import 'package:ghichu/presentation/models/group.dart';
+import 'package:ghichu/domain/entities/group_entity.dart';
+
 
 // ignore: must_be_immutable
 class HomePageState extends Equatable {
-  List<Groups> keyMyList = [];
+  List<GroupEntity> keyMyList = [];
   bool updateOrder;
   Map<String, int> myListLeght;
   HomePageState({this.keyMyList, this.updateOrder, this.myListLeght});
   HomePageState update(
-          {List<Groups> keyMyList,
+          {List<GroupEntity> keyMyList,
           bool updateOrder,
           Map<String, int> myListLeght}) =>
       HomePageState(

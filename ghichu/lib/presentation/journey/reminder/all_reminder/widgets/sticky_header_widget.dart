@@ -1,12 +1,13 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:ghichu/presentation/blocs/check_buttom.dart';
+import 'package:ghichu/data/models/model_map.dart';
+import 'package:ghichu/data/models/reminder.dart';
+
 import 'package:ghichu/presentation/journey/reminder/__mock__/textfiled_controller.dart';
 import 'package:ghichu/presentation/journey/reminder/all_reminder/bloc/all_reminder_bloc.dart';
 import 'package:ghichu/presentation/journey/reminder/widgets/list_reminder.dart';
-import 'package:ghichu/presentation/models/model_map.dart';
-import 'package:ghichu/presentation/models/reminder.dart';
+
 import 'package:sticky_headers/sticky_headers.dart';
 import '../../widgets/add_widget.dart';
 

@@ -24,7 +24,7 @@ import 'package:ghichu/presentation/journey/reminder/create_reminder/priorities_
 
 import 'package:ghichu/presentation/journey/reminder/schedule_reminder/schedule_reminder_screen.dart';
 import 'package:ghichu/presentation/journey/reminder/today_reminder/today_reminder_screen.dart';
-import 'package:ghichu/presentation/models/model_map.dart';
+
 
 import 'create_reminder/new_reminder/bloc/new_reminder_event.dart';
 

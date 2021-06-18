@@ -6,6 +6,8 @@ import 'package:ghichu/common/constants/string_constants.dart';
 
 import 'package:ghichu/common/enums/reminder_enum.dart';
 import 'package:ghichu/common/untils/reminder_until.dart';
+import 'package:ghichu/data/models/model_map.dart';
+import 'package:ghichu/data/models/reminder.dart';
 import 'package:ghichu/presentation/blocs/check_buttom.dart';
 import 'package:ghichu/presentation/journey/reminder/__mock__/textfiled_controller.dart';
 import 'package:ghichu/presentation/journey/reminder/all_reminder/bloc/all_reminder_bloc.dart';
@@ -14,9 +16,7 @@ import 'package:ghichu/presentation/journey/reminder/reminder_constants.dart';
 import 'package:ghichu/presentation/journey/reminder/schedule_reminder/bloc/schedule_reminder_bloc.dart';
 import 'package:ghichu/presentation/journey/reminder/today_reminder/bloc/today_reminder_bloc.dart';
 import 'package:ghichu/presentation/journey/reminder/widgets/check_box.dart';
-import 'package:ghichu/presentation/models/model_map.dart';
 
-import 'package:ghichu/presentation/models/reminder.dart';
 import 'package:intl/intl.dart';
 
 class ListReminder extends StatelessWidget {

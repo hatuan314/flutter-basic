@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
+import 'package:ghichu/data/models/model_map.dart';
+import 'package:ghichu/data/models/reminder.dart';
 import 'package:ghichu/presentation/journey/reminder/__mock__/textfiled_controller.dart';
-import 'package:ghichu/presentation/models/model_map.dart';
-import 'package:ghichu/presentation/models/reminder.dart';
+
 
 class ScheduleReminderState {
   Map<String, List<Reminder>> reminderSchedule = {};

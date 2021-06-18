@@ -6,11 +6,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ghichu/common/constants/layout_constants.dart';
 import 'package:ghichu/common/setting_argument/settting_argument.dart';
 import 'package:ghichu/common/untils/priority_untils.dart';
+import 'package:ghichu/data/models/model_map.dart';
 import 'package:ghichu/presentation/journey/reminder/create_reminder/priorities_screen/bloc/priority_bloc.dart';
 import 'package:ghichu/presentation/journey/reminder/create_reminder/priorities_screen/bloc/priority_state.dart';
 import 'package:ghichu/presentation/journey/reminder/create_reminder/widgets/list_group_widget.dart';
 import 'package:ghichu/presentation/journey/reminder/widgets/app_bar_reminder.dart';
-import 'package:ghichu/presentation/models/model_map.dart';
+
 
 import 'bloc/priority_event.dart';
 
