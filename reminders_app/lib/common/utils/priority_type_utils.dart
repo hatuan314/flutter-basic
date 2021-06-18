@@ -1,4 +1,4 @@
-import 'package:reminders_app/reminders_app/common/enums/priority_type.dart';
+import '../enums/priority_type.dart';
 
 String priorityTypeUtil(PriorityType type) {
   switch(type) {

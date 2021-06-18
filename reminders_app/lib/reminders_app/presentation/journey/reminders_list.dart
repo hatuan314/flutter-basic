@@ -3,16 +3,12 @@ import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:reminders_app/reminders_app/presentation/model/group.dart';
-import 'package:reminders_app/reminders_app/presentation/model/reminder.dart';
+import 'package:reminders_app/common/constants/color_constants.dart';
+import 'package:reminders_app/reminders_app/domain/entities/group.dart';
+import 'package:reminders_app/reminders_app/domain/entities/reminder.dart';
 
 class RemindersList {
-  //Map<String, List<Reminder>> remindersForToday;
-
-  //pMap<String, List<Reminder>> scheduledReminders;
-
   static Map<String, List<Reminder>> allReminders = Map();
-
   static List<Group> MyLists = [];
   static List<Reminder> _list = [];
   static int i = 0;
@@ -21,12 +17,13 @@ class RemindersList {
     int f = 0;
     if (MyLists?.length == 0) {
       log('add default');
-      addList('Reminders', Colors.blue);
+      addList('Reminders', ColorConstants.getColorString(Colors.blue));
     }
     if (allReminders?.isEmpty ?? true) allReminders?.addAll({'Others': _list});
   }
 
-  static void addList(String name, Color color) {
+  static void addList(String name, String color) {
+    log(color);
     Group g = new Group(name:name,color: color,createAt: DateTime
         .now().toString() ,
         lastUpdate:   DateTime

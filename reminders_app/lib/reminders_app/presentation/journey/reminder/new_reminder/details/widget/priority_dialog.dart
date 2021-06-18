@@ -4,14 +4,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/screen_util.dart';
-import 'package:reminders_app/reminders_app/common/enums/priority_type.dart';
-import 'package:reminders_app/reminders_app/common/utils/priority_type_utils.dart';
-import 'package:reminders_app/reminders_app/presentation/journey/list/new_list/bloc/add_list_bloc.dart';
-import 'package:reminders_app/reminders_app/presentation/journey/reminder/new_reminder/details/bloc/add_details_bloc.dart';
 import 'package:reminders_app/reminders_app/presentation/journey/reminder/new_reminder/details/bloc/add_details_event.dart';
-import 'package:reminders_app/reminders_app/presentation/journey/reminder/new_reminder/details/bloc/details_stream.dart';
-import 'package:reminders_app/reminders_app/presentation/journey/reminder/new_reminder/details/details_constants.dart';
-import 'package:reminders_app/reminders_app/presentation/journey/reminder/new_reminder/details/widget/priority_item.dart';
+import '../../../../../../../common/enums/priority_type.dart';
+import '../../../../../../../common/utils/priority_type_utils.dart';
+import '../../../../list/new_list/bloc/add_list_bloc.dart';
+import '../bloc/add_details_bloc.dart';
+import '../bloc/details_stream.dart';
+import '../details_constants.dart';
+import 'priority_item.dart';
 
 class PriorityDialog extends StatelessWidget{
   DetailsStream detailsStream;

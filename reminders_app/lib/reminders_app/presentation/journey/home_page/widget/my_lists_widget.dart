@@ -5,14 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/screen_util.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:reminders_app/reminders_app/presentation/journey/home_page/bloc/home_state.dart';
-import 'package:reminders_app/reminders_app/presentation/journey/home_page/bloc/homepage_bloc.dart';
-import 'package:reminders_app/reminders_app/presentation/journey/home_page/bloc/homepage_event.dart';
-import 'package:reminders_app/reminders_app/presentation/journey/home_page/bloc/homepage_stream.dart';
-import 'package:reminders_app/reminders_app/presentation/journey/list/list/list_screen.dart';
-import 'package:reminders_app/reminders_app/presentation/theme/theme.dart';
-import 'package:reminders_app/reminders_app/presentation/widgets_constants/confirm_dialog.dart';
-import 'package:reminders_app/reminders_app/presentation/widgets_constants/icon_slide_widget.dart';
+import 'package:reminders_app/reminders_app/theme/theme.dart';
+import '../bloc/home_state.dart';
+import '../bloc/homepage_bloc.dart';
+import '../bloc/homepage_event.dart';
+import '../../list/list/list_screen.dart';
+import '../../../../widgets_constants/confirm_dialog.dart';
+import '../../../../widgets_constants/icon_slide_widget.dart';
 
 import '../../reminders_list.dart';
 import '../homepage_constants.dart';
@@ -27,7 +26,7 @@ class MyListsWidget extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-   // log(myLists.toString());
+    log(color.toString());
           return Slidable(
             closeOnScroll: true,
             actionPane: SlidableDrawerActionPane(),

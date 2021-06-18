@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screen_util.dart';
-import 'package:reminders_app/reminders_app/presentation/theme/theme_text.dart';
-import 'package:reminders_app/reminders_app/presentation/widgets_constants/confirm_dialog.dart';
+import 'package:reminders_app/reminders_app/theme/theme_text.dart';
+import 'confirm_dialog.dart';
 
 class AppbarWidget extends AppBar {
   AppbarWidget(BuildContext context,

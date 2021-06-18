@@ -1,10 +1,10 @@
 import 'dart:developer';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:reminders_app/reminders_app/presentation/journey/home_page/bloc/home_state.dart';
-import 'package:reminders_app/reminders_app/presentation/journey/home_page/bloc/homepage_event.dart';
-import 'package:reminders_app/reminders_app/presentation/journey/reminders_list.dart';
-import 'package:reminders_app/reminders_app/common/extensions/date_extensions.dart';
+import 'home_state.dart';
+import 'homepage_event.dart';
+import '../../reminders_list.dart';
+import '../../../../../common/extensions/date_extensions.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   @override

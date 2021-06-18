@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screen_util.dart';
 import 'package:intl/intl.dart';
 
-import 'package:reminders_app/reminders_app/common/extensions/date_extensions.dart';
-import 'package:reminders_app/reminders_app/common/enums/priority_type.dart';
-import 'package:reminders_app/reminders_app/common/utils/priority_type_utils.dart';
+import '../../../../../../../common/extensions/date_extensions.dart';
+import '../../../../../../../common/enums/priority_type.dart';
+import '../../../../../../../common/utils/priority_type_utils.dart';
 
 class ContainerButtonWidget extends StatelessWidget {
   final String title;

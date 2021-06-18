@@ -5,19 +5,19 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
-import 'package:reminders_app/reminders_app/common/constants/route_constants.dart';
-import 'package:reminders_app/reminders_app/presentation/journey/reminder/all_reminders/bloc/all_list_bloc.dart';
-import 'package:reminders_app/reminders_app/presentation/journey/reminder/all_reminders/bloc/all_list_event.dart';
-import 'package:reminders_app/reminders_app/presentation/journey/reminder/all_reminders/bloc/all_list_state.dart';
-import 'package:reminders_app/reminders_app/presentation/journey/reminder/reminders_constants.dart';
-import 'package:reminders_app/reminders_app/presentation/theme/theme.dart';
-import 'package:reminders_app/reminders_app/presentation/widgets_constants/appbar_for_list_screen.dart';
-import 'package:reminders_app/reminders_app/presentation/widgets_constants/confirm_dialog.dart';
-import 'package:reminders_app/reminders_app/presentation/widgets_constants/icon_slide_widget.dart';
+import 'package:reminders_app/reminders_app/theme/theme.dart';
+import '../../../../../common/constants/route_constants.dart';
+import 'bloc/all_list_bloc.dart';
+import 'bloc/all_list_event.dart';
+import 'bloc/all_list_state.dart';
+import '../reminders_constants.dart';
+import '../../../../widgets_constants/appbar_for_list_screen.dart';
+import '../../../../widgets_constants/confirm_dialog.dart';
+import '../../../../widgets_constants/icon_slide_widget.dart';
 import 'bloc/all_list_stream.dart';
 import '../../reminders_list.dart';
 
-import 'package:reminders_app/reminders_app/common/extensions/date_extensions.dart';
+import '../../../../../common/extensions/date_extensions.dart';
 
 class AllRemindersList extends StatefulWidget {
   @override
@@ -77,7 +77,7 @@ class _AllRemindersList extends State<AllRemindersList> {
                                     state.myLists[index].name,
                                     style: ThemeText.headline2ListScreen
                                         .copyWith(
-                                        color: state.myLists[index].color),
+                                        color:Color(int.parse(state.myLists[index].color))),
                                   ),
                                 ),
                               ),

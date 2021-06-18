@@ -5,22 +5,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/screen_util.dart';
 import 'package:intl/intl.dart';
+import 'package:reminders_app/reminders_app/theme/theme.dart';
 
-import 'package:reminders_app/reminders_app/common/extensions/date_extensions.dart';
-import 'package:reminders_app/reminders_app/common/enums/priority_type.dart';
-import 'package:reminders_app/reminders_app/common/utils/priority_type_utils.dart';
-import 'package:reminders_app/reminders_app/presentation/journey/home_page/homepage_constants.dart';
-import 'package:reminders_app/reminders_app/presentation/journey/reminder/new_reminder/details/bloc/add_details_bloc.dart';
-import 'package:reminders_app/reminders_app/presentation/journey/reminder/new_reminder/details/bloc/add_details_event.dart';
-import 'package:reminders_app/reminders_app/presentation/journey/reminder/new_reminder/details/bloc/details_state.dart';
-import 'package:reminders_app/reminders_app/presentation/journey/reminder/new_reminder/details/bloc/details_stream.dart';
-import 'package:reminders_app/reminders_app/presentation/journey/reminder/new_reminder/details/details_constants.dart';
-import 'package:reminders_app/reminders_app/presentation/journey/reminder/new_reminder/details/widget/details_item.dart';
-import 'package:reminders_app/reminders_app/presentation/journey/reminder/new_reminder/details/widget/priority_dialog.dart';
-import 'package:reminders_app/reminders_app/presentation/journey/reminder/new_reminder/details/widget/priority_item.dart';
-import 'package:reminders_app/reminders_app/presentation/journey/reminder/new_reminder/new_reminder_constants.dart';
-import 'package:reminders_app/reminders_app/presentation/theme/theme.dart';
-import 'package:reminders_app/reminders_app/presentation/widgets_constants/appbar.dart';
+import '../../../../../../common/extensions/date_extensions.dart';
+import '../../../../../../common/enums/priority_type.dart';
+import '../../../../../../common/utils/priority_type_utils.dart';
+import '../../../home_page/homepage_constants.dart';
+import '../new_reminder_constants.dart';
+import 'bloc/add_details_bloc.dart';
+
+import 'bloc/add_details_event.dart';
+import 'bloc/details_stream.dart';
+import 'details_constants.dart';
+import 'widget/details_item.dart';
+import 'widget/priority_dialog.dart';
+import 'widget/priority_item.dart';
+import '../../../../../widgets_constants/appbar.dart';
 
 import 'bloc/add_details_state.dart';
 

@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'reminder.dart';
+part of '../../domain/entities/reminder.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator

@@ -2,8 +2,9 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
+import 'package:reminders_app/reminders_app/domain/entities/reminder.dart';
 import 'package:reminders_app/reminders_app/presentation/journey/reminder/scheduled_list/bloc/scheduled_list_state.dart';
-import 'package:reminders_app/reminders_app/presentation/model/reminder.dart';
+
 
 import '../../../reminders_list.dart';
 

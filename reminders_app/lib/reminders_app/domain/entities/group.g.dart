@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'group.dart';
+part of '../../domain/entities/group.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
@@ -18,7 +18,7 @@ class GroupAdapter extends TypeAdapter<Group> {
     };
     return Group(
       name: fields[0] as String,
-      color: fields[1] as Color,
+      color: fields[1] as String,
       createAt: fields[2] as String,
       lastUpdate: fields[3] as String,
     );

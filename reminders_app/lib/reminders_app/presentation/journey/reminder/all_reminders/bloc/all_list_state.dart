@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
-import 'package:reminders_app/reminders_app/presentation/journey/reminders_list.dart';
-import 'package:reminders_app/reminders_app/presentation/model/group.dart';
+import 'package:reminders_app/reminders_app/domain/entities/group.dart';
+
 
 class AllReminderState extends Equatable { 
  final List<Group> myLists ;

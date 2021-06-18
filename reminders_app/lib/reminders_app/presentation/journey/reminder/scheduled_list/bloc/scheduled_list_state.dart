@@ -1,4 +1,4 @@
-import 'package:reminders_app/reminders_app/presentation/model/reminder.dart';
+import 'package:reminders_app/reminders_app/domain/entities/reminder.dart';
 
 class ScheduledListState{
   List<String> dateList =[];

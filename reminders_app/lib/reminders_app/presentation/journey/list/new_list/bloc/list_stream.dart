@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:reminders_app/reminders_app/presentation/journey/list/new_list/bloc/create_list_state.dart';
+import 'create_list_state.dart';
 
 
 class ListStream {

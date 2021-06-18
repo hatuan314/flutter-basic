@@ -1,11 +1,22 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_screenutil/screenutil_init.dart';
-import 'package:reminders_app/reminders_app/common/constants/route_constants.dart';
+import 'package:hive/hive.dart';
+import 'common/constants/route_constants.dart';
 
 import 'routes.dart';
+class MyApp extends StatefulWidget{
+  @override
+  State<StatefulWidget> createState()=>_MyApp();
 
-class MyApp extends StatelessWidget {
+}
+class _MyApp extends State<MyApp> {
+  @override
+  void dispose()
+  {
+    Hive.close();
+    super.dispose();
+  }
   String get initialRoute {
     return RouteList.b10HomeScreen;
   }

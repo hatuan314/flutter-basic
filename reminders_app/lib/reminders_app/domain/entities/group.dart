@@ -1,6 +1,6 @@
 import 'dart:ui';
 import 'package:hive/hive.dart';
-import 'package:reminders_app/reminders_app/presentation/model/reminder.dart';
+import 'package:reminders_app/reminders_app/domain/entities/reminder.dart';
 part 'group.g.dart';
 /*
 class Group{
@@ -24,7 +24,7 @@ class Group extends HiveObject {
   @HiveField(0)
   String name;
   @HiveField(1)
-  Color color;
+  String color;
   @HiveField(2)
   String createAt;
   @HiveField(3)

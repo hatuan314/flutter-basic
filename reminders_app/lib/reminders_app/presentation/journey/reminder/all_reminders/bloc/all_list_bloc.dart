@@ -1,10 +1,10 @@
 import 'dart:developer';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:reminders_app/reminders_app/presentation/journey/reminder/all_reminders/bloc/all_list_event.dart';
+import 'package:reminders_app/reminders_app/domain/entities/group.dart';
+import 'all_list_event.dart';
 
-import 'package:reminders_app/reminders_app/presentation/journey/reminders_list.dart';
-import 'package:reminders_app/reminders_app/presentation/model/group.dart';
+import '../../../reminders_list.dart';
 
 import 'all_list_state.dart';
 

@@ -1,7 +1,8 @@
 import 'dart:async';
 
-import 'package:reminders_app/reminders_app/presentation/model/group.dart';
-import 'package:reminders_app/reminders_app/presentation/model/reminder.dart';
+
+
+import 'package:reminders_app/reminders_app/domain/entities/reminder.dart';
 
 import '../../../reminders_list.dart';
 

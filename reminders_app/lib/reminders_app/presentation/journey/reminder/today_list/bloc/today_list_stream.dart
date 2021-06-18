@@ -1,10 +1,10 @@
 import 'dart:async';
 import 'dart:developer';
 
-import 'package:reminders_app/reminders_app/presentation/model/reminder.dart';
+import 'package:reminders_app/reminders_app/domain/entities/reminder.dart';
 
 import '../../../reminders_list.dart';
-import 'package:reminders_app/reminders_app/common/extensions/date_extensions.dart';
+import '../../../../../../common/extensions/date_extensions.dart';
 class TodayStream{
   String now =  DateTime.now().dateDdMMyyyy;
   List<Reminder> todayList=[];

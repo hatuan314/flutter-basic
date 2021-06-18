@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
 
-import 'journey/routes.dart';
+import 'reminders_app/presentation/journey/routes.dart';
 
 
 class Routes {

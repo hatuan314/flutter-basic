@@ -1,8 +1,8 @@
 import 'dart:developer';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:reminders_app/reminders_app/presentation/journey/reminder/new_reminder/create_new_reminder/bloc/new_reminder_event.dart';
-import 'package:reminders_app/reminders_app/presentation/journey/reminder/new_reminder/create_new_reminder/bloc/reminder_state.dart';
+import 'new_reminder_event.dart';
+import 'reminder_state.dart';
 
 class NewReminderBloc extends Bloc<NewReminderEvent, NewReminderState> {
   @override

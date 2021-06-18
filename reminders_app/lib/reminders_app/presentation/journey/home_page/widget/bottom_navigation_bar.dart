@@ -1,16 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:provider/provider.dart';
-import 'package:reminders_app/reminders_app/common/constants/route_constants.dart';
-import 'package:reminders_app/reminders_app/presentation/journey/home_page/bloc/homepage_bloc.dart';
-import 'package:reminders_app/reminders_app/presentation/journey/home_page/bloc/homepage_event.dart';
-import 'package:reminders_app/reminders_app/presentation/journey/list/new_list/bloc/add_list_bloc.dart';
-import 'package:reminders_app/reminders_app/presentation/journey/list/new_list/create_new_list.dart';
+import '../../../../../common/constants/route_constants.dart';
+import '../bloc/homepage_bloc.dart';
+import '../bloc/homepage_event.dart';
 
-import '../../reminders_list.dart';
-import '../homepage_provider.dart';
-import '../bloc/homepage_stream.dart';
 class BottomBar extends StatelessWidget
 {BuildContext context1;
 
@@ -58,8 +52,7 @@ BottomBar(this.context1 );
           Expanded(
               child: GestureDetector(
                 onTap: () async
-                {await Navigator.push(context, MaterialPageRoute(builder: (context)=> BlocProvider<AddListBloc>(
-                    create: (context) => AddListBloc(), child: NewList())))
+                {await Navigator.pushNamed(context,RouteList.createNewList )
                     .whenComplete(()=>
                     BlocProvider.of<HomeBloc>(context1).add(UpdateEvent( ))) ;
                 },

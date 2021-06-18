@@ -3,21 +3,21 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:reminders_app/reminders_app/common/enums/priority_type.dart';
-import 'package:reminders_app/reminders_app/common/extensions/date_extensions.dart';
+import '../../../../../../common/enums/priority_type.dart';
+import '../../../../../../common/extensions/date_extensions.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:reminders_app/reminders_app/common/utils/priority_type_utils.dart';
-import 'package:reminders_app/reminders_app/presentation/journey/reminder/new_reminder/create_new_reminder/bloc/new_reminder_bloc.dart';
-import 'package:reminders_app/reminders_app/presentation/journey/reminder/new_reminder/create_new_reminder/bloc/new_reminder_event.dart';
-import 'package:reminders_app/reminders_app/presentation/journey/reminder/new_reminder/create_new_reminder/bloc/reminder_stream.dart';
-import 'package:reminders_app/reminders_app/presentation/journey/reminder/new_reminder/create_new_reminder/widget/container_button_widget.dart';
+import '../../../../../../common/utils/priority_type_utils.dart';
+import 'bloc/new_reminder_bloc.dart';
+import 'bloc/new_reminder_event.dart';
+import 'bloc/reminder_stream.dart';
+import 'widget/container_button_widget.dart';
 
-import 'package:reminders_app/reminders_app/presentation/journey/reminder/new_reminder/create_new_reminder/widget/list_dialog_item.dart';
-import 'package:reminders_app/reminders_app/presentation/journey/reminder/new_reminder/create_new_reminder/widget/reminder_form_widget.dart';
-import 'package:reminders_app/reminders_app/presentation/journey/reminder/new_reminder/details/bloc/add_details_bloc.dart';
-import 'package:reminders_app/reminders_app/presentation/journey/reminder/new_reminder/details/details_screen.dart';
-import 'package:reminders_app/reminders_app/presentation/journey/reminders_list.dart';
-import 'package:reminders_app/reminders_app/presentation/widgets_constants/appbar.dart';
+import 'widget/list_dialog_item.dart';
+import 'widget/reminder_form_widget.dart';
+import '../details/bloc/add_details_bloc.dart';
+import '../details/details_screen.dart';
+import '../../../reminders_list.dart';
+import '../../../../../widgets_constants/appbar.dart';
 import 'bloc/reminder_state.dart';
 
 class CreateNewReminder extends StatefulWidget {
@@ -130,7 +130,7 @@ class _CreateNewReminder extends State<CreateNewReminder> {
                               BlocProvider.of<NewReminderBloc>(context).add(SetListEvent(list:   RemindersList.MyLists[index].name)),
                               Navigator.pop(context)
                             },
-                        bgIcon: RemindersList.MyLists[index].color,
+                        bgIcon: Color(int.parse(RemindersList.MyLists[index].color)),
                         name: RemindersList.MyLists[index].name,
                         length: RemindersList.MyLists[index].list.length);
                   }))

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:reminders_app/reminders_app/common/constants/route_constants.dart';
+import '../../common/constants/route_constants.dart';
 
 class AppbarWidgetForListScreen extends AppBar {
   AppbarWidgetForListScreen(BuildContext context, Function onTapCreateNew)

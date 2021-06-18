@@ -4,8 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:reminders_app/reminders_app/presentation/model/group.dart';
-import 'package:reminders_app/reminders_app/common/extensions/date_extensions.dart';
+import 'package:reminders_app/reminders_app/domain/entities/group.dart';
+import '../../../../common/extensions/date_extensions.dart';
 import '../reminders_list.dart';
 
 class HomePageProvider with ChangeNotifier, DiagnosticableTreeMixin {

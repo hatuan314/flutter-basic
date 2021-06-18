@@ -4,17 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screen_util.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
-import 'package:reminders_app/reminders_app/common/constants/route_constants.dart';
-import 'package:reminders_app/reminders_app/presentation/journey/list/list/bloc/list_stream.dart';
-import 'package:reminders_app/reminders_app/presentation/journey/reminder/reminders_constants.dart';
-import 'package:reminders_app/reminders_app/presentation/model/reminder.dart';
-import 'package:reminders_app/reminders_app/presentation/theme/theme.dart';
-import 'package:reminders_app/reminders_app/presentation/widgets_constants/appbar_for_list_screen.dart';
-import 'package:reminders_app/reminders_app/presentation/widgets_constants/confirm_dialog.dart';
-import 'package:reminders_app/reminders_app/presentation/widgets_constants/icon_slide_widget.dart';
+import 'package:reminders_app/reminders_app/domain/entities/reminder.dart';
+import 'package:reminders_app/reminders_app/theme/theme.dart';
+import '../../../../../common/constants/route_constants.dart';
+import 'bloc/list_stream.dart';
+import '../../reminder/reminders_constants.dart';
+import '../../../../widgets_constants/appbar_for_list_screen.dart';
+import '../../../../widgets_constants/confirm_dialog.dart';
+import '../../../../widgets_constants/icon_slide_widget.dart';
 import '../../reminders_list.dart';
 
-import 'package:reminders_app/reminders_app/common/extensions/date_extensions.dart';
+import '../../../../../common/extensions/date_extensions.dart';
 
 class ListScreen extends StatefulWidget {
   int index;
@@ -60,7 +60,7 @@ class _ListScreen extends State<ListScreen> {
                       child: Text(
                         RemindersList.MyLists[index].name,
                         style: ThemeText.headlineListScreen.copyWith(
-                          color: RemindersList.MyLists[index].color,
+                          color:Color(int.parse( RemindersList.MyLists[index].color)),
                         ),
                       ),
                     ),

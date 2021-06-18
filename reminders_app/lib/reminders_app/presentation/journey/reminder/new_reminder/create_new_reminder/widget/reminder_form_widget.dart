@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screen_util.dart';
-import 'package:reminders_app/reminders_app/presentation/journey/reminder/new_reminder/create_new_reminder/bloc/reminder_stream.dart';
-import 'package:reminders_app/reminders_app/presentation/journey/reminder/new_reminder/create_new_reminder/widget/text_field.dart';
-import 'package:reminders_app/reminders_app/presentation/journey/reminder/new_reminder/new_reminder_constants.dart';
+import '../../new_reminder_constants.dart';
+import '../bloc/reminder_stream.dart';
+import 'text_field.dart';
 
 class ReminderFormWidget extends StatelessWidget {
   final Function(String) onChangeTitle;
