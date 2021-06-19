@@ -17,7 +17,7 @@ class RemindersList {
     int f = 0;
     if (MyLists?.length == 0) {
       log('add default');
-      addList('Reminders', ColorConstants.getColorString(Colors.blue));
+      addList('Reminders','blue');
     }
     if (allReminders?.isEmpty ?? true) allReminders?.addAll({'Others': _list});
   }

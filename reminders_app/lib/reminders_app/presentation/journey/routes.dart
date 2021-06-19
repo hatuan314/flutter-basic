@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:reminders_app/common/injector.dart';
 import 'package:reminders_app/reminders_app/domain/usecases/group_usecase.dart';
+import 'package:reminders_app/reminders_app/presentation/journey/home_page/bloc/homepage_event.dart';
 import '../../../common/constants/route_constants.dart';
 import 'home_page/bloc/homepage_bloc.dart';
 import 'reminder/all_reminders/all_list_screen.dart';
@@ -28,7 +29,9 @@ class AppRoutes {
       RouteList.todayListScreen: (_) => TodayList(),
 
       RouteList.homeScreen: (_) => BlocProvider<HomeBloc>(
-            create: (context) => HomeBloc(),
+            create: (context) => locator<HomeBloc>()
+              ..add(SetDefaultGroupEvent())
+              ..add(UpdateEvent()),
             child: HomeScreen(),
           ),
 

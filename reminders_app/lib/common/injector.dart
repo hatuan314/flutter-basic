@@ -4,15 +4,20 @@ import 'package:reminders_app/reminders_app/data/data_sources/local/group_data_s
 import 'package:reminders_app/reminders_app/data/repositories/group_repository_impl.dart';
 import 'package:reminders_app/reminders_app/domain/repositories/group_repository.dart';
 import 'package:reminders_app/reminders_app/domain/usecases/group_usecase.dart';
+import 'package:reminders_app/reminders_app/presentation/journey/home_page/bloc/homepage_bloc.dart';
 import 'package:reminders_app/reminders_app/presentation/journey/list/new_list/bloc/add_list_bloc.dart';
 import 'package:reminders_app/reminders_app/presentation/journey/reminder/new_reminder/create_new_reminder/bloc/new_reminder_bloc.dart';
 
 GetIt locator = GetIt.instance;
 
 void setup() {
+  locator.registerFactory<HomeBloc>(
+          () => HomeBloc(groupUc: locator<GroupUsecase>()));
   locator.registerLazySingleton(() => NewReminderBloc());
   locator.registerFactory<AddListBloc>(
       () => AddListBloc(groupUc: locator<GroupUsecase>()));
+
+
 
   locator.registerFactory<GroupUsecase>(
       () => GroupUsecase(groupRepo: locator<GroupRepository>()));

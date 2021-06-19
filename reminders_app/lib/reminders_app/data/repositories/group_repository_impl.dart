@@ -12,24 +12,22 @@ class GroupRepositoryImpl implements GroupRepository{
   GroupRepositoryImpl({@required this.groupDs});
 
   @override
-  Future<List<Group>> getAllGroup() {
+  Future<List<Group>> getAllGroup()async {
+    log('gettttttttttt');
     return groupDs.getAllGroup();
   }
 
+  Future<void> deleteGroup(int index) async{
+    log('deeeee');
+    return groupDs.deleteGroup(index);
+  }
+
   @override
-  Future<int> setGroup(Group group) {
+  Future<int> setGroup(Group group)async {
     log('add to box1');
     return groupDs.setGroup(group);
   }
 
-  Future<void> setDefaultGroup() async{
-    Group g = Group(
-      name: 'Reminders',
-      color: Colors.blue as String,
-      createAt: DateTime.now().dateDdMMyyyy,
-      lastUpdate: DateTime.now().dateDdMMyyyy,
-    );
-    await setGroup(g);
-  }
+
 
 }

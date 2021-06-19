@@ -5,8 +5,15 @@ abstract class HomeEvent {
 }
 
 class UpdateEvent extends HomeEvent{
+  UpdateEvent();
+}
+class SetDefaultGroupEvent extends HomeEvent{
+  SetDefaultGroupEvent();
+}
 
-  UpdateEvent(  );
+class DeleteGroupEvent extends HomeEvent{
+  final int indexGroup;
 
+  DeleteGroupEvent({@required this.indexGroup});
 }
 

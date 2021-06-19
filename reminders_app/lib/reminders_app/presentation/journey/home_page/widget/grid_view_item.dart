@@ -35,7 +35,7 @@ class GridViewItem extends StatelessWidget{
               Expanded(
                   flex: 1,
                   child: Text(
-                    '${count}',
+                    '${count==null?0:count}',
                     textAlign: TextAlign.right,
                     style: TextStyle(
                         fontSize: ScreenUtil().setSp(25),

@@ -22,12 +22,10 @@ class NewList extends StatefulWidget {
 }
 
 class _NewList extends State<NewList> {
-  ListStream listStream = ListStream();
   TextEditingController name = TextEditingController();
 
   @override
   void dispose() {
- //   Hive.close();
     super.dispose();
   }
 
@@ -159,7 +157,6 @@ class _NewList extends State<NewList> {
       onTapAction: GestureDetector(
         onTap: () {
           if (state.activeAddBtn) {
-           // addList(name.text, state.selectColor, DateTime.now().dateDdMMyyyy,DateTime.now().dateDdMMyyyy );
             log(ColorConstants.getColorString(state.selectColor));
             RemindersList.addList(name.text, ColorConstants.getColorString(state.selectColor));
             onHandleAddBtn(context);

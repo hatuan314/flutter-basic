@@ -14,6 +14,14 @@ class GroupDataSource{
     return config.groupBox.add(group);
   }
   Future<List<Group>> getAllGroup() async{
+    log('get all group');
+   // log(config.groupBox.values.toList().length.toString());
     return config.groupBox.values.toList() as List<Group>;
+  }
+
+  Future<void> deleteGroup(int index) async
+  {
+    config.groupBox.deleteAt(index);
+    log('delete group');
   }
 }

@@ -34,7 +34,6 @@ class AddListBloc extends Bloc<AddListEvent, AddListState> {
       CreateNewListEvent event) async* {
     log('add list');
    yield state.update(viewState: ViewState.busy);
-   
     final Group group = Group(
       name: event.name,
       color:  ColorConstants.getColorString(state.selectColor),
@@ -43,10 +42,8 @@ class AddListBloc extends Bloc<AddListEvent, AddListState> {
     );
    // log(groupUc.setGroup(group).toString());
     log(group.name);
-
     int result=await groupUc.setGroup(group);
     log(result.toString());
-
     if(result !=null)
       {
         log('success');

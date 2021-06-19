@@ -6,7 +6,9 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/screen_util.dart';
+import 'package:reminders_app/common/config/local_config.dart';
 import 'package:reminders_app/common/constants/color_constants.dart';
+import 'package:reminders_app/common/enums/view_state.dart';
 import 'package:reminders_app/reminders_app/domain/entities/group.dart';
 import 'package:reminders_app/reminders_app/theme/theme.dart';
 import '../../../../common/constants/layout_constants.dart';
@@ -28,35 +30,21 @@ class  HomeScreen extends StatefulWidget {
 
 class _HomeScreen extends State< HomeScreen> {
   final TextEditingController textName = TextEditingController();
-  //HomeStream homeStream = HomeStream();
 
   @override
   void dispose() {
-  //  homeStream.dispose();
     super.dispose();
   }
-  Future addDefaultList()
-  {
-   /* final box= Boxes.getGroup();
-    if(box.isEmpty) {
-      final g = Group()
-        ..name = 'Reminders'
-        ..color = Colors.blue
-        ..createAt = DateTime
-            .now()
-            .dateDdMMyyyy
-        ..lastUpdate = DateTime
-            .now()
-            .dateDdMMyyyy;
-      box.add(g);
-      log('added default list');
-    }*/
-  }
+
   @override
-  Widget build(BuildContext context) {
-    RemindersList.addDefaultList();
-     BlocProvider.of<HomeBloc>(context).add(UpdateEvent());
-    return BlocBuilder<HomeBloc,HomeState>(
+  Widget build(BuildContext context) { 
+    RemindersList.addDefaultList(); 
+    return  BlocConsumer<HomeBloc, HomeState>
+      (
+        listener: (context,state){
+          if(state.viewState==ViewState.success)
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Deleted')));
+        },
       builder: (context, state)
     {
           return Scaffold(
@@ -87,7 +75,7 @@ class _HomeScreen extends State< HomeScreen> {
                               icon: HomePageConstant.iconToday,
                               bgColor: Colors.blue,
                               title: 'Today',
-                              count: state.todayListLength),
+                              count: state.todayListLength!= null?state.todayListLength:0),
                         ),
                         GestureDetector(
                           onTap: () async {
@@ -99,7 +87,7 @@ class _HomeScreen extends State< HomeScreen> {
                               icon: HomePageConstant.iconScheduled,
                               bgColor: Colors.red,
                               title: 'Scheduled',
-                              count: state.scheduledListLength),
+                              count: state.scheduledListLength!=null? state.scheduledListLength:0),
                         ),
                       ]),
                   Padding(
@@ -116,7 +104,7 @@ class _HomeScreen extends State< HomeScreen> {
                           icon: HomePageConstant.iconAll,
                           bgColor: Colors.grey,
                           title: 'All',
-                          count: state.allListLength),
+                          count: state.allListLength!=null?state.allListLength:0),
                     ),
                   ),
                   Padding(
@@ -138,8 +126,8 @@ class _HomeScreen extends State< HomeScreen> {
                         shrinkWrap: true,
                         itemCount:  state.myLists.length,
                         itemBuilder: (context, index) {
-                          log(state.myLists[index].name);
-                          return MyListsWidget(color: ColorConstants.colorMap[state.myLists[index].color], name: state.myLists[index].name , index: index, length: state.myLists[index].list.length);
+                         // log(state.myLists[index].name);
+                          return MyListsWidget(color: ColorConstants.colorMap[state.myLists[index].color], name: state.myLists[index].name , index: index, length: 0);
                         }),
                     )
                                   ],

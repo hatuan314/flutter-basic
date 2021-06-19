@@ -26,7 +26,7 @@ class MyListsWidget extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    log(color.toString());
+ //   log(color.toString());
           return Slidable(
             closeOnScroll: true,
             actionPane: SlidableDrawerActionPane(),
@@ -133,7 +133,7 @@ class MyListsWidget extends StatelessWidget{
   }
 
   deleteList(BuildContext context, int index) {
-    for (int j = 0;
+    /*for (int j = 0;
     j <
         RemindersList
             .MyLists[index].list.length;
@@ -152,7 +152,8 @@ class MyListsWidget extends StatelessWidget{
     }
     ;
    RemindersList.MyLists.removeAt(index);
-    index--;
+    index--;*/
+    BlocProvider.of<HomeBloc>(context).add(DeleteGroupEvent(indexGroup: index));
     BlocProvider.of<HomeBloc>(context).add(UpdateEvent( ));
     Navigator.pop(context);
   }
