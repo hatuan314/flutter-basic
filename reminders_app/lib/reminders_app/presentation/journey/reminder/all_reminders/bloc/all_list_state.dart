@@ -2,12 +2,12 @@ import 'package:equatable/equatable.dart';
 import 'package:reminders_app/reminders_app/domain/entities/group.dart';
 
 
-class AllReminderState extends Equatable { 
+class AllRemindersState extends Equatable {
  final List<Group> myLists ;
-  AllReminderState({this.myLists});
+  AllRemindersState({this.myLists});
 
-  AllReminderState update({  List<Group> myLists }) =>
-      AllReminderState(
+  AllRemindersState update({  List<Group> myLists }) =>
+      AllRemindersState(
           myLists:  myLists //?? this.myLists
       );
 

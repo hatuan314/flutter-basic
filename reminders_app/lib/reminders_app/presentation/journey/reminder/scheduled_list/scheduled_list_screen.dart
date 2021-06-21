@@ -1,15 +1,20 @@
 import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
+import 'package:reminders_app/reminders_app/presentation/journey/home_page/bloc/homepage_event.dart';
+import 'package:reminders_app/reminders_app/presentation/journey/reminder/all_reminders/bloc/all_list_event.dart';
+import 'package:reminders_app/reminders_app/presentation/journey/reminder/scheduled_list/bloc/scheduled_list_event.dart';
 import 'package:reminders_app/reminders_app/theme/theme.dart';
 import '../../../../../common/constants/route_constants.dart';
 import '../reminders_constants.dart';
 import '../../../../widgets_constants/appbar_for_list_screen.dart';
 import '../../../../widgets_constants/confirm_dialog.dart';
 import '../../../../widgets_constants/icon_slide_widget.dart';
+import 'bloc/scheduled_list_bloc.dart';
 import 'bloc/scheduled_list_state.dart';
 import 'bloc/scheduled_list_stream.dart';
 import '../../reminders_list.dart';
@@ -22,56 +27,53 @@ class ScheduledList extends StatefulWidget {
 
 class _ScheduledList extends State<ScheduledList> {
   int id;
-  String now = DateTime.now().dateDdMMyyyy;
-  ScheduledListStream scheduledListStream = ScheduledListStream();
+  String now = DateTime.now().dateDdMMyyyy; 
   @override
-  void dispose() {
-    scheduledListStream.dispose();
+  void dispose() { 
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    scheduledListStream.setDefault();
-    return StreamBuilder<ScheduledListState>(
-        initialData: ScheduledListState(
-            dateList: scheduledListStream.dateList,
-            scheduledList: scheduledListStream.scheduledList),
-        stream: scheduledListStream.scheduledStream,
-        builder: (context, snapshot) {
-          return   Scaffold(
-                  backgroundColor: Colors.white,
-                  appBar: AppbarWidgetForListScreen(context,() { Navigator.pushNamed(context, RouteList.createNewScreen).whenComplete(() =>scheduledListStream.update());
-          }
-                    ,),
-                  body: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(
-                              top: ScreenUtil().setHeight(10),
-                              left: ScreenUtil().setWidth(20)),
-                          child: Text(
-                            RemindersConstants.scheduledTxt,
-                            style: ThemeText.headlineListScreen
-                                .copyWith(color: Colors.red),
-                          ),
-                        ),
-                        (snapshot.hasData == false ||
-                                snapshot.data.dateList.length == 0)
-                            ? Padding(
-                                padding: EdgeInsets.only(
-                                    top: ScreenUtil().screenHeight / 2 - 100),
-                                child: Align(
-                                    alignment: Alignment.center,
-                                    child: RemindersConstants.noReminders),
-                              )
-                            :scheduledListWidget(snapshot.data),
-                      ]));
-        });
+    return BlocBuilder<ScheduledRemindersBloc,ScheduledRemindersState>(
+        builder: (context,state) {
+          return Scaffold(
+              backgroundColor: Colors.white,
+              appBar: AppbarWidgetForListScreen(context, () {
+                Navigator.pushNamed(context, RouteList.createNewScreen)
+                    .whenComplete(() =>
+                    BlocProvider.of<ScheduledRemindersBloc>(context).add(
+                        UpdateScheduledEvent()));
+              }
+                ,),
+              body: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(
+                          top: ScreenUtil().setHeight(10),
+                          left: ScreenUtil().setWidth(20)),
+                      child: Text(
+                        RemindersConstants.scheduledTxt,
+                        style: ThemeText.headlineListScreen
+                            .copyWith(color: Colors.red),
+                      ),
+                    ),
+                    (state.dateList.length == 0 || state.dateList.length == null)
+                        ? Padding(
+                      padding: EdgeInsets.only(
+                          top: ScreenUtil().screenHeight / 2 - 100),
+                      child: Align(
+                          alignment: Alignment.center,
+                          child: RemindersConstants.noReminders),
+                    )
+                        : scheduledListWidget(state),
+                  ]));
+        }
+    );
   }
 
-  Widget scheduledListWidget(ScheduledListState scheduledListState)
+  Widget scheduledListWidget(ScheduledRemindersState scheduledListState)
   {
     return  Expanded(
         child: Padding(
@@ -110,7 +112,7 @@ class _ScheduledList extends State<ScheduledList> {
                   ]);
                 })));
   }
-  Widget getReminderOfDay(ScheduledListState scheduledListState, int index) {
+  Widget getReminderOfDay(ScheduledRemindersState scheduledListState, int index) {
     return ListView.builder(
         scrollDirection: Axis.vertical,
         shrinkWrap: true,
@@ -223,7 +225,7 @@ class _ScheduledList extends State<ScheduledList> {
   }
 
   void deleteReminder(
-      ScheduledListState scheduledListState, int index, int index1) {
+      ScheduledRemindersState scheduledListState, int index, int index1) {
     id = scheduledListState
         .scheduledList[scheduledListState.dateList[index]][index1].id;
     RemindersList.allReminders[scheduledListState.dateList[index]]
@@ -244,11 +246,11 @@ class _ScheduledList extends State<ScheduledList> {
     }
     ;
     index1--;
-    scheduledListStream.update();
+    BlocProvider.of<ScheduledRemindersBloc>(context).add(UpdateScheduledEvent());
     Navigator.pop(context);
   }
 
-  String getDetails(ScheduledListState scheduledListState, int index,
+  String getDetails(ScheduledRemindersState scheduledListState, int index,
       int index1, String time) {
     return (scheduledListState
                     .scheduledList[scheduledListState.dateList[index]][index1]

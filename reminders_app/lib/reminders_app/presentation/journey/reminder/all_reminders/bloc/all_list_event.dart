@@ -2,14 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:reminders_app/reminders_app/domain/entities/group.dart';
 
 
-abstract class AllReminderEvent{
+abstract class AllRemindersEvent{
 
 }
 
-class UpdateEvent extends AllReminderEvent{
-  final List<Group> myLists ;
+class UpdateAllListEvent extends AllRemindersEvent{
+ // final List<Group> myLists ;
 
-  UpdateEvent({@required this.myLists});
+  UpdateAllListEvent( );
 }
 
  

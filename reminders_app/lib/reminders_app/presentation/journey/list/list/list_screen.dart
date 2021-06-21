@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screen_util.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
+import 'package:reminders_app/common/constants/color_constants.dart';
 import 'package:reminders_app/reminders_app/domain/entities/reminder.dart';
 import 'package:reminders_app/reminders_app/theme/theme.dart';
 import '../../../../../common/constants/route_constants.dart';
@@ -60,7 +61,7 @@ class _ListScreen extends State<ListScreen> {
                       child: Text(
                         RemindersList.MyLists[index].name,
                         style: ThemeText.headlineListScreen.copyWith(
-                          color:Color(int.parse( RemindersList.MyLists[index].color)),
+                          color:ColorConstants.colorMap[ RemindersList.MyLists[index].color],
                         ),
                       ),
                     ),

@@ -30,3 +30,8 @@ class SetDetailsEvent extends NewReminderEvent{
 
   SetDetailsEvent({@required this.details});
 }
+
+class CreateNewReminderEvent extends NewReminderEvent{
+
+  CreateNewReminderEvent();
+}

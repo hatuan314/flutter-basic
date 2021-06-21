@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:hive/hive.dart';
 part 'reminder.g.dart';
-@HiveType(typeId: 1)
+@HiveType(typeId: 2)
 class Reminder {
   Reminder({this.id, this.title, this.notes, this.list, this.dateAndTime,
     this.createAt, this.lastUpdate, this.priority});

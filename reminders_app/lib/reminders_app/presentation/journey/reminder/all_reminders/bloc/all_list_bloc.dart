@@ -8,20 +8,20 @@ import '../../../reminders_list.dart';
 
 import 'all_list_state.dart';
 
-class AllReminderBloc extends Bloc<AllReminderEvent, AllReminderState> {
+class AllRemindersBloc extends Bloc<AllRemindersEvent, AllRemindersState> {
   @override
-  AllReminderState get initialState => AllReminderState( myLists: RemindersList.MyLists);
+  AllRemindersState get initialState => AllRemindersState( myLists: RemindersList.MyLists);
 
   @override
-  Stream<AllReminderState> mapEventToState(AllReminderEvent event) async* {
-    if (event is UpdateEvent) {
+  Stream<AllRemindersState> mapEventToState(AllRemindersEvent event) async* {
+    if (event is UpdateAllListEvent) {
       yield* _mapUpdateEventToState(event);
     }
    
   }
 
-  Stream<AllReminderState> _mapUpdateEventToState(
-      UpdateEvent event) async* {
+  Stream<AllRemindersState> _mapUpdateEventToState(
+      UpdateAllListEvent event) async* {
     log("all list update");
     final List<Group> list = RemindersList.MyLists;
     yield state.update(myLists: null);

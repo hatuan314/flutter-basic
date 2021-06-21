@@ -1,10 +1,19 @@
+import 'package:equatable/equatable.dart';
 import 'package:reminders_app/reminders_app/domain/entities/reminder.dart';
 
-class ScheduledListState{
-  List<String> dateList =[];
-  Map<String,List<Reminder>> scheduledList= Map();
+class ScheduledRemindersState extends Equatable {
+ final List<String> dateList ;
+ final Map<String, List<Reminder>> scheduledList  ;
 
-  ScheduledListState({this.dateList, this.scheduledList});
-  ScheduledListState update({List<String> dateList ,
-  Map<String,List<Reminder>> scheduledList,}) => ScheduledListState(dateList:dateList?? this.dateList, scheduledList:scheduledList?? this.scheduledList);
+ ScheduledRemindersState({this.dateList, this.scheduledList});
+ ScheduledRemindersState update({
+    List<String> dateList,
+    Map<String, List<Reminder>> scheduledList,
+  }) =>
+     ScheduledRemindersState(
+          dateList: dateList  ,
+          scheduledList: scheduledList  );
+
+  @override
+  List<Object> get props => [this.dateList, this.scheduledList];
 }

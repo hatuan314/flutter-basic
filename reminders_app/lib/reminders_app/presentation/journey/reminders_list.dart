@@ -1,7 +1,6 @@
 import 'dart:developer';
 
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+import '../../../../../common/extensions/date_extensions.dart';
 import 'package:intl/intl.dart';
 import 'package:reminders_app/common/constants/color_constants.dart';
 import 'package:reminders_app/reminders_app/domain/entities/group.dart';
@@ -80,8 +79,7 @@ class RemindersList {
       }
     }
     if (dateAndTime != 0) {
-      String date = DateFormat('dd/MM/yyyy').format(
-          DateTime.fromMillisecondsSinceEpoch(dateAndTime));
+      String date =  DateTime.fromMillisecondsSinceEpoch(dateAndTime).dateDdMMyyyy;
       if (allReminders.containsKey(date)) {
         allReminders[date]?.add(r);
       } else {

@@ -40,10 +40,7 @@ class AddListBloc extends Bloc<AddListEvent, AddListState> {
       createAt: DateTime.now().dateDdMMyyyy,
       lastUpdate: DateTime.now().dateDdMMyyyy,
     );
-   // log(groupUc.setGroup(group).toString());
-    log(group.name);
     int result=await groupUc.setGroup(group);
-    log(result.toString());
     if(result !=null)
       {
         log('success');

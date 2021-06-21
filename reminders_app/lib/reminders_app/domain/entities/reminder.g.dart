@@ -8,7 +8,7 @@ part of '../../domain/entities/reminder.dart';
 
 class ReminderAdapter extends TypeAdapter<Reminder> {
   @override
-  final int typeId = 1;
+  final int typeId = 2;
 
   @override
   Reminder read(BinaryReader reader) {

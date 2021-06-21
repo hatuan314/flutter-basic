@@ -2,9 +2,12 @@ import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
+import 'package:reminders_app/reminders_app/presentation/journey/reminder/today_list/bloc/today_list_bloc.dart';
+import 'package:reminders_app/reminders_app/presentation/journey/reminder/today_list/bloc/today_list_event.dart';
 import 'package:reminders_app/reminders_app/theme/theme.dart';
 import '../../../../../common/constants/route_constants.dart';
 import '../reminders_constants.dart';
@@ -13,6 +16,7 @@ import '../../../../../common/extensions/date_extensions.dart';
 import '../../../../widgets_constants/appbar_for_list_screen.dart';
 import '../../../../widgets_constants/confirm_dialog.dart';
 import '../../../../widgets_constants/icon_slide_widget.dart';
+import 'bloc/today_list_state.dart';
 import 'bloc/today_list_stream.dart';
 import '../../reminders_list.dart';
 
@@ -22,28 +26,24 @@ class TodayList extends StatefulWidget {
 }
 
 class _TodayList extends State<TodayList> {
-  String now = DateTime.now().dateDdMMyyyy;
-  TodayStream todayStream = TodayStream();
+  String now = DateTime.now().dateDdMMyyyy; 
   @override
-  void dispose() {
-    todayStream.dispose();
+  void dispose() { 
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
 
-    return StreamBuilder(
-      initialData: todayStream.todayList=RemindersList.allReminders[now],
-        stream: todayStream.todayListStream,
-        builder: (context, snapshot) {
+    return BlocBuilder<TodayListBloc, TodayListState>(
+      builder: (context, state) {
           return Scaffold(
               backgroundColor: Colors.white,
               appBar: AppbarWidgetForListScreen(
                 context,
                 () {
                   Navigator.pushNamed(context, RouteList.createNewScreen)
-                      .whenComplete(() async =>await todayStream.update());
+                      .whenComplete(() async =>await BlocProvider.of<TodayListBloc>(context).add(UpdateTodayListEvent()));
                 },
               ),
               body: Column(
@@ -58,8 +58,8 @@ class _TodayList extends State<TodayList> {
                         style: ThemeText.headlineListScreen,
                       ),
                     ),
-                    (snapshot.hasData == false ||
-                            todayStream.todayList.length == 0)
+                    (state.todayList == null ||
+                            state.todayList.length == 0)
                         ? Padding(
                             padding: EdgeInsets.only(
                                 top: ScreenUtil().screenHeight / 2 - 100),
@@ -67,15 +67,15 @@ class _TodayList extends State<TodayList> {
                                 alignment: Alignment.center,
                                 child: RemindersConstants.noReminders),
                           )
-                        : todayListWidget(context)
+                        : todayListWidget(state,context)
                   ]));
         });
   }
 
-  Widget todayListWidget(
+  Widget todayListWidget(TodayListState state,
     BuildContext context,
   ) {
-    //todayStream.update();
+    //BlocProvider.of<TodayListBloc>(context).add(UpdateTodayListEvent());
     int id;
     return Expanded(
         child: Padding(
@@ -87,15 +87,14 @@ class _TodayList extends State<TodayList> {
             child: ListView.builder(
                 scrollDirection: Axis.vertical,
                 shrinkWrap: true,
-                itemCount: todayStream
-                    .todayList.length, // todayStream.todayList.length,
+                itemCount:  state.todayList.length, //  state.todayList.length,
                 itemBuilder: (context, index) {
                   String time = DateFormat('HH:mm').format(
                       DateTime.fromMillisecondsSinceEpoch(
-                          todayStream.todayList[index].dateAndTime));
+                           state.todayList[index].dateAndTime));
                   String date = DateFormat('dd/MM/yyyy').format(
                       DateTime.fromMillisecondsSinceEpoch(
-                          todayStream.todayList[index].dateAndTime));
+                           state.todayList[index].dateAndTime));
                   return Slidable(
                       actionPane: SlidableDrawerActionPane(),
                       secondaryActions: [
@@ -113,7 +112,7 @@ class _TodayList extends State<TodayList> {
                                         Navigator.pop(context);
                                       },
                                       onPressedOk: () => deleteReminder(
-                                          context, todayStream, now, index),
+                                          context, state,  now, index),
                                     )),
                           },
                         )
@@ -197,8 +196,8 @@ class _TodayList extends State<TodayList> {
   }
 
   void deleteReminder(
-      BuildContext context, TodayStream todayStream, String now, int index) {
-    int id = todayStream.todayList[index].id;
+      BuildContext context, TodayListState state, String now, int index) {
+    int id =  state.todayList[index].id;
     RemindersList.allReminders[now].removeAt(index);
     if (RemindersList.allReminders[now].length == 0) {
       log('deletenow');
@@ -211,7 +210,7 @@ class _TodayList extends State<TodayList> {
           j--;
         }
     index--;
-    todayStream.update();
+    BlocProvider.of<TodayListBloc>(context).add(UpdateTodayListEvent());
     Navigator.pop(context);
   }
 }

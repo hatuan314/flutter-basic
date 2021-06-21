@@ -3,15 +3,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:reminders_app/common/enums/view_state.dart';
 import '../../../../../../common/enums/priority_type.dart';
 import '../../../../../../common/extensions/date_extensions.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../../common/utils/priority_type_utils.dart';
 import 'bloc/new_reminder_bloc.dart';
 import 'bloc/new_reminder_event.dart';
-import 'bloc/reminder_stream.dart';
 import 'widget/container_button_widget.dart';
-
 import 'widget/list_dialog_item.dart';
 import 'widget/reminder_form_widget.dart';
 import '../details/bloc/add_details_bloc.dart';
@@ -33,64 +32,8 @@ class _CreateNewReminder extends State<CreateNewReminder> {
   var details;
 
   String now = DateTime.now().dateDdMMyyyy;
- // ReminderStream reminderStream = ReminderStream();
 
-  Widget _appBarWidget(NewReminderState state) {
-    return AppbarWidget(
-      context,
-      leadingText: 'Cancel',
-      onTapCancel: state.title == null? ()=>{Navigator.pop(context)}:null ,
-      title: 'New Reminder',
-      onTapAction: (state == null ||
-              state.title == null ||
-              state.title == '')
-          ? Container(
-              //color: Colors.blue,
-              width: ScreenUtil().screenWidth / 6,
-              child: Align(
-                alignment: Alignment.center,
-                child: Text(
-                  'Add',
-                  style: TextStyle(
-                      color: Colors.grey,
-                      fontSize: ScreenUtil().setSp(15),
-                      fontWeight: FontWeight.w600),
-                ),
-              ),
-            )
-          : GestureDetector(
-              onTap: () => {
-                log(state.list),
-                RemindersList.addReminder(
-                    state.title,
-                    state.notes == null ? '' : state.notes,
-                    state.list,
-                    state.details != null
-                        ? state.details['date'] +
-                            state.details['time']
-                        : 0,
-                    state.details != null
-                        ? state.details['priority']
-                        : 0),
-                Navigator.pop(context)
-              },
-              child: Container(
-                //color: Colors.blue,
-                width: ScreenUtil().screenWidth / 6,
-                child: Align(
-                  alignment: Alignment.center,
-                  child: Text(
-                    'Add',
-                    style: TextStyle(
-                        color: Colors.blue,
-                        fontSize: ScreenUtil().setSp(15),
-                        fontWeight: FontWeight.w600),
-                  ),
-                ),
-              ),
-            ),
-    );
-  }
+
 
   @override
   void dispose() {
@@ -100,7 +43,6 @@ class _CreateNewReminder extends State<CreateNewReminder> {
 
   @override
   Widget build(BuildContext context) {
-   // reminderStream.setList('Reminders');
     final SimpleDialog listDialog = SimpleDialog(
         contentPadding: EdgeInsets.only(
           bottom: ScreenUtil().setHeight(10),
@@ -135,7 +77,11 @@ class _CreateNewReminder extends State<CreateNewReminder> {
                         length: RemindersList.MyLists[index].list.length);
                   }))
         ]);
-    return  BlocBuilder<NewReminderBloc,NewReminderState>(
+    return  BlocConsumer <NewReminderBloc,NewReminderState>(
+        listener: (context,state){
+          if(state.viewState==ViewState.success)
+            Navigator.pop(context);
+        },
       builder: (context,state) {
         return  Scaffold(
           appBar: _appBarWidget(state),
@@ -186,6 +132,68 @@ class _CreateNewReminder extends State<CreateNewReminder> {
     );
   }
 
+  Widget _appBarWidget(NewReminderState state) {
+    return AppbarWidget(
+      context,
+      leadingText: 'Cancel',
+      onTapCancel: state.title == null? ()=>{Navigator.pop(context)}:null ,
+      title: 'New Reminder',
+      onTapAction: (state == null ||
+          state.title == null ||
+          state.title == '')
+          ? Container(
+        //color: Colors.blue,
+        width: ScreenUtil().screenWidth / 6,
+        child: Align(
+          alignment: Alignment.center,
+          child: Text(
+            'Add',
+            style: TextStyle(
+                color: Colors.grey,
+                fontSize: ScreenUtil().setSp(15),
+                fontWeight: FontWeight.w600),
+          ),
+        ),
+      )
+          : GestureDetector(
+        onTap: () => {
+          // log(state.list),
+          RemindersList.addReminder(
+              state.title,
+              state.notes == null ? '' : state.notes,
+              state.list,
+              state.details != null
+                  ? state.details['date'] +
+                  state.details['time']
+                  : 0,
+              state.details != null
+                  ? state.details['priority']
+                  : 0),
+          _onHandleAddBtn(),
+         // Navigator.pop(context)
+        },
+        child: Container(
+          //color: Colors.blue,
+          width: ScreenUtil().screenWidth / 6,
+          child: Align(
+            alignment: Alignment.center,
+            child: Text(
+              'Add',
+              style: TextStyle(
+                  color: Colors.blue,
+                  fontSize: ScreenUtil().setSp(15),
+                  fontWeight: FontWeight.w600),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _onHandleAddBtn()
+  {
+    BlocProvider.of<NewReminderBloc>(context).add(CreateNewReminderEvent());
+  }
   String getContent(content) {
     if (content['date'] != 0) {
       if (content['time'] != 0) {

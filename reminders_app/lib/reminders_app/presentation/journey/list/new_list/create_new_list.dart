@@ -157,7 +157,7 @@ class _NewList extends State<NewList> {
       onTapAction: GestureDetector(
         onTap: () {
           if (state.activeAddBtn) {
-            log(ColorConstants.getColorString(state.selectColor));
+           // log(ColorConstants.getColorString(state.selectColor));
             RemindersList.addList(name.text, ColorConstants.getColorString(state.selectColor));
             onHandleAddBtn(context);
           }
