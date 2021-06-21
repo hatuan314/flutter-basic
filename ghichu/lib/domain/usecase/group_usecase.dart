@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:ghichu/domain/entities/group_entity.dart';
 import 'package:ghichu/domain/repositories/group_repository.dart';
 
-
 class GroupUseCase {
   final GroupRepository groupRepository;
 
@@ -24,7 +23,7 @@ class GroupUseCase {
     return await groupRepository.setGroupLocal(groupEntity);
   }
 
-  Future<void> orderGroupLocal(int oldIndex, int newIndex) async {
-
+  Future<void> orderGroupLocal(List<GroupEntity> list) async {
+    await groupRepository.addAllGroupLocal(list);
   }
 }

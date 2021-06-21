@@ -26,13 +26,6 @@ class _State extends State<HomePage> {
   CheckButtonBloc blocCheckButton = new CheckButtonBloc();
   bool updateOrder = true;
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    BlocProvider.of<HomePageBloc>(context).add(UpDate());
-  }
-
-  @override
   Widget build(BuildContext context) {
     return BlocBuilder<HomePageBloc, HomePageState>(
       builder: (context, state) {
@@ -95,21 +88,18 @@ class _State extends State<HomePage> {
                   child: Center(
                       child: GestureDetector(
                     onTap: () {
-                      blocCheckButton.setCheck();
+                      BlocProvider.of<HomePageBloc>(context)
+                          .add(EditEvent(isEdit: state.isEdit));
                     },
-                    child: StreamBuilder<Object>(
-                        stream: blocCheckButton.checkButton,
-                        builder: (context, snapshot) {
-                          return Text(
-                            blocCheckButton.check
-                                ? HomePageConstants.doneTxt
-                                : HomePageConstants.editTxt,
-                            style: TextStyle(
-                                color: Colors.blue,
-                                fontWeight: FontWeight.w600,
-                                fontSize: HomePageConstants.screenUtileSp18),
-                          );
-                        }),
+                    child: Text(
+                      state.isEdit
+                          ? HomePageConstants.editTxt
+                          : HomePageConstants.doneTxt,
+                      style: TextStyle(
+                          color: Colors.blue,
+                          fontWeight: FontWeight.w600,
+                          fontSize: HomePageConstants.screenUtileSp18),
+                    ),
                   )),
                 )
               ],
@@ -126,10 +116,10 @@ class _State extends State<HomePage> {
                         Stack(
                           children: [
                             WrapWidget(
-                              blocCheckButton: blocCheckButton,
+                             state: state,
                             ),
                             EditWidget(
-                              blocCheckButton: blocCheckButton,
+                              state: state,
                             ),
                           ],
                         ),
@@ -168,7 +158,9 @@ class _State extends State<HomePage> {
                             title: state.keyMyList[index].name,
                             index: index,
                             state: state,
-                            leght: 0,
+                            leght: state
+                                .remindertoGroup[state.keyMyList[index].name]
+                                .length,
                             color: state.keyMyList[index].color,
                           );
                         })),
@@ -178,7 +170,7 @@ class _State extends State<HomePage> {
 
                             BlocProvider.of<HomePageBloc>(context).add(
                                 OrderGroup(
-                                   oldIndex: oldIndex,
+                                    oldIndex: oldIndex,
                                     newIndex: newIndex,
                                     updateOrder: updateOrder));
                           }

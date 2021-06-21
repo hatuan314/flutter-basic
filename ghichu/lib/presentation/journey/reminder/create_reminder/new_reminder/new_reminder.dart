@@ -1,4 +1,4 @@
-
+import 'package:ghichu/common/extension/extension_datetime.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ghichu/common/constants/layout_constants.dart';
@@ -19,6 +19,7 @@ import 'package:ghichu/presentation/journey/reminder/widgets/select_container.da
 import 'package:ghichu/presentation/journey/reminder/widgets/text_filed_title_note.dart';
 import 'package:ghichu/presentation/journey/widgets/app_bar.dart';
 import 'package:ghichu/presentation/journey/widgets/show_model_button_sheet.dart';
+import 'package:ghichu/presentation/view_state.dart';
 
 class NewReminderPage extends StatefulWidget {
   final SettingNewReminder settingNewReminder;
@@ -59,7 +60,8 @@ class _NewReminderPageState extends State<NewReminderPage> {
           BlocProvider.of<NewReminderBloc>(context).add(
               UpDateNewReminderDetailsEvent(
                   initDetailsState: settingDetails.state,
-                  isDateDetails: settingDetails.state.isDateSwitch));
+                  isDateDetails: settingDetails.state.isDateSwitch)
+          );
         });
       }
       if (state is PushToListGroupState) {
@@ -73,6 +75,9 @@ class _NewReminderPageState extends State<NewReminderPage> {
               .add(UpDateNewReminderListGroupEvent(groups: groups));
         });
       }
+      if(state is InitialNewReminderState){
+        if(state.viewState==ViewState.success) Navigator.pop(context);
+      }
     }, builder: (context, state) {
       if (state is InitialNewReminderState) {
         return Scaffold(
@@ -81,17 +86,14 @@ class _NewReminderPageState extends State<NewReminderPage> {
             actions: state.activeBtn
                 ? () {
                     if (widget.settingNewReminder.isEditReminder == false) {
-                      // newReminderBloc.newReminderState.addTodoList(
-                      //     titleController.text,
-                      //     noteController.text,
-                      //     newReminderBloc.newReminderState.valuesTime,
-                      //     widget.listGroup[newReminderBloc.newReminderState.index],
-                      //     'none',
-                      //     DateTime.now().millisecondsSinceEpoch,
-                      //     DateTime.now().millisecondsSinceEpoch,
-                      //     newReminderBloc.newReminderState.isTimeDetails);
+                      BlocProvider.of<NewReminderBloc>(context).add(
+                          AddReminderEvent(
+                              title: titleController.text,
+                              note: noteController.text,
+                              date: state.date,
+                              group: state.groups.name,
+                              priority: state.groups.name));
                     }
-                    Navigator.pop(context);
                   }
                 : null,
             leading: showBttomSheet(state)
@@ -160,6 +162,15 @@ class _NewReminderPageState extends State<NewReminderPage> {
         color: Colors.transparent,
       );
     });
+  }
+
+  int date(
+      {DateTime selectDate,
+      bool isDateSwitch,
+      bool isTimeSwitch,
+      int hour,
+      int minute}) {
+    return 0;
   }
 
   bool showBttomSheet(InitialNewReminderState state) {

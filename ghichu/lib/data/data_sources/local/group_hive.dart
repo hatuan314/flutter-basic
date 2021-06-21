@@ -22,10 +22,17 @@ class GroupLocalDataSource {
   Future<int> setGroupLocal(GroupEntity groups) async {
     return await localDbSetup.groupBox.add(groups);
   }
-  Future<void> deleteGroup(int index){
 
+  Future<void> deleteGroupLocal(int index) async {
+    await localDbSetup.groupBox.deleteAt(index);
   }
- Future<GroupEntity> getGroup(){
 
- }
+  Future<void> updateGroupLocal(int index, GroupEntity groupEntity) async {
+    await localDbSetup.groupBox.putAt(index, groupEntity);
+  }
+
+  Future<void> addAllGroupLocal(List<GroupEntity> list) async {
+    await localDbSetup.groupBox.clear();
+    await localDbSetup.groupBox.addAll(list);
+  }
 }

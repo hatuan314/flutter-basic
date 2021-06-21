@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -43,14 +42,15 @@ extension DateTimeExtension on DateTime {
     }
   }
 
-  int getTime(bool date, bool time, int hour, int minute) {
+  int getTimeInt({bool date, bool time, int hour, int minute}) {
     int h = hour * 60 * 60 * 1000 + minute * 60 * 1000;
 // print('${DateFormat('yyyy-MM-dd HH-mm').format(DateTime.fromMillisecondsSinceEpoch(a))}');
     if (date) {
       if (time) {
         int a = DateTime.parse(DateFormat('yyyy-MM-dd').format(this))
                 .millisecondsSinceEpoch +
-            h;
+            h +
+            1000;
         return a;
       } else {
         int a = DateTime.parse(DateFormat('yyyy-MM-dd').format(this))
@@ -62,7 +62,7 @@ extension DateTimeExtension on DateTime {
     }
   }
 
-  String getTimtDate(
+  String getTimeDate(
       {TimeOfDay timeOfDay, bool isTimeSwitch, bool isDateSwitch}) {
     String k = '';
     if (isTimeSwitch) {

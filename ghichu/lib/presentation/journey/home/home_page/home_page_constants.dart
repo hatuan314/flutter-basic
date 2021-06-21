@@ -27,6 +27,15 @@ class HomePageConstants {
       'sum': 0
     }
   ];
+  static String reminderTodayTxt = 'Today';
+  static String reminderAllTxt = 'All';
+  static String reminderScheduledTxt = 'Scheduled';
+  static IconData reminderTodayIcon = Icons.calendar_today;
+  static IconData reminderAllIcon = Icons.all_inbox;
+  static IconData reminderScheduledIcon = Icons.calendar_today;
+  static Color reminderTodayColor = Colors.blue;
+  static Color reminderAllColor = Colors.deepPurple;
+  static Color reminderScheduledColor = Colors.red;
   static String myListTxt = 'My Lists';
   static String editTxt = 'Edit';
   static String doneTxt = 'Done';

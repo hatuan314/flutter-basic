@@ -1,3 +1,5 @@
+
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ghichu/presentation/journey/reminder/create_reminder/details_screen/bloc/details_event.dart';
@@ -103,21 +105,24 @@ class DetailsBloc extends Bloc<DetailsEvent, DetailsState> {
 
   Stream<DetailsState> _mapDateSwitchToState(DateSwitchEvent event) async* {
     final currentState = state;
+    DateTime nowDateTime;
     if (currentState is InitDetailsState) {
       bool isTimeSwitch, isDateTableCanlender, isTimeTable;
       if (event.isDateSwitch == false) {
         isTimeSwitch = false;
         isDateTableCanlender = false;
         isTimeTable = false;
+        nowDateTime = null;
       } else {
         isDateTableCanlender = true;
+        nowDateTime = DateTime.now();
       }
       yield currentState.update(
           isDateSwitch: event.isDateSwitch,
           isTimeSwitch: isTimeSwitch,
           isTimeTable: isTimeTable,
           isDateTableCanlender: isDateTableCanlender,
-          selectDate: DateTime.now());
+          selectDate: nowDateTime);
     }
   }
 

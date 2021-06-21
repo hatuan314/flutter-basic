@@ -1,17 +1,13 @@
-import 'package:flutter/cupertino.dart';
-import 'package:ghichu/data/models/reminder.dart';
+
 import 'package:ghichu/domain/entities/group_entity.dart';
 import 'package:ghichu/presentation/journey/reminder/create_reminder/details_screen/bloc/details_state.dart';
-
 
 abstract class NewReminderEvent {}
 
 class UpDateNewReminderDetailsEvent extends NewReminderEvent {
-  final Details details;
   final bool isDateDetails;
   final InitDetailsState initDetailsState;
-  UpDateNewReminderDetailsEvent(
-      {this.initDetailsState, this.details, this.isDateDetails});
+  UpDateNewReminderDetailsEvent({this.initDetailsState, this.isDateDetails});
 }
 
 class UpDateNewReminderListGroupEvent extends NewReminderEvent {
@@ -34,3 +30,12 @@ class ActiveBtn extends NewReminderEvent {
 class PushDetailEvent extends NewReminderEvent {}
 
 class PushListGroupEvent extends NewReminderEvent {}
+
+class AddReminderEvent extends NewReminderEvent {
+  final String title, note, priority;
+  final int date;
+  final String group;
+
+  AddReminderEvent(
+      {this.title, this.note, this.date, this.group, this.priority});
+}
