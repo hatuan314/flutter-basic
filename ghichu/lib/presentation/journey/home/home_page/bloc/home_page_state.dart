@@ -6,11 +6,15 @@ import 'package:ghichu/domain/entities/reminder_entity.dart';
 class HomePageState extends Equatable {
   List<GroupEntity> keyMyList = [];
   bool updateOrder;
+  int reminderToday, reminderScheduled, reminderAll;
   bool isEdit;
   List<String> reminderSystem = [];
   Map<String, List<ReminderEntity>> remindertoGroup;
   HomePageState(
       {this.keyMyList,
+      this.reminderScheduled,
+      this.reminderToday,
+      this.reminderAll,
       this.updateOrder,
       this.remindertoGroup,
       this.isEdit,
@@ -19,9 +23,15 @@ class HomePageState extends Equatable {
           {List<GroupEntity> keyMyList,
           List<String> reminderSystem,
           bool updateOrder,
+          int reminderToday,
+          reminderScheduled,
+          reminderAll,
           bool isEdit,
           Map<String, List<ReminderEntity>> remindertoGroup}) =>
       HomePageState(
+          reminderAll: reminderAll ?? this.reminderAll,
+          reminderScheduled: reminderScheduled ?? this.reminderScheduled,
+          reminderToday: reminderToday ?? this.reminderToday,
           reminderSystem: reminderSystem ?? this.reminderSystem,
           isEdit: isEdit ?? this.isEdit,
           keyMyList: keyMyList ?? this.keyMyList,
@@ -34,6 +44,9 @@ class HomePageState extends Equatable {
         this.keyMyList,
         this.updateOrder,
         this.remindertoGroup,
-        this.reminderSystem
+        this.reminderSystem,
+        this.reminderScheduled,
+        this.reminderToday,
+        this.reminderAll
       ];
 }

@@ -10,6 +10,7 @@ import 'package:ghichu/presentation/journey/reminder/create_reminder/details_scr
 import 'package:ghichu/presentation/journey/reminder/widgets/app_bar_reminder.dart';
 import 'package:ghichu/presentation/journey/reminder/widgets/select_container.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ghichu/presentation/view_state.dart';
 
 class DetailsPage extends StatefulWidget {
   final SettingDetails settingDetails;
@@ -32,6 +33,11 @@ class _DetailsPageState extends State<DetailsPage> {
               priority: settingPriority.priority));
         });
       }
+      if(state is InitDetailsState){
+        if(state.viewState==ViewState.success){
+          Navigator.popAndPushNamed(context, RouteList.homePage);
+        }
+      }
     }, builder: (context, state) {
       if (state is InitDetailsState) {
         return Scaffold(
@@ -49,8 +55,13 @@ class _DetailsPageState extends State<DetailsPage> {
             actions: widget.settingDetails.title.isEmpty
                 ? null
                 : () {
-                    Navigator.pop(context);
-                    Navigator.pop(context);
+                    BlocProvider.of<DetailsBloc>(context).add(
+                        AddReminderDetailsEvent(
+                            title: widget.settingDetails.title,
+                            note: widget.settingDetails.note,
+                            group: widget.settingDetails.group));
+                    // Navigator.pop(context);
+                    // Navigator.pop(context);
                   },
             textRight: Text(
               DetailsContraints.textRight,

@@ -27,8 +27,6 @@ class MyListWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, RouteList.todayPage,
-            arguments: {StringConstants.keyGroup: keyGroup});
       },
       child: Container(
           decoration: BoxDecoration(

@@ -18,9 +18,10 @@ class SettingListGroup {
 
 class SettingDetails {
   final InitDetailsState state;
-  final String title, note;
+  final String title, note,group;
 
   SettingDetails({
+    this.group,
     this.state,
     this.title,
     this.note,

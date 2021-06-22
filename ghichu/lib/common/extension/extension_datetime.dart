@@ -72,4 +72,8 @@ extension DateTimeExtension on DateTime {
     }
     return k;
   }
+
+  String dateTimeFormat() {
+    return DateFormat('yyyy-MM-dd').format(this);
+  }
 }

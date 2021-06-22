@@ -57,7 +57,7 @@ class RouteReminder {
         return MultiBlocProvider(
           providers: [
             BlocProvider(
-                create: (context) => DetailsBloc()
+                create: (context) => locator<DetailsBloc>()
                   ..add(UpDateStateDetailsEvent(state: settingDetails.state)))
           ],
           child: DetailsPage(

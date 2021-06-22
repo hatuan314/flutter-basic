@@ -39,7 +39,9 @@ class NewReminderBloc extends Bloc<NewReminderEvent, NewReminderState> {
       if (state is InitialNewReminderState) {
         current = state;
       }
-      yield PushToDetailState(initDetailsState: current.initDetailsState);
+      yield PushToDetailState(
+          initDetailsState: current.initDetailsState,
+          group: current.groups.name);
       yield current;
     }
     if (event is PushListGroupEvent) {

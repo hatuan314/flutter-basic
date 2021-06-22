@@ -23,8 +23,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _State extends State<HomePage> {
-  CheckButtonBloc blocCheckButton = new CheckButtonBloc();
-  bool updateOrder = true;
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<HomePageBloc, HomePageState>(
@@ -56,7 +54,7 @@ class _State extends State<HomePage> {
                                               isEditReminder: false))
                                       .whenComplete(() {
                                     BlocProvider.of<HomePageBloc>(context)
-                                        .add(UpDate());
+                                        .add(UpDateReminderEvent());
                                   });
                                 },
                               )),
@@ -65,7 +63,8 @@ class _State extends State<HomePage> {
                   GestureDetector(
                     onTap: () async {
                       await Navigator.pushNamed(context, RouteList.addGroup);
-                      BlocProvider.of<HomePageBloc>(context).add(UpDate());
+                      BlocProvider.of<HomePageBloc>(context)
+                          .add(UpDateGroupEvent());
                     },
                     child: Text(
                       HomePageConstants.addListTxt,
@@ -116,7 +115,7 @@ class _State extends State<HomePage> {
                         Stack(
                           children: [
                             WrapWidget(
-                             state: state,
+                              state: state,
                             ),
                             EditWidget(
                               state: state,
@@ -166,13 +165,11 @@ class _State extends State<HomePage> {
                         })),
                         onReorder: (int oldIndex, int newIndex) {
                           if (newIndex != oldIndex) {
-                            updateOrder = !updateOrder;
-
-                            BlocProvider.of<HomePageBloc>(context).add(
-                                OrderGroup(
-                                    oldIndex: oldIndex,
-                                    newIndex: newIndex,
-                                    updateOrder: updateOrder));
+                            BlocProvider.of<HomePageBloc>(context)
+                                .add(OrderGroupEvent(
+                              oldIndex: oldIndex,
+                              newIndex: newIndex,
+                            ));
                           }
                         }))
               ],
@@ -184,9 +181,6 @@ class _State extends State<HomePage> {
   @override
   void dispose() {
     // TODO: implement dispose
-    // blocHomePage.dispose();
-    blocCheckButton.dispose();
-    print('33243');
     super.dispose();
   }
 }

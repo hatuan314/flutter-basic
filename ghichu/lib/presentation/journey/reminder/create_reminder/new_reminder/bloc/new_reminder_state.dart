@@ -58,10 +58,10 @@ class InitialNewReminderState extends NewReminderState {
 
 class PushToDetailState extends NewReminderState {
   final InitDetailsState initDetailsState;
-
-  PushToDetailState({this.initDetailsState});
+  final String group;
+  PushToDetailState({this.initDetailsState,this.group});
   @override
-  List<Object> get props => [this.initDetailsState];
+  List<Object> get props => [this.initDetailsState,this.group];
 }
 
 class PushToListGroupState extends NewReminderState {

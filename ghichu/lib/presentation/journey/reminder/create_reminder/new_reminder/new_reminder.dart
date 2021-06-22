@@ -34,7 +34,7 @@ class _NewReminderPageState extends State<NewReminderPage> {
   TextEditingController titleController = new TextEditingController();
   TextEditingController noteController = new TextEditingController();
   int indexSelect = 0;
-  CheckButtonBloc checkButtonBloc = CheckButtonBloc();
+
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
@@ -52,16 +52,18 @@ class _NewReminderPageState extends State<NewReminderPage> {
       if (state is PushToDetailState) {
         Navigator.pushNamed(context, RouteList.details,
                 arguments: SettingDetails(
+                    group: state.group,
                     note: noteController.text,
                     title: titleController.text,
                     state: state.initDetailsState))
             .then((value) {
           SettingDetails settingDetails = value;
-          BlocProvider.of<NewReminderBloc>(context).add(
-              UpDateNewReminderDetailsEvent(
-                  initDetailsState: settingDetails.state,
-                  isDateDetails: settingDetails.state.isDateSwitch)
-          );
+          if (settingDetails != null) {
+            BlocProvider.of<NewReminderBloc>(context).add(
+                UpDateNewReminderDetailsEvent(
+                    initDetailsState: settingDetails.state,
+                    isDateDetails: settingDetails.state.isDateSwitch));
+          }
         });
       }
       if (state is PushToListGroupState) {
@@ -75,8 +77,8 @@ class _NewReminderPageState extends State<NewReminderPage> {
               .add(UpDateNewReminderListGroupEvent(groups: groups));
         });
       }
-      if(state is InitialNewReminderState){
-        if(state.viewState==ViewState.success) Navigator.pop(context);
+      if (state is InitialNewReminderState) {
+        if (state.viewState == ViewState.success) Navigator.pop(context);
       }
     }, builder: (context, state) {
       if (state is InitialNewReminderState) {
@@ -205,11 +207,5 @@ class _NewReminderPageState extends State<NewReminderPage> {
     // } else {
     //   detailsBloc.setDateSwitch(false);
     // }
-  }
-
-  @override
-  void dispose() {
-    checkButtonBloc.dispose();
-    super.dispose();
   }
 }

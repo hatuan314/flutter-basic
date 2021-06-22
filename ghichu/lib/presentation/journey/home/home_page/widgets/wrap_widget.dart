@@ -30,7 +30,7 @@ class WrapWidget extends StatelessWidget {
                       reminderColor: HomePageConstants.reminderTodayColor,
                       reminderIcon: HomePageConstants.reminderTodayIcon,
                       reminderTxt: HomePageConstants.reminderTodayTxt,
-                      reminderLeght: 0);
+                      reminderLeght: state.reminderToday);
                 }
                 if (state.reminderSystem[index] ==
                     HomePageConstants.reminderScheduledTxt) {
@@ -39,7 +39,7 @@ class WrapWidget extends StatelessWidget {
                       reminderColor: HomePageConstants.reminderScheduledColor,
                       reminderIcon: HomePageConstants.reminderScheduledIcon,
                       reminderTxt: HomePageConstants.reminderScheduledTxt,
-                      reminderLeght: 0);
+                      reminderLeght: state.reminderScheduled);
                 }
                 if (state.reminderSystem[index] ==
                     HomePageConstants.reminderAllTxt) {
@@ -48,7 +48,7 @@ class WrapWidget extends StatelessWidget {
                       reminderColor: HomePageConstants.reminderAllColor,
                       reminderIcon: HomePageConstants.reminderAllIcon,
                       reminderTxt: HomePageConstants.reminderAllTxt,
-                      reminderLeght: 0);
+                      reminderLeght: state.reminderAll);
                 }
                 return SizedBox();
               }))),

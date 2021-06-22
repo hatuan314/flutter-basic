@@ -8,12 +8,13 @@ class DateSwitchEvent extends DetailsEvent {
   final bool isDateSwitch;
   DateSwitchEvent({@required this.isDateSwitch});
 }
-class UpDateStateDetailsEvent extends DetailsEvent{
+
+class UpDateStateDetailsEvent extends DetailsEvent {
   final InitDetailsState state;
 
   UpDateStateDetailsEvent({this.state});
-
 }
+
 class IsShowDateTableCanlenderEvent extends DetailsEvent {
   final bool isShowDateTableCanlender;
 
@@ -50,4 +51,10 @@ class UpDatePriorityEvent extends DetailsEvent {
 class PushPrioritiesEvent extends DetailsEvent {
   final int index;
   PushPrioritiesEvent({this.index});
+}
+
+class AddReminderDetailsEvent extends DetailsEvent {
+  final String title, note, group;
+
+  AddReminderDetailsEvent({this.title, this.note, this.group});
 }

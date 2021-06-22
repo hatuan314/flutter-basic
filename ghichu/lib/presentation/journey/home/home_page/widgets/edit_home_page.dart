@@ -11,7 +11,6 @@ import 'package:ghichu/presentation/journey/widgets/icon_widget.dart';
 
 class EditWidget extends StatelessWidget {
   HomePageState state;
-  bool updateState = true;
   EditWidget({Key key, this.state}) : super(key: key);
 
   @override
@@ -64,11 +63,10 @@ class EditWidget extends StatelessWidget {
                 if (oldIndex < newIndex) {
                   newIndex = newIndex - 1;
                 }
-                updateState = !updateState;
-                BlocProvider.of<HomePageBloc>(context).add(OrderGroupSystem(
+                BlocProvider.of<HomePageBloc>(context).add(OrderGroupSystemEvent(
                     newIndex: newIndex,
                     oldIndex: oldIndex,
-                    updateOrder: updateState));
+                    ));
               }),
         ),
       ),

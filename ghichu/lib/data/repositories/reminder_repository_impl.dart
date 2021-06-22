@@ -13,7 +13,7 @@ class ReminderRepositoryImpl extends ReminderRepository {
   }
 
   @override
-  Future<List<ReminderEntity>> getReminderToGroupLocal(String group) async {
-      return await reminderLDs.getReminderGroupLocal(group);
+  Future<List<ReminderEntity>> getReminderLocal() async {
+      return await reminderLDs.getReminderLocal();
   }
 }

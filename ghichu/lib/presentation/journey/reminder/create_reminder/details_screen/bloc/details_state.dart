@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:ghichu/presentation/view_state.dart';
 
 abstract class DetailsState extends Equatable {}
 
@@ -8,10 +9,12 @@ class InitDetailsState extends DetailsState {
   final bool isDateSwitch, isTimeSwitch, isDateTableCanlender, isTimeTable;
   DateTime selectDate;
   String priority;
+  final ViewState viewState;
   int indexSelect;
   TimeOfDay timeOfDay;
   InitDetailsState(
       {this.isDateSwitch,
+      this.viewState,
       this.isTimeSwitch,
       this.indexSelect,
       this.priority,
@@ -21,6 +24,7 @@ class InitDetailsState extends DetailsState {
       this.isTimeTable});
   InitDetailsState update(
           {bool isDateSwitch,
+          ViewState viewState,
           bool isTimeSwitch,
           bool isDateTableCanlender,
           int indexSelect,
@@ -29,6 +33,7 @@ class InitDetailsState extends DetailsState {
           TimeOfDay timeOfDay,
           bool isTimeTable}) =>
       InitDetailsState(
+          viewState: viewState ?? this.viewState,
           indexSelect: indexSelect ?? this.indexSelect,
           priority: priority ?? this.priority,
           timeOfDay: timeOfDay ?? this.timeOfDay,
@@ -41,6 +46,7 @@ class InitDetailsState extends DetailsState {
 
   @override
   List<Object> get props => [
+        this.viewState,
         this.indexSelect,
         this.isDateSwitch,
         this.isTimeSwitch,
