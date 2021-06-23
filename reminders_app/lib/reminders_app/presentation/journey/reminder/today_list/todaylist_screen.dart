@@ -74,8 +74,7 @@ class _TodayList extends State<TodayList> {
 
   Widget todayListWidget(TodayListState state,
     BuildContext context,
-  ) {
-    //BlocProvider.of<TodayListBloc>(context).add(UpdateTodayListEvent());
+  ) { 
     int id;
     return Expanded(
         child: Padding(
@@ -130,8 +129,7 @@ class _TodayList extends State<TodayList> {
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     color: RemindersConstants.getPriorityColor(
-                                        RemindersList
-                                            .allReminders[now][index].priority),
+                                         state.todayList [index].priority),
                                   ),
                                 ),
                                 Padding(
@@ -144,8 +142,7 @@ class _TodayList extends State<TodayList> {
                                         Container(
                                           width: ScreenUtil().screenWidth - 85,
                                           child: Text(
-                                            RemindersList
-                                                .allReminders[now][index].title,
+                                             state.todayList [index].title,
                                             overflow: TextOverflow.ellipsis,
                                             maxLines: 5,
                                             softWrap: false,
@@ -163,14 +160,11 @@ class _TodayList extends State<TodayList> {
                                             width:
                                                 ScreenUtil().screenWidth - 85,
                                             child: Text(
-                                              (RemindersList
-                                                              .allReminders[now]
-                                                                  [index]
-                                                              .dateAndTime %
+                                              ( state.todayList[index] .dateAndTime %
                                                           10 ==
                                                       1)
-                                                  ? '${time} \n${RemindersList.allReminders[now][index].notes}'
-                                                  : '${RemindersList.allReminders[now][index].notes}',
+                                                  ? '${time} \n${ state.todayList[index].notes}'
+                                                  : '${ state.todayList[index].notes}',
                                               overflow: TextOverflow.ellipsis,
                                               maxLines: 5,
                                               softWrap: false,
@@ -198,18 +192,7 @@ class _TodayList extends State<TodayList> {
   void deleteReminder(
       BuildContext context, TodayListState state, String now, int index) {
     int id =  state.todayList[index].id;
-    RemindersList.allReminders[now].removeAt(index);
-    if (RemindersList.allReminders[now].length == 0) {
-      log('deletenow');
-      RemindersList.allReminders.remove(now);
-    }
-    for (int i = 0; i < RemindersList.MyLists.length; i++)
-      for (int j = 0; j < RemindersList.MyLists[i].list.length; j++)
-        if (RemindersList.MyLists[i].list[j].id == id) {
-          RemindersList.MyLists[i].list.removeAt(j);
-          j--;
-        }
-    index--;
+
     BlocProvider.of<TodayListBloc>(context).add(UpdateTodayListEvent());
     Navigator.pop(context);
   }

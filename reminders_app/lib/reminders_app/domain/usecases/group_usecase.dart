@@ -10,18 +10,17 @@ class GroupUsecase{
   GroupUsecase({@required this.groupRepo});
   Future<int> setGroup(Group group) async
   {
-    log('add to box2');
     return  await groupRepo.setGroup(group);
   }
   Future<List<Group>> getAllGroup() async{
+    //log("+++++++++++++++++++++");
     return await groupRepo.getAllGroup();
   }
-Future<void> delete(int index) async{
-    return await groupRepo.deleteGroup(index);
-}
 
+  Future<Group> getGroup(int index) async{
+    return await groupRepo.getGroup(index);
+  }
   Future<void> deleteGroup(int index) async{
-
     return await groupRepo.deleteGroup(index);
   }
 

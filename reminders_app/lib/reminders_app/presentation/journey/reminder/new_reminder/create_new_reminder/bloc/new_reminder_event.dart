@@ -31,6 +31,11 @@ class SetDetailsEvent extends NewReminderEvent{
   SetDetailsEvent({@required this.details});
 }
 
+class GetAllGroupEvent extends NewReminderEvent{
+
+  GetAllGroupEvent();
+}
+
 class CreateNewReminderEvent extends NewReminderEvent{
 
   CreateNewReminderEvent();

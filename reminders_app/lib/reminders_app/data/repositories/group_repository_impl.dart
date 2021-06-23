@@ -13,21 +13,23 @@ class GroupRepositoryImpl implements GroupRepository{
 
   @override
   Future<List<Group>> getAllGroup()async {
-    log('gettttttttttt');
-    return groupDs.getAllGroup();
+    //log('gettttttttttt');
+    return await groupDs.getAllGroup();
   }
 
   Future<void> deleteGroup(int index) async{
-    log('deeeee');
-    return groupDs.deleteGroup(index);
+    //log('deeeee');
+    return await groupDs.deleteGroup(index);
   }
 
   @override
   Future<int> setGroup(Group group)async {
-    log('add to box1');
-    return groupDs.setGroup(group);
+    return await groupDs.setGroup(group);
   }
 
+  Future<Group> getGroup(int index) async{
+    return await groupDs.getGroup(index);
+  }
 
 
 }

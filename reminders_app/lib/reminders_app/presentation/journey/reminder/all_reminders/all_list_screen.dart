@@ -85,7 +85,7 @@ class _AllRemindersList extends State<AllRemindersList> {
                           ),
                         ),
                       ),
-                      state.myLists[index].list.length == 0
+                      state.remindersOfList[state.myLists[index].name].length == 0
                           ? Padding(
                               padding: EdgeInsets.only(
                                   top: ScreenUtil().setHeight(20),
@@ -105,13 +105,13 @@ class _AllRemindersList extends State<AllRemindersList> {
   Widget getReminderOfList(int index, AllRemindersState state) {
     return ListView.builder(
         shrinkWrap: true,
-        itemCount: state.myLists[index].list.length,
+        itemCount: state.remindersOfList[state.myLists[index].name].length,
         itemBuilder: (context, index1) {
           String time = (DateTime.fromMillisecondsSinceEpoch(
-                  state.myLists[index].list[index1].dateAndTime)
+              state.remindersOfList[state.myLists[index].name][index1].dateAndTime)
               .hourHHmm);
           String date = DateTime.fromMillisecondsSinceEpoch(
-                  state.myLists[index].list[index1].dateAndTime)
+              state.remindersOfList[state.myLists[index].name][index1].dateAndTime)
               .dateDdMMyyyy;
           return Slidable(
               closeOnScroll: true,
@@ -148,7 +148,7 @@ class _AllRemindersList extends State<AllRemindersList> {
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             color: RemindersConstants.getPriorityColor(
-                                state.myLists[index].list[index1].priority),
+                                state.remindersOfList[state.myLists[index].name][index1].priority),
                           ),
                         ),
                         Padding(
@@ -160,7 +160,7 @@ class _AllRemindersList extends State<AllRemindersList> {
                                 Container(
                                   width: ScreenUtil().screenWidth - 85,
                                   child: Text(
-                                      state.myLists[index].list[index1].title,
+                                      state.remindersOfList[state.myLists[index].name][index1].title,
                                       overflow: TextOverflow.ellipsis,
                                       maxLines: 5,
                                       softWrap: false,
@@ -196,31 +196,18 @@ class _AllRemindersList extends State<AllRemindersList> {
 
   String getDetails(int index, int index1, String date, String time,
       AllRemindersState state) {
-    return state.myLists[index].list[index1].dateAndTime != 0
-        ? ((state.myLists[index].list[index1].dateAndTime % 10 == 1)
-            ? '${date == now ? 'Today' : date}, ${time} \n${state.myLists[index].list[index1].notes}'
-            : '${date == now ? 'Today' : date}\n${state.myLists[index].list[index1].notes}')
-        : '${state.myLists[index].list[index1].notes}';
+    return state.remindersOfList[state.myLists[index].name][index1].dateAndTime != 0
+        ? ((state.remindersOfList[state.myLists[index].name][index1].dateAndTime % 10 == 1)
+            ? '${date == now ? 'Today' : date}, ${time} \n${state.remindersOfList[state.myLists[index].name][index1].notes}'
+            : '${date == now ? 'Today' : date}\n${state.remindersOfList[state.myLists[index].name][index1].notes}')
+        : '${state.remindersOfList[state.myLists[index].name][index1].notes}';
   }
 
   void _deleteReminder(int index, int index1, AllRemindersState state) {
     String delDate;
-    int id = state.myLists[index].list[index1].id;
-    RemindersList.MyLists[index].list.removeAt(index1);
+    int id = state.remindersOfList[state.myLists[index].name][index1].id;
 
-    RemindersList.allReminders.forEach((key, value) {
-      for (int i = 0; i < value.length; i++) {
-        if (value[i].id == id) {
-          value.removeAt(i);
-          i--;
-        }
-        if (RemindersList.allReminders[key].length == 0) {
-          delDate = key;
-        }
-      }
-    });
-    RemindersList.allReminders.remove(delDate);
-    index1--;
+
     BlocProvider.of<AllRemindersBloc>(context)
         .add(UpdateAllListEvent(  ));
     Navigator.pop(context);

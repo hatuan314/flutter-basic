@@ -2,22 +2,7 @@ import 'dart:ui';
 import 'package:hive/hive.dart';
 import 'package:reminders_app/reminders_app/domain/entities/reminder.dart';
 part 'group.g.dart';
-/*
-class Group{
-  String name='';
-  Color color;
- int createAt;
- int lastUpdate;
- List<Reminder> list=[];
 
-  Group(String name, Color color, int createAt, int lastUpdate)
-  {
-    this.name=name;
-    this.color=color;
-    this.createAt=createAt;
-    this.lastUpdate=lastUpdate;
-  }
-}*/
 @HiveType(typeId: 1)
 class Group extends HiveObject {
   Group({this.name, this.color, this.createAt, this.lastUpdate});

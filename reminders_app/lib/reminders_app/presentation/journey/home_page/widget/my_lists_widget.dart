@@ -5,6 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/screen_util.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:reminders_app/common/injector.dart';
+import 'package:reminders_app/reminders_app/presentation/journey/list/list/bloc/list_bloc.dart';
+import 'package:reminders_app/reminders_app/presentation/journey/list/list/bloc/list_event.dart';
 import 'package:reminders_app/reminders_app/theme/theme.dart';
 import '../bloc/home_state.dart';
 import '../bloc/homepage_bloc.dart';
@@ -85,7 +88,10 @@ class MyListsWidget extends StatelessWidget{
             child: GestureDetector(
               onTap: () async {
                 await Navigator.push(context,
-                    MaterialPageRoute(builder: (_) => (ListScreen(index))))
+                    MaterialPageRoute(builder: (_) =>  BlocProvider<ListBloc>(
+                      create: (context) => locator<ListBloc>()..add(UpdateListEvent(index: index)),
+                      child: ListScreen(index),
+                    ),))
                     .whenComplete(() => BlocProvider.of<HomeBloc>(context).add(UpdateEvent()));
               },
               child: Container(

@@ -15,14 +15,14 @@ class RemindersList {
   static void addDefaultList() {
     int f = 0;
     if (MyLists?.length == 0) {
-      log('add default');
+    //  log('add default');
       addList('Reminders','blue');
     }
     if (allReminders?.isEmpty ?? true) allReminders?.addAll({'Others': _list});
   }
 
   static void addList(String name, String color) {
-    log(color);
+    //log(color);
     Group g = new Group(name:name,color: color,createAt: DateTime
         .now().toString() ,
         lastUpdate:   DateTime

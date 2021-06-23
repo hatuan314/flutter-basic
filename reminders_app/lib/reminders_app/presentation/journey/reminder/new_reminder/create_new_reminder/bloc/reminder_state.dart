@@ -15,22 +15,25 @@ class ReminderState{
 }*/
 import 'package:equatable/equatable.dart';
 import 'package:reminders_app/common/enums/view_state.dart';
+import 'package:reminders_app/reminders_app/domain/entities/group.dart';
 
  
 class NewReminderState extends Equatable {
-  String title;
-  String notes;
-  String list  ;
-  Map<String,int> details;
+  final String title;
+  final String notes;
+  final String list  ;
+  final Map<String,int> details;
   final ViewState viewState;
+  final List<Group> myLists;
 
-  NewReminderState({this.title, this.notes, this.list, this.details,this.viewState});
+  NewReminderState({this.title, this.notes, this.list, this.details,this.viewState,this.myLists});
 
-  NewReminderState update({String title,
+  NewReminderState update({String title,List<Group> myLists,
   String notes,
   String list,
   Map<String,int> details, ViewState viewState}) =>
       NewReminderState(
+        myLists: myLists?? this.myLists,
        title: title?? this.title,
         notes: notes?? this.notes,
         list: list?? this.list,
@@ -43,6 +46,7 @@ class NewReminderState extends Equatable {
     this.title,
       this.notes,
      this.list,
-     this.details
+     this.details,
+    this.myLists
   ];
 }

@@ -38,7 +38,8 @@ class _HomeScreen extends State< HomeScreen> {
 
   @override
   Widget build(BuildContext context) { 
-    RemindersList.addDefaultList(); 
+    RemindersList.addDefaultList();
+
     return  BlocConsumer<HomeBloc, HomeState>
       (
         listener: (context,state){
@@ -127,7 +128,7 @@ class _HomeScreen extends State< HomeScreen> {
                         itemCount:  state.myLists.length,
                         itemBuilder: (context, index) {
                          // log(state.myLists[index].name);
-                          return MyListsWidget(color: ColorConstants.colorMap[state.myLists[index].color], name: state.myLists[index].name , index: index, length: 0);
+                          return MyListsWidget(color: ColorConstants.colorMap[state.myLists[index].color], name: state.myLists[index].name , index: index, length: state.listLength[state.myLists[index].name]);
                         }),
                     )
                                   ],

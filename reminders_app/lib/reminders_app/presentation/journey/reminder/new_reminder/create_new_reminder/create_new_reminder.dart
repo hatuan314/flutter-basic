@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:reminders_app/common/constants/color_constants.dart';
 import 'package:reminders_app/common/enums/view_state.dart';
 import '../../../../../../common/enums/priority_type.dart';
 import '../../../../../../common/extensions/date_extensions.dart';
@@ -43,40 +44,7 @@ class _CreateNewReminder extends State<CreateNewReminder> {
 
   @override
   Widget build(BuildContext context) {
-    final SimpleDialog listDialog = SimpleDialog(
-        contentPadding: EdgeInsets.only(
-          bottom: ScreenUtil().setHeight(10),
-          top: ScreenUtil().setHeight(10),
-        ),
-        title: Text(
-          'Lists',
-          style: TextStyle(
-              fontSize: ScreenUtil().setSp(20),
-              fontWeight: FontWeight.w700,
-              color: Colors.black),
-        ),
-        children: [
-          Container(
-              height: ScreenUtil().screenWidth - 20,
-              width: ScreenUtil().screenWidth - 20,
-              decoration: BoxDecoration(
-                color: Colors.white,
-              ),
-              child: ListView.builder(
-                  scrollDirection: Axis.vertical,
-                  shrinkWrap: true,
-                  itemCount: RemindersList.MyLists.length,
-                  itemBuilder: (listcontext, index) {
-                    return ListItemWidget(
-                        onTap: () => {
-                              BlocProvider.of<NewReminderBloc>(context).add(SetListEvent(list:   RemindersList.MyLists[index].name)),
-                              Navigator.pop(context)
-                            },
-                        bgIcon: Color(int.parse(RemindersList.MyLists[index].color)),
-                        name: RemindersList.MyLists[index].name,
-                        length: RemindersList.MyLists[index].list.length);
-                  }))
-        ]);
+
     return  BlocConsumer <NewReminderBloc,NewReminderState>(
         listener: (context,state){
           if(state.viewState==ViewState.success)
@@ -123,7 +91,7 @@ class _CreateNewReminder extends State<CreateNewReminder> {
                     ? state.list
                     : 'Reminders',
                 onPressed: () => showDialog(
-                    context: context, builder: (dialogContext) => listDialog),
+                    context: context, builder: (dialogContext) => listDialog(state)),
               ),
             ],
           ),
@@ -157,7 +125,6 @@ class _CreateNewReminder extends State<CreateNewReminder> {
       )
           : GestureDetector(
         onTap: () => {
-          // log(state.list),
           RemindersList.addReminder(
               state.title,
               state.notes == null ? '' : state.notes,
@@ -190,10 +157,50 @@ class _CreateNewReminder extends State<CreateNewReminder> {
     );
   }
 
+  Widget listDialog(NewReminderState state)
+  {
+  //  log(state.myLists.length.toString()+">>>>>>>>>>>>>");
+
+    return   SimpleDialog(
+        contentPadding: EdgeInsets.only(
+          bottom: ScreenUtil().setHeight(10),
+          top: ScreenUtil().setHeight(10),
+        ),
+        title: Text(
+          'Lists',
+          style: TextStyle(
+              fontSize: ScreenUtil().setSp(20),
+              fontWeight: FontWeight.w700,
+              color: Colors.black),
+        ),
+        children: [
+          Container(
+              height: ScreenUtil().screenWidth - 20,
+              width: ScreenUtil().screenWidth - 20,
+              decoration: BoxDecoration(
+                color: Colors.white,
+              ),
+              child: ListView.builder(
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  itemCount: state.myLists.length,
+                  itemBuilder: (listcontext, index) {
+                    return ListItemWidget(
+                        onTap: () => {
+                          BlocProvider.of<NewReminderBloc>(context).add(SetListEvent(list:  state.myLists[index].name)),
+                          Navigator.pop(context)
+                        },
+                        bgIcon: ColorConstants.colorMap[state.myLists[index].color],
+                        name: state.myLists[index].name,
+                        length: state.myLists[index].list.length);
+                  }))
+        ]);
+  }
   void _onHandleAddBtn()
   {
     BlocProvider.of<NewReminderBloc>(context).add(CreateNewReminderEvent());
   }
+
   String getContent(content) {
     if (content['date'] != 0) {
       if (content['time'] != 0) {

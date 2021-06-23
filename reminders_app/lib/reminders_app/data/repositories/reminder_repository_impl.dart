@@ -11,7 +11,7 @@ class ReminderRepositoryImpl implements ReminderRepository{
 
   @override
   Future<void> deleteReminder(int index) async{
-  // log('delete reminder');
+    log('deleteeeeee reminder');
    return await reminderDs.deleteReminder(index);
   }
 

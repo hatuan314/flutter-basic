@@ -11,17 +11,20 @@ class GroupDataSource{
   Future<int> setGroup (Group group) async
   {
     log('add to box');
-    return config.groupBox.add(group);
+    return await config.groupBox.add(group);
   }
   Future<List<Group>> getAllGroup() async{
     log('get all group');
-   // log(config.groupBox.values.toList().length.toString());
-    return config.groupBox.values.toList() as List<Group>;
+    return await config.groupBox.values.toList() as List<Group>;
+  }
+
+  Future<Group> getGroup(int index) async{
+    return await config.groupBox.getAt(index);
   }
 
   Future<void> deleteGroup(int index) async
   {
-    config.groupBox.deleteAt(index);
+    await config.groupBox.deleteAt(index);
     log('delete group');
   }
 }

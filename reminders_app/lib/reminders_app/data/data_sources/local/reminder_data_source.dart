@@ -12,8 +12,6 @@ class ReminderDataSource {
   Future<int> setReminder(Reminder reminder) async {
     log('adddddd reminder');
     int id =await config.reminderBox.add(reminder);
-    log('adddddd reminder');
-    log(id.toString());
     return id;
   }
 
@@ -23,18 +21,20 @@ class ReminderDataSource {
   }
 
   Future<List<Reminder>> getReminderOfList(String list) async {
-    return await config.reminderBox.values.where((reminder) => reminder.list == list);
+    return await config.reminderBox.values.where((reminder) => reminder.list == list).toList();
   }
 
   Future<List<Reminder>> getReminderOfDay(String date) async {
-    return await config.reminderBox.values.where((reminder) =>
-        DateTime.fromMillisecondsSinceEpoch(reminder.dateAndTime)
-            .dateDdMMyyyy ==
-        date);
+    return   await config.reminderBox.values.where((reminder) =>
+    DateTime.fromMillisecondsSinceEpoch(reminder.dateAndTime)
+        .dateDdMMyyyy ==
+        date).toList();
   }
 
   Future<void> deleteReminder(int index) async {
-    await config.reminderBox.deleteAt(index);
-    log('delete reminder');
+    log((await getAllReminder()).length.toString());
+    log(index.toString());
+     await config.reminderBox.deleteAt(index-1);
+    log('deleteeeeeeeeee reminder');
   }
 }

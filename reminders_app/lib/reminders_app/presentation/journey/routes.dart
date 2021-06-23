@@ -6,6 +6,7 @@ import 'package:reminders_app/common/injector.dart';
 import 'package:reminders_app/reminders_app/domain/usecases/group_usecase.dart';
 import 'package:reminders_app/reminders_app/presentation/journey/home_page/bloc/homepage_event.dart';
 import 'package:reminders_app/reminders_app/presentation/journey/reminder/all_reminders/bloc/all_list_event.dart';
+import 'package:reminders_app/reminders_app/presentation/journey/reminder/new_reminder/create_new_reminder/bloc/new_reminder_event.dart';
 import 'package:reminders_app/reminders_app/presentation/journey/reminder/scheduled_list/bloc/scheduled_list_bloc.dart';
 import 'package:reminders_app/reminders_app/presentation/journey/reminder/scheduled_list/bloc/scheduled_list_event.dart';
 import 'package:reminders_app/reminders_app/presentation/journey/reminder/today_list/bloc/today_list_bloc.dart';
@@ -28,13 +29,14 @@ class AppRoutes {
   static Map<String, WidgetBuilder> getAll() {
     return {
       RouteList.allListScreen: (_) => BlocProvider<AllRemindersBloc>(
-            create: (context) => AllRemindersBloc()..add(UpdateAllListEvent()),
+            create: (context) => locator<AllRemindersBloc>()..add(UpdateAllListEvent()),
             child: AllRemindersList(),
           ),
 
       RouteList.todayListScreen: (_) => BlocProvider<TodayListBloc>(
-    create: (context) => TodayListBloc()..add(UpdateTodayListEvent()),
-    child:TodayList(),),
+            create: (context) => locator<TodayListBloc>()..add(UpdateTodayListEvent()),
+            child: TodayList(),
+          ),
 
       RouteList.homeScreen: (_) => BlocProvider<HomeBloc>(
             create: (context) => locator<HomeBloc>()
@@ -45,11 +47,15 @@ class AppRoutes {
 
       RouteList.scheduledListScreen: (_) =>
           BlocProvider<ScheduledRemindersBloc>(
-              create: (context) => ScheduledRemindersBloc()..add(UpdateScheduledEvent()),
+              create: (context) =>
+                  ScheduledRemindersBloc()..add(UpdateScheduledEvent()),
               child: ScheduledList()),
 
       RouteList.createNewScreen: (_) => BlocProvider<NewReminderBloc>(
-          create: (context) => locator<NewReminderBloc>(), child: CreateNewReminder()),
+          create: (context) =>
+              locator<NewReminderBloc>()
+                ..add(GetAllGroupEvent()),
+          child: CreateNewReminder()),
 
       RouteList.detailsScreen: (_) => BlocProvider<AddDetailsBloc>(
           create: (context) => AddDetailsBloc(), child: DetailsScreen()),
