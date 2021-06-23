@@ -44,7 +44,6 @@ extension DateTimeExtension on DateTime {
 
   int getTimeInt({bool date, bool time, int hour, int minute}) {
     int h = hour * 60 * 60 * 1000 + minute * 60 * 1000;
-// print('${DateFormat('yyyy-MM-dd HH-mm').format(DateTime.fromMillisecondsSinceEpoch(a))}');
     if (date) {
       if (time) {
         int a = DateTime.parse(DateFormat('yyyy-MM-dd').format(this))

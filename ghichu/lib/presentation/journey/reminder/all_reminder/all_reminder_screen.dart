@@ -5,7 +5,7 @@ import 'package:flutter_screenutil/screen_util.dart';
 import 'package:ghichu/common/enums/reminder_enum.dart';
 import 'package:ghichu/common/untils/reminder_until.dart';
 import 'package:ghichu/data/models/model_map.dart';
-import 'package:ghichu/presentation/blocs/check_buttom.dart';
+
 import 'package:ghichu/presentation/journey/reminder/__mock__/textfiled_controller.dart';
 import 'package:ghichu/presentation/journey/reminder/all_reminder/bloc/all_reminder_bloc.dart';
 import 'package:ghichu/presentation/journey/reminder/all_reminder/bloc/all_reminder_state.dart';

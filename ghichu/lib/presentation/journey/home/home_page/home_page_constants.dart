@@ -4,29 +4,6 @@ import 'package:flutter_screenutil/screen_util.dart';
 import 'package:ghichu/common/constants/route_constants.dart';
 
 class HomePageConstants {
-  static List list = [
-    {
-      'icons': Icons.calendar_today,
-      'title': 'Today',
-      'push': RouteList.todayPage,
-      'colors': Colors.blue,
-      'sum': 0
-    },
-    {
-      'icons': Icons.calendar_today,
-      'title': 'Scheduled',
-      'push': RouteList.scheduled,
-      'colors': Colors.red,
-      'sum': 0
-    },
-    {
-      'icons': Icons.all_inbox,
-      'title': 'All',
-      'push': RouteList.allPage,
-      'colors': Colors.deepPurple,
-      'sum': 0
-    }
-  ];
   static String reminderTodayTxt = 'Today';
   static String reminderAllTxt = 'All';
   static String reminderScheduledTxt = 'Scheduled';

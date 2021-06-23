@@ -6,7 +6,7 @@ import 'package:ghichu/common/constants/route_constants.dart';
 
 import 'package:ghichu/common/setting_argument/settting_argument.dart';
 import 'package:ghichu/domain/entities/group_entity.dart';
-import 'package:ghichu/presentation/blocs/check_buttom.dart';
+
 
 import 'package:ghichu/presentation/journey/reminder/create_reminder/details_screen/widgets/time_widget.dart';
 import 'package:ghichu/presentation/journey/reminder/create_reminder/new_reminder/bloc/new_reminder_bloc.dart';

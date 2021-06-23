@@ -33,24 +33,21 @@ class EditWidget extends StatelessWidget {
               physics: NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               children: List.generate(state.reminderSystem.length, (index) {
-                if (state.reminderSystem[index] ==
-                    HomePageConstants.reminderTodayTxt) {
+                if (state.reminderSystem[index] == 'Today') {
                   return group(
                       index: index,
                       iconData: HomePageConstants.reminderTodayIcon,
                       color: HomePageConstants.reminderTodayColor,
                       name: HomePageConstants.reminderTodayTxt);
                 }
-                if (state.reminderSystem[index] ==
-                    HomePageConstants.reminderScheduledTxt) {
+                if (state.reminderSystem[index] == 'Scheduled') {
                   return group(
                       index: index,
                       iconData: HomePageConstants.reminderScheduledIcon,
                       color: HomePageConstants.reminderScheduledColor,
                       name: HomePageConstants.reminderScheduledTxt);
                 }
-                if (state.reminderSystem[index] ==
-                    HomePageConstants.reminderAllTxt) {
+                if (state.reminderSystem[index] == 'All') {
                   return group(
                       index: index,
                       iconData: HomePageConstants.reminderAllIcon,
@@ -63,10 +60,11 @@ class EditWidget extends StatelessWidget {
                 if (oldIndex < newIndex) {
                   newIndex = newIndex - 1;
                 }
-                BlocProvider.of<HomePageBloc>(context).add(OrderGroupSystemEvent(
-                    newIndex: newIndex,
-                    oldIndex: oldIndex,
-                    ));
+                BlocProvider.of<HomePageBloc>(context)
+                    .add(OrderGroupSystemEvent(
+                  newIndex: newIndex,
+                  oldIndex: oldIndex,
+                ));
               }),
         ),
       ),

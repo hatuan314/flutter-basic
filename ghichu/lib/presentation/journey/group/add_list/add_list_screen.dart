@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -27,15 +26,15 @@ class _AddListScreenState extends State<AddGroupScreen> {
   // CheckButtonBloc checkButtonBloc =  CheckButtonBloc();
   @override
   Widget build(BuildContext context) {
-    return  BlocConsumer<AddListBloc, AddListState>(
+    return BlocConsumer<AddListBloc, AddListState>(
       listener: (context, state) {
-        if(state is InitialAddListState){
-          if(state.viewState==ViewState.success) Navigator.pop(context);
+        if (state is InitialAddListState) {
+          if (state.viewState == ViewState.success) Navigator.pop(context);
         }
-        if(state is PopAddListGroupState){
-          if(state.isRemove){
+        if (state is PopAddListGroupState) {
+          if (state.isRemove) {
             showButtonModalSheet(context);
-          }else{
+          } else {
             Navigator.pop(context);
           }
         }
@@ -45,18 +44,19 @@ class _AddListScreenState extends State<AddGroupScreen> {
           return Scaffold(
             appBar: AppBarWidget(
               color: state.activeAddBtn ? Colors.blue : Colors.black38,
-              leading: (){
-                BlocProvider.of<AddListBloc>(context).add(PopAddListGroupEvent(isRemove: changeScreen(_textEditingController.text, state.color)));
+              leading: () {
+                BlocProvider.of<AddListBloc>(context).add(PopAddListGroupEvent(
+                    isRemove: changeScreen(
+                        _textEditingController.text, state.color)));
               },
               actions: state.activeAddBtn
                   ? () {
-                BlocProvider.of<AddListBloc>(context).add(
-                    CreateListEvent(
-                        name: _textEditingController.text.trim(),
-                        color: state.color.value.toString(),
-                        createAt: DateTime.now().toString(),
-                        lastUpdate: DateTime.now().toString()));
-              }
+                      BlocProvider.of<AddListBloc>(context).add(CreateListEvent(
+                          name: _textEditingController.text.trim(),
+                          color: state.color.value.toString(),
+                          createAt: DateTime.now().toString(),
+                          lastUpdate: DateTime.now().toString()));
+                    }
                   : null,
               textLeft: 'Hủy',
               title: 'Danh sách mới',
@@ -64,8 +64,8 @@ class _AddListScreenState extends State<AddGroupScreen> {
             ),
             body: SingleChildScrollView(
               child: Padding(
-                padding: EdgeInsets.symmetric(
-                    horizontal: ScreenUtil().setWidth(15)),
+                padding:
+                    EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(15)),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -74,19 +74,19 @@ class _AddListScreenState extends State<AddGroupScreen> {
                     ),
                     Center(
                         child: IconWidget(
-                          size: AddListConstants.sizeContainer,
-                          color: Color(state.color.value),
-                          colorGraient: Color(state.color.value).withOpacity(0.5),
-                          icon: Icons.list,
-                          shadow: 0.2,
-                          sizeIcon: AddListConstants.sizeIcon,
-                        )),
+                      size: AddListConstants.sizeContainer,
+                      color: Color(state.color.value),
+                      colorGraient: Color(state.color.value).withOpacity(0.5),
+                      icon: Icons.list,
+                      shadow: 0.2,
+                      sizeIcon: AddListConstants.sizeIcon,
+                    )),
                     SizedBox(
                       height: AddListConstants.screenUntilHeight30,
                     ),
                     TextField(
                       controller: _textEditingController,
-                      // textAlign: TextAlign.center,
+
                       textAlign: TextAlign.center,
 
                       style: TextStyle(
@@ -96,7 +96,7 @@ class _AddListScreenState extends State<AddGroupScreen> {
                       decoration: InputDecoration(
                         isDense: true,
                         contentPadding:
-                        EdgeInsets.only(top: ScreenUtil().setHeight(13)),
+                            EdgeInsets.only(top: ScreenUtil().setHeight(13)),
                         prefixIcon: SizedBox(),
                         prefixIconConstraints: BoxConstraints(
                             maxWidth: ScreenUtil().setWidth(20),
@@ -122,8 +122,7 @@ class _AddListScreenState extends State<AddGroupScreen> {
                         filled: true,
                         fillColor: Colors.black12.withOpacity(0.05),
                         focusedBorder: OutlineInputBorder(
-                          borderSide:
-                          new BorderSide(color: Colors.transparent),
+                          borderSide: new BorderSide(color: Colors.transparent),
                           borderRadius: AddListConstants.radiusCircle10,
                         ),
                         enabledBorder: UnderlineInputBorder(
@@ -160,11 +159,12 @@ class _AddListScreenState extends State<AddGroupScreen> {
     // blocAddList.dispose();
     // checkButtonBloc.dispose();
   }
-  bool changeScreen(String name,Color selectColor){
-      if(name.isNotEmpty||selectColor!= AddListConstants.listColors[4]){
-        return true;
-      }else{
-        return false;
-      }
+
+  bool changeScreen(String name, Color selectColor) {
+    if (name.isNotEmpty || selectColor != AddListConstants.listColors[4]) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:ghichu/presentation/blocs/check_buttom.dart';
 import 'package:ghichu/presentation/journey/home/home_page/bloc/home_page_bloc.dart';
 import 'package:ghichu/presentation/journey/home/home_page/bloc/home_page_state.dart';
 import 'package:ghichu/presentation/journey/home/home_page/home_page_constants.dart';
@@ -23,8 +22,7 @@ class WrapWidget extends StatelessWidget {
               spacing: HomePageConstants.paddingWidth20,
               children: List.generate(state.reminderSystem.length, (index) {
                 // return SightWidget(index: index);
-                if (state.reminderSystem[index] ==
-                    HomePageConstants.reminderTodayTxt) {
+                if (state.reminderSystem[index] == 'Today') {
                   return SightWidget(
                       index: index,
                       reminderColor: HomePageConstants.reminderTodayColor,
@@ -32,8 +30,7 @@ class WrapWidget extends StatelessWidget {
                       reminderTxt: HomePageConstants.reminderTodayTxt,
                       reminderLeght: state.reminderToday);
                 }
-                if (state.reminderSystem[index] ==
-                    HomePageConstants.reminderScheduledTxt) {
+                if (state.reminderSystem[index] == 'Scheduled') {
                   return SightWidget(
                       index: index,
                       reminderColor: HomePageConstants.reminderScheduledColor,
@@ -41,8 +38,7 @@ class WrapWidget extends StatelessWidget {
                       reminderTxt: HomePageConstants.reminderScheduledTxt,
                       reminderLeght: state.reminderScheduled);
                 }
-                if (state.reminderSystem[index] ==
-                    HomePageConstants.reminderAllTxt) {
+                if (state.reminderSystem[index] == 'All') {
                   return SightWidget(
                       index: index,
                       reminderColor: HomePageConstants.reminderAllColor,
